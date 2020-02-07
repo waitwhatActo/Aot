@@ -101,15 +101,15 @@ bot.on("message", function(message) {
     case "update":
     var embed = new Discord.RichEmbed()
     .setTitle("Update Successful!")
-    .setDescription("Successfully updated to Version 0.6.2!")
+    .setDescription("Successfully updated to Version 0.7.0!")
     .addField("Prefix", "?a \(Uncustomable\)")
     .addField("Commands", "`help` \(Will lead you to other help commands\), `hello`, `aot`, `bye`, `noticeme`, `support`, `salmon`, `apple`, `pie`, `candy`, `mess`, `messer`, `messest`, `8ball`, `ding`, `ping`, `beep` " )
     .addField("New Commands", "N/A", true)
     .addField("Removed Commands", "N/A", true)
-    .addField("Updates", "Ytdl-core updated.")
+    .addField("Updates", "Bot will be online 24/7")
     .setColor(0x00ff00)
     .setTimestamp()
-    .setFooter("Aot Version 0.6.2, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.7.0, Made by cleverActon0126#3517")
     message.channel.send(embed);
     break;
     case "help":
@@ -121,7 +121,7 @@ bot.on("message", function(message) {
     .addField("😀Fun Menu😀", "`helpfun`", true)
     .setColor(0x00ffff)
     .setTimestamp()
-    .setFooter("Aot Version 0.6.2, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.7.0, Made by cleverActon0126#3517")
     message.channel.send(embed);
     break;
     case "helpgeneral":
@@ -134,7 +134,7 @@ bot.on("message", function(message) {
     .addField("`support`", "To report a bug and have some Aot support", true)
     .setColor(0x00ffff)
     .setTimestamp()
-    .setFooter("Aot Version 0.6.2, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.7.0, Made by cleverActon0126#3517")
     message.channel.send(embed);
     break;
     case "helpfood":
@@ -146,7 +146,7 @@ bot.on("message", function(message) {
     .addField("`candy`", "Sweet one", true)
     .setColor(0x00ffff)
     .setTimestamp()
-    .setFooter("Aot Version 0.6.2, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.7.0, Made by cleverActon0126#3517")
     message.channel.send(embed);
 
     break;
@@ -158,7 +158,7 @@ bot.on("message", function(message) {
     .addField("`messest`", "??? mess up", true)
     .setColor(0x00ffff)
     .setTimestamp()
-    .setFooter("Aot Version 0.6.2, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.7.0, Made by cleverActon0126#3517")
     message.channel.send(embed);
     break;
     case "helpfun":
@@ -170,7 +170,7 @@ bot.on("message", function(message) {
     .addField("`beep`", "Beep, beep, boop, boop", true)
     .setColor(0x00ffff)
     .setTimestamp()
-    .setFooter("Aot Version 0.6.2, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.7.0, Made by cleverActon0126#3517")
     message.channel.send(embed);
     break;
     case "support":
@@ -179,7 +179,7 @@ bot.on("message", function(message) {
     .addField("Press the link below to have some Aot support or report a bug!", "https://bit.ly/Aot_Support")
     .setColor(0xff0000)
     .setTimestamp()
-    .setFooter("Aot Version 0.6.2, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.7.0, Made by cleverActon0126#3517")
     message.channel.send(embed);
     break;
     default:
