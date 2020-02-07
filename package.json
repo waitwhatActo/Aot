@@ -1,0 +1,15 @@
+{
+  "name": "aot",
+  "version": "0.6.2",
+  "description": "Aot but the second generation",
+  "main": "index.js",
+  "scripts": {
+    "test": "?a"
+  },
+  "author": "Acton",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^11.5.1",
+    "ytdl-core": "^1.0.7"
+  }
+}
