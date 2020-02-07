@@ -4,7 +4,7 @@
   "description": "Aot but the second generation",
   "main": "index.js",
   "scripts": {
-    "test": "?a"
+    "start" : "node bot.js"
   },
   "author": "Acton",
   "license": "ISC",
