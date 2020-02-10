@@ -32,8 +32,6 @@ bot.on("ready", function() {
 });
 
 bot.on("guildMemberAdd", function(member) {
-  member.build.channels.find("name", "general").sendMessage(member.toString() + "Welcome to the Official Acton's Empire! Have a good time here!");
-
   member.addRole(member.guild.roles.find("name", "Members"));
 
   member.addRole(member.guild.roles.find("name", "Noob Fans"));
