@@ -226,6 +226,8 @@ bot.on("message", function(message) {
     case "skip":
     var server = servers[message.guild.id];
 
+    server.queue.push(args[1]);
+
     if(server.dispatcher) server.dispatcher.end();
     break;
     case "stop":
