@@ -213,14 +213,14 @@ bot.on("message", function(message) {
       return;
     }
 
-    if(!servers[message.guild.id] server[message.guild.id]) = {
+    if(!servers[message.guild.id]) servers[message.guild.id] = {
       queue: []
     };
 
     var server = servers[message.guild.id];
 
     if (!message.guild.voiceConnection) message.member.voiceChannel.join().then(function(connection) {
-      play(connesctio, message);
+      play(connection, message);
     });
     break;
     case "skip":
