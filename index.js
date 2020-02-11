@@ -5,7 +5,7 @@ const TOKEN = "NjU1NzY5Njk1MzcwMjE1NDI1.XjzbnQ.1RBMHcmr-pDIYGoGpNQRDwhTPuE";
 const PREFIX = "?a";
 
 function play(connection, message) {
-  var servers = servers[message.guild.id]
+  var server = servers[message.guild.id]
 
   server.dispatcher = connection.playStream(YTDL(server.queue[0], {filter: "audioonly"}));
 
