@@ -122,7 +122,7 @@ bot.on("message", function(message) {
     .setColor(0x00ff00)
     .setTimestamp()
     .setFooter("Aot Version 0.10.0, Made by cleverActon0126#3517")
-    message.channl.send(embed);
+    message.channel.send(embed);
     break;
     case "help":
     var embed = new Discord.RichEmbed()
