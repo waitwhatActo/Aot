@@ -36,6 +36,11 @@ bot.on("guildMemberAdd", function(member) {
   member.addRole(member.guild.roles.find("name", "Members"));
 
   member.addRole(member.guild.roles.find("name", "Noob Fans"));
+
+  const channel = member.guild.channels.find(channel => channel.name === "↪in-n-out");
+  if(!channel) return;
+
+  channel.send("Welcome to Official Acton's Empire, ${member} ! Please subscribe to Acton: https://bit.ly/cleverActon0126_Youtube and READ THE RULES! Thank you!By Acton")
 });
 
 bot.on('error', error => {
@@ -51,73 +56,73 @@ bot.on("message", function(message) {
 
   switch (args[0].toLowerCase()) {
     case "ping":
-    message.channel.send("Pong!");
+     message.channl.send("Pong!");
     break;
     case "8ball":
-    if (args[1]) message.channel.send(fortunes[Math.floor(Math.random() * fortunes.length)]);
-    else message.channel.send("Can't read that.");
+    if (args[1])  message.channl.send(fortunes[Math.floor(Math.random() * fortunes.length)]);
+    else  message.channl.send("Can't read that.");
     break;
     case "noticeme":
     message.reply("Got'cha!");
     break;
     case "hello":
-    message.channel.send("Hi. Nice to meet you!");
+     message.channl.send("Hi. Nice to meet you!");
     break;
     case "aot":
-    message.channel.send("Wut's the matter?");
+     message.channl.send("Wut's the matter?");
     break;
     case "bye":
-    message.channel.send("OK. Cya!")
+     message.channl.send("OK. Cya!")
     break;
     case "salmon":
-    message.channel.send("Do you want it raw or cooked?");
+     message.channl.send("Do you want it raw or cooked?");
     break;
     case "raw":
-    message.channel.send("OK. Here you go. A raw salmon.");
+     message.channl.send("OK. Here you go. A raw salmon.");
     break;
     case "coooked":
-    message.channel.send("OK. Wait for a sec. (Try command 'done')");
+     message.channl.send("OK. Wait for a sec. (Try command 'done')");
     break;
     case "done":
-    message.channel.send("Done. Here you go.");
+     message.channl.send("Done. Here you go.");
     break;
     case "apple":
-    message.channel.send("OK. Here's your golden apple. Here you go.");
+     message.channl.send("OK. Here's your golden apple. Here you go.");
     break;
     case "pie":
-    message.channel.send("OK. Here's your *pre-baked* pie.");
+     message.channl.send("OK. Here's your *pre-baked* pie.");
     break;
     case "candy":
-    message.channel.send("OK. Oops, it went out of stock, never come back!");
+     message.channl.send("OK. Oops, it went out of stock, never come back!");
     break;
     case "mess":
-    message.channel.send("sfajdfhewfuinewoiaf");
+     message.channl.send("sfajdfhewfuinewoiaf");
     break;
     case "messer":
-    message.channel.send("afhq930jr3o249ru43984n3qf0jq9032dkj90j3209fj34h98f0wqxm90qj2389d23y58934fnrejwtoiewrjtoeritfioejfeie");
+     message.channl.send("afhq930jr3o249ru43984n3qf0jq9032dkj90j3209fj34h98f0wqxm90qj2389d23y58934fnrejwtoiewrjtoeritfioejfeie");
     break;
     case "messest":
-    message.channel.send("~&^@*~\(&#\)_~\(fksljdaslkfjewiury3498|fljkdfiuheufk_#\)$*&57*^&~*^#*~\)_+\(HGFUHIhifhsdasfjeiuwahfoejflkfjewijfieoajala<?><:\"ALDOHQO!\"\)KRWH OI@ NOI HJOIRNMJO@*&%()@*$)(%&%*)_@()%@&+)%@(*%@)_OV%)MV%()@%*VM()V%*V@M)(@U*VM)@{PIRW IUNO IRUWIOUR WOP RUW*UOWJ(!uidfsjgiseut93uri34ojgelkgsjveirsut943pkjteirhtewtijoerwltij349utjrepojgkdfhgierjgelkrjg349ut)}gierwut9w4teutioerutweiotrjtioeuteroitu94tu49tu3945834poj543iohtoirejteriojteortjeijteriojterjteritweroitu349u534i2j5i34n5j3n5kl34jute84thierjeroigjerijtlreiutiretjerioutiretureioutioertuerioterutioeruter8oitu438tu");
+     message.channl.send("~&^@*~\(&#\)_~\(fksljdaslkfjewiury3498|fljkdfiuheufk_#\)$*&57*^&~*^#*~\)_+\(HGFUHIhifhsdasfjeiuwahfoejflkfjewijfieoajala<?><:\"ALDOHQO!\"\)KRWH OI@ NOI HJOIRNMJO@*&%()@*$)(%&%*)_@()%@&+)%@(*%@)_OV%)MV%()@%*VM()V%*V@M)(@U*VM)@{PIRW IUNO IRUWIOUR WOP RUW*UOWJ(!uidfsjgiseut93uri34ojgelkgsjveirsut943pkjteirhtewtijoerwltij349utjrepojgkdfhgierjgelkrjg349ut)}gierwut9w4teutioerutweiotrjtioeuteroitu94tu49tu3945834poj543iohtoirejteriojteortjeijteriojterjteritweroitu349u534i2j5i34n5j3n5kl34jute84thierjeroigjerijtlreiutiretjerioutiretureioutioertuerioterutioeruter8oitu438tu");
     break;
     case "ding":
-    message.channel.send("DOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONG!");
+     message.channl.send("DOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONG!");
     break;
     case "beep":
-    message.channel.send("Boop!")
+     message.channl.send("Boop!")
     break;
     case "update":
     var embed = new Discord.RichEmbed()
     .setTitle("Update Successful!")
-    .setDescription("Successfully updated to Version 0.9.1!")
+    .setDescription("Successfully updated to Version 0.10.0!")
     .addField("Prefix", "?a \(Uncustomable\)")
-    .addField("Commands", "`help` \(Will lead you to other help commands\), `hello`, `aot`, `bye`, `noticeme`, `support`, `salmon`, `apple`, `pie`, `candy`, `mess`, `messer`, `messest`, `8ball`, `ding`, `ping`, `beep`" )
+    .addField("Commands", "`help` \(Will lead you to other help commands\), `hello`, `aot`, `bye`, `noticeme`, `support`, `salmon`, `apple`, `pie`, `candy`, `mess`, `messer`, `messest`, `8ball`, `ding`, `ping`, `beep`")
     .addField("New Commands", "N/A", true)
-    .addField("Removed Commands", "`play {song name}`, `skip`, `stop`", true)
-    .addField("Updates", "Music player removed.")
+    .addField("Removed Commands", "N/A", true)
+    .addField("Updates", "Send a message when someone joins.")
     .setColor(0x00ff00)
     .setTimestamp()
-    .setFooter("Aot Version 0.9.1, Made by cleverActon0126#3517")
-    message.channel.send(embed);
+    .setFooter("Aot Version 0.10.0, Made by cleverActon0126#3517")
+    message.channl.send(embed);
     break;
     case "help":
     var embed = new Discord.RichEmbed()
@@ -128,8 +133,8 @@ bot.on("message", function(message) {
     .addField("😀Fun Menu😀", "`helpfun`", true)
     .setColor(0x00ffff)
     .setTimestamp()
-    .setFooter("Aot Version 0.9.1, Made by cleverActon0126#3517")
-    message.channel.send(embed);
+    .setFooter("Aot Version 0.10.0, Made by cleverActon0126#3517")
+    message.channl.send(embed);
     break;
     case "helpgeneral":
     var embed = new Discord.RichEmbed()
@@ -141,8 +146,8 @@ bot.on("message", function(message) {
     .addField("`support`", "To report a bug and have some Aot support", true)
     .setColor(0x00ffff)
     .setTimestamp()
-    .setFooter("Aot Version 0.9.1, Made by cleverActon0126#3517")
-    message.channel.send(embed);
+    .setFooter("Aot Version 0.10.0, Made by cleverActon0126#3517")
+    message.channl.send(embed);
     break;
     case "helpfood":
     var embed = new Discord.RichEmbed()
@@ -153,8 +158,8 @@ bot.on("message", function(message) {
     .addField("`candy`", "Sweet one", true)
     .setColor(0x00ffff)
     .setTimestamp()
-    .setFooter("Aot Version 0.9.1, Made by cleverActon0126#3517")
-    message.channel.send(embed);
+    .setFooter("Aot Version 0.10.0, Made by cleverActon0126#3517")
+    message.channl.send(embed);
 
     break;
     case "helpmess":
@@ -165,8 +170,8 @@ bot.on("message", function(message) {
     .addField("`messest`", "??? mess up", true)
     .setColor(0x00ffff)
     .setTimestamp()
-    .setFooter("Aot Version 0.9.1, Made by cleverActon0126#3517")
-    message.channel.send(embed);
+    .setFooter("Aot Version 0.10.0, Made by cleverActon0126#3517")
+    message.channl.send(embed);
     break;
     case "helpfun":
     var embed = new Discord.RichEmbed()
@@ -177,8 +182,8 @@ bot.on("message", function(message) {
     .addField("`beep`", "Beep, beep, boop, boop", true)
     .setColor(0x00ffff)
     .setTimestamp()
-    .setFooter("Aot Version 0.9.1, Made by cleverActon0126#3517")
-    message.channel.send(embed);
+    .setFooter("Aot Version 0.10.0, Made by cleverActon0126#3517")
+    message.channl.send(embed);
     break;
     case "support":
     var embed = new Discord.RichEmbed()
@@ -186,11 +191,11 @@ bot.on("message", function(message) {
     .addField("Press the link below to have some Aot support or report a bug!", "https://bit.ly/Aot_Support")
     .setColor(0xff0000)
     .setTimestamp()
-    .setFooter("Aot Version 0.9.1, Made by cleverActon0126#3517")
-    message.channel.send(embed);
+    .setFooter("Aot Version 0.10.0, Made by cleverActon0126#3517")
+    message.channl.send(embed);
     break;
     default:
-    message.channel.send("**Error 404**:Invalid command!");
+     message.channl.send("**Error 404**:Invalid command!");
   }
 });
 
