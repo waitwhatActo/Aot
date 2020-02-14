@@ -149,6 +149,7 @@ bot.on("message", function(message) {
 
     message.delete().catch(O_o=> {});
     reportschannel.send(embed);
+    break;
     case "update":
     var embed = new Discord.RichEmbed()
     .setTitle("Update Successful!")
