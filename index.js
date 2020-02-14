@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 
-const TOKEN = "NjU1NzY5Njk1MzcwMjE1NDI1.XjzbnQ.1RBMHcmr-pDIYGoGpNQRDwhTPuE";
+const TOKEN = "NjU1NzY5Njk1MzcwMjE1NDI1.XkZs1Q.7F82fKMH9YDbxGx7SAFWoUUXG1M";
 const PREFIX = "?a";
 
 
@@ -26,7 +26,7 @@ var bot = new Discord.Client();
 
 var servers = {};
 
-function userInfo(user)
+function userInfo(user);
 
 bot.on("ready", function() {
   console.log("Connected as Aot#0350");
