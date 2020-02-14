@@ -26,6 +26,8 @@ var bot = new Discord.Client();
 
 var servers = {};
 
+function userInfo(user)
+
 bot.on("ready", function() {
   console.log("Connected as Aot#0350");
   bot.user.setStatus('online')
@@ -75,13 +77,13 @@ bot.on("message", function(message) {
      message.channl.send("OK. Cya!")
     break;
     case "salmon":
-     message.channl.send("Do you want it raw or cooked?");
+     message.channl.send("Do you want it `raw` or `cooked`?");
     break;
     case "raw":
      message.channl.send("OK. Here you go. A raw salmon.");
     break;
-    case "coooked":
-     message.channl.send("OK. Wait for a sec. (Try command 'done')");
+    case "cooked":
+     message.channl.send("OK. Wait for a sec. (Try command `done`)");
     break;
     case "done":
      message.channl.send("Done. Here you go.");
@@ -110,18 +112,55 @@ bot.on("message", function(message) {
     case "beep":
      message.channl.send("Boop!")
     break;
+    case "botinfo":
+    var embed = new Discord.RichEmbed()
+    .setTitle("Bot Information")
+    .setColor(0x00bfff)
+    .addField("Bot Name", bot.user.username)
+    .addField("Bot Created On:", bot.user.createdAt)
+    message.channel.send(embed);
+    break;
+    case "serverinfo":
+    var embed = new Discord.RichEmbed()
+    .setTitle("Server Information")
+    .setColor(0x00bfff)
+    .addField("Server Name", message.guild.name)
+    .addField("Server Created On:", member.guild.createdAt)
+    .addField("You joined at:", message.member.joinedAt)
+    .addField("Total Member", member.guild.member.count)
+    message.channel.send(embed);
+    break;
+    case "report":
+    let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
+    if(!rUser) return message.channel.send("Could not find user.")
+    let reason = args.join().slice(22);
+
+    var embed = new Discord.RichEmbed()
+    .setTitle("User reports User")
+    .setColor(0xff0000)
+    .addField("Reported User", `${rUser} with ID: ${rUser.id}`)
+    .addField("Reported By", `${message.author} with ID: ${message.author.id}`)
+    .addField("Channel", message.channel)
+    .addField("Time", message.createdAt)
+    .addField("Reason", reason)
+
+    let reportschannel = message.guild.channels.find(`name`, "report-approval");
+    if(!reportschannel) return message.channel.send("Could not find report channel.")
+
+    message.delete().catch(O_o=> {});
+    reportschannel.send(embed);
     case "update":
     var embed = new Discord.RichEmbed()
     .setTitle("Update Successful!")
-    .setDescription("Successfully updated to Version 0.10.0!")
+    .setDescription("Successfully updated to Version 0.11.0!")
     .addField("Prefix", "?a \(Uncustomable\)")
     .addField("Commands", "`help` \(Will lead you to other help commands\), `hello`, `aot`, `bye`, `noticeme`, `support`, `salmon`, `apple`, `pie`, `candy`, `mess`, `messer`, `messest`, `8ball`, `ding`, `ping`, `beep`")
-    .addField("New Commands", "N/A", true)
+    .addField("New Commands", "`report`, `serverinfo`, `botinfo`", true)
     .addField("Removed Commands", "N/A", true)
-    .addField("Updates", "Send a message when someone joins.")
+    .addField("Updates", "`Report` = report people, `serverinfo` = Server's info, `botinfo` = Bot's info")
     .setColor(0x00ff00)
     .setTimestamp()
-    .setFooter("Aot Version 0.10.0, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.11.0, Made by cleverActon0126#3517")
     message.channel.send(embed);
     break;
     case "help":
@@ -133,7 +172,7 @@ bot.on("message", function(message) {
     .addField("😀Fun Menu😀", "`helpfun`", true)
     .setColor(0x00ffff)
     .setTimestamp()
-    .setFooter("Aot Version 0.10.0, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.11.0, Made by cleverActon0126#3517")
     message.channl.send(embed);
     break;
     case "helpgeneral":
@@ -146,7 +185,7 @@ bot.on("message", function(message) {
     .addField("`support`", "To report a bug and have some Aot support", true)
     .setColor(0x00ffff)
     .setTimestamp()
-    .setFooter("Aot Version 0.10.0, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.11.0, Made by cleverActon0126#3517")
     message.channl.send(embed);
     break;
     case "helpfood":
@@ -158,7 +197,7 @@ bot.on("message", function(message) {
     .addField("`candy`", "Sweet one", true)
     .setColor(0x00ffff)
     .setTimestamp()
-    .setFooter("Aot Version 0.10.0, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.11.0, Made by cleverActon0126#3517")
     message.channl.send(embed);
 
     break;
@@ -170,7 +209,7 @@ bot.on("message", function(message) {
     .addField("`messest`", "??? mess up", true)
     .setColor(0x00ffff)
     .setTimestamp()
-    .setFooter("Aot Version 0.10.0, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.11.0, Made by cleverActon0126#3517")
     message.channl.send(embed);
     break;
     case "helpfun":
@@ -182,7 +221,7 @@ bot.on("message", function(message) {
     .addField("`beep`", "Beep, beep, boop, boop", true)
     .setColor(0x00ffff)
     .setTimestamp()
-    .setFooter("Aot Version 0.10.0, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.11.0, Made by cleverActon0126#3517")
     message.channl.send(embed);
     break;
     case "support":
@@ -191,7 +230,7 @@ bot.on("message", function(message) {
     .addField("Press the link below to have some Aot support or report a bug!", "https://bit.ly/Aot_Support")
     .setColor(0xff0000)
     .setTimestamp()
-    .setFooter("Aot Version 0.10.0, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.11.0, Made by cleverActon0126#3517")
     message.channl.send(embed);
     break;
     default:
