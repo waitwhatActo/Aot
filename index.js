@@ -133,7 +133,7 @@ bot.on("message", function(message) {
     case "report":
     let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
     if(!rUser) return message.channel.send("Could not find user.")
-    let reason = args.join().slice(22);
+    let reason = args.join().slice(22)
 
     var embed = new Discord.RichEmbed()
     .setTitle("User reports User")
