@@ -26,7 +26,7 @@ var bot = new Discord.Client();
 
 var servers = {};
 
-function userInfo(user);
+function userInfo(user)
 
 bot.on("ready", function() {
   console.log("Connected as Aot#0350");
