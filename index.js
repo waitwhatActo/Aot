@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 
-const TOKEN = "NjU1NzY5Njk1MzcwMjE1NDI1.XkZs1Q.7F82fKMH9YDbxGx7SAFWoUUXG1M";
+const TOKEN = "NjU1NzY5Njk1MzcwMjE1NDI1.XkexNw.2bHaCg5aHLgU-GLraZmGbH6jOoY";
 const PREFIX = "?a";
 
 
@@ -24,9 +24,6 @@ var fortunes = [
 
 var bot = new Discord.Client();
 
-var servers = {};
-
-function userInfo(user)
 
 bot.on("ready", function() {
   console.log("Connected as Aot#0350");
@@ -147,7 +144,7 @@ bot.on("message", function(message) {
     let reportschannel = message.guild.channels.find(`name`, "report-approval");
     if(!reportschannel) return message.channel.send("Could not find report channel.")
 
-    message.delete().catch(O_o=> {});
+    message.delete().catch(()=> {});
     reportschannel.send(embed);
     break;
     case "update":
@@ -158,7 +155,7 @@ bot.on("message", function(message) {
     .addField("Commands", "`help` \(Will lead you to other help commands\), `hello`, `aot`, `bye`, `noticeme`, `support`, `salmon`, `apple`, `pie`, `candy`, `mess`, `messer`, `messest`, `8ball`, `ding`, `ping`, `beep`")
     .addField("New Commands", "`report`, `serverinfo`, `botinfo`", true)
     .addField("Removed Commands", "N/A", true)
-    .addField("Updates", "`Report` = report people, `serverinfo` = Server's info, `botinfo` = Bot's info")
+    .addField("Updates", "`Report` = report people (Usage => `?areport @someone [reason]`), `serverinfo` = Server's info, `botinfo` = Bot's info")
     .setColor(0x00ff00)
     .setTimestamp()
     .setFooter("Aot Version 0.11.0, Made by cleverActon0126#3517")
