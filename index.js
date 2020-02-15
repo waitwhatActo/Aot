@@ -115,6 +115,8 @@ bot.on("message", function(message) {
     .setColor(0x00bfff)
     .addField("Bot Name", bot.user.username)
     .addField("Bot Created On:", bot.user.createdAt)
+    .setTimestamp()
+    .setFooter("Aot Version 0.11.0, Made by cleverActon0126#3517")
     message.channel.send(embed);
     break;
     case "serverinfo":
@@ -122,9 +124,10 @@ bot.on("message", function(message) {
     .setTitle("Server Information")
     .setColor(0x00bfff)
     .addField("Server Name", message.guild.name)
-    .addField("Server Created On:", member.guild.createdAt())
     .addField("You joined at:", message.member.joinedAt)
     .addField("Total Member", member.guild.member.count)
+    .setTimestamp()
+    .setFooter("Aot Version 0.11.0, Made by cleverActon0126#3517")
     message.channel.send(embed);
     break;
     case "report":
