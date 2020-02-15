@@ -122,7 +122,7 @@ bot.on("message", function(message) {
     .setTitle("Server Information")
     .setColor(0x00bfff)
     .addField("Server Name", message.guild.name)
-    .addField("Server Created On:", member.guild.createdAt)
+    .addField("Server Created On:", member.guild.createdAt())
     .addField("You joined at:", message.member.joinedAt)
     .addField("Total Member", member.guild.member.count)
     message.channel.send(embed);
