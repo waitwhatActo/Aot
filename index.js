@@ -140,6 +140,8 @@ bot.on("message", function(message) {
     .addField("Channel", message.channel)
     .addField("Time", message.createdAt)
     .addField("Reason", reason)
+    .setTimestamp()
+    .setFooter("Aot Version 0.11.0, Made by cleverActon0126#3517")
 
     let reportschannel = message.guild.channels.find(`name`, "report-approval");
     if(!reportschannel) return message.channel.send("Could not find report channel.")
