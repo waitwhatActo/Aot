@@ -222,9 +222,9 @@ bot.on("message", function(message) {
     case "helpinfo":
     var embed = new Discord.RichEmbed()
     .setTitle("❓Info Menu❓", "Informations")
-    .addField("`userinfo(@user)`", "Your account's information or other user's information")
+    .addField("`botinfo`", "This bot's info")
+    .setTimestamp()
     .setColor(0x00ffff)
-    .addField("`botinfo`", "This bot's info").setTimestamp()
     .setFooter("Aot Version 0.11.1, Made by cleverActon0126#3517")
     message.channel.send(embed);
     break;
