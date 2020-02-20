@@ -120,7 +120,7 @@ bot.on("message", function(message) {
     break;
     case "userinfo":
     var embed = new Discord.RichEmbed()
-    .setTitle("User Information", `Due to privacy reason,you can only see ${member}\'s information`)
+    .setTitle("User Information", `Due to privacy reason,you can only see your information`)
     .setColor(0x00bff)
     .addField("Username", member.id)
     .addField("Display Name", member.displayName)
