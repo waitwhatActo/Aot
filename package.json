@@ -1,6 +1,6 @@
 {
   "name": "aot",
-  "version": "0.13.0",
+  "version": "0.12.0",
   "description": "Aot but the second generation",
   "main": "index.js",
   "scripts": {
