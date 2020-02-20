@@ -38,7 +38,7 @@ bot.on("guildMemberAdd", function(member) {
 
   member.addRole(member.guild.roles.find("name", "Noob Fans"));
 
-  const channel = member.guild.channels.find(channel => channel.name === "↪in-n-out")
+  const channel = member.guild.channels.find(channel => channel.name === "in-n-out")
   if(!channel) return;
 
   channel.send(`Welcome to Official Acton's Empire, ${member}! Please subscribe to Acton: https://bit.ly/cleverActon0126_Youtube and READ THE RULES! Thank you!\rBy Acton`)
