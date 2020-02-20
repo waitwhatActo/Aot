@@ -57,59 +57,59 @@ bot.on("message", function(message) {
 
   switch (args[0].toLowerCase()) {
     case "ping":
-     message.channl.send("Pong!");
+     message.channel.send("Pong!");
     break;
     case "8ball":
-    if (args[1])  message.channl.send(fortunes[Math.floor(Math.random() * fortunes.length)]);
-    else  message.channl.send("Can't read that.");
+    if (args[1])  message.channel.send(fortunes[Math.floor(Math.random() * fortunes.length)]);
+    else  message.channel.send("Can't read that.");
     break;
     case "noticeme":
     message.reply("Got'cha!");
     break;
     case "hello":
-     message.channl.send("Hi. Nice to meet you!");
+     message.channel.send("Hi. Nice to meet you!");
     break;
     case "aot":
-     message.channl.send("Wut's the matter?");
+     message.channel.send("Wut's the matter?");
     break;
     case "bye":
-     message.channl.send("OK. Cya!")
+     message.channel.send("OK. Cya!")
     break;
     case "salmon":
-     message.channl.send("Do you want it `raw` or `cooked`?");
+     message.channel.send("Do you want it `raw` or `cooked`?");
     break;
     case "raw":
-     message.channl.send("OK. Here you go. A raw salmon.");
+     message.channel.send("OK. Here you go. A raw salmon.");
     break;
     case "cooked":
-     message.channl.send("OK. Wait for a sec. (Try command `done`)");
+     message.channel.send("OK. Wait for a sec. (Try command `done`)");
     break;
     case "done":
-     message.channl.send("Done. Here you go.");
+     message.channel.send("Done. Here you go.");
     break;
     case "apple":
-     message.channl.send("OK. Here's your golden apple. Here you go.");
+     message.channel.send("OK. Here's your golden apple. Here you go.");
     break;
     case "pie":
-     message.channl.send("OK. Here's your *pre-baked* pie.");
+     message.channel.send("OK. Here's your *pre-baked* pie.");
     break;
     case "candy":
-     message.channl.send("OK. Oops, it went out of stock, never come back!");
+     message.channel.send("OK. Oops, it went out of stock, never come back!");
     break;
     case "mess":
-     message.channl.send("sfajdfhewfuinewoiaf");
+     message.channel.send("sfajdfhewfuinewoiaf");
     break;
     case "messer":
-     message.channl.send("afhq930jr3o249ru43984n3qf0jq9032dkj90j3209fj34h98f0wqxm90qj2389d23y58934fnrejwtoiewrjtoeritfioejfeie");
+     message.channel.send("afhq930jr3o249ru43984n3qf0jq9032dkj90j3209fj34h98f0wqxm90qj2389d23y58934fnrejwtoiewrjtoeritfioejfeie");
     break;
     case "messest":
-     message.channl.send("~&^@*~\(&#\)_~\(fksljdaslkfjewiury3498|fljkdfiuheufk_#\)$*&57*^&~*^#*~\)_+\(HGFUHIhifhsdasfjeiuwahfoejflkfjewijfieoajala<?><:\"ALDOHQO!\"\)KRWH OI@ NOI HJOIRNMJO@*&%()@*$)(%&%*)_@()%@&+)%@(*%@)_OV%)MV%()@%*VM()V%*V@M)(@U*VM)@{PIRW IUNO IRUWIOUR WOP RUW*UOWJ(!uidfsjgiseut93uri34ojgelkgsjveirsut943pkjteirhtewtijoerwltij349utjrepojgkdfhgierjgelkrjg349ut)}gierwut9w4teutioerutweiotrjtioeuteroitu94tu49tu3945834poj543iohtoirejteriojteortjeijteriojterjteritweroitu349u534i2j5i34n5j3n5kl34jute84thierjeroigjerijtlreiutiretjerioutiretureioutioertuerioterutioeruter8oitu438tu");
+     message.channel.send("~&^@*~\(&#\)_~\(fksljdaslkfjewiury3498|fljkdfiuheufk_#\)$*&57*^&~*^#*~\)_+\(HGFUHIhifhsdasfjeiuwahfoejflkfjewijfieoajala<?><:\"ALDOHQO!\"\)KRWH OI@ NOI HJOIRNMJO@*&%()@*$)(%&%*)_@()%@&+)%@(*%@)_OV%)MV%()@%*VM()V%*V@M)(@U*VM)@{PIRW IUNO IRUWIOUR WOP RUW*UOWJ(!uidfsjgiseut93uri34ojgelkgsjveirsut943pkjteirhtewtijoerwltij349utjrepojgkdfhgierjgelkrjg349ut)}gierwut9w4teutioerutweiotrjtioeuteroitu94tu49tu3945834poj543iohtoirejteriojteortjeijteriojterjteritweroitu349u534i2j5i34n5j3n5kl34jute84thierjeroigjerijtlreiutiretjerioutiretureioutioertuerioterutioeruter8oitu438tu");
     break;
     case "ding":
-     message.channl.send("DOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONG!");
+     message.channel.send("DOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONG!");
     break;
     case "beep":
-     message.channl.send("Boop!")
+     message.channel.send("Boop!")
     break;
     case "botinfo":
     var embed = new Discord.RichEmbed()
@@ -168,7 +168,7 @@ bot.on("message", function(message) {
     .setColor(0x00ffff)
     .setTimestamp()
     .setFooter("Aot Version 0.11.1, Made by cleverActon0126#3517")
-    message.channl.send(embed);
+    message.channel.send(embed);
     break;
     case "helpgeneral":
     var embed = new Discord.RichEmbed()
@@ -181,7 +181,7 @@ bot.on("message", function(message) {
     .setColor(0x00ffff)
     .setTimestamp()
     .setFooter("Aot Version 0.11.1, Made by cleverActon0126#3517")
-    message.channl.send(embed);
+    message.channel.send(embed);
     break;
     case "helpfood":
     var embed = new Discord.RichEmbed()
@@ -193,7 +193,7 @@ bot.on("message", function(message) {
     .setColor(0x00ffff)
     .setTimestamp()
     .setFooter("Aot Version 0.11.1, Made by cleverActon0126#3517")
-    message.channl.send(embed);
+    message.channel.send(embed);
 
     break;
     case "helpmess":
@@ -205,7 +205,7 @@ bot.on("message", function(message) {
     .setColor(0x00ffff)
     .setTimestamp()
     .setFooter("Aot Version 0.11.1, Made by cleverActon0126#3517")
-    message.channl.send(embed);
+    message.channel.send(embed);
     break;
     case "helpfun":
     var embed = new Discord.RichEmbed()
@@ -217,7 +217,7 @@ bot.on("message", function(message) {
     .setColor(0x00ffff)
     .setTimestamp()
     .setFooter("Aot Version 0.11.1, Made by cleverActon0126#3517")
-    message.channl.send(embed);
+    message.channel.send(embed);
     break;
     case "helpinfo":
     var embed = new Discord.RichEmbed()
@@ -226,7 +226,7 @@ bot.on("message", function(message) {
     .setColor(0x00ffff)
     .addField("`botinfo`", "This bot's info").setTimestamp()
     .setFooter("Aot Version 0.11.1, Made by cleverActon0126#3517")
-    message.channl.send(embed);
+    message.channel.send(embed);
     break;
     case "support":
     var embed = new Discord.RichEmbed()
@@ -235,10 +235,10 @@ bot.on("message", function(message) {
     .setColor(0xff0000)
     .setTimestamp()
     .setFooter("Aot Version 0.11.1, Made by cleverActon0126#3517")
-    message.channl.send(embed);
+    message.channel.send(embed);
     break;
     default:
-     message.channl.send("**Error 404**:Invalid command!");
+     message.channel.send("**Error 404**:Invalid command!");
   }
 });
 
