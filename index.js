@@ -134,7 +134,7 @@ bot.on("message", function(message) {
     .addField("Time", message.createdAt)
     .addField("Reason", kReason)
     .setTimestamp()
-    .setFooter("Aot Version 0.13.0, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.13.1, Made by cleverActon0126#3517")
 
     let kickChannel = message.guild.channels.find(`name`, "server-logs");
     if(!kickChannel) return message.channel.send("Could not find server logs channel.");
@@ -158,7 +158,7 @@ bot.on("message", function(message) {
     .addField("Time", message.createdAt)
     .addField("Reason", bReason)
     .setTimestamp()
-    .setFooter("Aot Version 0.13.0, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.13.1, Made by cleverActon0126#3517")
 
     let banChannel = message.guild.channels.find(`name`, "server-logs");
     if(!banChannel) return message.channel.send("Could not find server logs channel.");
@@ -173,7 +173,7 @@ bot.on("message", function(message) {
     .addField("Bot Name", bot.user.username)
     .addField("Bot Created On:", bot.user.createdAt)
     .setTimestamp()
-    .setFooter("Aot Version 0.13.0, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.13.1, Made by cleverActon0126#3517")
     message.channel.send(embed);
     break;
     case "report":
@@ -190,7 +190,7 @@ bot.on("message", function(message) {
     .addField("Time", message.createdAt)
     .addField("Reason", reason)
     .setTimestamp()
-    .setFooter("Aot Version 0.13.0, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.13.1, Made by cleverActon0126#3517")
 
     let reportsChannel = message.guild.channels.find(`name`, "report-approval");
     if(!reportsChannel) return message.channel.send("Could not find report channel.");
@@ -201,16 +201,16 @@ bot.on("message", function(message) {
     case "update":
     var embed = new Discord.RichEmbed()
     .setTitle("Update Successful!")
-    .setDescription("Successfully updated to Version 0.13.0!")
+    .setDescription("Successfully updated to Version 0.13.1!")
     .addField("Prefix", "?a \(Uncustomable\)")
-    .addField("Commands", "`help` \(Will lead you to other help commands\), `hello`, `aot`, `bye`, `noticeme`, `support`, `salmon`, `apple`, `pie`, `candy`, `mess`, `messer`, `messest`, `8ball`, `ding`, `ping`, `beep`, `report`, `botinfo`")
-    .addField("Admin Commands", "`kick`, `ban`")
-    .addField("New Commands", "`kick`, `ban`", true)
+    .addField("Public Commands", "`help` \(Will lead you to other help commands\), `hello`, `aot`, `bye`, `noticeme`, `support`, `salmon`, `apple`, `pie`, `candy`, `mess`, `messer`, `messest`, `8ball`, `ding`, `ping`, `beep`, `report`, `botinfo`")
+    .addField("Admin Commands", "`kick`, `ban`", true)
+    .addField("New Commands", "N/A", true)
     .addField("Removed Commands", "N/A", true)
-    .addField("Updates", "Bot can now kick  and ban people.")
+    .addField("Updates", "Update menu updated.")
     .setColor(0x00ff00)
     .setTimestamp()
-    .setFooter("Aot Version 0.13.0, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.13.1, Made by cleverActon0126#3517")
     message.channel.send(embed);
     break;
     case "help":
@@ -221,9 +221,10 @@ bot.on("message", function(message) {
     .addField("🍴Food Menu🍴", "`helpfood`", true)
     .addField("🤬Messing Menu🤬", "`helpmess`", true)
     .addField("😀Fun Menu😀", "`helpfun`", true)
+    .addField("⚒️Admin Commands Menu⚒️", "`helpadmin`", true)
     .setColor(0x00ffff)
     .setTimestamp()
-    .setFooter("Aot Version 0.13.0, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.13.1, Made by cleverActon0126#3517")
     message.channel.send(embed);
     break;
     case "helpgeneral":
@@ -236,7 +237,7 @@ bot.on("message", function(message) {
     .addField("`support`", "To report a bug and have some Aot support", true)
     .setColor(0x00ffff)
     .setTimestamp()
-    .setFooter("Aot Version 0.13.0, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.13.1, Made by cleverActon0126#3517")
     message.channel.send(embed);
     break;
     case "helpfood":
@@ -248,7 +249,7 @@ bot.on("message", function(message) {
     .addField("`candy`", "Sweet one", true)
     .setColor(0x00ffff)
     .setTimestamp()
-    .setFooter("Aot Version 0.13.0, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.13.1, Made by cleverActon0126#3517")
     message.channel.send(embed);
 
     break;
@@ -260,7 +261,7 @@ bot.on("message", function(message) {
     .addField("`messest`", "??? mess up", true)
     .setColor(0x00ffff)
     .setTimestamp()
-    .setFooter("Aot Version 0.13.0, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.13.1, Made by cleverActon0126#3517")
     message.channel.send(embed);
     break;
     case "helpfun":
@@ -272,7 +273,7 @@ bot.on("message", function(message) {
     .addField("`beep`", "Beep, beep, boop, boop", true)
     .setColor(0x00ffff)
     .setTimestamp()
-    .setFooter("Aot Version 0.13.0, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.13.1, Made by cleverActon0126#3517")
     message.channel.send(embed);
     break;
     case "helpinfo":
@@ -281,16 +282,25 @@ bot.on("message", function(message) {
     .addField("`botinfo`", "This bot's info")
     .setTimestamp()
     .setColor(0x00ffff)
-    .setFooter("Aot Version 0.13.0, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.13.1, Made by cleverActon0126#3517")
     message.channel.send(embed);
     break;
+    case "helpadmin":
+    var embed = new Discord.RichEmbed()
+    .setTitle("⚒️Admin Commands Menu⚒️")
+    .addField("`kick`", "Kick people (ONLY for those who have permission: KICK_MEMBERS)")
+    .addField("`ban`", "Ban people (ONLY for those who have permission: BAN_MEMBERS)")
+    .setTimestamp()
+    .setColor(0x00ffff)
+    .setFooter("Aot Version 0.13.1, Made by cleverActon0126#3517")
+    message.channel.send(embed)
     case "support":
     var embed = new Discord.RichEmbed()
     .setTitle("Aot Support")
     .addField("Press the link below to have some Aot support or report a bug!", "https://bit.ly/Aot_Support")
     .setColor(0xff0000)
     .setTimestamp()
-    .setFooter("Aot Version 0.13.0, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.13.1, Made by cleverActon0126#3517")
     message.channel.send(embed);
     break;
     default:
