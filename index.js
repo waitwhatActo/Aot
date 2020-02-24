@@ -296,6 +296,7 @@ bot.on("message", function(message) {
     message.channel.send(embed)
     case "support":
     var embed = new Discord.RichEmbed()
+    break;
     .setTitle("Aot Support")
     .addField("Press the link below to have some Aot support or report a bug!", "https://bit.ly/Aot_Support")
     .setColor(0xff0000)
