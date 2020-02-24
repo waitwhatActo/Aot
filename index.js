@@ -294,9 +294,9 @@ bot.on("message", function(message) {
     .setColor(0x00ffff)
     .setFooter("Aot Version 0.13.1, Made by cleverActon0126#3517")
     message.channel.send(embed)
+    break;
     case "support":
     var embed = new Discord.RichEmbed()
-    break;
     .setTitle("Aot Support")
     .addField("Press the link below to have some Aot support or report a bug!", "https://bit.ly/Aot_Support")
     .setColor(0xff0000)
