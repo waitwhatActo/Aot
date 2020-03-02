@@ -36,9 +36,9 @@ bot.on("ready", function() {
 });
 
 bot.on("guildMemberAdd", function(member) {
-  member.addRole(member.guild.roles.find("name", "Members"));
+  member.addRole(member.guild.roles.find(role => role.name === "Members"));
 
-  member.addRole(member.guild.roles.find("name", "Noob Fans"));
+  member.addRole(member.guild.roles.find(role => role.name === "Noob Fans"));
 
   const channel = member.guild.channels.find(channel => channel.name === "in-n-out")
   if(!channel) return;
@@ -202,7 +202,7 @@ bot.on("message", async function(message) {
     break;
     case "update":
     if(!message.member.hasPermission("VIEW_AUDIT_LOG")) return message.channel.send("You cannot do that!");
-    
+
     var embed = new Discord.RichEmbed()
     .setTitle("Update Successful!")
     .setDescription("Successfully updated to Version 0.14.0!")
@@ -337,7 +337,7 @@ bot.on("message", async function(message) {
     warnchannel.send(embed);
 
     if(warns[wUser.id].warns == 5){
-      let muterole = message.guild.roles.find(`name`, "muted");
+      let muterole = message.guild.roles.find(role => role.name === "muted");
       if(!muterole) return message.channel.send("Cannot mute the member");
 
       let mutetime = "5m";
@@ -350,7 +350,7 @@ bot.on("message", async function(message) {
       })
     }
     if(warns[wUser.id].warns == 10){
-      let muterole = message.guild.roles.find(`name`, "muted");
+      let muterole = message.guild.roles.find(role => role.name === "muted");
       if(!muterole) return message.channel.send("Cannot mute the member");
 
       let mutetime = "5m";
