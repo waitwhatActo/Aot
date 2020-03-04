@@ -32,7 +32,7 @@ var moment = require('moment');
 bot.on("ready", function() {
   console.log("Connected as Aot#0350");
   bot.user.setStatus('online')
-  bot.user.setActivity("Watching", "Acton scripting me!")
+  bot.user.setActivity("Acton scripting me!", "Watching")
 });
 
 bot.on("guildMemberAdd", function(member) {
