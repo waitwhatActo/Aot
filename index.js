@@ -31,7 +31,7 @@ var moment = require('moment');
 bot.on("ready", function() {
   console.log("Connected as Aot#0350");
   bot.user.setStatus('online')
-  bot.user.setActivity("?ahelp")
+  bot.user.setActivity("Acton scripting me.", {type: "WATCHING"})
 });
 
 bot.on("guildMemberAdd", function(member) {
@@ -118,6 +118,9 @@ bot.on("message", async function(message) {
     break;
     case "beep":
      message.channel.send("Boop!")
+    break;
+    case "tempmute":
+
     break;
     case "kick":
     let kUser =  message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
