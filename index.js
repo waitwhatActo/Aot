@@ -227,7 +227,7 @@ bot.on("message", async function(message) {
     .addField("Admin Commands", "`kick`, `ban`", true)
     .addField("New Commands", "`userinfo`", true)
     .addField("Removed Commands", "N/A", true)
-    .addField("Updates", "New command: Userinfo(Please @someone even if you are trying to get your account's information.)")
+    .addField("Updates", "New command: Userinfo(Please @someone even if you are trying to get your account's information.) and updated discord.js to v12.0.2, this made the script had a big update and delayed this update.")
     .setColor(0x00ff00)
     .setTimestamp()
     .setFooter("Aot Version 0.15.0, Made by cleverActon0126#3517")
