@@ -29,7 +29,7 @@ var bot = new Discord.Client();
 bot.on("ready", function() {
   console.log("Connected as Aot#0350");
   bot.user.setStatus('online')
-  bot.user.setActivity("Acton scripting me.", {type: "WATCHING"})
+  bot.user.setActivity("?ahelp")
 });
 
 bot.on("guildMemberAdd", function(member) {
