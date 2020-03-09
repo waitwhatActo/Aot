@@ -25,8 +25,6 @@ var fortunes = [
 
 var bot = new Discord.Client();
 
-var moment = require('moment');
-
 
 bot.on("ready", function() {
   console.log("Connected as Aot#0350");
@@ -35,25 +33,28 @@ bot.on("ready", function() {
 });
 
 bot.on("guildMemberAdd", function(member) {
-  member.addRole(member.guild.roles.find(role => role.name === "Members"));
+  member.roles.add(member.guild.roles.cache.find(role => role.name === "Members"));
 
-  member.addRole(member.guild.roles.find(role => role.name === "Noob Fans"));
+  member.roles.add(member.guild.roles.cache.find(role => role.name === "Noob Fans"));
 
-  const channel = member.guild.channels.find(channel => channel.name === "in-n-out")
+  const channel = member.guild.channels.cache.find(channel => channel.name === "in-n-out")
   if(!channel) return;
 
   channel.send(`Welcome to Official Acton's Empire, ${member}! Please subscribe to Acton: https://bit.ly/cleverActon0126_Youtube and READ THE RULES! Thank you!\rBy Acton`)
 });
 
 bot.on("guildMemberRemove", function(member) {
-  const channel = member.guild.channels.find(channel => channel.name === "in-n-out")
+  const channel = member.guild.channels.cache.find(channel => channel.name === "in-n-out")
   if(!channel) return;
 
   channel.send(`${member} just left, but we will never forget him/her!`)
 });
 
 bot.on('error', error => {
-	 console.error('The websocket connection encountered an error:', error);
+  const channel = member.guild.channels.cache.find(channel => channel.name === "aot-update-log")
+  if(!channel) return;
+
+	channel.error('The websocket connection encountered an error:', error);
 });
 
 bot.on("message", async function(message) {
@@ -119,17 +120,14 @@ bot.on("message", async function(message) {
     case "beep":
      message.channel.send("Boop!")
     break;
-    case "tempmute":
-
-    break;
     case "kick":
-    let kUser =  message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
+    const kUser = message.mentions.members.first();
     if(!kUser) return message.channel.send("Can't find user!");
     let kReason = args.join(" ").slice(22);
     if(!message.member.hasPermission("KICK_MEMBERS"))  return message.channel.send("You don't have the permission to do that!");
     if(kUser.hasPermission("KICK_MEMBERS")) return message.channel.send("That person can't be kicked!");
 
-    var embed = new Discord.RichEmbed()
+    var embed = new Discord.MessageEmbed()
     .setDescription("~Kick~")
     .setColor(0xff0000)
     .addField("Kicked User", `${kUser} with ID ${kUser.id}`)
@@ -138,22 +136,38 @@ bot.on("message", async function(message) {
     .addField("Time", message.createdAt)
     .addField("Reason", kReason)
     .setTimestamp()
-    .setFooter("Aot Version 0.14.1, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.15.0, Made by cleverActon0126#3517")
 
-    let kickChannel = message.guild.channels.find(`name`, "server-logs");
+    let kickChannel = message.guild.channels.cache.find(channel => channel.name === "server-logs");
     if(!kickChannel) return message.channel.send("Could not find server logs channel.");
 
     message.guild.member(kUser).kick(kReason);
     kickChannel.send(embed);
     break;
+    case "userinfo":
+    const sUser = message.mentions.members.first();
+    if(!sUser) return message.channel.send("Can't find user!");
+
+    var embed = new Discord.MessageEmbed()
+    .setTitle("User Info")
+    .setColor(0x00bfff)
+    .setThumbnail(sUser.user.displayAvatarURL())
+    .addField("Username", sUser.user.tag)
+    .addField("Account created at", sUser.createdAt, true)
+    .addField("Joined server at", sUser.guild.joinedAt, true)
+    .addField("Roles", sUser.roles.cache.map(r => r.toString()))
+    .setTimestamp()
+    .setFooter("Aot Version 0.15.0, Made by cleverActon0126#3517")
+    message.channel.send(embed)
+    break;
     case "ban":
-    let bUser =  message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
+    const bUser = message.mentions.members.first();
     if(!bUser) return message.channel.send("Can't find user!");
     let bReason = args.join(" ").slice(22);
     if(!message.member.hasPermission("BAN_MEMBERS"))  return message.channel.send("You don't have the permission to do that!");
     if(bUser.hasPermission("BAN_MEMBERS")) return message.channel.send("That person can't be kicked!");
 
-    var embed = new Discord.RichEmbed()
+    var embed = new Discord.MessageEmbed()
     .setDescription("~Kick~")
     .setColor(0xff0000)
     .addField("Banned User", `${bUser} with ID ${bUser.id}`)
@@ -162,30 +176,30 @@ bot.on("message", async function(message) {
     .addField("Time", message.createdAt)
     .addField("Reason", bReason)
     .setTimestamp()
-    .setFooter("Aot Version 0.14.1, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.15.0, Made by cleverActon0126#3517")
 
-    let banChannel = message.guild.channels.find(`name`, "server-logs");
+    let banChannel = message.guild.channels.cache.find(channel => channel.name === "server-logs");
     if(!banChannel) return message.channel.send("Could not find server logs channel.");
 
     message.guild.member(bUser).ban(bReason);
     banChannel.send(embed);
     break;
     case "botinfo":
-    var embed = new Discord.RichEmbed()
+    var embed = new Discord.MessageEmbed()
     .setTitle("Bot Information")
     .setColor(0x00bfff)
     .addField("Bot Name", bot.user.username)
     .addField("Bot Created On:", bot.user.createdAt)
     .setTimestamp()
-    .setFooter("Aot Version 0.14.1, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.15.0, Made by cleverActon0126#3517")
     message.channel.send(embed);
     break;
     case "report":
-    let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
+    const rUser = message.mentions.members.first();
     if(!rUser) return message.channel.send("Could not find user.")
     let reason = args.join().slice(22)
 
-    var embed = new Discord.RichEmbed()
+    var embed = new Discord.MessageEmbed()
     .setTitle("User reports User")
     .setColor(0xff0000)
     .addField("Reported User", `${rUser} with ID: ${rUser.id}`)
@@ -194,33 +208,33 @@ bot.on("message", async function(message) {
     .addField("Time", message.createdAt)
     .addField("Reason", reason)
     .setTimestamp()
-    .setFooter("Aot Version 0.14.1, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.15.0, Made by cleverActon0126#3517")
 
-    let reportsChannel = message.guild.channels.find(`name`, "report-approval");
+    let reportsChannel = message.guild.channels.cache.find(channel => channel.name === "report-approval");
     if(!reportsChannel) return message.channel.send("Could not find report channel.");
 
     message.delete().catch(()=> {});
-    reportschannel.send(embed);
+    reportsChannel.send(embed);
     break;
     case "update":
     if(!message.member.hasPermission("VIEW_AUDIT_LOG")) return message.channel.send("You cannot do that!");
 
-    var embed = new Discord.RichEmbed()
+    var embed = new Discord.MessageEmbed()
     .setTitle("Update Successful!")
-    .setDescription("Successfully updated to Version 0.14.1!")
+    .setDescription("Successfully updated to Version 0.15.0!")
     .addField("Prefix", "?a \(Uncustomable\)")
     .addField("Public Commands", "`help` \(Will lead you to other help commands\), `hello`, `aot`, `bye`, `noticeme`, `support`, `salmon`, `apple`, `pie`, `candy`, `mess`, `messer`, `messest`, `8ball`, `ding`, `ping`, `beep`, `report`, `botinfo`")
     .addField("Admin Commands", "`kick`, `ban`", true)
-    .addField("New Commands", "N/A", true)
-    .addField("Removed Commands", "`warn`, `warnings`", true)
-    .addField("Updates", "As we decide we will kick, ban or mute people according to the serious level of the case and the rules.")
+    .addField("New Commands", "`userinfo`", true)
+    .addField("Removed Commands", "N/A", true)
+    .addField("Updates", "New command: Userinfo(Please @someone even if you are trying to get your account's information.)")
     .setColor(0x00ff00)
     .setTimestamp()
-    .setFooter("Aot Version 0.14.1, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.15.0, Made by cleverActon0126#3517")
     message.channel.send(embed);
     break;
     case "help":
-    var embed = new Discord.RichEmbed()
+    var embed = new Discord.MessageEmbed()
     .setTitle("❓Help Menu❓")
     .addField("🔣General Menu🔣", "`helpgeneral`", true)
     .addField("❓Info Menu❓", "`helpinfo`", true)
@@ -230,25 +244,24 @@ bot.on("message", async function(message) {
     .addField("⚒️Admin Commands Menu⚒️", "`helpadmin`", true)
     .setColor(0x00ffff)
     .setTimestamp()
-    .setFooter("Aot Version 0.14.1, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.15.0, Made by cleverActon0126#3517")
     message.channel.send(embed);
     break;
     case "helpgeneral":
-    var embed = new Discord.RichEmbed()
+    var embed = new Discord.MessageEmbed()
     .setTitle("🔣General Menu🔣", "These are the general commands.")
     .addField("`hello`", "A greeting command", true)
     .addField("`aot`", "Waking Aot up", true)
     .addField("`bye`", "Waving hands to Aot", true)
     .addField("`noticeme`", "Let Aot to notice you", true)
     .addField("`support`", "To report a bug and have some Aot support", true)
-    .addField("`warnings`", "To know how many warnings do you have(If bot doesn't respond = 0).")
     .setColor(0x00ffff)
     .setTimestamp()
-    .setFooter("Aot Version 0.14.1, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.15.0, Made by cleverActon0126#3517")
     message.channel.send(embed);
     break;
     case "helpfood":
-    var embed = new Discord.RichEmbed()
+    var embed = new Discord.MessageEmbed()
     .setTitle("🍴Food Menu🍴", "These are the foods for you to eat.")
     .addField("`salmon`", "Raw salmon or cooked salmon can be choose", true)
     .addField("`apple`", "NORMAL apple", true)
@@ -256,22 +269,22 @@ bot.on("message", async function(message) {
     .addField("`candy`", "Sweet one", true)
     .setColor(0x00ffff)
     .setTimestamp()
-    .setFooter("Aot Version 0.14.1, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.15.0, Made by cleverActon0126#3517")
     message.channel.send(embed);
     break;
     case "helpmess":
-    var embed = new Discord.RichEmbed()
+    var embed = new Discord.MessageEmbed()
     .setTitle("🤬Messing Menu🤬", "These are the commands to mess up.")
     .addField("`mess`", "Beginner mess up", true)
     .addField("`messer`", "Advanced mess up", true )
     .addField("`messest`", "??? mess up", true)
     .setColor(0x00ffff)
     .setTimestamp()
-    .setFooter("Aot Version 0.14.1, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.15.0, Made by cleverActon0126#3517")
     message.channel.send(embed);
     break;
     case "helpfun":
-    var embed = new Discord.RichEmbed()
+    var embed = new Discord.MessageEmbed()
     .setTitle("😀Fun Menu😀", "Available games.")
     .addField("`8ball`", "Seeing your future", true)
     .addField("`ding`", "Ding, Dong", true)
@@ -279,36 +292,35 @@ bot.on("message", async function(message) {
     .addField("`beep`", "Beep, beep, boop, boop", true)
     .setColor(0x00ffff)
     .setTimestamp()
-    .setFooter("Aot Version 0.14.1, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.15.0, Made by cleverActon0126#3517")
     message.channel.send(embed);
     break;
     case "helpinfo":
-    var embed = new Discord.RichEmbed()
+    var embed = new Discord.MessageEmbed()
     .setTitle("❓Info Menu❓", "Informations")
     .addField("`botinfo`", "This bot's info")
     .setTimestamp()
     .setColor(0x00ffff)
-    .setFooter("Aot Version 0.14.1, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.15.0, Made by cleverActon0126#3517")
     message.channel.send(embed);
     break;
     case "helpadmin":
-    var embed = new Discord.RichEmbed()
+    var embed = new Discord.MessageEmbed()
     .setTitle("⚒️Admin Commands Menu⚒️")
     .addField("`kick`", "Kick people (ONLY for those who have permission: KICK_MEMBERS)")
     .addField("`ban`", "Ban people (ONLY for those who have permission: BAN_MEMBERS)")
-    .addField("`warn`", "A warning system (ONLY for those who have permission: VIEW_AUDIT_LOG)")
     .setTimestamp()
     .setColor(0x00ffff)
-    .setFooter("Aot Version 0.14.1, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.15.0, Made by cleverActon0126#3517")
     message.channel.send(embed)
     break;
     case "support":
-    var embed = new Discord.RichEmbed()
+    var embed = new Discord.MessageEmbed()
     .setTitle("Aot Support")
     .addField("Press the link below to have some Aot support or report a bug!", "https://bit.ly/Aot_Support")
     .setColor(0xff0000)
     .setTimestamp()
-    .setFooter("Aot Version 0.14.1, Made by cleverActon0126#3517")
+    .setFooter("Aot Version 0.15.0, Made by cleverActon0126#3517")
     message.channel.send(embed);
     break;
     default:
