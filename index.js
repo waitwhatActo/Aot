@@ -153,7 +153,7 @@ bot.on("message", async function(message) {
     .setColor(0x00bfff)
     .setThumbnail(sUser.user.displayAvatarURL())
     .addField("Username", sUser.user.tag)
-    .addField("Account created at", sUser.createdAt, true)
+    .addField("Account created at", sUser.user.createdAt, true)
     .addField("Joined server at", sUser.guild.joinedAt, true)
     .addField("Roles", sUser.roles.cache.map(r => r.toString()))
     .setTimestamp()
