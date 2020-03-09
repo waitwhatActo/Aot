@@ -231,6 +231,8 @@ bot.on("message", async function(message) {
     .setColor(0x00ff00)
     .setTimestamp()
     .setFooter("Aot Version 0.15.0, Made by cleverActon0126#3517")
+
+    message.delete().catch(()=> {});
     message.channel.send(embed);
     break;
     case "help":
