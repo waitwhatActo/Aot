@@ -177,7 +177,7 @@ bot.on("message", async function(message) {
 
     var embed = new Discord.MessageEmbed()
     .setTitle("Update Successful!")
-    .setDescription("Successfully updated to Version 0.16.0!")
+    .setDescription("Successfully updated to Version 0.16.0! <@655382799943204885>")
     .addField("Prefix", "?a \(Uncustomable\)")
     .addField("Public Commands", "`help` \(Will lead you to other help commands\), `hello`, `aot`, `bye`, `noticeme`, `support`, `salmon`, `apple`, `pie`, `candy`, `mess`, `messer`, `messest`, `8ball`, `ding`, `ping`, `beep`, `report`, `botinfo`, `userinfo`")
     .addField("Admin Commands", "`kick`, `ban`, `mute`", true)
