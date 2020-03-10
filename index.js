@@ -338,12 +338,14 @@ bot.on("message", async function(message) {
     message.channel.send(embed)
     break;
     case "helpserversupport":
+    var embed = new Discord.MessageEmbed()
     .setTitle("‍🏳️‍🌈Server Support Menu🏳️‍🌈")
     .setColor(0x00ffff)
     .addField("`support`", "To report a bug and have some Aot support", true)
     .addField("`report`", "To report people's behavior in the server", true)
     .setTimestamp()
     .setFooter("Aot Version 0.16.0, Made by cleverActon0126#3517")
+    message.channel.send(embed)
     break;
     //end of help menus
     default:
