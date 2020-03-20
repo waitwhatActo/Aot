@@ -1,6 +1,6 @@
 {
   "name": "aot",
-  "version": "0.20.0",
+  "version": "0.21.0",
   "description": "",
   "main": "index.js",
   "dependencies": {
@@ -9,8 +9,6 @@
     "ffmpeg-static": "^4.0.1",
     "file-system": "^2.2.2",
     "fs": "^0.0.1-security",
-    "git": "^0.1.5",
-    "moment": "^2.24.0",
     "ms": "^2.1.2",
     "opusscript": "^0.0.7",
     "sudo": "^1.0.3",
