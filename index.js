@@ -159,7 +159,7 @@ bot.on("message", async function(message) {
     case "report":
      const rUser = message.mentions.members.first();
      if(!rUser) return message.channel.send("Could not find user.")
-     let rReason = message.content.slice(PREFIX.length).split(' ');
+     let rReason = args.join(' ').slice(' ')
 
      var embed = new Discord.MessageEmbed()
      .setTitle("User reports User")
@@ -192,7 +192,7 @@ bot.on("message", async function(message) {
     case "kick":
      const kUser = message.mentions.members.first();
      if(!kUser) return message.channel.send("Can't find user!");
-     let kReason = message.content.substring(PREFIX.length).split(" ");
+     let kReason = args.join(' ').slice(' ')
      if(!message.member.hasPermission("KICK_MEMBERS")) return message.channel.send("You don't have the permission to do that!");
      if(kUser.hasPermission("KICK_MEMBERS")) return message.channel.send("That person can't be kicked!");
 
@@ -218,7 +218,7 @@ bot.on("message", async function(message) {
     case "ban":
      const bUser = message.mentions.members.first();
      if(!bUser) return message.channel.send("Can't find user!");
-     let bReason = message.content.slice(PREFIX.length).split(' ');
+     let bReason = args.join(' ').slice(' ')
      if(!message.member.hasPermission("BAN_MEMBERS"))  return message.channel.send("You don't have the permission to do that!");
      if(bUser.hasPermission("BAN_MEMBERS")) return message.channel.send("That person can't be kicked!");
 
