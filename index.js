@@ -28,6 +28,8 @@ bot.on("guildMemberRemove", function(member) {
   if(!outChannel) return;
 
   outChannel.send(`<@${member.id}> just left, but we will never forget him/her!`)
+
+  member.send(`You just left ${message.guild.name}, but they would never forget you!`)
 });
 
 bot.on("message", async function(message) {
@@ -90,7 +92,7 @@ bot.on("message", async function(message) {
      message.channel.send(`${dUser.tag} => :door:`)
     break;
     case "8ball":
-     var fortunes = [
+     var eightball = [
       "🟢It is decidedly so.",
       "🟢Without a doubt.",
       "🟢Yes - definitely.",
@@ -108,7 +110,7 @@ bot.on("message", async function(message) {
       "🔴Very doubtful."
      ];
 
-     if (args[1])  message.channel.send(fortunes[Math.floor(Math.random() * fortunes.length)]);
+     if (args[1])  message.channel.send(eightball[Math.floor(Math.random() * eightball.length)]);
      else  message.channel.send("Can't read that.");
     break;
     case "coinflip":
@@ -127,7 +129,20 @@ bot.on("message", async function(message) {
     break;
     case "kill":
      const iUser = message.mentions.members.first();
-     if(!iUser) return message.channel.send("Who to kill?")
+     
+     var kill = [
+      `${message.author} has been roasted to a a toast like a bread.`,
+      `${message.author} accidentally stuck his head in the washing machine and got his head washed off`,
+      `${message.author}\'s beard got pulled off and he lost too much blood. He died. RIP`,
+      `${message.author} jumped into a swimming pool, but he forgot the water was cleared out last week because christmas is coming.`,
+      `${message.author} jumped into a swimming pool, but he suddenly fotgot how to swim.`,
+      `${message.author} is spreading butter on to his bread, but he accidentally used the knife too hard and killed himself`,
+      `${message.author} is trying to make a bomb and blow Tonald Drump into pieces, but he accidentally pressed the blow up button and blew himself up.`,
+      `${message.author} got a gun and didn't know how to hold it. He thought the end of the gun was where to point to himself. Then he tries it at the wall. Not to mention what happened.`,
+      `${message.author} was robbing a bank alone. He shot the security and the bullet hit the wall. Then the bullet reflected and shot back into himself.`
+     ];
+     
+     if(!iUser) message.channel.send(kill[Math.floor(Math.random() * kill.length)])
 
      var killer = [
       `<@${iUser.id}> has been roasted to a a toast like a bread.`,
@@ -246,13 +261,13 @@ bot.on("message", async function(message) {
 
      var embed = new Discord.MessageEmbed()
      .setTitle("Update Successful!")
-     .setDescription("Successfully updated to Version 0.22.0!")
+     .setDescription("Successfully updated to Version 0.22.1!")
      .addField("Prefix", "?a \(Uncustomable\)")
      .addField("Public Commands", "`help` \(Will lead you to other help commands\), `hello`, `aot`, `bye`, `noticeme`, `support`, `salmon`, `apple`, `pie`, `candy`, `mess`, `messer`, `messest`, `8ball`, `ding`, `ping`, `beep`, `door`, `coinflip`, `kill`, `report`, `botinfo`, `userinfo`")
      .addField("Admin Commands", "`kick`, `ban`, `mute`, `tempmute`, `unmute`, `clear`", true)
-     .addField("New Commands", "`serverinfo`", true)
+     .addField("New Commands", "N/A", true)
      .addField("Removed Commands", "N/A", true)
-     .addField("Updates", "Server Information; Ping command updated")
+     .addField("Updates", "`userinfo` updated. You don't have to ping yourself if you want your account's information.")
      .addField("News", "We are still investigating the reason issue of the command `kick`, `ban` and `report`. (Issue: Reason error)")
      .setColor(0x00ff00)
      .setTimestamp()
@@ -340,7 +355,19 @@ bot.on("message", async function(message) {
     break;
     case "userinfo":
      const sUser = message.mentions.members.first();
-     if(!sUser) return ("Please mention a user even if it's yourself.")
+     const snUser = message.member;
+     
+     var noembed = new Discord.MessageEmbed()
+     .setTitle("User Info")
+     .setColor(0x00bfff)
+     .setThumbnail(snUser.user.displayAvatarURL())
+     .addField("Username", snUser.user.tag)
+     .addField("Account created at", snUser.user.createdAt, true)
+     .addField("Joined server at", snUser.guild.joinedAt, true)
+     .addField("Roles", snUser.roles.cache.map(r => r.toString()))
+     .setTimestamp()
+     .setFooter("Aot Version 0.22.0, Made by cleverActon0126#3517")
+     if(!sUser) return message.channel.send(noembed)
 
      var embed = new Discord.MessageEmbed()
      .setTitle("User Info")
