@@ -287,7 +287,7 @@ bot.on("message", async function(message) {
 
      mUser.roles.add(muterole.id);
 
-     const muteChannel = mUser.guild.channels.cache.find(channel => channel.name === "mute-kick-ban-logs")
+     const muteChannel = mUser.guild.channels.cache.find(channel => channel.name === "mute-logs")
      if(!muteChannel) return;
 
      muteChannel.send(`<@${mUser.id}> has now been muted.`);
