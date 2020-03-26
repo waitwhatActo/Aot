@@ -158,6 +158,45 @@ bot.on("message", async function(message) {
 
      message.channel.send(killer[Math.floor(Math.random() * killer.length)])
     break;
+    case "hack":
+      const hsUser = message.member;
+      const hUser = message.mentions.members.first();const { promisify } = require("util");
+      let wait = require('util').promisify(setTimeout);
+      if(!hUser) return message.channel.send('Who to hack?');
+
+      await message.channel.send(`Prepare to hack <@${hUser.id}>...`)
+      await wait(2500)
+      await message.channel.send('Starting process...')
+      await wait(2500)
+      await message.channel.send(`Locating ${hUser.id}'s computer.`)
+      await wait(10000)
+      await message.channel.send(`Found ${hUser.id}'s location.`)
+      await wait(3000)
+      await message.channel.send("Hacking IP address...")
+      await wait(13000)
+      await message.channel.send("IP address found.")
+      await wait(2500)
+      await message.channel.send(`Starting to hack ${hUser.id}'s computer`)
+      await wait(5000)
+      await message.channel.send(`Failed to hack ${hUser.id}'s computer. Manual hack needed.`)
+      var embed = new Discord.MessageEmbed()
+      .setTitle("Hacking manual")
+      .setDescription("Someone's hacking! Beware!")
+      .setColor(0xc8e9ca)
+      .addField("Who's Hacking?", `<@${hsUser.id}>`)
+      .addField("Who's being hacked?", `<@${hUser.id}>`)
+      .addField(`${hUser.id}'s IP`, "127.0.0.1")
+      .addField("Windows 7/8/8.1/10", "Windows is easy to hack. If you're using Windows, follow the steps below.")
+      .addField("Step 1", "Open Cmd in administrator.", true)
+      .addField("Step 2", "Type `shutdown /i` then hit enter.", true)
+      .addField("Step 3", "You will see a pop-up window, press add, then type the IP address writen above, hit add.", true)
+      .addField("Step 4", "Choose if you want to shutdown or restart his computer.", true)
+      .addField("Step 5", "Type in a message for him.", true)
+      .addField("Step 6", "Hit ok.", true)
+      .addField("Step 7", "See someone freaks out.", true)
+      .addField("Linux and MacOS", `We haven't test out using Linux or MacOS, but you can use a virtual machine to hack <@${hUser.id}>.`)
+      message.channel.send(embed)
+    break;
     //end of fun commands
     //messing Commands
     case "mess":
@@ -261,14 +300,14 @@ bot.on("message", async function(message) {
 
      var embed = new Discord.MessageEmbed()
      .setTitle("Update Successful!")
-     .setDescription("Successfully updated to Version 0.22.1!")
+     .setDescription("Successfully updated to Version 0.23.0!")
      .addField("Prefix", "?a \(Uncustomable\)")
      .addField("Public Commands", "`help` \(Will lead you to other help commands\), `hello`, `aot`, `bye`, `noticeme`, `support`, `salmon`, `apple`, `pie`, `candy`, `mess`, `messer`, `messest`, `8ball`, `ding`, `ping`, `beep`, `door`, `coinflip`, `kill`, `report`, `botinfo`, `userinfo`")
      .addField("Admin Commands", "`kick`, `ban`, `mute`, `tempmute`, `unmute`, `clear`", true)
-     .addField("New Commands", "N/A", true)
+     .addField("New Commands", "`hack", true)
      .addField("Removed Commands", "N/A", true)
-     .addField("Updates", "`userinfo` updated. You don't have to ping yourself if you want your account's information.")
-     .addField("News", "We are still investigating the reason issue of the command `kick`, `ban` and `report`. (Issue: Reason error)")
+     .addField("Updates", "New hack command.")
+     .addField("News", "Aot is not on for 24/7.")
      .setColor(0x00ff00)
      .setTimestamp()
      .setFooter("Aot Version 0.22.0, Made by cleverActon0126#3517")
@@ -314,7 +353,7 @@ bot.on("message", async function(message) {
 
      tempmuteChannel.send(`<@${tmUser.id}> has now been muted for ${ms(ms(time))}.`);
 
-     setTimeout(function() {
+     setTimeout(async function() {
        tmUser.roles.remove(tempmuterole.id);
        tempmuteChannel.send(`<@${tmUser.id}> has been unmuted!`)
      }, ms(time));

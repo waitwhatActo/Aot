@@ -1,6 +1,6 @@
 {
   "name": "aot",
-  "version": "0.22.1",
+  "version": "0.23.0",
   "description": "",
   "main": "index.js",
   "dependencies": {
@@ -12,6 +12,7 @@
     "ms": "^2.1.2",
     "opusscript": "^0.0.7",
     "sudo": "^1.0.3",
+    "util": "^0.12.2",
     "ytdl-core": "^1.0.9"
   },
   "devDependencies": {},
