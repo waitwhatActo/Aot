@@ -20,7 +20,7 @@ bot.on("guildMemberAdd", function(member) {
   const inChannel = member.guild.channels.cache.find(channel => channel.name === "in-n-out")
   if(!inChannel) return;
 
-  inChannel.send(`Welcome to ${message.guild.name}, <@${member.id}>! Please READ THE RULES! Thank you!`)
+  inChannel.send(`Welcome to Official Acton's Empire, <@${member.id}>! Please READ THE RULES! Thank you!`)
 });
 
 bot.on("guildMemberRemove", function(member) {
@@ -29,7 +29,7 @@ bot.on("guildMemberRemove", function(member) {
 
   outChannel.send(`<@${member.id}> just left, but we will never forget him/her!`)
 
-  member.send(`You just left ${message.guild.name}, but they would never forget you!`)
+  member.send(`You just left Official Acton's Empire, but they would never forget you!`)
 });
 
 bot.on("message", async function(message) {
@@ -139,7 +139,8 @@ bot.on("message", async function(message) {
       `${message.author} is spreading butter on to his bread, but he accidentally used the knife too hard and killed himself`,
       `${message.author} is trying to make a bomb and blow Tonald Drump into pieces, but he accidentally pressed the blow up button and blew himself up.`,
       `${message.author} got a gun and didn't know how to hold it. He thought the end of the gun was where to point to himself. Then he tries it at the wall. Not to mention what happened.`,
-      `${message.author} was robbing a bank alone. He shot the security and the bullet hit the wall. Then the bullet reflected and shot back into himself.`
+      `${message.author} was robbing a bank alone. He shot the security and the bullet hit the wall. Then the bullet reflected and shot back into himself.`,
+      `${message.author} wanted a dive in the ocean. Instead of swimming, his leg was CLEAN cut by the blade of a boat.`
      ];
      
      if(!iUser) message.channel.send(kill[Math.floor(Math.random() * kill.length)])
@@ -168,7 +169,7 @@ bot.on("message", async function(message) {
       await wait(2500)
       await message.channel.send('Starting process...')
       await wait(2500)
-      await message.channel.send(`Locating ${hUser.id}'s computer.`)
+      await message.channel.send(`Locating ${hUser.id}'s device.`)
       await wait(10000)
       await message.channel.send(`Found ${hUser.id}'s location.`)
       await wait(3000)
@@ -176,9 +177,9 @@ bot.on("message", async function(message) {
       await wait(13000)
       await message.channel.send("IP address found.")
       await wait(2500)
-      await message.channel.send(`Starting to hack ${hUser.id}'s computer`)
+      await message.channel.send(`Starting to hack ${hUser.id}'s device`)
       await wait(5000)
-      await message.channel.send(`Failed to hack ${hUser.id}'s computer. Manual hack needed.`)
+      await message.channel.send(`Failed to hack ${hUser.id}'s device. Manual hack needed.`)
       var embed = new Discord.MessageEmbed()
       .setTitle("Hacking manual")
       .setDescription("Someone's hacking! Beware!")
@@ -206,10 +207,12 @@ bot.on("message", async function(message) {
      message.channel.send("afhq930jr3o249ru43984n3qf0jq9032dkj90j3209fj34h98f0wqxm90qj2389d23y58934fnrejwtoiewrjtoeritfioejfeie");
     break;
     case "messest":
-     message.channel.send("~&^@*~\(&#\)_~\(fksljdaslkfjewiury3498|fljkdfiuheufk_#\)$*&57*^&~*^#*~\)_+\(HGFUHIhifhsdasfjeiuwahfoejflkfjewijfieoajala<?><:\"ALDOHQO!\"\)KRWH OI@ NOI HJOIRNMJO@*&%()@*$)(%&%*)_@()%@&+)%@(*%@)_OV%)MV%()@%*VM()V%*V@M)(@U*VM)@{PIRW IUNO IRUWIOUR WOP RUW*UOWJ(!uidfsjgiseut93uri34ojgelkgsjveirsut943pkjteirhtewtijoerwltij349utjrepojgkdfhgierjgelkrjg349ut)}gierwut9w4teutioerutweiotrjtioeuteroitu94tu49tu3945834poj543iohtoirejteriojteortjeijteriojterjteritweroitu349u534i2j5i34n5j3n5kl34jute84thierjeroigjerijtlreiutiretjerioutiretureioutioertuerioterutioeruter8oitu438tu");
+     message.channel.send("dfjadsifdsalfiuwe09472345r;ekfhsdafohidpfewihfolsdgjsdailfjdskafjweohrieifhsdoihfwenifhsdklfnsdklfhsuadfwoijeisrhwoefihwe89e7r4239irjweilfhsadF?ksdajf'erypsd]pgsd]g[e[fkiae7y8o21638i`9`-=]12=3]4[elflksdhvuiTAFoiwejankfch")
+     message.channel.send("dfaiouawe0r9850io34hfkdsjlf78dayfhoegiutqw[0pifjhauidfhx,nvcjksadhcildncklwahiupfhwkefbhiuwehoifqhiUR")
+     message.channel.send("SDAR8F723Q8UHFDSNUOCMOADJIhfoiahebfigdhvbnksdlahvaoesifwe");
     break;
     //end of messing Commands
-    //server support
+    //utilities
     case "report":
      const rUser = message.mentions.members.first();
      if(!rUser) return message.channel.send("Could not find user.")
@@ -224,7 +227,7 @@ bot.on("message", async function(message) {
      .addField("Time", message.createdAt)
      .addField("Reason", rReason)
      .setTimestamp()
-     .setFooter("Aot Version 0.22.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.23.0, Made by cleverActon0126#3517")
 
      let reportsChannel = message.guild.channels.cache.find(channel => channel.name === "report-approval");
      if(!reportsChannel) return message.channel.send("Could not find report channel.");
@@ -235,13 +238,22 @@ bot.on("message", async function(message) {
     case "support":
      var embed = new Discord.MessageEmbed()
      .setTitle("Aot Support")
-     .addField("Press the link below to have some Aot support or report a bug!", "https://bit.ly/Aot_Support")
+     .addField("Press the link below to have some Aot support!", "https://bit.ly/Aot_Support")
      .setColor(0xff0000)
      .setTimestamp()
-     .setFooter("Aot Version 0.22.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.23.0, Made by cleverActon0126#3517")
      message.channel.send(embed);
     break;
-    //end of server support
+    case "invite":
+      var embed = new Discord.MessageEmbed()
+      .setTitle("Invite me to your server!")
+      .setColor(0xff0000)
+      .addField("Here!", "https://bit.ly/cleverActon0126_aot")
+      .setTimestamp()
+     .setFooter("Aot Version 0.23.0, Made by cleverActon0126#3517")
+      message.channel.send(embed)
+    break;
+    //end of utilities
     //admin commands
     case "kick":
      const kUser = message.mentions.members.first();
@@ -259,7 +271,7 @@ bot.on("message", async function(message) {
      .addField("Time", message.createdAt)
      .addField("Reason", kReason)
      .setTimestamp()
-     .setFooter("Aot Version 0.22.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.23.0, Made by cleverActon0126#3517")
 
      let kickChannel = message.guild.channels.cache.find(channel => channel.name === "server-logs");
      if(!kickChannel) return message.channel.send("Could not find server logs channel.");
@@ -285,7 +297,7 @@ bot.on("message", async function(message) {
      .addField("Time", message.createdAt)
      .addField("Reason", bReason)
      .setTimestamp()
-     .setFooter("Aot Version 0.22.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.23.0, Made by cleverActon0126#3517")
 
      let banChannel = message.guild.channels.cache.find(channel => channel.name === "server-logs");
      if(!banChannel) return message.channel.send("Could not find server logs channel.");
@@ -304,13 +316,13 @@ bot.on("message", async function(message) {
      .addField("Prefix", "?a \(Uncustomable\)")
      .addField("Public Commands", "`help` \(Will lead you to other help commands\), `hello`, `aot`, `bye`, `noticeme`, `support`, `salmon`, `apple`, `pie`, `candy`, `mess`, `messer`, `messest`, `8ball`, `ding`, `ping`, `beep`, `door`, `coinflip`, `kill`, `report`, `botinfo`, `userinfo`")
      .addField("Admin Commands", "`kick`, `ban`, `mute`, `tempmute`, `unmute`, `clear`", true)
-     .addField("New Commands", "`hack", true)
+     .addField("New Commands", "`hack`", true)
      .addField("Removed Commands", "N/A", true)
      .addField("Updates", "New hack command.")
      .addField("News", "Aot is not on for 24/7.")
      .setColor(0x00ff00)
      .setTimestamp()
-     .setFooter("Aot Version 0.22.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.23.0, Made by cleverActon0126#3517")
 
      message.delete().catch(()=> {});
      message.channel.send(embed);
@@ -389,7 +401,7 @@ bot.on("message", async function(message) {
      .addField("Bot Name", bot.user.username)
      .addField("Bot Created On:", bot.user.createdAt)
      .setTimestamp()
-     .setFooter("Aot Version 0.22.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.23.0, Made by cleverActon0126#3517")
      message.channel.send(embed);
     break;
     case "userinfo":
@@ -405,7 +417,7 @@ bot.on("message", async function(message) {
      .addField("Joined server at", snUser.guild.joinedAt, true)
      .addField("Roles", snUser.roles.cache.map(r => r.toString()))
      .setTimestamp()
-     .setFooter("Aot Version 0.22.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.23.0, Made by cleverActon0126#3517")
      if(!sUser) return message.channel.send(noembed)
 
      var embed = new Discord.MessageEmbed()
@@ -417,7 +429,7 @@ bot.on("message", async function(message) {
      .addField("Joined server at", sUser.guild.joinedAt, true)
      .addField("Roles", sUser.roles.cache.map(r => r.toString()))
      .setTimestamp()
-     .setFooter("Aot Version 0.22.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.23.0, Made by cleverActon0126#3517")
      message.channel.send(embed)
     break;
     case "serverinfo":
@@ -437,7 +449,7 @@ bot.on("message", async function(message) {
      .addField("AFK Channel", message.guild.afkChannel, true)
      .addField("Voice Channel AFK Timeout", message.guild.afkTimeout, true)
      .setTimestamp()
-     .setFooter("Aot Version 0.22.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.23.0, Made by cleverActon0126#3517")
      message.channel.send(embed)
      break;
     //end of Information
@@ -450,11 +462,11 @@ bot.on("message", async function(message) {
      .addField("😀Fun Menu😀", "`helpfun`", true)
      .addField("❓Info Menu❓", "`helpinfo`", true)
      .addField("🤬Messing Menu🤬", "`helpmess`", true)
-     .addField("🏳️‍🌈Server Support🏳️‍🌈", "`helpserversupport`", true)
+     .addField("🏳️‍🌈Utilities Menu🏳️‍🌈", "`helputilities`", true)
      .addField("⚒️Moderation Menu⚒️", "`helpmod`", true)
      .setColor(0x00ffff)
      .setTimestamp()
-     .setFooter("Aot Version 0.22.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.23.0, Made by cleverActon0126#3517")
      message.channel.send(embed);
     break;
     case "helpgeneral":
@@ -467,7 +479,7 @@ bot.on("message", async function(message) {
      .addField("`ping`", "Bot ping", true)
      .setColor(0x00ffff)
      .setTimestamp()
-     .setFooter("Aot Version 0.22.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.23.0, Made by cleverActon0126#3517")
      message.channel.send(embed);
     break;
     case "helpfood":
@@ -479,7 +491,7 @@ bot.on("message", async function(message) {
      .addField("`salmon`", "Raw salmon or cooked salmon can be choose", true)
      .setColor(0x00ffff)
      .setTimestamp()
-     .setFooter("Aot Version 0.22.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.23.0, Made by cleverActon0126#3517")
      message.channel.send(embed);
     break;
     case "helpmess":
@@ -490,7 +502,7 @@ bot.on("message", async function(message) {
      .addField("`messest`", "??? mess up", true)
      .setColor(0x00ffff)
      .setTimestamp()
-     .setFooter("Aot Version 0.22.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.23.0, Made by cleverActon0126#3517")
      message.channel.send(embed);
     break;
     case "helpfun":
@@ -501,9 +513,10 @@ bot.on("message", async function(message) {
      .addField("`coinflip`", "Flip a coin!", true)
      .addField("`ding`", "Ding, Dong", true)
      .addField("`door`", "Portal door", true)
+     .addField("`hack`", "Hack people", true)
      .setColor(0x00ffff)
      .setTimestamp()
-     .setFooter("Aot Version 0.22.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.23.0, Made by cleverActon0126#3517")
      message.channel.send(embed);
     break;
     case "helpinfo":
@@ -514,7 +527,7 @@ bot.on("message", async function(message) {
      .addField("`userinfo`", "User's information.")
      .setTimestamp()
      .setColor(0x00ffff)
-     .setFooter("Aot Version 0.22.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.23.0, Made by cleverActon0126#3517")
      message.channel.send(embed);
     break;
     case "helpmod":
@@ -528,17 +541,18 @@ bot.on("message", async function(message) {
      .addField("`unmute`", "Unmute a muted person (VIEW_AUDIT_LOG)")
      .setTimestamp()
      .setColor(0x00ffff)
-     .setFooter("Aot Version 0.22.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.23.0, Made by cleverActon0126#3517")
      message.channel.send(embed)
     break;
-    case "helpserversupport":
+    case "helputilities":
      var embed = new Discord.MessageEmbed()
-     .setTitle("‍🏳️‍🌈Server Support Menu🏳️‍🌈")
+     .setTitle("‍🏳️‍🌈Utilities Menu🏳️‍🌈")
      .setColor(0x00ffff)
      .addField("`support`", "To report a bug and have some Aot support", true)
      .addField("`report`", "To report people's behavior in the server", true)
+     .addField("`invite`", "Invite me to your server!", true)
      .setTimestamp()
-     .setFooter("Aot Version 0.22.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.23.0, Made by cleverActon0126#3517")
      message.channel.send(embed)
     break;
     //end of help menus
