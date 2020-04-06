@@ -391,7 +391,7 @@ bot.on("message", async function(message) {
      .setTimestamp()
      .setFooter("Aot Version 0.24.0, Made by cleverActon0126#3517")
      tempmuteChannel.send(embed)
-     break;
+     
      setTimeout(async function() {
        tmUser.roles.remove(tempmuterole.id);
        tempmuteChannel.send(`<@${tmUser.id}> has been unmuted!`)
