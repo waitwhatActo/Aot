@@ -28,8 +28,6 @@ bot.on("guildMemberRemove", function(member) {
   if(!outChannel) return;
 
   outChannel.send(`<@${member.id}> just left, but we will never forget him/her!`)
-
-  member.send(`You just left Official Acton's Empire, but they would never forget you!`)
 });
 
 bot.on("message", async function(message) {
@@ -162,7 +160,7 @@ bot.on("message", async function(message) {
     case "hack":
       const hsUser = message.member;
       const hUser = message.mentions.members.first();const { promisify } = require("util");
-      let hWait = require('util').promisify(setTimeout);
+      let hwait = require('util').promisify(setTimeout);
       if(!hUser) return message.channel.send('Who to hack?');
 
       await message.channel.send(`Prepare to hack <@${hUser.id}>...`)
