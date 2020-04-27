@@ -1,10 +1,10 @@
 {
   "name": "aot",
-  "version": "0.25.0",
+  "version": "0.25.1",
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "discord.js": "^12.1.1",
+    "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",
     "ffmpeg-static": "^4.0.1",
     "file-system": "^2.2.2",
