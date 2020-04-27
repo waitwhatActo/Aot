@@ -298,7 +298,7 @@ bot.on('message', async function(message) {
      .addField('Prefix', '?a \(Uncustomable\)')
      .addField('Public Commands', '`help` \(Will lead you to other help commands\), `hello`, `aot`, `bye`, `noticeme`, `support`, `salmon`, `apple`, `pie`, `candy`, `mess`, `messer`, `messest`, `8ball`, `ding`, `ping`, `beep`, `door`, `coinflip`, `kill`, `report`, `botinfo`, `userinfo`, `hack`')
      .addField('Admin Commands', '`kick`, `ban`, `mute`, `tempmute`, `unmute`, `clear`', true)
-     .addField('New Commands', '`pickup`', true)
+     .addField('New Commands', 'N/A', true)
      .addField('Removed Commands', 'N/A', true)
      .addField('Updates', 'Mass Update in code.')
      .setColor(0x00ff00)
