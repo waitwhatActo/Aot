@@ -397,10 +397,10 @@ bot.on('message', async function(message) {
      .setFooter('Aot Version 0.26.0, Made by cleverActon0126#3517')
      tempmuteChannel.send(embed)
 
-     setTimeout(async function() {
+     setTimeout(function() {
        tmUser.roles.remove(tempmuterole.id);
        tempmuteChannel.send(`<@${tmUser.id}> has been unmuted!`)
-     }, ms(time));
+     }, ms(mutetime));
     break;
     case 'unmute':
      const umUser = message.mentions.members.first();
