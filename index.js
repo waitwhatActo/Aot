@@ -266,7 +266,7 @@ bot.on('message', async function(message) {
     //end of utilities
     //admin commands
     case 'addrole':
-      if(!message.member.hasPermission('MANGEAGE_ROLES')) return message.channel.send("You don\'t have permission to do that.");
+      if(!message.member.hasPermission('MANAGE_ROLES')) return message.channel.send("You don\'t have permission to do that.");
       let arUser = message.mentions.members.first();
       if(!arUser) return message.channel.send('User doesn\t exist!');
       let arRole = message.mentions.roles.first();
@@ -277,7 +277,7 @@ bot.on('message', async function(message) {
       message.channel.send(`Role added for <@${arUser.id}>`)
     break;
     case 'tempaddrole':
-      if(!message.member.hasPermission('MANGEAGE_ROLES')) return message.channel.send("You don\'t have permission to do that.");
+      if(!message.member.hasPermission('MANAGE_ROLES')) return message.channel.send("You don\'t have permission to do that.");
       let tarUser = message.mentions.members.first();
       if(!tarUser) return message.channel.send('User doesn\t exist!');
       let tarRole = message.mentions.roles.first();
@@ -295,7 +295,7 @@ bot.on('message', async function(message) {
       },ms(tartime))
     break;
     case 'removerole':
-      if(!message.member.hasPermission('MANGEAGE_ROLES')) return message.channel.send("You don\'t have permission to do that.");
+      if(!message.member.hasPermission('MANAGE_ROLES')) return message.channel.send("You don\'t have permission to do that.");
       let rrUser = message.mentions.members.first();
       if(!rrUser) return message.channel.send('User doesn\t exist!');
       let rrRole = message.mentions.roles.first();
@@ -306,7 +306,7 @@ bot.on('message', async function(message) {
       message.channel.send(`Role removed for <@${rrUser.id}>`)
     break;
     case 'tempremoverole':
-      if(!message.member.hasPermission('MANGEAGE_ROLES')) return message.channel.send("You don\'t have permission to do that.");
+      if(!message.member.hasPermission('MANAGE_ROLES')) return message.channel.send("You don\'t have permission to do that.");
       let trrUser = message.mentions.members.first();
       if(!trrUser) return message.channel.send('User doesn\t exist!');
       let trrRole = message.mentions.roles.first();
@@ -650,13 +650,17 @@ bot.on('message', async function(message) {
     case 'helpmod':
      var embed = new Discord.MessageEmbed()
      .setTitle('⚒️Moderation Menu⚒️')
-     .addField('`ban`', 'Ban people (BAN_MEMBERS)')
+     .addField('`kick`', 'Kick people (KICK_MEMBERS)', true)
+     .addField('`ban`', 'Ban people (BAN_MEMBERS)', true)
      .addField('`tempban`', 'Temporary ban people(BAN_MEMBERS)')
-     .addField('`clear`', 'Bulk delete messages (VIEW_AUDIT_LOG)')
-     .addField('`kick`', 'Kick people (KICK_MEMBERS)')
-     .addField('`mute`', 'Mute people (VIEW_AUDIT_LOG)')
-     .addField('`tempmute`', 'Temporary mute people (VIEW_AUDIT_LOG)')
+     .addField('`mute`', 'Mute people (VIEW_AUDIT_LOG)', true)
+     .addField('`tempmute`', 'Temporary mute people (VIEW_AUDIT_LOG)', true)
      .addField('`unmute`', 'Unmute a muted person (VIEW_AUDIT_LOG)')
+     .addField('`addrole`', 'Add a role to a person (MANAGE_ROLES)', true)
+     .addField('`tempaddrole`', 'Add a role to a person Temporary (MANAGE_ROLES)', true)
+     .addField('`removerole`', 'Remove a role from a person (MANAGE_ROLES)', true)
+     .addField('`tempremoverole`', 'Remove a role from a person Temporary (MANAGE_ROLES)')
+     .addField('`clear`', 'Bulk delete messages (VIEW_AUDIT_LOG)', true)
      .setTimestamp()
      .setColor(0x00ffff)
      .setFooter('Aot Version 0.28.0, Made by cleverActon0126#3517')
