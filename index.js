@@ -25,7 +25,7 @@ bot.on('guildMemberAdd', function(member) {
   .setFooter('Aot Version 0.28.0, Made by cleverActon0126#3517')
   inChannel.send(inembed)
 
-  inChannel.send(`<@${member.id}`)
+  inChannel.send(`<@${member.id}>`)
 
   member.send('Have a great time in Official Acton\'s Empire!')
 
