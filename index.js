@@ -25,7 +25,7 @@ bot.on('guildMemberAdd', function(member) {
   .setFooter('Aot Version 0.28.0, Made by cleverActon0126#3517')
   inChannel.send(inembed)
 
-  inchannel.send(`<@${member.id}`)
+  inChannel.send(`<@${member.id}`)
 
   member.send('Have a great time in Official Acton\'s Empire!')
 
@@ -316,11 +316,11 @@ bot.on('message', async function(message) {
 
       trrUser.roles.remove(trrRole.id);
 
-      message.channel.send(`Role added for <@${trrUser.id}> for ${trrtime}`)
+      message.channel.send(`Role removed for <@${trrUser.id}> for ${trrtime}`)
 
       setTimeout(function() {
         trrUser.roles.add(trrRole.id);
-        message.channel.send(`Role removed for <@${trrUser.id}>`)
+        message.channel.send(`Role added for <@${trrUser.id}>`)
       },ms(trrtime))
     break;
     case 'kick':
