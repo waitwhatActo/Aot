@@ -9,6 +9,7 @@ var bot = new Discord.Client();
 bot.on('ready', function() {
   console.log('Connected as Aot#0350');
   bot.user.setActivity('?ahelp')
+  bot.user.setStatus('dnd')
 });
 
 bot.on('guildMemberAdd', function(member) {
