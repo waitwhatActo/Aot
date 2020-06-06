@@ -1,12 +1,13 @@
 {
   "name": "aot",
-  "version": "0.30.0",
+  "version": "0.30.1",
   "description": "",
   "main": "index.js",
   "dependencies": {
     "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",
     "file-system": "^2.2.2",
+    "fs": "0.0.1-security",
     "ms": "^2.1.2",
     "util": "^0.12.3"
   },
