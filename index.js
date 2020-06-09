@@ -756,6 +756,7 @@ bot.on('message', async function(message) {
      .addField('`coinflip`', 'Flip a coin!', true)
      .addField('`ding`', 'Ding, Dong', true)
      .addField('`door`', 'Portal door', true)
+     .addField('`roast`', 'Be mad a people', true)
      .addField('`shutdown`', 'Shutdown  people\'s device', true)
      .addField('`spam`', 'Spam', true)
      .setColor(0x00ffff)
