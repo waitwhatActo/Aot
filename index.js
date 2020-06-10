@@ -20,11 +20,13 @@ bot.on('guildMemberAdd', function(member) {
   var inembed = new Discord.MessageEmbed()
   .setTitle('User Joined')
   .setColor(0x90EE90)
+  .setAuthor(member.user.tag, member.user.displayAvatarURL())
   .addField('Who joined?', `<@${member.id}>`)
   .addField('You\'re the...', `Number ${inChannel.guild.memberCount} member!`)
   .addField('Welcome!', 'Please read the rules and enjoy the server!')
   .setTimestamp()
-  .setFooter('Aot Version 0.33.0, Made by cleverActon0126#3517')
+  .attachFiles(['../Aot/Aot.jpg'])
+.setFooter('Aot Version 0.33.1, Made by cleverActon0126#3517', 'attachment://Aot.jpg')
   inChannel.send(inembed)
 
   member.send('Have a great time in Official Acton\'s Empire!')
@@ -50,7 +52,8 @@ bot.on('guildMemberRemove', function(member) {
   .addField('Who left?', `<@${member.id}>`)
   .addField('Goodbye!', 'We will never forget you!')
   .setTimestamp()
-  .setFooter('Aot Version 0.33.0, Made by cleverActon0126#3517')
+  .attachFiles(['../Aot/Aot.jpg'])
+.setFooter('Aot Version 0.33.1, Made by cleverActon0126#3517', 'attachment://Aot.jpg')
   outChannel.send(outembed)
 
   member.send(`You just left Official Acton's Empire, but they would never forget you!`)
@@ -80,7 +83,7 @@ bot.on('message', async function(message) {
      message.channel.send('Hi. Nice to meet you!');
     break;
     case 'aot':
-     message.channel.send('Wut\'s the matter?');
+     message.channel.send('What\'s the matter?');
     break;
     case 'bye':
      message.channel.send('OK. Cya!')
@@ -247,7 +250,8 @@ bot.on('message', async function(message) {
       .addField('Step 7', 'See someone freaks out.', true)
       .addField('Linux and MacOS', `We haven't test out using Linux or MacOS, but you can use a virtual machine to shutdown <@${sdUser.id}>\'s device.`)
       .setTimestamp()
-      .setFooter('Aot Version 0.33.0, Made by cleverActon0126#3517')
+      .attachFiles(['../Aot/Aot.jpg'])
+.setFooter('Aot Version 0.33.1, Made by cleverActon0126#3517', 'attachment://Aot.jpg')
       message.channel.send(embed)
     break;
     case 'spam':
@@ -340,7 +344,8 @@ bot.on('message', async function(message) {
      .addField('Time', message.createdAt)
      .addField('Reason', rReason)
      .setTimestamp()
-     .setFooter('Aot Version 0.33.0, Made by cleverActon0126#3517')
+     .attachFiles(['../Aot/Aot.jpg'])
+.setFooter('Aot Version 0.33.1, Made by cleverActon0126#3517', 'attachment://Aot.jpg')
 
      let reportsChannel = message.guild.channels.cache.find(channel => channel.name === 'report-approval');
      if(!reportsChannel) return message.channel.send('Could not find report channel.');
@@ -360,7 +365,8 @@ bot.on('message', async function(message) {
      .addField('Time', message.createdAt)
      .addField('Username', fUsername)
      .setTimestamp()
-     .setFooter('Aot Version 0.33.0, Made by cleverActon0126#3517')
+     .attachFiles(['../Aot/Aot.jpg'])
+.setFooter('Aot Version 0.33.1, Made by cleverActon0126#3517', 'attachment://Aot.jpg')
 
      let friendChannel = message.guild.channels.cache.find(channel => channel.name === 'play-with-me-logs');
      if(!friendChannel) return message.channel.send('Error ocurred. Please try again later.');
@@ -450,7 +456,8 @@ bot.on('message', async function(message) {
      .addField('Time', message.createdAt)
      .addField('Reason', kReason)
      .setTimestamp()
-     .setFooter('Aot Version 0.33.0, Made by cleverActon0126#3517')
+     .attachFiles(['../Aot/Aot.jpg'])
+.setFooter('Aot Version 0.33.1, Made by cleverActon0126#3517', 'attachment://Aot.jpg')
 
      let kickChannel = message.guild.channels.cache.find(channel => channel.name === 'server-logs');
      if(!kickChannel) return message.channel.send('Could not find server logs channel.');
@@ -480,7 +487,8 @@ bot.on('message', async function(message) {
      .addField('Time', message.createdAt)
      .addField('Reason', tbReason)
      .setTimestamp()
-     .setFooter('Aot Version 0.33.0, Made by cleverActon0126#3517')
+     .attachFiles(['../Aot/Aot.jpg'])
+.setFooter('Aot Version 0.33.1, Made by cleverActon0126#3517', 'attachment://Aot.jpg')
 
      let tempbanChannel = message.guild.channels.cache.find(channel => channel.name === 'server-logs');
      if(!tempbanChannel) return message.channel.send('Could not find server logs channel.');
@@ -510,7 +518,8 @@ bot.on('message', async function(message) {
      .addField('Time', message.createdAt)
      .addField('Reason', bReason)
      .setTimestamp()
-     .setFooter('Aot Version 0.33.0, Made by cleverActon0126#3517')
+     .attachFiles(['../Aot/Aot.jpg'])
+.setFooter('Aot Version 0.33.1, Made by cleverActon0126#3517', 'attachment://Aot.jpg')
 
      let banChannel = message.guild.channels.cache.find(channel => channel.name === 'server-logs');
      if(!banChannel) return message.channel.send('Could not find server logs channel.');
@@ -535,7 +544,8 @@ bot.on('message', async function(message) {
       .addField('Unbanned In', message.channel)
       .addField('Time', message.createdAt)
       .setTimestamp()
-      .setFooter('Aot Version 0.33.0, Made by cleverActon0126#3517')
+      .attachFiles(['../Aot/Aot.jpg'])
+.setFooter('Aot Version 0.33.1, Made by cleverActon0126#3517', 'attachment://Aot.jpg')
 
       let unbanChannel = message.guild.channels.cache.find(channel => channel.name === 'server-logs');
       if(!unbanChannel) return message.channel.send('Could not find server logs channel.');
@@ -548,7 +558,7 @@ bot.on('message', async function(message) {
 
      var embed = new Discord.MessageEmbed()
      .setTitle('Update Successful!')
-     .setDescription('Successfully updated to Version 0.33.0!')
+     .setDescription('Successfully updated to Version 0.33.1!')
      .addField('Prefix', '?a \(Uncustomable\)')
      .addField('Public Commands', '`help` \(Will lead you to other help commands\), `hello`, `aot`, `bye`, `noticeme`, `support`, `salmon`, `apple`, `pie`, `candy`, `spam`, `8ball`, `ding`, `ping`, `beep`, `door`, `coinflip`, `kill`, `report`, `botinfo`, `userinfo`, `shutdown`, `hack`, `friend`')
      .addField('Admin Commands', '`kick`, `ban`, `tempban`, `unban`, `mute`, `tempmute`, `unmute`, `clear`, `addrole`, `tempaddrole`, `removerole`, `tempremoverole`', true)
@@ -557,7 +567,8 @@ bot.on('message', async function(message) {
      .addField('Updates', 'New `roast` command.')
      .setColor(0x00ff00)
      .setTimestamp()
-     .setFooter('Aot Version 0.33.0, Made by cleverActon0126#3517')
+     .attachFiles(['../Aot/Aot.jpg'])
+.setFooter('Aot Version 0.33.1, Made by cleverActon0126#3517', 'attachment://Aot.jpg')
 
      message.delete().catch(()=> {});
      message.channel.send(embed);
@@ -585,7 +596,8 @@ bot.on('message', async function(message) {
      .addField('Responsible Admin', `<@${message.member.id}>`)
      .addField('Reason', mReason)
      .setTimestamp()
-     .setFooter('Aot Version 0.33.0, Made by cleverActon0126#3517')
+     .attachFiles(['../Aot/Aot.jpg'])
+.setFooter('Aot Version 0.33.1, Made by cleverActon0126#3517', 'attachment://Aot.jpg')
      muteChannel.send(embed)
     break;
     case 'tempmute':
@@ -617,7 +629,8 @@ bot.on('message', async function(message) {
      .addField('Responsible Admin', `<@${message.member.id}>`)
      .addField('Reason', tmReason)
      .setTimestamp()
-     .setFooter('Aot Version 0.33.0, Made by cleverActon0126#3517')
+     .attachFiles(['../Aot/Aot.jpg'])
+.setFooter('Aot Version 0.33.1, Made by cleverActon0126#3517', 'attachment://Aot.jpg')
      tempmuteChannel.send(embed)
 
      setTimeout(function() {
@@ -644,7 +657,7 @@ bot.on('message', async function(message) {
      if(!message.member.hasPermission('VIEW_AUDIT_LOG'))  return message.channel.send('You don\'t have permission to do that!');
      if(!args[1]) return message.channel.send('How many?');
      message.channel.bulkDelete(args[1]).then(() => {
-       message.channel.send(`Deleted ${args[1]} messages.`).then(msg => msg.delete({timeout:5000}));
+       message.channel.send(`Deleted ${args[1]} messages.`).then(msg => msg.delete({timeout:3000}));
      });
     break;
     //end of admin Commands
@@ -656,7 +669,8 @@ bot.on('message', async function(message) {
      .addField('Bot Name', bot.user.username)
      .addField('Bot Created On:', bot.user.createdAt)
      .setTimestamp()
-     .setFooter('Aot Version 0.33.0, Made by cleverActon0126#3517')
+     .attachFiles(['../Aot/Aot.jpg'])
+.setFooter('Aot Version 0.33.1, Made by cleverActon0126#3517', 'attachment://Aot.jpg')
      message.channel.send(embed);
     break;
     case 'userinfo':
@@ -672,7 +686,8 @@ bot.on('message', async function(message) {
      .addField('Joined server at', snUser.joinedAt, true)
      .addField('Roles', snUser.roles.cache.map(r => r.toString()))
      .setTimestamp()
-     .setFooter('Aot Version 0.33.0, Made by cleverActon0126#3517')
+     .attachFiles(['../Aot/Aot.jpg'])
+.setFooter('Aot Version 0.33.1, Made by cleverActon0126#3517', 'attachment://Aot.jpg')
      if(!sUser) return message.channel.send(noembed)
 
      var embed = new Discord.MessageEmbed()
@@ -684,7 +699,8 @@ bot.on('message', async function(message) {
      .addField('Joined server at', sUser.joinedAt, true)
      .addField('Roles', sUser.roles.cache.map(r => r.toString()))
      .setTimestamp()
-     .setFooter('Aot Version 0.33.0, Made by cleverActon0126#3517')
+     .attachFiles(['../Aot/Aot.jpg'])
+.setFooter('Aot Version 0.33.1, Made by cleverActon0126#3517', 'attachment://Aot.jpg')
      message.channel.send(embed)
     break;
     case 'serverinfo':
@@ -704,7 +720,8 @@ bot.on('message', async function(message) {
      .addField('AFK Channel', message.guild.afkChannel, true)
      .addField('Voice Channel AFK Timeout', message.guild.afkTimeout, true)
      .setTimestamp()
-     .setFooter('Aot Version 0.33.0, Made by cleverActon0126#3517')
+     .attachFiles(['../Aot/Aot.jpg'])
+.setFooter('Aot Version 0.33.1, Made by cleverActon0126#3517', 'attachment://Aot.jpg')
      message.channel.send(embed)
      break;
     //end of Information
@@ -720,7 +737,8 @@ bot.on('message', async function(message) {
      .addField('⚒️Moderation Menu⚒️', '`helpmod`', true)
      .setColor(0x00ffff)
      .setTimestamp()
-     .setFooter('Aot Version 0.33.0, Made by cleverActon0126#3517')
+     .attachFiles(['../Aot/Aot.jpg'])
+     .setFooter('Aot Version 0.33.1, Made by cleverActon0126#3517', 'attachment://Aot.jpg')
      message.channel.send(embed);
     break;
     case 'helpgeneral':
@@ -733,7 +751,8 @@ bot.on('message', async function(message) {
      .addField('`ping`', 'Bot ping', true)
      .setColor(0x00ffff)
      .setTimestamp()
-     .setFooter('Aot Version 0.33.0, Made by cleverActon0126#3517')
+     .attachFiles(['../Aot/Aot.jpg'])
+.setFooter('Aot Version 0.33.1, Made by cleverActon0126#3517', 'attachment://Aot.jpg')
      message.channel.send(embed);
     break;
     case 'helpfood':
@@ -745,7 +764,8 @@ bot.on('message', async function(message) {
      .addField('`salmon`', 'Raw salmon or cooked salmon can be choose', true)
      .setColor(0x00ffff)
      .setTimestamp()
-     .setFooter('Aot Version 0.33.0, Made by cleverActon0126#3517')
+     .attachFiles(['../Aot/Aot.jpg'])
+.setFooter('Aot Version 0.33.1, Made by cleverActon0126#3517', 'attachment://Aot.jpg')
      message.channel.send(embed);
     break;
     case 'helpfun':
@@ -761,7 +781,8 @@ bot.on('message', async function(message) {
      .addField('`spam`', 'Spam', true)
      .setColor(0x00ffff)
      .setTimestamp()
-     .setFooter('Aot Version 0.33.0, Made by cleverActon0126#3517')
+     .attachFiles(['../Aot/Aot.jpg'])
+.setFooter('Aot Version 0.33.1, Made by cleverActon0126#3517', 'attachment://Aot.jpg')
      message.channel.send(embed);
     break;
     case 'helpinfo':
@@ -772,7 +793,8 @@ bot.on('message', async function(message) {
      .addField('`userinfo`', 'User\'s information.')
      .setTimestamp()
      .setColor(0x00ffff)
-     .setFooter('Aot Version 0.33.0, Made by cleverActon0126#3517')
+     .attachFiles(['../Aot/Aot.jpg'])
+.setFooter('Aot Version 0.33.1, Made by cleverActon0126#3517', 'attachment://Aot.jpg')
      message.channel.send(embed);
     break;
     case 'helpmod':
@@ -791,7 +813,8 @@ bot.on('message', async function(message) {
      .addField('`clear`', 'Bulk delete messages (VIEW_AUDIT_LOG)')
      .setTimestamp()
      .setColor(0x00ffff)
-     .setFooter('Aot Version 0.33.0, Made by cleverActon0126#3517')
+     .attachFiles(['../Aot/Aot.jpg'])
+.setFooter('Aot Version 0.33.1, Made by cleverActon0126#3517', 'attachment://Aot.jpg')
      message.channel.send(embed)
     break;
     case 'helputilities':
@@ -801,7 +824,8 @@ bot.on('message', async function(message) {
      .addField('`report`', 'To report people\'s behavior in the server', true)
      .addField('`friend`', 'To friend Acton in Roblox', true)
      .setTimestamp()
-     .setFooter('Aot Version 0.33.0, Made by cleverActon0126#3517')
+     .attachFiles(['../Aot/Aot.jpg'])
+.setFooter('Aot Version 0.33.1, Made by cleverActon0126#3517', 'attachment://Aot.jpg')
      message.channel.send(embed)
     break;
     //end of help menus
