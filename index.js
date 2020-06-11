@@ -721,8 +721,7 @@ bot.on('message', async function(message) {
      .addField('⚒️Moderation Menu⚒️', '`helpmod`', true)
      .setColor(0x00ffff)
      .setTimestamp()
-     .attachFiles(['../Aot/Aot.jpg'])
-     .setFooter('Aot Version 0.33.1, Made by cleverActon0126#3517', 'attachment://Aot.jpg')
+     .setFooter('Aot Version 0.33.1, Made by cleverActon0126#3517')
      message.channel.send(embed);
     break;
     case 'helpgeneral':
