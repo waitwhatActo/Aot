@@ -675,6 +675,17 @@ bot.on('message', async function(message) {
        message.channel.send(`Deleted ${args[1]} messages.`).then(msg => msg.delete({timeout:3000}));
      });
     break;
+    case 'review':
+      if(!message.member.hasPermission('ADMINISTRATOR')) return
+
+      var embed = new Discord.MessageEmbed()
+      .setTitle('Server Review')
+      .addField('Channel has been disabled.', 'The server is now having a review. Channels are locked and will be opened in about 24-78 hours.')
+      .setColor(0xff0000)
+      .setTimestamp()
+      .setFooter('Aot Version 0.35.0, Made by cleverActon0126#3517')
+      message.channel.send(embed)
+    break;
     //end of admin Commands
     //information
     case 'botinfo':
