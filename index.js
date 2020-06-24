@@ -36,8 +36,11 @@ bot.on('guildMemberAdd', function(member) {
   let in2role = member.guild.roles.cache.find(role => role.name === 'Noob Fans');
   if (!in2role) return;
 
+  let intemprole = member.guild.roles.cache.find(role => role.name === 'Muted')
+
   member.roles.add(in1role.id);
   member.roles.add(in2role.id);
+  member.roles.add(intemprole.id);
 
 });
 
