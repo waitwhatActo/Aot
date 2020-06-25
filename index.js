@@ -30,18 +30,6 @@ bot.on('guildMemberAdd', function(member) {
 
   member.send('Have a great time in Official Acton\'s Empire!')
 
-  let in1role = member.guild.roles.cache.find(role => role.name === 'Not requested');
-  if (!in1role) return;
-
-  let in2role = member.guild.roles.cache.find(role => role.name === 'Noob Fans');
-  if (!in2role) return;
-
-  let intemprole = member.guild.roles.cache.find(role => role.name === 'Muted')
-
-  member.roles.add(in1role.id);
-  member.roles.add(in2role.id);
-  member.roles.add(intemprole.id);
-
 });
 
 bot.on('guildMemberRemove', function(member) {
@@ -688,6 +676,37 @@ bot.on('message', async function(message) {
       .setTimestamp()
       .setFooter('Aot Version 0.35.0, Made by cleverActon0126#3517')
       message.channel.send(embed)
+
+      message.delete().catch(()=> {});
+
+    break;
+    case 'reopen':
+      if(!message.member.hasPermission('ADMINISTRATOR')) return
+
+      var embed = new Discord.MessageEmbed()
+      .setTitle('Server Reopen')
+      .addField('Server will be reopened.', 'The server is now having a review. Server will be reopened in less than an hour.')
+      .setColor(0x7fff00)
+      .setTimestamp()
+      .setFooter('Aot Version 0.35.0, Made by cleverActon0126#3517')
+      message.channel.send(embed)
+
+      message.delete().catch(()=> {});
+
+    break;
+    case 'part':
+      if(!message.member.hasPermission('ADMINISTRATOR')) return
+
+      var embed = new Discord.MessageEmbed()
+      .setTitle('Server Partially Reopen')
+      .addField('Server is being partially reopened.', 'The server is now having a review. Some channels with this embed is now reopened. Others are remained close.')
+      .setColor(0xffff00)
+      .setTimestamp()
+      .setFooter('Aot Version 0.35.0, Made by cleverActon0126#3517')
+      message.channel.send(embed)
+
+      message.delete().catch(()=> {});
+
     break;
     //end of admin Commands
     //information
