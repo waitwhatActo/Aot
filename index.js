@@ -340,41 +340,6 @@ bot.on('message', async function(message) {
      message.delete().catch(()=> {});
      reportsChannel.send(embed);
     break;
-    case 'friend':
-     const fUser = message.member;
-     let fUsername = args[1];
-     if(!fUsername) return message.channel.send('What is your Roblox username?');
-
-     var embed = new Discord.MessageEmbed()
-     .setTitle('Roblox Friend Request')
-     .setColor(0xff0000)
-     .addField('Requested By', `${fUser} with ID: ${fUser.id}`)
-     .addField('Time', message.createdAt)
-     .addField('Username', fUsername)
-     .setTimestamp()
-     .setFooter('Aot Version 0.35.0, Made by cleverActon0126#3517')
-
-     let friendChannel = message.guild.channels.cache.find(channel => channel.name === 'play-with-me-logs');
-     if(!friendChannel) return message.channel.send('Error ocurred. Please try again later.');
-
-     friendChannel.send(embed)
-
-     let friendRole = message.guild.roles.cache.find(role => role.name === 'Not requested');
-     if(!friendRole) return message.channel.send('Error ocurred. Please try again later.');
-
-     message.delete().catch(()=> {});
-     message.channel.send(`Acton has received you request, <@${fUser.id}>`).then(msg => msg.delete({timeout:5000}));
-     fUser.roles.remove(friendRole.id)
-    break;
-    case 'noroblox':
-    const nrUser = message.member;
-    let nofriendRole = message.guild.roles.cache.find(role => role.name === 'Not requested');
-    if(!nofriendRole) return message.channel.send('Error ocurred. Please try again later.');
-
-    message.delete().catch(()=> {});
-    message.channel.send(`Ok.`).then(msg => msg.delete({timeout:5000}));
-    nrUser.roles.remove(nofriendRole.id)
-    break;
     case 'join':
     const jUser = message.member;
     let joinRole = message.guild.roles.cache.find(role => role.name === 'Aot Tester');
@@ -666,48 +631,6 @@ bot.on('message', async function(message) {
        message.channel.send(`Deleted ${args[1]} messages.`).then(msg => msg.delete({timeout:3000}));
      });
     break;
-    case 'review':
-      if(!message.member.hasPermission('ADMINISTRATOR')) return
-
-      var embed = new Discord.MessageEmbed()
-      .setTitle('Server Review')
-      .addField('Channel has been disabled.', 'The server is now having a review. Channels are locked and will be opened in about 24-78 hours.')
-      .setColor(0xff0000)
-      .setTimestamp()
-      .setFooter('Aot Version 0.35.0, Made by cleverActon0126#3517')
-      message.channel.send(embed)
-
-      message.delete().catch(()=> {});
-
-    break;
-    case 'reopen':
-      if(!message.member.hasPermission('ADMINISTRATOR')) return
-
-      var embed = new Discord.MessageEmbed()
-      .setTitle('Server Reopen')
-      .addField('Server will be reopened.', 'The server is now having a review. Server will be reopened in less than an hour.')
-      .setColor(0x7fff00)
-      .setTimestamp()
-      .setFooter('Aot Version 0.35.0, Made by cleverActon0126#3517')
-      message.channel.send(embed)
-
-      message.delete().catch(()=> {});
-
-    break;
-    case 'part':
-      if(!message.member.hasPermission('ADMINISTRATOR')) return
-
-      var embed = new Discord.MessageEmbed()
-      .setTitle('Server Partially Reopen')
-      .addField('Server is being partially reopened.', 'The server is now having a review. Some channels with this embed is now reopened. Others are remained close.')
-      .setColor(0xffff00)
-      .setTimestamp()
-      .setFooter('Aot Version 0.35.0, Made by cleverActon0126#3517')
-      message.channel.send(embed)
-
-      message.delete().catch(()=> {});
-
-    break;
     //end of admin Commands
     //information
     case 'botinfo':
@@ -942,8 +865,6 @@ bot.on('message', async function(message) {
      .setTitle('‍🏳️‍🌈Utilities Menu🏳️‍🌈')
      .setColor(0x00ffff)
      .addField('`report`', 'To report people\'s behavior in the server', true)
-     .addField('`friend`', 'To friend Acton in Roblox', true)
-     .addField('`noroblox`', 'To remove the category Play with Acton', true)
      .addField('`join`', 'Be a Aot tester', true)
      .addField('`leave`', 'Quit being a Aot tester', true)
      .setTimestamp()
