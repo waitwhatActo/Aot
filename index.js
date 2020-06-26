@@ -248,7 +248,7 @@ bot.on('message', async function(message) {
     const spamChannel = message.member.guild.channels.cache.find(channel => channel.name === 'spam')
     if(!spamChannel) return;
 
-    message.channel.send(`Check out <#673817423656517632>! <@${spUser.id}>`)
+    message.channel.send(`Check out <#725534247737360474>! <@${spUser.id}>`)
 
     spamChannel.send('f')
     spamChannel.send('f')
