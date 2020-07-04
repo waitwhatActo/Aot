@@ -635,7 +635,7 @@ bot.on('message', async function(message) {
     case 'quit':
       if(!message.member.hasPermission('VIEW_AUDIT_LOG'))  return message.channel.send('You don\'t have permission to do that!');
       qUser = message.member;
-      let viprole = mUser.guild.roles.cache.find(role => role.name === 'V.I.P');
+      let viprole = qUser.guild.roles.cache.find(role => role.name === 'V.I.P');
       if (!viprole) return message.channel.send('Role doesn\'t exist');
 
       if(args[1] === 'o') {
