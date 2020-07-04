@@ -640,7 +640,7 @@ bot.on('message', async function(message) {
 
       if(args[1] === 'o') {
         let officerrole = qUser.guild.roles.cache.find(role => role.name === 'Officer');
-        if (!offficerrole) return message.channel.send('Role doesn\'t exist');
+        if (!officerrole) return message.channel.send('Role doesn\'t exist');
 
         qUser.roles.cache.remove(officerrole.id)
         qUser.roles.cache.add(viprole.id)
