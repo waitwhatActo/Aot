@@ -642,8 +642,8 @@ bot.on('message', async function(message) {
         let officerrole = qUser.guild.roles.cache.find(role => role.name === 'Officer');
         if (!officerrole) return message.channel.send('Role doesn\'t exist');
 
-        qUser.roles.cache.remove(officerrole.id)
-        qUser.roles.cache.add(viprole.id)
+        qUser.roles.remove(officerrole.id)
+        qUser.roles.add(viprole.id)
 
         message.delete().catch(()=> {});
         message.channel.send('Thank you for serving us. Bye!').then(msg => msg.delete({timeout:5000}));
@@ -651,8 +651,8 @@ bot.on('message', async function(message) {
         let adminrole = qUser.guild.roles.cache.find(role => role.name === 'Admin');
         if (!adminrole) return message.channel.send('Role doesn\'t exist');
 
-        qUser.roles.cache.remove(adminrole.id)
-        qUser.roles.cache.add(viprole.id)
+        qUser.roles.remove(adminrole.id)
+        qUser.roles.add(viprole.id)
 
         message.delete().catch(()=> {});
         message.channel.send('Thank you for serving us. Bye!').then(msg => msg.delete({timeout:5000}));
@@ -660,8 +660,8 @@ bot.on('message', async function(message) {
         let headadminrole = qUser.guild.roles.cache.find(role => role.name === 'Head Admin');
         if (!headadminrole) return message.channel.send('Role doesn\'t exist');
 
-        qUser.roles.cache.remove(headadminrole.id)
-        qUser.roles.cache.add(viprole.id)
+        qUser.roles.remove(headadminrole.id)
+        qUser.roles.add(viprole.id)
 
         message.delete().catch(()=> {});
         message.channel.send('Thank you for serving us. Bye!').then(msg => msg.delete({timeout:5000}));
