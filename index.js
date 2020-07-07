@@ -322,7 +322,7 @@ bot.on('message', async function(message) {
     case 'report':
      const rUser = message.mentions.members.first();
      if(!rUser) return message.channel.send('Could not find user.')
-     let rReason = args.join(' ').slice(' ')
+     let rReason = args.slice(2).join(' ')
 
      var embed = new Discord.MessageEmbed()
      .setTitle('User reports User')
@@ -422,7 +422,7 @@ bot.on('message', async function(message) {
     case 'kick':
      const kUser = message.mentions.members.first();
      if(!kUser) return message.channel.send('User doesn\'t exist!');
-     let kReason = args.join(' ').slice(' ')
+     let kReason = args.slice(2).join(' ')
      if(!message.member.hasPermission('KICK_MEMBERS')) return message.channel.send('You don\'t have permission to do that!');
      if(kUser.hasPermission('KICK_MEMBERS')) return message.channel.send('That person can\'t be kicked!');
 
@@ -450,7 +450,7 @@ bot.on('message', async function(message) {
     case "tempban":
      const tbUser = message.mentions.members.first()
      if(!tbUser) return message.channel.send('User doesn\'t exist!')
-     let tbReason = args.join(' ').slice(' ')
+     let tbReason = args.slice(3).join(' ')
      if(!message.member.hasPermission('BAN_MEMBERS'))  return message.channel.send('You don\'t have permission to do that!');
      if(tbUser.hasPermission('BAN_MEMBERS')) return message.channel.send('That person cannot be banned!');
 
@@ -482,7 +482,7 @@ bot.on('message', async function(message) {
     case 'ban':
      const bUser = message.mentions.members.first();
      if(!bUser) return message.channel.send('User doesn\'t exist!');
-     let bReason = args.join(' ').slice(' ')
+     let bReason = args.slice(2).join(' ')
      if(!message.member.hasPermission('BAN_MEMBERS'))  return message.channel.send('You don\'t have permission to do that!');
      if(bUser.hasPermission('BAN_MEMBERS')) return message.channel.send('That person can\'t be banned!');
 
@@ -539,7 +539,7 @@ bot.on('message', async function(message) {
      .addField('Admin Commands', '`kick`, `ban`, `tempban`, `unban`, `mute`, `tempmute`, `unmute`, `clear`, `addrole`, `tempaddrole`, `removerole`, `tempremoverole`', true)
      .addField('New Commands', 'N/A', true)
      .addField('Removed Commands', 'N/A', true)
-     .addField('Updates', 'Bug updates')
+     .addField('Updates', 'Welp, arguments commands now work properly. (Side story: Commands which have \'reasons\' actually gone through a lot of problem before.)')
      .setColor(0x00ff00)
      .setTimestamp()
      .setFooter('Aot Version 0.36.0, Made by cleverActon0126#3517')
@@ -552,7 +552,7 @@ bot.on('message', async function(message) {
      if (!mUser) return message.channel.send('User doesn\'t exist!');
      if(!message.member.hasPermission('VIEW_AUDIT_LOG'))  return message.channel.send('You don\'t have permission to do that!');
      if(mUser.hasPermission('VIEW_AUDIT_LOG')) return message.channel.send('That person can\'t be muted!');
-     let mReason = args.join(' ').slice(' ')
+     let mReason = args.slice(2).join(' ')
 
      let muterole = mUser.guild.roles.cache.find(role => role.name === 'Muted');
      if (!muterole) return message.channel.send('Role doesn\'t exist');
@@ -578,7 +578,7 @@ bot.on('message', async function(message) {
      if (!tmUser) return message.channel.send('User doesn\'t exist!');
      if(!message.member.hasPermission('VIEW_AUDIT_LOG'))  return message.channel.send('You don\'t have permission to do that!');
      if(tmUser.hasPermission('VIEW_AUDIT_LOG')) return message.channel.send('That person can\'t be muted!');
-     let tmReason = args.join(' ').slice(' ')
+     let tmReason = args.slice(3).join(' ')
 
      let tempmuterole = tmUser.guild.roles.cache.find(role => role.name === 'Muted');
      if (!tempmuterole) return message.channel.send('Role doesn\'t exist');
@@ -633,17 +633,16 @@ bot.on('message', async function(message) {
      });
     break;
     case 'quit':
-      if(!message.member.hasPermission('VIEW_AUDIT_LOG'))  return message.channel.send('You don\'t have permission to do that!');
       qUser = message.member;
-      let viprole = qUser.guild.roles.cache.find(role => role.name === 'V.I.P');
+      let viprole = mUser.guild.roles.cache.find(role => role.name === 'V.I.P');
       if (!viprole) return message.channel.send('Role doesn\'t exist');
 
       if(args[1] === 'o') {
         let officerrole = qUser.guild.roles.cache.find(role => role.name === 'Officer');
-        if (!officerrole) return message.channel.send('Role doesn\'t exist');
+        if (!offficerrole) return message.channel.send('Role doesn\'t exist');
 
-        qUser.roles.remove(officerrole.id)
-        qUser.roles.add(viprole.id)
+        qUser.roles.cache.remove(officerrole.id)
+        qUser.roles.cache.add(viprole.id)
 
         message.delete().catch(()=> {});
         message.channel.send('Thank you for serving us. Bye!').then(msg => msg.delete({timeout:5000}));
@@ -651,8 +650,8 @@ bot.on('message', async function(message) {
         let adminrole = qUser.guild.roles.cache.find(role => role.name === 'Admin');
         if (!adminrole) return message.channel.send('Role doesn\'t exist');
 
-        qUser.roles.remove(adminrole.id)
-        qUser.roles.add(viprole.id)
+        qUser.roles.cache.remove(adminrole.id)
+        qUser.roles.cache.add(viprole.id)
 
         message.delete().catch(()=> {});
         message.channel.send('Thank you for serving us. Bye!').then(msg => msg.delete({timeout:5000}));
@@ -660,13 +659,13 @@ bot.on('message', async function(message) {
         let headadminrole = qUser.guild.roles.cache.find(role => role.name === 'Head Admin');
         if (!headadminrole) return message.channel.send('Role doesn\'t exist');
 
-        qUser.roles.remove(headadminrole.id)
-        qUser.roles.add(viprole.id)
+        qUser.roles.cache.remove(headadminrole.id)
+        qUser.roles.cache.add(viprole.id)
 
         message.delete().catch(()=> {});
         message.channel.send('Thank you for serving us. Bye!').then(msg => msg.delete({timeout:5000}));
       } else {
-        message.channel.send('You don\'t have permission to do that!')
+        message.channel.send('You don\'t have permission to ')
       }
     break;
     //end of admin Commands
