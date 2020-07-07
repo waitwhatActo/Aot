@@ -427,7 +427,7 @@ bot.on('message', async function(message) {
      if(kUser.hasPermission('KICK_MEMBERS')) return message.channel.send('That person can\'t be kicked!');
 
      var embed = new Discord.MessageEmbed()
-     .setDescription('~Kick~')
+     .setDescription('User Kicked')
      .setColor(0xff0000)
      .addField('Kicked User', `${kUser} with ID ${kUser.id}`)
      .addField('Kicked By', `<@${message.author.id}> with ID ${message.author.id}`)
@@ -437,7 +437,7 @@ bot.on('message', async function(message) {
      .setTimestamp()
      .setFooter('Aot Version 0.37.0, Made by cleverActon0126#3517')
 
-     let kickChannel = message.guild.channels.cache.find(channel => channel.name === 'server-logs');
+     let kickChannel = message.guild.channels.cache.find(channel => channel.name === 'logs');
      if(!kickChannel) return message.channel.send('Could not find server logs channel.');
 
      message.guild.member(kUser).kick(kReason);
@@ -467,7 +467,7 @@ bot.on('message', async function(message) {
      .setTimestamp()
      .setFooter('Aot Version 0.37.0, Made by cleverActon0126#3517')
 
-     let tempbanChannel = message.guild.channels.cache.find(channel => channel.name === 'server-logs');
+     let tempbanChannel = message.guild.channels.cache.find(channel => channel.name === 'logs');
      if(!tempbanChannel) return message.channel.send('Could not find server logs channel.');
 
      message.guild.member(tbUser).ban(tbReason);
@@ -497,7 +497,7 @@ bot.on('message', async function(message) {
      .setTimestamp()
      .setFooter('Aot Version 0.37.0, Made by cleverActon0126#3517')
 
-     let banChannel = message.guild.channels.cache.find(channel => channel.name === 'server-logs');
+     let banChannel = message.guild.channels.cache.find(channel => channel.name === 'logs');
      if(!banChannel) return message.channel.send('Could not find server logs channel.');
 
      message.guild.member(bUser).ban(bReason);
@@ -522,7 +522,7 @@ bot.on('message', async function(message) {
       .setTimestamp()
       .setFooter('Aot Version 0.37.0, Made by cleverActon0126#3517')
 
-      let unbanChannel = message.guild.channels.cache.find(channel => channel.name === 'server-logs');
+      let unbanChannel = message.guild.channels.cache.find(channel => channel.name === 'logs');
       if(!unbanChannel) return message.channel.send('Could not find server logs channel.');
 
       message.guild.members.unban(ubID)
@@ -559,7 +559,7 @@ bot.on('message', async function(message) {
 
      mUser.roles.add(muterole.id);
 
-     const muteChannel = mUser.guild.channels.cache.find(channel => channel.name === 'mute-logs')
+     const muteChannel = mUser.guild.channels.cache.find(channel => channel.name === 'logs');
      if(!muteChannel) return;
 
      var embed = new Discord.MessageEmbed()
@@ -591,7 +591,7 @@ bot.on('message', async function(message) {
 
      tmUser.roles.add(tempmuterole.id);
 
-     const tempmuteChannel = tmUser.guild.channels.cache.find(channel => channel.name === 'mute-logs')
+     const tempmuteChannel = tmUser.guild.channels.cache.find(channel => channel.name === 'logs');
      if(!tempmuteChannel) return;
 
      var embed = new Discord.MessageEmbed()
@@ -620,7 +620,7 @@ bot.on('message', async function(message) {
 
      umUser.roles.remove(unmuterole.id);
 
-     const unmuteChannel = umUser.guild.channels.cache.find(channel => channel.name === 'mute-logs')
+     const unmuteChannel = umUser.guild.channels.cache.find(channel => channel.name === 'logs');
      if(!unmuteChannel) return;
 
      unmuteChannel.send(`<@${umUser.id}> has now been unmuted.`);
