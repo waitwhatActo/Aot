@@ -722,7 +722,7 @@ bot.on("message", async function(message) {
      .addField("Admin Commands", "`kick`, `ban`, `tempban`, `unban`, `mute`, `tempmute`, `unmute`, `clear`, `addrole`, `tempaddrole`, `removerole`, `tempremoverole`", true)
      .addField("New Commands", "N/A", true)
      .addField("Removed Commands", "N/A", true)
-     .addField("Updates", "Minor update 3: /r 1. Updated some admin commands; /r 2. Updated help menu; /r 3. Updated Joke command. /r 4. Updated to discord.js 12.3.1")
+     .addField("Updates", "Minor update 3: \r 1. Updated some admin commands; \r 2. Updated help menu; \r 3. Updated Joke command. \r 4. Updated to discord.js 12.3.1")
      .setColor(0x00ff00)
      .setTimestamp()
      .setFooter("Aot Version 0.40.3, Made by cleverActon0126#3517")
