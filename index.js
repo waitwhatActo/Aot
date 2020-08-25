@@ -451,7 +451,7 @@ bot.on("message", async function(message) {
           await message.channel.send({
             files: [{
               attachment: res.body,
-              name: 'aot.png'
+              name: 'https://github.com/cleveracton0126/aot-source/aot.jpg'
             }]
           }).then(() => message.channel.stopTyping());
         });
