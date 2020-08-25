@@ -424,37 +424,6 @@ bot.on("message", async function(message) {
       await jkwait(1000)
       await msg.edit(`<@${message.member.id}> here's your joke: \r` + jokes[Math.floor(Math.random() * jokes.length)])
     break;
-    case "meme":
-      let reddit = [
-        "meme",
-        "animemes",
-        "MemesOfAnime",
-        "animememes",
-        "AnimeFunny",
-        "dankmemes",
-        "dankmeme",
-        "wholesomememes",
-        "MemeEconomy",
-        "techsupportanimals",
-        "meirl",
-        "me_irl",
-        "2meirl4meirl",
-        "AdviceAnimals"
-      ];
-
-      let subreddit = reddit[Math.floor(Math.random() * reddit.length)];
-
-      randomPuppy(subreddit).then(url => {
-        snekfetch.get(url).then(async res => {
-          await message.channel.send({
-            files: [{
-              attachment: res.body,
-              name: 'https://github.com/cleveracton0126/aot-source/aot.jpg'
-            }]
-          })
-        });
-      });
-    break;
     //end of fun commands
     //utilities
     case "report":
