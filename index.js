@@ -444,8 +444,6 @@ bot.on("message", async function(message) {
 
       let subreddit = reddit[Math.floor(Math.random() * reddit.length)];
 
-      message.channel.startTyping();
-
       randomPuppy(subreddit).then(url => {
         snekfetch.get(url).then(async res => {
           await message.channel.send({
@@ -453,7 +451,7 @@ bot.on("message", async function(message) {
               attachment: res.body,
               name: 'https://github.com/cleveracton0126/aot-source/aot.jpg'
             }]
-          }).then(() => message.channel.stopTyping());
+          })
         });
       });
     break;
