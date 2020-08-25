@@ -423,7 +423,7 @@ bot.on("message", async function(message) {
       await msg.edit(jokes[Math.floor(Math.random() * jokes.length)])
       await jkwait(1000)
       await msg.edit(`<@${message.member.id}> here's your joke: \r` + jokes[Math.floor(Math.random() * jokes.length)])
-    break "meme"
+    break;
     case "meme":
       message.channel.send("This command is disbaled until furthur notice. Sorry!")
     break;
