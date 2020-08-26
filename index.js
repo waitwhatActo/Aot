@@ -425,7 +425,19 @@ bot.on("message", async function(message) {
       await msg.edit(`<@${message.member.id}> here's your joke: \r` + jokes[Math.floor(Math.random() * jokes.length)])
     break;
     case "meme":
-      message.channel.send("This command is disbaled until furthur notice. Sorry!")
+      const subReddits = ["dankememe", "meme", "memes"]
+      const random = subReddits[Math.floor(Math.random() * subReddits.length)]
+      const img = await randomPuppy(random);
+      
+      var embed = new Discord.MessageEmbed()
+      .setColor("RANDOM")
+      .setImage(img)
+      .setTitle("Here's your meme")
+      .setURL(`https://reddit.com/r/${random}`)
+      .setTimestamp()
+      .setFooter("Aot Version 0.41.0, Made by cleverActon0126#3517")
+
+      message.channel.send(embed)
     break;
     //end of fun commands
     //utilities
