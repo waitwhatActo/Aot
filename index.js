@@ -1,7 +1,6 @@
 const Discord = require("discord.js");
 const ms = require("ms");
 const randomPuppy = require("random-puppy");
-const snekfetch = require("snekfetch");
 
 const TOKEN = "NjU1NzY5Njk1MzcwMjE1NDI1.XltsKw.9iHz5WJsqo2awd6NrfnBiAS7s3g";
 const PREFIX = "?a";
@@ -26,7 +25,7 @@ bot.on("guildMemberAdd", function(member) {
   .addField("Who joined?", `<@${member.id}>`)
   .addField("Welcome!", `Hey, <@${member.user.id}> welcome to the server! You are the number ${inChannel.guild.memberCount} member! We hope you enjoy the server. Remember to read the rules, information will be provided in <#739800400361947176>. Enjoy!`)
   .setTimestamp()
-  .setFooter("Aot Version 0.41.0, Made by cleverActon0126#3517")
+  .setFooter("Aot Version 0.42.0, Made by cleverActon0126#3517")
   inChannel.send(inembed)
 
   member.send("Have a great time in Official Acton\'s Empire!")
@@ -43,7 +42,7 @@ bot.on("guildMemberRemove", function(member) {
   .addField("Who left?", `<@${member.id}>`)
   .addField("Goodbye!", "We will never forget you!")
   .setTimestamp()
-  .setFooter("Aot Version 0.41.0, Made by cleverActon0126#3517")
+  .setFooter("Aot Version 0.42.0, Made by cleverActon0126#3517")
   outChannel.send(outembed)
 
   user.send(`You just left Official Acton"s Empire, but they would never forget you!`)
@@ -128,7 +127,7 @@ bot.on("message", async function(message) {
       "🔴Don\'t count on it.",
       "🔴My reply is no.",
       "🔴My sources say no.",
-      "🔴Outlook not so good.",
+      "🔴Hell nah.",
       "🔴Very doubtful."
      ];
 
@@ -245,7 +244,7 @@ bot.on("message", async function(message) {
       .addField("Step 7", "See someone freaks out.", true)
       .addField("Linux and MacOS", `We haven"t test out using Linux or MacOS, but you can use a virtual machine to shutdown <@${sdUser.id}>\'s device.`)
       .setTimestamp()
-      .setFooter("Aot Version 0.41.0, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.42.0, Made by cleverActon0126#3517")
       message.channel.send(embed)
     break;
     case "spam":
@@ -398,8 +397,59 @@ bot.on("message", async function(message) {
         "How does a rabbi make his coffee? \r Hebrews it",
         "I got my daughter a fridge for her birthday. \r  I can't wait to see her face light up when she opens it.",
         "I poured root beer in a square glass. \r Now I just have beer.",
+        "How many divorced man does it take to change the lightbulbs? \r Who cares? The neverget the house anyways.",
+        "What do the films The Sixth Sense and Titanic have in common? \r Icy dead people.",
+        "How many photographers does it take to change a lightbulb? \r Just one more, just one more...",
+        "What did the blanket say to the bed? \r \"I've got you covered.\"",
+        "What did the hamburger name his daughter? \r \"Patty.\"",
+        "What do you call a computer that sings? \r \"A-dell\"",
+        "Why did the picture go to jail? \r He got framed.",
+        "What did the baby corn say to the mama corn? \r \"Where is popcorn?\"",
+        "How does Moses make his tea? \r \"Hebrews it.\"",
+        "What's the difference between a hippo and a zippo? \r One is really heavy, and the other is a little lighter.",
+        "What's ET short for? \r \"He's only got little legs.\"",
+        "What's loud and sounds like an apple? \r \"An apple.\"",
+        "What do you call a black man flying a plane? \r \"A pilot, you racist.\"",
+        "What's the difference between in-laws and outlaws? \r Outlaws are wanted.",
+        "Why did the banker quit his job? \r \"He lost interest!\"",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
         ""
       ];
+
       let jkwait = require("util").promisify(setTimeout);
 
       var msg = await message.channel.send(jokes[Math.floor(Math.random() * jokes.length)])
@@ -425,7 +475,7 @@ bot.on("message", async function(message) {
       await msg.edit(`<@${message.member.id}> here's your joke: \r` + jokes[Math.floor(Math.random() * jokes.length)])
     break;
     case "meme":
-      const subReddits = ["dankememe", "meme", "memes"]
+      const subReddits = ["dankmeme", "meme", "memes"]
       const random = subReddits[Math.floor(Math.random() * subReddits.length)]
       const img = await randomPuppy(random);
       
@@ -435,9 +485,36 @@ bot.on("message", async function(message) {
       .setTitle("Here's your meme")
       .setURL(`https://reddit.com/r/${random}`)
       .setTimestamp()
-      .setFooter("Aot Version 0.41.0, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.42.0, Made by cleverActon0126#3517")
 
       message.channel.send(embed)
+    break;
+    case "rps":
+      const rpspUser = message.mentions.members.first();
+      const rpsUser = message.member.id;
+
+      var rpswp = [
+        `<@${rpsUser}> You have chosen *ROCK*!\r ${rpspUser} You have chosen *SCISSORS*! \r <@${rpsUser}> **YOU WON!**`,
+        `<@${rpsUser}> You have chosen *SCISSORS*!\r ${rpspUser} You have chosen *ROCK*! \r ${rpspUser} **YOU WON!**`,
+        `<@${rpsUser}> You have chosen *PAPER*!\r ${rpspUser} You have chosen *SCISSORS*! \r ${rpspUser} **YOU WON!**`,
+        `<@${rpsUser}> You have chosen *SCISSORS*!\r ${rpspUser} You have chosen *PAPER*! \r <@${rpsUser}> **YOU WON!**`,
+        `<@${rpsUser}> You have chosen *ROCK*!\r ${rpspUser} You have chosen *PAPER*! \r ${rpspUser} **YOU WON!**`,
+        `<@${rpsUser}> You have chosen *PAPER*!\r ${rpspUser} You have chosen *ROCK*! \r <@${rpsUser}> **YOU WON!**`,
+      ];
+      var rpswb = [
+        `<@${rpsUser}> You have chosen *ROCK*!\r  The bot have have chosen *SCISSORS*! \r <@${rpsUser}> **YOU WON!**`,
+        `<@${rpsUser}> You have chosen *SCISSORS*!\r The bot have chosen *ROCK*! \r **THE BOT WON!**`,
+        `<@${rpsUser}> You have chosen *PAPER*!\r The bot have chosen *SCISSORS*! \r **THE BOT WON!**`,
+        `<@${rpsUser}> You have chosen *SCISSORS*!\r The bot have chosen *PAPER*! \r <@${rpsUser}> **YOU WON!**`,
+        `<@${rpsUser}> You have chosen *ROCK*!\r The bot have chosen *PAPER*! \r **THE BOT WON!**`,
+        `<@${rpsUser}> You have chosen *PAPER*!\r The bot have chosen *ROCK*! \r <@${rpsUser}> **YOU WON!**`,
+      ];
+
+      if(!args[1]) {
+        message.channel.send(rpswb[Math.floor(Math.random() * rpswb.length)])
+      } else {  
+        message.channel.send(rpswp[Math.floor(Math.random() * rpswp.length)])
+      };
     break;
     //end of fun commands
     //utilities
@@ -455,7 +532,7 @@ bot.on("message", async function(message) {
      .addField("Time", message.createdAt)
      .addField("Reason", rReason)
      .setTimestamp()
-     .setFooter("Aot Version 0.41.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.42.0, Made by cleverActon0126#3517")
 
      let reportsChannel = message.guild.channels.cache.find(channel => channel.name === "report-approval");
      if(!reportsChannel) return message.channel.send("Could not find report channel.");
@@ -473,7 +550,7 @@ bot.on("message", async function(message) {
       .addField("The bug is", brReason)
       .setColor(0xff0000)
       .setTimestamp()
-      .setFooter("Aot Version 0.41.0, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.42.0, Made by cleverActon0126#3517")
 
       let bugreportChannel = message.guild.channels.cache.find(channel => channel.name === "report-approval");
       if(!bugreportChannel) return message.channel.send("Could not find report channel.");
@@ -491,6 +568,71 @@ bot.on("message", async function(message) {
     break;
     //end of utilities
     //admin commands
+    case "op":
+      if(!message.member.hasPermission("MANAGE_SERVER")) return message.channel.send("Abuse.");
+      let opUser = message.mentions.members.first();
+      if(!opUser) return message.channel.send("Who to op?");
+      let oprole = message.guild.roles.cache.find(role => role.name === "OP");
+      if(!oprole) return message.channel.send("How do I OP people if there is no such role?");
+      let opFindRole1 = message.guild.roles.cache.find(role => role.name === "Head Admin")
+      let opFindRole2 = message.guild.roles.cache.find(role => role.name === "Admin")
+      let opFindRole3 = message.guild.roles.cache.find(role => role.name === "Officer")
+
+      if (opUser.roles.cache.has(opFindRole1)) return message.channel.send("They are already op-ped. What do you want?")
+      else if (opUser.roles.cache.has(opFindRole2)) return message.channel.send("They are already op-ped. What do you want?")
+      else if (opUser.roles.cache.has(opFindRole3)) return message.channel.send("They are already op-ped. What do you want?")
+      else opUser.roles.add(oprole)
+      message.channel.send("User op-ped. You're demoted.");
+
+      let oplog = message.guild.channels.cache.find(channel => channel.name === "server-logs")
+      let oplog2 = message.guild.channels.cache.find(channel => channel.name === "logs")
+      oplog.send(`<@${opUser.id}> has been op-ped`)
+      oplog2.send(`<@${opUser.id}> has been op-ped`)
+    break;
+    case "deop":
+      if(!message.member.hasPermission("MANAGE_ROLES")) return message.channel.send("Don't you think you're little over the limit?");
+      let deopUser = message.mentions.members.first();
+      let deoprole = message.guild.roles.cache.find(role => role.name === "OP");
+      if(!deopUser) return message.channel.send("I don't think anyone is gonna be de-oped at this rate.");
+      else if(!deopUser.roles.cache.has(deoprole.id)) return message.channel.send("Can you take this seriously?")
+      else (deopUser.roles.remove(deoprole)) 
+      message.channel.send("De-oped user. You're promoted.")
+
+      let deoplog = message.guild.channels.cache.find(channel => channel.name === "server-logs")
+      let deoplog2 = message.guild.channels.cache.find(channel => channel.name === "logs")
+      deoplog.send(`<@${deopUser.id}> has been deop-ped`)
+      deoplog2.send(`<@${deopUser.id}> has been deop-ped`)
+    break;
+    case "tempop":
+      if(!message.member.hasPermission("MANAGE_SERVER")) return message.channel.send("Abuse.");
+      let topUser = message.mentions.members.first();
+      if(!topUser) return message.channel.send("Who to op?");
+      let toprole = message.guild.roles.cache.find(role => role.name === "OP");
+      if(!toprole) return message.channel.send("How do I OP people if there is no such role?");
+      let topFindRole1 = message.guild.roles.cache.find(role => role.name === "Head Admin")
+      let topFindRole2 = message.guild.roles.cache.find(role => role.name === "Admin")
+      let topFindRole3 = message.guild.roles.cache.find(role => role.name === "Officer")
+
+      let toptime = args[2]
+
+      if (topUser.roles.cache.has(topFindRole1)) return message.channel.send("They are already op-ped. What do you want?")
+      else if (topUser.roles.cache.has(topFindRole2)) return message.channel.send("They are already op-ped. What do you want?")
+      else if (topUser.roles.cache.has(topFindRole3)) return message.channel.send("They are already op-ped. What do you want?")
+      else topUser.roles.add(toprole)
+      message.channel.send("User op-ped. You're demoted.");
+
+      let toplog = message.guild.channels.cache.find(channel => channel.name === "server-logs")
+      let toplog2 = message.guild.channels.cache.find(channel => channel.name === "logs")
+      toplog.send(`<@${topUser.id}> has been op-ped`)
+      toplog2.send(`<@${topUser.id}> has been op-ped`)
+
+      setTimeout(function() {
+        topUser.roles.remove(toprole.id);
+        message.channel.send(`De-oped <@${topUser.id}>`)
+        toplog.send(`<@${topUser.id}> has been deop-ped`)
+        toplog2.send(`<@${topUser.id}> has been deop-ped`)
+      },ms(toptime))
+    break;
     case "addrole":
       if(!message.member.hasPermission("MANAGE_ROLES")) return message.channel.send("You don\'t have permission to do that.");
       let arUser = message.mentions.members.first();
@@ -505,7 +647,7 @@ bot.on("message", async function(message) {
       .addField("Added By", `<@${message.author.id}> with ID ${message.author.id}`)
       .addField("Added In", message.channel)
       .setTimestamp()
-      .setFooter("Aot Version 0.41.0, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.42.0, Made by cleverActon0126#3517")
 
       let arChannel = message.guild.channels.cache.find(channel => channel.name === "server-logs");
       if(!arChannel) return message.channel.send("Could not find server logs channel.");
@@ -535,7 +677,7 @@ bot.on("message", async function(message) {
       .addField("Added In", message.channel)
       .addField("Duration", tartime)
       .setTimestamp()
-      .setFooter("Aot Version 0.41.0, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.42.0, Made by cleverActon0126#3517")
 
       let tarChannel = message.guild.channels.cache.find(channel => channel.name === "server-logs");
       if(!tarChannel) return message.channel.send("Could not find server logs channel.");
@@ -563,7 +705,7 @@ bot.on("message", async function(message) {
       .addField("Removed By", `<@${message.author.id}> with ID ${message.author.id}`)
       .addField("Removed In", message.channel)
       .setTimestamp()
-      .setFooter("Aot Version 0.41.0, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.42.0, Made by cleverActon0126#3517")
 
       let rrChannel = message.guild.channels.cache.find(channel => channel.name === "server-logs");
       if(!rrChannel) return message.channel.send("Could not find server logs channel.");
@@ -593,7 +735,7 @@ bot.on("message", async function(message) {
       .addField("Removed In", message.channel)
       .addField("Duration", trrtime)
       .setTimestamp()
-      .setFooter("Aot Version 0.41.0, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.42.0, Made by cleverActon0126#3517")
 
       let trrChannel = message.guild.channels.cache.find(channel => channel.name === "server-logs");
       if(!trrChannel) return message.channel.send("Could not find server logs channel.");
@@ -623,7 +765,7 @@ bot.on("message", async function(message) {
      .addField("Time", message.createdAt)
      .addField("Reason", kReason)
      .setTimestamp()
-     .setFooter("Aot Version 0.41.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.42.0, Made by cleverActon0126#3517")
 
      let kickChannel = message.guild.channels.cache.find(channel => channel.name === "logs");
      if(!kickChannel) return message.channel.send("Could not find server logs channel.");
@@ -656,7 +798,7 @@ bot.on("message", async function(message) {
      .addField("Time", message.createdAt)
      .addField("Reason", tbReason)
      .setTimestamp()
-     .setFooter("Aot Version 0.41.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.42.0, Made by cleverActon0126#3517")
 
      let tempbanChannel = message.guild.channels.cache.find(channel => channel.name === "logs");
      if(!tempbanChannel) return message.channel.send("Could not find server logs channel.");
@@ -691,7 +833,7 @@ bot.on("message", async function(message) {
      .addField("Time", message.createdAt)
      .addField("Reason", bReason)
      .setTimestamp()
-     .setFooter("Aot Version 0.41.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.42.0, Made by cleverActon0126#3517")
 
      let banChannel = message.guild.channels.cache.find(channel => channel.name === "logs");
      if(!banChannel) return message.channel.send("Could not find server logs channel.");
@@ -719,7 +861,7 @@ bot.on("message", async function(message) {
       .addField("Unbanned In", message.channel)
       .addField("Time", message.createdAt)
       .setTimestamp()
-      .setFooter("Aot Version 0.41.0, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.42.0, Made by cleverActon0126#3517")
 
       let unbanChannel = message.guild.channels.cache.find(channel => channel.name === "logs");
       if(!unbanChannel) return message.channel.send("Could not find server logs channel.");
@@ -734,17 +876,17 @@ bot.on("message", async function(message) {
      if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send("You don\'t have permission to do that!");
 
      var embed = new Discord.MessageEmbed()
-     .setTitle("Meme Update")
-     .setDescription("Successfully updated to Version 0.41.0!")
+     .setTitle("Fun Update")
+     .setDescription("Successfully updated to Version 0.42.0!")
      .addField("Prefix", "?a \(Uncustomable\)")
-     .addField("Public Commands", "`help` \(Will lead you to other help commands\), `hello`, `aot`, `bye`, `noticeme`, `support`, `salmon`, `apple`, `pie`, `candy`, `spam`, `8ball`, `ding`, `ping`, `beep`, `door`, `coinflip`, `kill`, `roast`, `hack`, `shutdown`, `joke`,  `report`, `bugreport`, `time`, `botinfo`, `userinfo`, `serverinfo`")
+     .addField("Public Commands", "`help` \(Will lead you to other help commands\), `hello`, `aot`, `bye`, `noticeme`, `support`, `salmon`, `apple`, `pie`, `candy`, `spam`, `8ball`, `ding`, `ping`, `beep`, `door`, `coinflip`, `kill`, `roast`, `hack`, `shutdown`, `joke`, `rps`, `report`, `bugreport`, `time`, `botinfo`, `userinfo`, `serverinfo`")
      .addField("Admin Commands", "`kick`, `ban`, `tempban`, `unban`, `mute`, `tempmute`, `unmute`, `clear`, `addrole`, `tempaddrole`, `removerole`, `tempremoverole`", true)
-     .addField("New Commands", "`meme`", true)
+     .addField("New Commands", "`rps`, `op`, `deop`, `tempop`", true)
      .addField("Removed Commands", "N/A", true)
-     .addField("Updates", "New `meme` command!!!")
+     .addField("Updates", "4 NEW COMMANDS!")
      .setColor(0x00ff00)
      .setTimestamp()
-     .setFooter("Aot Version 0.41.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.42.0, Made by cleverActon0126#3517")
 
      message.delete().catch(()=> {});
      message.channel.send(embed);
@@ -774,7 +916,7 @@ bot.on("message", async function(message) {
      .addField("Responsible Admin", `<@${message.member.id}>`)
      .addField("Reason", mReason)
      .setTimestamp()
-     .setFooter("Aot Version 0.41.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.42.0, Made by cleverActon0126#3517")
      muteChannel.send(embed)
      mute2Channel.send(embed)
     break;
@@ -809,7 +951,7 @@ bot.on("message", async function(message) {
      .addField("Responsible Admin", `<@${message.member.id}>`)
      .addField("Reason", `${tmReason}`)
      .setTimestamp()
-     .setFooter("Aot Version 0.41.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.42.0, Made by cleverActon0126#3517")
      tempmuteChannel.send(embed)
      tempmute2Channel.send(embed)
 
@@ -895,7 +1037,7 @@ bot.on("message", async function(message) {
      .addField("Bot Name", bot.user.username)
      .addField("Bot Created On:", bot.user.createdAt)
      .setTimestamp()
-     .setFooter("Aot Version 0.41.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.42.0, Made by cleverActon0126#3517")
      message.channel.send(embed);
     break;
     case "userinfo":
@@ -911,7 +1053,7 @@ bot.on("message", async function(message) {
      .addField("Joined server at", snUser.joinedAt, true)
      .addField("Roles", snUser.roles.cache.map(r => r.toString()))
      .setTimestamp()
-     .setFooter("Aot Version 0.41.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.42.0, Made by cleverActon0126#3517")
      if(!sUser) return message.channel.send(noembed)
 
      var embed = new Discord.MessageEmbed()
@@ -923,7 +1065,7 @@ bot.on("message", async function(message) {
      .addField("Joined server at", sUser.joinedAt, true)
      .addField("Roles", sUser.roles.cache.map(r => r.toString()))
      .setTimestamp()
-     .setFooter("Aot Version 0.41.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.42.0, Made by cleverActon0126#3517")
      message.channel.send(embed)
     break;
     case "serverinfo":
@@ -943,7 +1085,7 @@ bot.on("message", async function(message) {
      .addField("AFK Channel", message.guild.afkChannel, true)
      .addField("Voice Channel AFK Timeout", message.guild.afkTimeout, true)
      .setTimestamp()
-     .setFooter("Aot Version 0.41.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.42.0, Made by cleverActon0126#3517")
      message.channel.send(embed)
      break;
     //end of Information
@@ -959,7 +1101,7 @@ bot.on("message", async function(message) {
      .addField("⚒️Moderation Menu⚒️", "`helpmod`", true)
      .setColor(0x00ffff)
      .setTimestamp()
-     .setFooter("Aot Version 0.41.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.42.0, Made by cleverActon0126#3517")
      message.channel.send(hembed);
     break;
     case "helpgeneral":
@@ -972,7 +1114,7 @@ bot.on("message", async function(message) {
      .addField("`ping`", "Bot ping", true)
      .setColor(0x00ffff)
      .setTimestamp()
-     .setFooter("Aot Version 0.41.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.42.0, Made by cleverActon0126#3517")
      message.channel.send(embed);
     break;
     case "helpfood":
@@ -984,7 +1126,7 @@ bot.on("message", async function(message) {
      .addField("`salmon`", "Raw salmon or cooked salmon can be choose", true)
      .setColor(0x00ffff)
      .setTimestamp()
-     .setFooter("Aot Version 0.41.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.42.0, Made by cleverActon0126#3517")
      message.channel.send(embed);
     break;
     case "helpfun":
@@ -1001,7 +1143,7 @@ bot.on("message", async function(message) {
      .addField("`spam`", "Spam", true)
      .setColor(0x00ffff)
      .setTimestamp()
-     .setFooter("Aot Version 0.41.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.42.0, Made by cleverActon0126#3517")
      message.channel.send(embed);
     break;
     case "helpinfo":
@@ -1012,7 +1154,7 @@ bot.on("message", async function(message) {
      .addField("`userinfo`", "User\'s information.")
      .setTimestamp()
      .setColor(0x00ffff)
-     .setFooter("Aot Version 0.41.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.42.0, Made by cleverActon0126#3517")
      message.channel.send(embed);
     break;
     case "helpmod":
@@ -1029,11 +1171,14 @@ bot.on("message", async function(message) {
      .addField("`addrole <@someone> <@role>`", "Add a role to a person (MANAGE_ROLES)", true)
      .addField("`tempaddrole <@someone> <@role> <time>`", "Add a role to a person Temporary (MANAGE_ROLES)", true)
      .addField("`removerole <@someone> <@role>`", "Remove a role from a person (MANAGE_ROLES)", true)
-     .addField("`tempremoverole <@someone> <@role> <time>`", "Remove a role from a person Temporary (MANAGE_ROLES)", true)
-     .addField("`clear <amount of messages>`", "Bulk delete messages (VIEW_AUDIT_LOG)")
+     .addField("`tempremoverole <@someone> <@role> <time>`", "Remove a role from a person Temporary (MANAGE_ROLES)")
+     .addField("`op <@someone>`", "OP someone (MANAGE_SERVER)", true)
+     .addField("`deop <@someone>`", "Deop someone (MANAGE_ROLES)", true)
+     .addField("`tempop <@someone> <time>`", "Temp op someone (MANAGE_SERVER)", true)
+     .addField("`clear <amount of messages>`", "Bulk delete messages (VIEW_AUDIT_LOG)", true)
      .setTimestamp()
      .setColor(0x00ffff)
-     .setFooter("Aot Version 0.41.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.42.0, Made by cleverActon0126#3517")
      message.channel.send(embed)
     break;
     case "helputilities":
@@ -1044,7 +1189,7 @@ bot.on("message", async function(message) {
      .addField("`bugreport <bug>`", "Report a bug that Aot made", true)
      .addField("`time`", "Time now", true)
      .setTimestamp()
-     .setFooter("Aot Version 0.41.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.42.0, Made by cleverActon0126#3517")
      message.channel.send(embed)
     break;
     //end of help menus
