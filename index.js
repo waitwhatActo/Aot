@@ -1,6 +1,7 @@
 const Discord = require("discord.js");
 const ms = require("ms");
 const randomPuppy = require("random-puppy");
+const ytdl = require("ytdl-core")
 
 const TOKEN = "NjU1NzY5Njk1MzcwMjE1NDI1.XltsKw.9iHz5WJsqo2awd6NrfnBiAS7s3g";
 const PREFIX = "?a";
@@ -45,7 +46,7 @@ bot.on("guildMemberRemove", function(member) {
   .setFooter("Aot Version 0.42.0, Made by cleverActon0126#3517")
   outChannel.send(outembed)
 
-  user.send(`You just left Official Acton"s Empire, but they would never forget you!`)
+  member.send(`You just left Official Acton"s Empire, but they would never forget you!`)
 });
 
 bot.on("message", async function(message) {
@@ -412,41 +413,6 @@ bot.on("message", async function(message) {
         "What do you call a black man flying a plane? \r \"A pilot, you racist.\"",
         "What's the difference between in-laws and outlaws? \r Outlaws are wanted.",
         "Why did the banker quit his job? \r \"He lost interest!\"",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
         ""
       ];
 
@@ -567,6 +533,37 @@ bot.on("message", async function(message) {
       message.channel.send(`Today is ${date}, the time now in UTC is ${time}.`)
     break;
     //end of utilities
+    //music commands
+    case "play":
+      var servers = {};
+      var server = servers[message.guild.id];
+
+      if(!args[1]) return message.channel.send("Please provide a link. NOT music name.");
+      if(!message.member.voice.channel) return message.channel.send("You need to be in a Voice Channel in order to let me play the song!");
+      
+      if(!message.guild.voiceConnection) message.member.voice.channel.join().then(function(connection){
+        play(connection, message);
+      });
+
+      if(!servers[message.guild.id]) servers[message.guild.id] = {
+        queue: []
+      };
+
+      server.queue.push(args[1]);
+
+      function play(connection, message){
+        server.dispatcher = connection.playStream(ytdl(server.queue[0], {filter: "audioonly"}))
+        server.queue.shift();
+        server.dispatcher.on("end",function(){
+          if(server.queue[0]){
+            play(connection, message)
+          } else {
+            connection.disconnect();
+          }
+        })
+      };
+    break;
+    //end of music commands
     //admin commands
     case "op":
       if(!message.member.hasPermission("MANAGE_SERVER")) return message.channel.send("Abuse.");
