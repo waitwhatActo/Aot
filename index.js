@@ -3,6 +3,7 @@ const ms = require("ms");
 const randomPuppy = require("random-puppy");
 const ytdl = require("ytdl-core");
 const util = require("util");
+const YouTube = require("simple-youtube-api")
 
 const TOKEN = "NjU1NzY5Njk1MzcwMjE1NDI1.XltsKw.9iHz5WJsqo2awd6NrfnBiAS7s3g";
 const PREFIX = "?a";
@@ -10,7 +11,7 @@ const PREFIX = "?a";
 
 var bot = new Discord.Client();
 
-const youtuber = new YouTube();
+const youtube = new YouTube("AIzaSyB9MQtvn6FQcmgwUSQBaPDFPwDz6PumLaQ");
 
 const queue = new Map();
 
@@ -60,7 +61,7 @@ bot.on("message", async function(message) {
 
   if (!message.content.startsWith(PREFIX)) return;
 
-  var args = message.content.substring(PREFIX.length).split(" ");
+  const args = message.content.substring(PREFIX.length).split(" ");
 
   const serverQueue = queue.get(message.guild.id);
 
@@ -941,7 +942,7 @@ ${serverQueue.songs.map(song => `**-** ${song.title}`).join(`\n`)}
      .addField("Admin Commands", "`kick`, `ban`, `tempban`, `unban`, `mute`, `tempmute`, `unmute`, `clear`, `addrole`, `tempaddrole`, `removerole`, `tempremoverole`", true)
      .addField("New Commands", "`play`, `stop`, `skip`, `disconnect`, `dc`, `np`, `volume`, `queue`", true)
      .addField("Removed Commands", "N/A", true)
-     .addField("Updates", "MUSIC COMMANDS!")
+     .addField("Updates", "MUSIC COMMANDS!`")
      .setColor(0x00ff00)
      .setTimestamp()
      .setFooter("Aot Version 0.43.0, Made by cleverActon0126#3517")
