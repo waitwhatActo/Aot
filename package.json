@@ -1,17 +1,13 @@
 {
   "name": "aot",
-  "version": "0.43.0",
+  "version": "0.43.1",
   "description": "A bot by Acton",
   "main": "index.js",
   "dependencies": {
     "discord.js": "^12.3.1",
-    "ffmpeg-static": "^4.2.7",
     "ms": "^2.1.2",
-    "opusscript": "0.0.7",
     "random-puppy": "^1.1.0",
-    "simple-youtube-api": "^5.2.1",
-    "util": "^0.12.3",
-    "ytdl-core": "^3.2.2"
+    "util": "^0.12.3"
   },
   "devDependencies": {},
   "scripts": {

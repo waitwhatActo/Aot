@@ -1,19 +1,12 @@
 const Discord = require("discord.js");
 const ms = require("ms");
 const randomPuppy = require("random-puppy");
-const ytdl = require("ytdl-core");
-const util = require("util");
-const YouTube = require("simple-youtube-api")
 
 const TOKEN = "NjU1NzY5Njk1MzcwMjE1NDI1.XltsKw.9iHz5WJsqo2awd6NrfnBiAS7s3g";
 const PREFIX = "?a";
 
 
 var bot = new Discord.Client();
-
-const youtube = new YouTube("AIzaSyB9MQtvn6FQcmgwUSQBaPDFPwDz6PumLaQ");
-
-const queue = new Map();
 
 bot.on("ready", function() {
   console.log("Connected as Aot#0350");
@@ -33,7 +26,7 @@ bot.on("guildMemberAdd", function(member) {
   .addField("Who joined?", `<@${member.id}>`)
   .addField("Welcome!", `Hey, <@${member.user.id}> welcome to the server! You are the number ${inChannel.guild.memberCount} member! We hope you enjoy the server. Remember to read the rules, information will be provided in <#739800400361947176>. Enjoy!`)
   .setTimestamp()
-  .setFooter("Aot Version 0.43.0, Made by cleverActon0126#3517")
+  .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
   inChannel.send(inembed)
 
   member.send("Have a great time in Official Acton\'s Empire!")
@@ -50,7 +43,7 @@ bot.on("guildMemberRemove", function(member) {
   .addField("Who left?", `<@${member.id}>`)
   .addField("Goodbye!", "We will never forget you!")
   .setTimestamp()
-  .setFooter("Aot Version 0.43.0, Made by cleverActon0126#3517")
+  .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
   outChannel.send(outembed)
 
   member.send(`You just left Official Acton"s Empire, but they would never forget you!`)
@@ -63,12 +56,10 @@ bot.on("message", async function(message) {
 
   const args = message.content.substring(PREFIX.length).split(" ");
 
-  const serverQueue = queue.get(message.guild.id);
-
   switch (args[0].toLowerCase()) {
     //general commands
     case "ping":
-     message.channel.send("🏓Pinging").then(m => {
+     message.channel.send("🏓Pinging...").then(m => {
       var ping = m.createdTimestamp - message.createdTimestamp;
       var botping = bot.ws.ping;
 
@@ -254,7 +245,7 @@ bot.on("message", async function(message) {
       .addField("Step 7", "See someone freaks out.", true)
       .addField("Linux and MacOS", `We haven"t test out using Linux or MacOS, but you can use a virtual machine to shutdown <@${sdUser.id}>\'s device.`)
       .setTimestamp()
-      .setFooter("Aot Version 0.43.0, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
       message.channel.send(embed)
     break;
     case "spam":
@@ -291,55 +282,52 @@ bot.on("message", async function(message) {
       if(!hUser) return message.channel.send("Who to hack?")
       let hwait = require("util").promisify(setTimeout);
 
-      var msg = await message.channel.send(`Prepare to hack ${hUser.id}\'s device.`)
+      var hack = [
+        `\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: 4036 5038 0308 5466, SVC:301\`\`\``,
+        `\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: 38663 5867 46837, SVC:453\`\`\``,
+        `\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: 4036 5038 1215 1515, SVC:583\`\`\``,
+        `\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: 4002 6257 5806 2016, SVC:727\`\`\``,
+        `\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: 3703 7070 1784 8254, SVC:207\`\`\``,
+        `\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: 4113 4060 6770 6635, SVC:160\`\`\``,
+        `\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: 3710 1866 1688 7156, SVC:897\`\`\``,
+        `\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: 3787 686433 67168, SVC:889\`\`\``,
+        `\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: 5324 2074 6323 2776, SVC:409\`\`\``,
+        `\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: 4003 3115 8325 4016, SVC:550\`\`\``
+      ];
+
+      var msg = await message.channel.send(`\`\`\`Prepare to hack ${hUser.id}\'s device.\`\`\``)
       await hwait(5000)
-      await msg.edit("Configuring hack.")
-      await hwait(1000)
-      await msg.edit("Configuring hack..")
-      await hwait(1000)
-      await msg.edit("Configuring hack...")
-      await hwait(1000)
-      await msg.edit("Hacking IP.")
-      await hwait(1000)
-      await msg.edit("Hacking IP..")
-      await hwait(1000)
-      await msg.edit("Hacking IP...")
-      await hwait(5000)
-      await msg.edit("IP hacked.")
+      await msg.edit(`\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\`\`\``)
       await hwait(3000)
-      await msg.edit("Accessing to files.")
-      await hwait(1000)
-      await msg.edit("Accessing to files..")
-      await hwait(1000)
-      await msg.edit("Accessing to files...")
+      await msg.edit(`\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\`\`\``)
+      await hwait (2500)
+      await msg.edit(`\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\`\`\``)
       await hwait(5000)
-      await msg.edit("Selling files to CCP.")
-      await hwait(2000)
-      await msg.edit("Deleting all filed on their device.")
-      await hwait(5000)
-      await msg.edit("This may take up to 30 seconds.")
-      await hwait(1000)
-      await msg.edit("This may take up to 30 seconds..")
-      await hwait(1000)
-      await msg.edit("This may take up to 30 seconds...")
-      await hwait(23097)
-      await msg.edit("Done.")
-      await hwait(1000)
-      await msg.edit("Restoring harmful files to their device.")
-      await hwait(1000)
-      await msg.edit("Restoring harmful files to their device..")
-      await hwait(1000)
-      await msg.edit("Restoring harmful files to their device...")
-      await hwait(5000)
-      await msg.edit("Activating malware.")
-      await hwait(1000)
-      await msg.edit("Activating malware..")
-      await hwait(1000)
-      await msg.edit("Activating malware...")
-      await hwait(5000)
-      await msg.edit("Malware activated.")
+      await msg.edit(`\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\`\`\``)
       await hwait(3000)
-      await msg.edit("Process Successful.")
+      await msg.edit(`\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\`\`\``)
+      await hwait(1500)
+      await msg.edit(`\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\`\`\``)
+      await hwait(5000)
+      await msg.edit(`\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\`\`\``)
+      await hwait(3000)
+      await msg.edit(`\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\`\`\``)
+      await hwait(1000)
+      await msg.edit(`\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\`\`\``)
+      await hwait(3000)
+      await msg.edit(`\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\`\`\``)
+      await hwait(5000)
+      await msg.edit(hack[Math.floor(Math.random() * hack.length)])
+      await hwait(5000)
+      await msg.edit( `\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\`\`\``)
+      await hwait(1000)
+      await msg.edit( `\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\rAdding malware to their credit card and computer.\`\`\``)
+      await hwait(3000)
+      await msg.edit( `\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\rAdding malware to their credit card and computer.\rActivating malware.\`\`\``)
+      await hwait(1500)
+      await msg.edit( `\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\rAdding malware to their credit card and computer.\rActivating malware.\rProcess ended.\`\`\``)
+      await hwait(500)
+      await message.channel.send("The super damn dangerous hack has been done by a bot to prevent you from going to jail, you NUM.")
     break;
     case "joke":
       var jokes = [
@@ -460,7 +448,7 @@ bot.on("message", async function(message) {
       .setTitle("Here's your meme")
       .setURL(`https://reddit.com/r/${random}`)
       .setTimestamp()
-      .setFooter("Aot Version 0.43.0, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
 
       message.channel.send(embed)
     break;
@@ -507,7 +495,7 @@ bot.on("message", async function(message) {
      .addField("Time", message.createdAt)
      .addField("Reason", rReason)
      .setTimestamp()
-     .setFooter("Aot Version 0.43.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
 
      let reportsChannel = message.guild.channels.cache.find(channel => channel.name === "report-approval");
      if(!reportsChannel) return message.channel.send("Could not find report channel.");
@@ -525,7 +513,7 @@ bot.on("message", async function(message) {
       .addField("The bug is", brReason)
       .setColor(0xff0000)
       .setTimestamp()
-      .setFooter("Aot Version 0.43.0, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
 
       let bugreportChannel = message.guild.channels.cache.find(channel => channel.name === "report-approval");
       if(!bugreportChannel) return message.channel.send("Could not find report channel.");
@@ -542,90 +530,6 @@ bot.on("message", async function(message) {
       message.channel.send(`Today is ${date}, the time now in UTC is ${time}.`)
     break;
     //end of utilities
-    //music commands
-    case "play":
-      if(!args[1]) return message.channel.send("Please provide a link.")
-      const voiceChannel = message.member.voice.channel;
-      if(!voiceChannel) return message.channel.send("Please join a voice channel in order to use this command.");
-      const permissions = voiceChannel.permissionsFor(message.client.user);
-      if(!permissions.has("CONNECT")) return message.channel.send("I can't join the channel. Please make sure I have permisssions to join the channel.")
-      if(!permissions.has("SPEAK")) return message.channel.send("I can't talk in the voice channel. Please make sure that I have permission to talk in the voice channel.");
-      
-      const songInfo = await ytdl.getInfo(args[1]);
-      const song = {
-        title: util.escapeMarkdown(songInfo.videoDetails.title),
-        url: songInfo.url
-      };
-      
-      if(!serverQueue) {
-        const queueConstruct = {
-          textChannel: message.channel,
-          voiceChannel: voiceChannel,
-          connection: null,
-          songs: [],
-          volume: 5,
-          playing: true
-        };
-        queue.set(message.guild.id, queueConstruct);
-
-        queueConstruct.songs.push(song);
-
-        try {
-          var connection = await voiceChannel.join();
-          queueConstruct.connection = connection;
-          play(message.guild, queueConstruct.songs[0]);
-        } catch (error) {
-          console.log(`Voice channel join error. \r ${error}`);
-          queue.delete(message.guild.id);
-          message.channel.send("An error occured. Try again later. Contacting the developers may help.");
-          return;
-        }
-      } else {
-        serverQueue.songs.push(song);
-        return message.channel.send(`**${song.title}** has been added to the queue!`);
-      }
-    break;
-    case "np":
-      if(!serverQueue) return message.channel.send("There is nothing playing at the moment.");
-      message.channel.send(`Now playing: **${serverQueue.songs[0].title}**`)
-    break;
-    case "volume":
-      if(!serverQueue) return message.channel.send("There is nothing playing at the moment.");
-      if(!args[1]) return message.channel.send(`The current volume is: **${serverQueue.volume}**. If you want to change the volume, please re-run the command with the volume.`)
-      
-      serverQueue.volume = args[1];
-      serverQueue.connection.dispatcher.setVolumeLogarithmic(args[1] / 5);
-      message.channel.send(`I have just set the volume to ${serverQueue.volume}`)
-    break;
-    case "queue":
-      if(!serverQueue) return message.channel.send("There is nothing playing at the moment.");
-      message.channel.send(`
-**__NOW PLAYING__**
-${serverQueue.songs[0].title}
-**__SONG QUEUE__**
-${serverQueue.songs.map(song => `**-** ${song.title}`).join(`\n`)}
-       `)
-    break;
-    case "skip":
-      if(!message.member.voice.channel) return message.channel.send("Are you trolling? You are not even in a voice channel!")
-      if(!serverQueue) return message.channel.send("There is nothing playing at the moment.")
-      serverQueue.connection.dispatcher.end();
-    break;
-    case "stop":
-      if(!message.member.voice.channel) return message.channel.send("Are you trolling? You are not even in a voice channel!")
-      if(!serverQueue) return message.channel.send("There is nothing playing at the moment.")
-      serverQueue.songs = [];
-      serverQueue.connection.dispatcher.end();
-    break;
-    case "disconnect":
-      if(!message.member.voice.channel) return message.channel.send("Are you trolling? You are not even in a voice channel!")
-      message.member.voice.channel.leave();
-    break;
-    case "dc":
-      if(!message.member.voice.channel) return message.channel.send("Are you trolling? You are not even in a voice channel!")
-      message.member.voice.channel.leave();
-    break;
-    //end of music commands
     //admin commands
     case "op":
       if(!message.member.hasPermission("MANAGE_SERVER")) return message.channel.send("Abuse.");
@@ -706,7 +610,7 @@ ${serverQueue.songs.map(song => `**-** ${song.title}`).join(`\n`)}
       .addField("Added By", `<@${message.author.id}> with ID ${message.author.id}`)
       .addField("Added In", message.channel)
       .setTimestamp()
-      .setFooter("Aot Version 0.43.0, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
 
       let arChannel = message.guild.channels.cache.find(channel => channel.name === "server-logs");
       if(!arChannel) return message.channel.send("Could not find server logs channel.");
@@ -736,7 +640,7 @@ ${serverQueue.songs.map(song => `**-** ${song.title}`).join(`\n`)}
       .addField("Added In", message.channel)
       .addField("Duration", tartime)
       .setTimestamp()
-      .setFooter("Aot Version 0.43.0, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
 
       let tarChannel = message.guild.channels.cache.find(channel => channel.name === "server-logs");
       if(!tarChannel) return message.channel.send("Could not find server logs channel.");
@@ -764,7 +668,7 @@ ${serverQueue.songs.map(song => `**-** ${song.title}`).join(`\n`)}
       .addField("Removed By", `<@${message.author.id}> with ID ${message.author.id}`)
       .addField("Removed In", message.channel)
       .setTimestamp()
-      .setFooter("Aot Version 0.43.0, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
 
       let rrChannel = message.guild.channels.cache.find(channel => channel.name === "server-logs");
       if(!rrChannel) return message.channel.send("Could not find server logs channel.");
@@ -794,7 +698,7 @@ ${serverQueue.songs.map(song => `**-** ${song.title}`).join(`\n`)}
       .addField("Removed In", message.channel)
       .addField("Duration", trrtime)
       .setTimestamp()
-      .setFooter("Aot Version 0.43.0, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
 
       let trrChannel = message.guild.channels.cache.find(channel => channel.name === "server-logs");
       if(!trrChannel) return message.channel.send("Could not find server logs channel.");
@@ -824,7 +728,7 @@ ${serverQueue.songs.map(song => `**-** ${song.title}`).join(`\n`)}
      .addField("Time", message.createdAt)
      .addField("Reason", kReason)
      .setTimestamp()
-     .setFooter("Aot Version 0.43.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
 
      let kickChannel = message.guild.channels.cache.find(channel => channel.name === "logs");
      if(!kickChannel) return message.channel.send("Could not find server logs channel.");
@@ -857,7 +761,7 @@ ${serverQueue.songs.map(song => `**-** ${song.title}`).join(`\n`)}
      .addField("Time", message.createdAt)
      .addField("Reason", tbReason)
      .setTimestamp()
-     .setFooter("Aot Version 0.43.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
 
      let tempbanChannel = message.guild.channels.cache.find(channel => channel.name === "logs");
      if(!tempbanChannel) return message.channel.send("Could not find server logs channel.");
@@ -892,7 +796,7 @@ ${serverQueue.songs.map(song => `**-** ${song.title}`).join(`\n`)}
      .addField("Time", message.createdAt)
      .addField("Reason", bReason)
      .setTimestamp()
-     .setFooter("Aot Version 0.43.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
 
      let banChannel = message.guild.channels.cache.find(channel => channel.name === "logs");
      if(!banChannel) return message.channel.send("Could not find server logs channel.");
@@ -920,7 +824,7 @@ ${serverQueue.songs.map(song => `**-** ${song.title}`).join(`\n`)}
       .addField("Unbanned In", message.channel)
       .addField("Time", message.createdAt)
       .setTimestamp()
-      .setFooter("Aot Version 0.43.0, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
 
       let unbanChannel = message.guild.channels.cache.find(channel => channel.name === "logs");
       if(!unbanChannel) return message.channel.send("Could not find server logs channel.");
@@ -935,17 +839,17 @@ ${serverQueue.songs.map(song => `**-** ${song.title}`).join(`\n`)}
      if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send("You don\'t have permission to do that!");
 
      var embed = new Discord.MessageEmbed()
-     .setTitle("Fun Update")
-     .setDescription("Successfully updated to Version 0.43.0!")
+     .setTitle("FNo Music Update")
+     .setDescription("Successfully updated to Version 0.43.1!")
      .addField("Prefix", "?a \(Uncustomable\)")
      .addField("Public Commands", "`help` \(Will lead you to other help commands\), `hello`, `aot`, `bye`, `noticeme`, `support`, `salmon`, `apple`, `pie`, `candy`, `spam`, `8ball`, `ding`, `ping`, `beep`, `door`, `coinflip`, `kill`, `roast`, `hack`, `shutdown`, `joke`, `rps`, `report`, `bugreport`, `time`, `botinfo`, `userinfo`, `serverinfo`")
      .addField("Admin Commands", "`kick`, `ban`, `tempban`, `unban`, `mute`, `tempmute`, `unmute`, `clear`, `addrole`, `tempaddrole`, `removerole`, `tempremoverole`", true)
-     .addField("New Commands", "`play`, `stop`, `skip`, `disconnect`, `dc`, `np`, `volume`, `queue`", true)
-     .addField("Removed Commands", "N/A", true)
-     .addField("Updates", "MUSIC COMMANDS!`")
+     .addField("New Commands", "N/A", true)
+     .addField("Removed Commands", "`play`, `stop`, `skip`, `disconnect`, `dc`, `np`, `volume`, `queue`", true)
+     .addField("Updates", "After considering a few things, I decided to remove Aot's music commands. In return, I updated the hack command.")
      .setColor(0x00ff00)
      .setTimestamp()
-     .setFooter("Aot Version 0.43.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
 
      message.delete().catch(()=> {});
      message.channel.send(embed);
@@ -975,7 +879,7 @@ ${serverQueue.songs.map(song => `**-** ${song.title}`).join(`\n`)}
      .addField("Responsible Admin", `<@${message.member.id}>`)
      .addField("Reason", mReason)
      .setTimestamp()
-     .setFooter("Aot Version 0.43.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
      muteChannel.send(embed)
      mute2Channel.send(embed)
     break;
@@ -1010,7 +914,7 @@ ${serverQueue.songs.map(song => `**-** ${song.title}`).join(`\n`)}
      .addField("Responsible Admin", `<@${message.member.id}>`)
      .addField("Reason", `${tmReason}`)
      .setTimestamp()
-     .setFooter("Aot Version 0.43.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
      tempmuteChannel.send(embed)
      tempmute2Channel.send(embed)
 
@@ -1096,7 +1000,7 @@ ${serverQueue.songs.map(song => `**-** ${song.title}`).join(`\n`)}
      .addField("Bot Name", bot.user.username)
      .addField("Bot Created On:", bot.user.createdAt)
      .setTimestamp()
-     .setFooter("Aot Version 0.43.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
      message.channel.send(embed);
     break;
     case "userinfo":
@@ -1112,7 +1016,7 @@ ${serverQueue.songs.map(song => `**-** ${song.title}`).join(`\n`)}
      .addField("Joined server at", snUser.joinedAt, true)
      .addField("Roles", snUser.roles.cache.map(r => r.toString()))
      .setTimestamp()
-     .setFooter("Aot Version 0.43.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
      if(!sUser) return message.channel.send(noembed)
 
      var embed = new Discord.MessageEmbed()
@@ -1124,7 +1028,7 @@ ${serverQueue.songs.map(song => `**-** ${song.title}`).join(`\n`)}
      .addField("Joined server at", sUser.joinedAt, true)
      .addField("Roles", sUser.roles.cache.map(r => r.toString()))
      .setTimestamp()
-     .setFooter("Aot Version 0.43.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
      message.channel.send(embed)
     break;
     case "serverinfo":
@@ -1144,7 +1048,7 @@ ${serverQueue.songs.map(song => `**-** ${song.title}`).join(`\n`)}
      .addField("AFK Channel", message.guild.afkChannel, true)
      .addField("Voice Channel AFK Timeout", message.guild.afkTimeout, true)
      .setTimestamp()
-     .setFooter("Aot Version 0.43.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
      message.channel.send(embed)
      break;
     //end of Information
@@ -1160,7 +1064,7 @@ ${serverQueue.songs.map(song => `**-** ${song.title}`).join(`\n`)}
      .addField("⚒️Moderation Menu⚒️", "`helpmod`", true)
      .setColor(0x00ffff)
      .setTimestamp()
-     .setFooter("Aot Version 0.43.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
      message.channel.send(hembed);
     break;
     case "helpgeneral":
@@ -1173,7 +1077,7 @@ ${serverQueue.songs.map(song => `**-** ${song.title}`).join(`\n`)}
      .addField("`ping`", "Bot ping", true)
      .setColor(0x00ffff)
      .setTimestamp()
-     .setFooter("Aot Version 0.43.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
      message.channel.send(embed);
     break;
     case "helpfood":
@@ -1185,7 +1089,7 @@ ${serverQueue.songs.map(song => `**-** ${song.title}`).join(`\n`)}
      .addField("`salmon`", "Raw salmon or cooked salmon can be choose", true)
      .setColor(0x00ffff)
      .setTimestamp()
-     .setFooter("Aot Version 0.43.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
      message.channel.send(embed);
     break;
     case "helpfun":
@@ -1202,7 +1106,7 @@ ${serverQueue.songs.map(song => `**-** ${song.title}`).join(`\n`)}
      .addField("`spam`", "Spam", true)
      .setColor(0x00ffff)
      .setTimestamp()
-     .setFooter("Aot Version 0.43.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
      message.channel.send(embed);
     break;
     case "helpinfo":
@@ -1213,7 +1117,7 @@ ${serverQueue.songs.map(song => `**-** ${song.title}`).join(`\n`)}
      .addField("`userinfo`", "User\'s information.")
      .setTimestamp()
      .setColor(0x00ffff)
-     .setFooter("Aot Version 0.43.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
      message.channel.send(embed);
     break;
     case "helpmod":
@@ -1237,7 +1141,7 @@ ${serverQueue.songs.map(song => `**-** ${song.title}`).join(`\n`)}
      .addField("`clear <amount of messages>`", "Bulk delete messages (VIEW_AUDIT_LOG)", true)
      .setTimestamp()
      .setColor(0x00ffff)
-     .setFooter("Aot Version 0.43.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
      message.channel.send(embed)
     break;
     case "helputilities":
@@ -1248,22 +1152,7 @@ ${serverQueue.songs.map(song => `**-** ${song.title}`).join(`\n`)}
      .addField("`bugreport <bug>`", "Report a bug that Aot made", true)
      .addField("`time`", "Time now", true)
      .setTimestamp()
-     .setFooter("Aot Version 0.43.0, Made by cleverActon0126#3517")
-     message.channel.send(embed)
-    break;
-    case "helpmusic":
-      var embed = new Discord.MessageEmbed()
-     .setTitle("‍🎵Music Menu (BETA)🎵")
-     .setColor(0x00ffff)
-     .addField("`play <link>`", "Play music (please provide link)", true)
-     .addField("`disconnect`/`dc`", "Disconnects the bot from the Voice Channel.", true)
-     .addField("`queue`", "Look at the song queue.", true)
-     .addField("`skip`", "Skips the song.", true)
-     .addField("`stop`", "Stops the song", true)
-     .addField("`np`", "Tells you what song is playing right now.", true)
-     .addField("`volume <volume>`", "Sets volume, or tells you what volume is the bot playing at.", true)
-     .setTimestamp()
-     .setFooter("Aot Version 0.43.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
      message.channel.send(embed)
     break;
     //end of help menus
@@ -1271,27 +1160,6 @@ ${serverQueue.songs.map(song => `**-** ${song.title}`).join(`\n`)}
      message.channel.send("Invalid command!");
   }
 });
-
-function play(guild, song) {
-  const serverQueue = queue.get(guild.id);
-
-  if(!song){
-    serverQueue.voiceChannel.leave();
-    queue.delete(guild.id);
-    return;
-  }
-  
-  const dispatcher = serverQueue.connection.play(ytdl(song.url));
-    dispatcher.on("finish", () => {
-        serverQueue.textChannel.send("Song ended!");
-        serverQueue.songs.shift();
-        play(guild, serverQueue.songs[0]);
-      })
-    dispatcher.on("error", error => console.log(error));
-    dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
-
-    serverQueue.textChannel.send(`Now playing: **${song.title}**`)
-}
 
 bot.login(TOKEN);
 
