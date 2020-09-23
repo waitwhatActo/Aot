@@ -5,8 +5,7 @@ const randomPuppy = require("random-puppy");
 const TOKEN = "NjU1NzY5Njk1MzcwMjE1NDI1.XltsKw.9iHz5WJsqo2awd6NrfnBiAS7s3g";
 const PREFIX = "?a";
 
-
-var bot = new Discord.Client();
+const bot = new Discord.Client();
 
 bot.on("ready", function() {
   console.log("Connected as Aot#0350");
@@ -26,7 +25,7 @@ bot.on("guildMemberAdd", function(member) {
   .addField("Who joined?", `<@${member.id}>`)
   .addField("Welcome!", `Hey, <@${member.user.id}> welcome to the server! You are the number ${inChannel.guild.memberCount} member! We hope you enjoy the server. Remember to read the rules, information will be provided in <#739800400361947176>. Enjoy!`)
   .setTimestamp()
-  .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
+  .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
   inChannel.send(inembed)
 
   member.send("Have a great time in Official Acton\'s Empire!")
@@ -43,11 +42,22 @@ bot.on("guildMemberRemove", function(member) {
   .addField("Who left?", `<@${member.id}>`)
   .addField("Goodbye!", "We will never forget you!")
   .setTimestamp()
-  .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
+  .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
   outChannel.send(outembed)
 
   member.send(`You just left Official Acton"s Empire, but they would never forget you!`)
 });
+
+bot.on("error", function() {
+  var ea = bot.guilds.channels.cache.find(channel => channel.id === "656409202448924700");
+  ea.send("Bot is experiencing errors, please contact developer.")
+  console.log(error);
+});
+
+bot.on("disconnect", function() {
+  var da = bot.guilds.channels.cache.find(channel => channel.id === "656409202448924700");
+  da.send("Bot is got disconnected, investigating problem.")
+})
 
 bot.on("message", async function(message) {
   if (message.author.equals(bot.user)) return;
@@ -245,7 +255,7 @@ bot.on("message", async function(message) {
       .addField("Step 7", "See someone freaks out.", true)
       .addField("Linux and MacOS", `We haven"t test out using Linux or MacOS, but you can use a virtual machine to shutdown <@${sdUser.id}>\'s device.`)
       .setTimestamp()
-      .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
       message.channel.send(embed)
     break;
     case "spam":
@@ -413,29 +423,7 @@ bot.on("message", async function(message) {
         ""
       ];
 
-      let jkwait = require("util").promisify(setTimeout);
-
-      var msg = await message.channel.send(jokes[Math.floor(Math.random() * jokes.length)])
-      await jkwait(100)
-      await msg.edit(jokes[Math.floor(Math.random() * jokes.length)])
-      await jkwait(100)
-      await msg.edit(jokes[Math.floor(Math.random() * jokes.length)])
-      await jkwait(100)
-      await msg.edit(jokes[Math.floor(Math.random() * jokes.length)])
-      await jkwait(100)
-      await msg.edit("Nope")
-      await jkwait(100)
-      await msg.edit("U Idot")
-      await jkwait(100)
-      await msg.edit("Wait")
-      await jkwait(100)
-      await msg.edit(jokes[Math.floor(Math.random() * jokes.length)])
-      await jkwait(100)
-      await msg.edit(jokes[Math.floor(Math.random() * jokes.length)])
-      await jkwait(100)
-      await msg.edit(jokes[Math.floor(Math.random() * jokes.length)])
-      await jkwait(1000)
-      await msg.edit(`<@${message.member.id}> here's your joke: \r` + jokes[Math.floor(Math.random() * jokes.length)])
+      message.channel.send(`<@${message.member.id}> here's your joke: \r` + jokes[Math.floor(Math.random() * jokes.length)])
     break;
     case "meme":
       const subReddits = ["dankmeme", "meme", "memes"]
@@ -448,7 +436,7 @@ bot.on("message", async function(message) {
       .setTitle("Here's your meme")
       .setURL(`https://reddit.com/r/${random}`)
       .setTimestamp()
-      .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
 
       message.channel.send(embed)
     break;
@@ -495,7 +483,7 @@ bot.on("message", async function(message) {
      .addField("Time", message.createdAt)
      .addField("Reason", rReason)
      .setTimestamp()
-     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
 
      let reportsChannel = message.guild.channels.cache.find(channel => channel.name === "report-approval");
      if(!reportsChannel) return message.channel.send("Could not find report channel.");
@@ -513,7 +501,7 @@ bot.on("message", async function(message) {
       .addField("The bug is", brReason)
       .setColor(0xff0000)
       .setTimestamp()
-      .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
 
       let bugreportChannel = message.guild.channels.cache.find(channel => channel.name === "report-approval");
       if(!bugreportChannel) return message.channel.send("Could not find report channel.");
@@ -610,7 +598,7 @@ bot.on("message", async function(message) {
       .addField("Added By", `<@${message.author.id}> with ID ${message.author.id}`)
       .addField("Added In", message.channel)
       .setTimestamp()
-      .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
 
       let arChannel = message.guild.channels.cache.find(channel => channel.name === "server-logs");
       if(!arChannel) return message.channel.send("Could not find server logs channel.");
@@ -640,7 +628,7 @@ bot.on("message", async function(message) {
       .addField("Added In", message.channel)
       .addField("Duration", tartime)
       .setTimestamp()
-      .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
 
       let tarChannel = message.guild.channels.cache.find(channel => channel.name === "server-logs");
       if(!tarChannel) return message.channel.send("Could not find server logs channel.");
@@ -668,7 +656,7 @@ bot.on("message", async function(message) {
       .addField("Removed By", `<@${message.author.id}> with ID ${message.author.id}`)
       .addField("Removed In", message.channel)
       .setTimestamp()
-      .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
 
       let rrChannel = message.guild.channels.cache.find(channel => channel.name === "server-logs");
       if(!rrChannel) return message.channel.send("Could not find server logs channel.");
@@ -698,7 +686,7 @@ bot.on("message", async function(message) {
       .addField("Removed In", message.channel)
       .addField("Duration", trrtime)
       .setTimestamp()
-      .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
 
       let trrChannel = message.guild.channels.cache.find(channel => channel.name === "server-logs");
       if(!trrChannel) return message.channel.send("Could not find server logs channel.");
@@ -728,7 +716,7 @@ bot.on("message", async function(message) {
      .addField("Time", message.createdAt)
      .addField("Reason", kReason)
      .setTimestamp()
-     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
 
      let kickChannel = message.guild.channels.cache.find(channel => channel.name === "logs");
      if(!kickChannel) return message.channel.send("Could not find server logs channel.");
@@ -761,7 +749,7 @@ bot.on("message", async function(message) {
      .addField("Time", message.createdAt)
      .addField("Reason", tbReason)
      .setTimestamp()
-     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
 
      let tempbanChannel = message.guild.channels.cache.find(channel => channel.name === "logs");
      if(!tempbanChannel) return message.channel.send("Could not find server logs channel.");
@@ -796,7 +784,7 @@ bot.on("message", async function(message) {
      .addField("Time", message.createdAt)
      .addField("Reason", bReason)
      .setTimestamp()
-     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
 
      let banChannel = message.guild.channels.cache.find(channel => channel.name === "logs");
      if(!banChannel) return message.channel.send("Could not find server logs channel.");
@@ -824,7 +812,7 @@ bot.on("message", async function(message) {
       .addField("Unbanned In", message.channel)
       .addField("Time", message.createdAt)
       .setTimestamp()
-      .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
 
       let unbanChannel = message.guild.channels.cache.find(channel => channel.name === "logs");
       if(!unbanChannel) return message.channel.send("Could not find server logs channel.");
@@ -839,17 +827,17 @@ bot.on("message", async function(message) {
      if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send("You don\'t have permission to do that!");
 
      var embed = new Discord.MessageEmbed()
-     .setTitle("FNo Music Update")
-     .setDescription("Successfully updated to Version 0.43.1!")
+     .setTitle("Lockdown Update")
+     .setDescription("Successfully updated to Version 0.44.0!")
      .addField("Prefix", "?a \(Uncustomable\)")
      .addField("Public Commands", "`help` \(Will lead you to other help commands\), `hello`, `aot`, `bye`, `noticeme`, `support`, `salmon`, `apple`, `pie`, `candy`, `spam`, `8ball`, `ding`, `ping`, `beep`, `door`, `coinflip`, `kill`, `roast`, `hack`, `shutdown`, `joke`, `rps`, `report`, `bugreport`, `time`, `botinfo`, `userinfo`, `serverinfo`")
-     .addField("Admin Commands", "`kick`, `ban`, `tempban`, `unban`, `mute`, `tempmute`, `unmute`, `clear`, `addrole`, `tempaddrole`, `removerole`, `tempremoverole`", true)
-     .addField("New Commands", "N/A", true)
-     .addField("Removed Commands", "`play`, `stop`, `skip`, `disconnect`, `dc`, `np`, `volume`, `queue`", true)
-     .addField("Updates", "After considering a few things, I decided to remove Aot's music commands. In return, I updated the hack command.")
+     .addField("Admin Commands", "`kick`, `ban`, `tempban`, `unban`, `mute`, `tempmute`, `unmute`, `clear`, `addrole`, `tempaddrole`, `removerole`, `tempremoverole`, `lockdown`, `unlock`", true)
+     .addField("New Commands", "`lockdown`, `unlock`", true)
+     .addField("Removed Commands", "N/A", true)
+     .addField("Updates", "1. New admin commands and updated moderation help menu;\r2. Removed default \"Invalid command\";\r3. Added error and disconnect auto announcement.")
      .setColor(0x00ff00)
      .setTimestamp()
-     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
 
      message.delete().catch(()=> {});
      message.channel.send(embed);
@@ -879,7 +867,7 @@ bot.on("message", async function(message) {
      .addField("Responsible Admin", `<@${message.member.id}>`)
      .addField("Reason", mReason)
      .setTimestamp()
-     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
      muteChannel.send(embed)
      mute2Channel.send(embed)
     break;
@@ -914,7 +902,7 @@ bot.on("message", async function(message) {
      .addField("Responsible Admin", `<@${message.member.id}>`)
      .addField("Reason", `${tmReason}`)
      .setTimestamp()
-     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
      tempmuteChannel.send(embed)
      tempmute2Channel.send(embed)
 
@@ -991,6 +979,108 @@ bot.on("message", async function(message) {
         message.channel.send("You don\'t have permission to ")
       }
     break;
+    case "lockdown":
+      message.delete().catch(()=> {});
+
+      var lac = message.guild.channels.cache.find(channel => channel.name === "announcements");
+      if(!lac) return message.channel.send("No announce channel!");
+
+      if(!message.member.hasPermission("MANAGE_SERVER")) return message.channel.send("You don't have the permission to do that!")
+      var lc1 = message.guild.channels.cache.find(channel => channel.name === "general");
+      var lc2 = message.guild.channels.cache.find(channel => channel.name === "counting");
+      var lc3 = message.guild.channels.cache.find(channel => channel.name === "spam");
+      var lc4 = message.guild.channels.cache.find(channel => channel.name === "bot-commands");
+      var lc5 = message.guild.channels.cache.find(channel => channel.name === "dank-memer-special");
+      var lc6 = message.guild.channels.cache.find(channel => channel.name === "rythm-songs");
+      var lc7 = message.guild.channels.cache.find(channel => channel.name === "event" && channel.type === "category");
+      var lc8 = message.guild.channels.cache.find(channel => channel.name === "VC 1" && channel.type === "voice");
+      var lc9 = message.guild.channels.cache.find(channel => channel.name === "Rythm VC 1" && channel.type === "voice");
+      if(!lc1) return message.channel.send("Not enough channel. :P");
+      if(!lc2) return message.channel.send("Not enough channel. :P");
+      if(!lc3) return message.channel.send("Not enough channel. :P");
+      if(!lc4) return message.channel.send("Not enough channel. :P");
+      if(!lc5) return message.channel.send("Not enough channel. :P");
+      if(!lc6) return message.channel.send("Not enough channel. :P");
+      if(!lc7) return message.channel.send("Not enough channel. :P");
+      if(!lc8) return message.channel.send("Not enough channel. :P");
+      if(!lc9) return message.channel.send("Not enough channel. :P");
+      
+      lc1.updateOverwrite(lc1.guild.roles.everyone, { SEND_MESSAGES: false });
+      lc2.updateOverwrite(lc2.guild.roles.everyone, { SEND_MESSAGES: false });
+      lc3.updateOverwrite(lc3.guild.roles.everyone, { SEND_MESSAGES: false });
+      lc4.updateOverwrite(lc4.guild.roles.everyone, { SEND_MESSAGES: false });
+      lc5.updateOverwrite(lc5.guild.roles.everyone, { SEND_MESSAGES: false });
+      lc6.updateOverwrite(lc6.guild.roles.everyone, { SEND_MESSAGES: false });
+      lc7.updateOverwrite(lc7.guild.roles.everyone, { SEND_MESSAGES: false });
+      lc8.updateOverwrite(lc8.guild.roles.everyone, { CONNECT: false });
+      lc9.updateOverwrite(lc9.guild.roles.everyone, { CONNECT: false });
+
+      var embed = new Discord.MessageEmbed()
+      .setTitle("🔒Server Lockdown🔒")
+      .setColor(0xff0000)
+      .addField("Server Lockdown", "The server has been locked by a server moderator or an admin. The duration and time will be announced here shortly. All channels are now disabled. Please be patient and do not spam DM a moderator or admin.")
+      .setTimestamp()
+      .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
+
+      lac.send(embed)
+      lc1.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
+      lc2.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
+      lc3.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
+      lc4.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
+      lc5.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
+      lc6.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
+    break;
+    case "unlock":
+      message.delete().catch(()=> {});
+
+      var uac = message.guild.channels.cache.find(channel => channel.name === "announcements");
+      if(!uac) return message.channel.send("No announce channel!");
+
+      if(!message.member.hasPermission("MANAGE_SERVER")) return message.channel.send("You don't have the permission to do that!")
+      var uc1 = message.guild.channels.cache.find(channel => channel.name === "general");
+      var uc2 = message.guild.channels.cache.find(channel => channel.name === "counting");
+      var uc3 = message.guild.channels.cache.find(channel => channel.name === "spam");
+      var uc4 = message.guild.channels.cache.find(channel => channel.name === "bot-commands");
+      var uc5 = message.guild.channels.cache.find(channel => channel.name === "dank-memer-special");
+      var uc6 = message.guild.channels.cache.find(channel => channel.name === "rythm-songs");
+      var uc7 = message.guild.channels.cache.find(channel => channel.name === "event" && channel.type === "category");
+      var uc8 = message.guild.channels.cache.find(channel => channel.name === "VC 1" && channel.type === "voice");
+      var uc9 = message.guild.channels.cache.find(channel => channel.name === "Rythm VC 1" && channel.type === "voice");
+      if(!uc1) return message.channel.send("Not enough channel. :P");
+      if(!uc2) return message.channel.send("Not enough channel. :P");
+      if(!uc3) return message.channel.send("Not enough channel. :P");
+      if(!uc4) return message.channel.send("Not enough channel. :P");
+      if(!uc5) return message.channel.send("Not enough channel. :P");
+      if(!uc6) return message.channel.send("Not enough channel. :P");
+      if(!uc7) return message.channel.send("Not enough channel. :P");
+      if(!uc8) return message.channel.send("Not enough channel. :P");
+      if(!uc9) return message.channel.send("Not enough channel. :P");
+      
+      uc1.updateOverwrite(uc1.guild.roles.everyone, { SEND_MESSAGES: true });
+      uc2.updateOverwrite(uc2.guild.roles.everyone, { SEND_MESSAGES: true });
+      uc3.updateOverwrite(uc3.guild.roles.everyone, { SEND_MESSAGES: true });
+      uc4.updateOverwrite(uc4.guild.roles.everyone, { SEND_MESSAGES: true });
+      uc5.updateOverwrite(uc5.guild.roles.everyone, { SEND_MESSAGES: true });
+      uc6.updateOverwrite(uc6.guild.roles.everyone, { SEND_MESSAGES: true });
+      uc7.updateOverwrite(uc7.guild.roles.everyone, { SEND_MESSAGES: true });
+      uc8.updateOverwrite(uc8.guild.roles.everyone, { CONNECT: true });
+      uc9.updateOverwrite(uc9.guild.roles.everyone, { CONNECT: true });
+
+      var embed = new Discord.MessageEmbed()
+      .setTitle("🔓Server Unlock🔓")
+      .setColor(0x008000)
+      .addField("Server Unlock", "The server has been unlocked by a server moderator or an admin. All channels are now available.")
+      .setTimestamp()
+      .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
+
+      uac.send(embed)
+      uc1.send("🟢Server unlocked.🟢")
+      uc2.send("🟢Server unlocked.🟢")
+      uc3.send("🟢Server unlocked.🟢")
+      uc4.send("🟢Server unlocked.🟢")
+      uc5.send("🟢Server unlocked.🟢")
+      uc6.send("🟢Server unlocked.🟢")
+    break;
     //end of admin Commands
     //information
     case "botinfo":
@@ -1000,7 +1090,7 @@ bot.on("message", async function(message) {
      .addField("Bot Name", bot.user.username)
      .addField("Bot Created On:", bot.user.createdAt)
      .setTimestamp()
-     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
      message.channel.send(embed);
     break;
     case "userinfo":
@@ -1016,7 +1106,7 @@ bot.on("message", async function(message) {
      .addField("Joined server at", snUser.joinedAt, true)
      .addField("Roles", snUser.roles.cache.map(r => r.toString()))
      .setTimestamp()
-     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
      if(!sUser) return message.channel.send(noembed)
 
      var embed = new Discord.MessageEmbed()
@@ -1028,7 +1118,7 @@ bot.on("message", async function(message) {
      .addField("Joined server at", sUser.joinedAt, true)
      .addField("Roles", sUser.roles.cache.map(r => r.toString()))
      .setTimestamp()
-     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
      message.channel.send(embed)
     break;
     case "serverinfo":
@@ -1048,7 +1138,7 @@ bot.on("message", async function(message) {
      .addField("AFK Channel", message.guild.afkChannel, true)
      .addField("Voice Channel AFK Timeout", message.guild.afkTimeout, true)
      .setTimestamp()
-     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
      message.channel.send(embed)
      break;
     //end of Information
@@ -1064,7 +1154,7 @@ bot.on("message", async function(message) {
      .addField("⚒️Moderation Menu⚒️", "`helpmod`", true)
      .setColor(0x00ffff)
      .setTimestamp()
-     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
      message.channel.send(hembed);
     break;
     case "helpgeneral":
@@ -1077,7 +1167,7 @@ bot.on("message", async function(message) {
      .addField("`ping`", "Bot ping", true)
      .setColor(0x00ffff)
      .setTimestamp()
-     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
      message.channel.send(embed);
     break;
     case "helpfood":
@@ -1089,7 +1179,7 @@ bot.on("message", async function(message) {
      .addField("`salmon`", "Raw salmon or cooked salmon can be choose", true)
      .setColor(0x00ffff)
      .setTimestamp()
-     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
      message.channel.send(embed);
     break;
     case "helpfun":
@@ -1106,7 +1196,7 @@ bot.on("message", async function(message) {
      .addField("`spam`", "Spam", true)
      .setColor(0x00ffff)
      .setTimestamp()
-     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
      message.channel.send(embed);
     break;
     case "helpinfo":
@@ -1117,7 +1207,7 @@ bot.on("message", async function(message) {
      .addField("`userinfo`", "User\'s information.")
      .setTimestamp()
      .setColor(0x00ffff)
-     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
      message.channel.send(embed);
     break;
     case "helpmod":
@@ -1125,23 +1215,34 @@ bot.on("message", async function(message) {
 
      var embed = new Discord.MessageEmbed()
      .setTitle("⚒️Moderation Menu⚒️")
-     .addField("`kick <@someone> <reason>`", "Kick people (KICK_MEMBERS)", true)
-     .addField("`ban <@someone> <reason>`", "Ban people (BAN_MEMBERS)", true)
-     .addField("`tempban <@someone> <duration> <reason>`", "Temporary ban people(BAN_MEMBERS)", true)
-     .addField("`mute <@someone> <reason>`", "Mute people (VIEW_AUDIT_LOG)", true)
-     .addField("`tempmute <@someone> <time> <reason>`", "Temporary mute people (VIEW_AUDIT_LOG)", true)
-     .addField("`unmute <@someone>`", "Unmute a muted person (VIEW_AUDIT_LOG)", true)
-     .addField("`addrole <@someone> <@role>`", "Add a role to a person (MANAGE_ROLES)", true)
-     .addField("`tempaddrole <@someone> <@role> <time>`", "Add a role to a person Temporary (MANAGE_ROLES)", true)
-     .addField("`removerole <@someone> <@role>`", "Remove a role from a person (MANAGE_ROLES)", true)
-     .addField("`tempremoverole <@someone> <@role> <time>`", "Remove a role from a person Temporary (MANAGE_ROLES)")
-     .addField("`op <@someone>`", "OP someone (MANAGE_SERVER)", true)
-     .addField("`deop <@someone>`", "Deop someone (MANAGE_ROLES)", true)
-     .addField("`tempop <@someone> <time>`", "Temp op someone (MANAGE_SERVER)", true)
-     .addField("`clear <amount of messages>`", "Bulk delete messages (VIEW_AUDIT_LOG)", true)
+     .addFields(
+       { name: " Actions", value: "All moderation actions to member" },
+       { name: "`kick <@someone> <reason>`", value: "Kick member (KICK_MEMBERS)", inline: true },
+       { name: "`ban <@someone> <reason>`", value: "Ban member (BAN_MEMBERS)", inline: true },
+       { name: "`tempban <@someone> <reason>`", value: "Temporary ban member (BAN_MEMBERS)", inline: true },
+       { name: "`mute <@someone> <reason>`", value: "Mute member (VIEW_AUDIT_LOG)", inline: true },
+       { name: "`tempmute <@someone> <time> <reason>`", value: "Temporary mute member (VIEW_AUDIT_LOG)", inline: true },
+       { name: "`unmute <@someone>`", value: "Unmute a muted member (VIEW_AUDIT_LOG)", inline: true },
+       { name: "`addrole <@someone> <@role>`", value: "Add a role to a member (MANAGE_ROLES)", inline: true },
+       { name: "`tempaddrole <@someone> <@role> <time>`", value: "Add a role to a member temporary (MANAGE_ROLES)", inline: true },
+       { name: "`removerole <@someone> <@role>`", value: "Remove a role from a member (MANAGE_ROLES)", inline: true },
+       { name: "`tempremoverole <@someone <@role> <time>`", value: "Remove a role from a person temporary (MANAGE_ROLES)", inline: true }
+     )
+     .addFields(
+       { name: "Server Actions", value: "Do things to server, higher permissions required." },
+       { name: "`lockdown`", value: "Locks the server (MANAGE_SERVER", inline: true },
+       { name: "`unlock`", value: "Unlocks the server (MANAGE_SERVER", inline: true },
+       { name: "`clear <1-99>`", value: "Bulk delete messages (VIEW_AUDIT_LOG)", inline: true }
+     )
+     .addFields(
+       { name: "MOST DANGEROUS ACTIONS", value: "DO NOT USE IF YOU DON'T HAVE PERMISSION FROM THE OWNER." },
+       { name: "`op <@someone>`", value: "OP someone (MANAGE_SERVER)", inline: true },
+       { name: "`deop <@someone>`", value: "Deop someone (MANAGE_roles)", inline: true },
+       { name: "`tempop <@someone>`", value: "Temp op someone (MANAGE_SERVER)", inline: true }
+     )
      .setTimestamp()
      .setColor(0x00ffff)
-     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
      message.channel.send(embed)
     break;
     case "helputilities":
@@ -1152,12 +1253,10 @@ bot.on("message", async function(message) {
      .addField("`bugreport <bug>`", "Report a bug that Aot made", true)
      .addField("`time`", "Time now", true)
      .setTimestamp()
-     .setFooter("Aot Version 0.43.1, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
      message.channel.send(embed)
     break;
     //end of help menus
-    default:
-     message.channel.send("Invalid command!");
   }
 });
 
