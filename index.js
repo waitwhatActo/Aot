@@ -2,14 +2,16 @@ const Discord = require("discord.js");
 const ms = require("ms");
 const randomPuppy = require("random-puppy");
 
+const VERSION = "0.44.1";
+const NAME = "Aot";
 const TOKEN = "NjU1NzY5Njk1MzcwMjE1NDI1.XltsKw.9iHz5WJsqo2awd6NrfnBiAS7s3g";
 const PREFIX = "?a";
 
 const bot = new Discord.Client();
 
 bot.on("ready", function() {
-  console.log("Connected as Aot#0350");
-  bot.user.setPresence({ activity: { name: "?ahelp" }, status: "dnd" })
+  console.log("Connected as Aot#0350 and using version 0.44.1");
+  bot.user.setPresence({ activity: { name: "?ahelp" }, status: "online" })
 });
 
 bot.on("guildMemberAdd", function(member) {
@@ -25,10 +27,10 @@ bot.on("guildMemberAdd", function(member) {
   .addField("Who joined?", `<@${member.id}>`)
   .addField("Welcome!", `Hey, <@${member.user.id}> welcome to the server! You are the number ${inChannel.guild.memberCount} member! We hope you enjoy the server. Remember to read the rules, information will be provided in <#739800400361947176>. Enjoy!`)
   .setTimestamp()
-  .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
+  .setFooter("Aot Version 0.44.1, Made by cleverActon0126#3517")
   inChannel.send(inembed)
 
-  member.send("Have a great time in Official Acton\'s Empire!")
+  member.send("Have a great time in Official Acton Fan Server!")
 });
 
 bot.on("guildMemberRemove", function(member) {
@@ -42,21 +44,21 @@ bot.on("guildMemberRemove", function(member) {
   .addField("Who left?", `<@${member.id}>`)
   .addField("Goodbye!", "We will never forget you!")
   .setTimestamp()
-  .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
+  .setFooter("Aot Version 0.44.1, Made by cleverActon0126#3517")
   outChannel.send(outembed)
 
-  member.send(`You just left Official Acton"s Empire, but they would never forget you!`)
+  member.send(`You just left Official Acton Fan Server, but they would never forget you!`)
 });
 
 bot.on("error", function() {
-  var ea = bot.guilds.channels.cache.find(channel => channel.id === "656409202448924700");
+  const ea = bot.guilds.channels.cache.find(channel => channel.id === "656409202448924700");
   ea.send("Bot is experiencing errors, please contact developer.")
   console.log(error);
 });
 
 bot.on("disconnect", function() {
-  var da = bot.guilds.channels.cache.find(channel => channel.id === "656409202448924700");
-  da.send("Bot is got disconnected, investigating problem.")
+  const da = bot.guilds.channels.cache.find(channel => channel.id === "656409202448924700");
+  da.send("Bot is now disconnected, investigating problem.")
 })
 
 bot.on("message", async function(message) {
@@ -83,7 +85,14 @@ bot.on("message", async function(message) {
      message.channel.send("Hi. Nice to meet you!");
     break;
     case "aot":
-     message.channel.send("What\'s the matter?");
+      var embed = new Discord.MessageEmbed()
+      .setTitle("Bot Information")
+      .setColor(0x00bfff)
+      .addField("Bot Name", bot.user.username)
+      .addField("Bot Created On:", bot.user.createdAt)
+      .setTimestamp()
+      .setFooter("Aot Version 0.44.1, Made by cleverActon0126#3517")
+      message.channel.send(embed);
     break;
     case "bye":
      message.channel.send("OK. Cya!")
@@ -255,7 +264,7 @@ bot.on("message", async function(message) {
       .addField("Step 7", "See someone freaks out.", true)
       .addField("Linux and MacOS", `We haven"t test out using Linux or MacOS, but you can use a virtual machine to shutdown <@${sdUser.id}>\'s device.`)
       .setTimestamp()
-      .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.44.1, Made by cleverActon0126#3517")
       message.channel.send(embed)
     break;
     case "spam":
@@ -288,56 +297,58 @@ bot.on("message", async function(message) {
     spamChannel.send("f")
     break;
     case "hack":
+      const hsUser = message.member;
       const hUser = message.mentions.members.first();
       if(!hUser) return message.channel.send("Who to hack?")
       let hwait = require("util").promisify(setTimeout);
 
-      var hack = [
-        `\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: 4036 5038 0308 5466, SVC:301\`\`\``,
-        `\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: 38663 5867 46837, SVC:453\`\`\``,
-        `\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: 4036 5038 1215 1515, SVC:583\`\`\``,
-        `\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: 4002 6257 5806 2016, SVC:727\`\`\``,
-        `\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: 3703 7070 1784 8254, SVC:207\`\`\``,
-        `\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: 4113 4060 6770 6635, SVC:160\`\`\``,
-        `\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: 3710 1866 1688 7156, SVC:897\`\`\``,
-        `\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: 3787 686433 67168, SVC:889\`\`\``,
-        `\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: 5324 2074 6323 2776, SVC:409\`\`\``,
-        `\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: 4003 3115 8325 4016, SVC:550\`\`\``
-      ];
-
-      var msg = await message.channel.send(`\`\`\`Prepare to hack ${hUser.id}\'s device.\`\`\``)
+      var msg = await message.channel.send(`\`\`\`Enourmoushard Closure [Version 0.44.1] \r(c) 2019 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>\`\`\``)
       await hwait(5000)
-      await msg.edit(`\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\`\`\``)
-      await hwait(3000)
-      await msg.edit(`\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\`\`\``)
-      await hwait (2500)
-      await msg.edit(`\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\`\`\``)
-      await hwait(5000)
-      await msg.edit(`\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\`\`\``)
-      await hwait(3000)
-      await msg.edit(`\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\`\`\``)
-      await hwait(1500)
-      await msg.edit(`\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\`\`\``)
-      await hwait(5000)
-      await msg.edit(`\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\`\`\``)
-      await hwait(3000)
-      await msg.edit(`\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\`\`\``)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.44.1] \r(c) 2019 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \`\`\``)
       await hwait(1000)
-      await msg.edit(`\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\`\`\``)
-      await hwait(3000)
-      await msg.edit(`\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\`\`\``)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.44.1] \r(c) 2019 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>\`\`\``)
+      await hwait(2500)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.44.1] \r(c) 2019 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\`\`\``)
       await hwait(5000)
-      await msg.edit(hack[Math.floor(Math.random() * hack.length)])
-      await hwait(5000)
-      await msg.edit( `\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\`\`\``)
-      await hwait(1000)
-      await msg.edit( `\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\rAdding malware to their credit card and computer.\`\`\``)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.44.1] \r(c) 2019 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\`\`\``)
       await hwait(3000)
-      await msg.edit( `\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\rAdding malware to their credit card and computer.\rActivating malware.\`\`\``)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.44.1] \r(c) 2019 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\`\`\``)
+      await hwait(2500)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.44.1] \r(c) 2019 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\`\`\``)
+      await hwait(5000)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.44.1] \r(c) 2019 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\`\`\``)
+      await hwait(3000)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.44.1] \r(c) 2019 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\`\`\``)
       await hwait(1500)
-      await msg.edit( `\`\`\`Prepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\rAdding malware to their credit card and computer.\rActivating malware.\rProcess ended.\`\`\``)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.44.1] \r(c) 2019 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\`\`\``)
+      await hwait(5000)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.44.1] \r(c) 2019 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\`\`\``)
+      await hwait(3000)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.44.1] \r(c) 2019 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\`\`\``)
+      await hwait(1000)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.44.1] \r(c) 2019 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\`\`\``)
+      await hwait(3000)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.44.1] \r(c) 2019 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\`\`\``)
+      await hwait(5000)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.44.1] \r(c) 2019 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\`\`\``)
+      await hwait(1000)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.44.1] \r(c) 2019 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\rAdding malware to their credit card and computer.\`\`\``)
+      await hwait(3000)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.44.1] \r(c) 2019 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\rAdding malware to their credit card and computer.\rActivating malware.\`\`\``)
+      await hwait(1500)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.44.1] \r(c) 2019 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\rAdding malware to their credit card and computer.\rActivating malware.\rProcess ended.\`\`\``)
+      await hwait(1000)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.44.1] \r(c) 2019 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\rAdding malware to their credit card and computer.\rActivating malware.\rProcess ended.\rThe very dangerous and real hacking process has been finished by a bot to prevent you from going to jail you NUM.\`\`\``)
       await hwait(500)
-      await message.channel.send("The super damn dangerous hack has been done by a bot to prevent you from going to jail, you NUM.")
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.44.1] \r(c) 2019 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\rAdding malware to their credit card and computer.\rActivating malware.\rProcess ended.\rThe very dangerous and real hacking process has been finished by a bot to prevent you from going to jail you NUM.\rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>\`\`\``)
+      await hwait(2000)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.44.1] \r(c) 2019 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAccuiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\rAdding malware to their credit card and computer.\rActivating malware.\rProcess ended.\rThe very dangerous and real hacking process has been finished by a bot to prevent you from going to jail you NUM.\rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>cls\`\`\``)
+      await hwait(500)
+      await msg.edit(`\`\`\`C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>\`\`\``)
+      await hwait(1000)
+      await msg.edit(`\`\`\`C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>exit\`\`\``)
+      await hwait(500)
+      await msg.edit("\`\`\`You have exited the application, nothing to display here.\`\`\`")
     break;
     case "joke":
       var jokes = [
@@ -419,8 +430,7 @@ bot.on("message", async function(message) {
         "What's loud and sounds like an apple? \r \"An apple.\"",
         "What do you call a black man flying a plane? \r \"A pilot, you racist.\"",
         "What's the difference between in-laws and outlaws? \r Outlaws are wanted.",
-        "Why did the banker quit his job? \r \"He lost interest!\"",
-        ""
+        "Why did the banker quit his job? \r \"He lost interest!\""
       ];
 
       message.channel.send(`<@${message.member.id}> here's your joke: \r` + jokes[Math.floor(Math.random() * jokes.length)])
@@ -436,7 +446,7 @@ bot.on("message", async function(message) {
       .setTitle("Here's your meme")
       .setURL(`https://reddit.com/r/${random}`)
       .setTimestamp()
-      .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.44.1, Made by cleverActon0126#3517")
 
       message.channel.send(embed)
     break;
@@ -450,15 +460,16 @@ bot.on("message", async function(message) {
         `<@${rpsUser}> You have chosen *PAPER*!\r ${rpspUser} You have chosen *SCISSORS*! \r ${rpspUser} **YOU WON!**`,
         `<@${rpsUser}> You have chosen *SCISSORS*!\r ${rpspUser} You have chosen *PAPER*! \r <@${rpsUser}> **YOU WON!**`,
         `<@${rpsUser}> You have chosen *ROCK*!\r ${rpspUser} You have chosen *PAPER*! \r ${rpspUser} **YOU WON!**`,
-        `<@${rpsUser}> You have chosen *PAPER*!\r ${rpspUser} You have chosen *ROCK*! \r <@${rpsUser}> **YOU WON!**`,
+        `<@${rpsUser}> You have chosen *PAPER*!\r ${rpspUser} You have chosen *ROCK*! \r <@${rpsUser}> **YOU WON!**`
       ];
+
       var rpswb = [
         `<@${rpsUser}> You have chosen *ROCK*!\r  The bot have have chosen *SCISSORS*! \r <@${rpsUser}> **YOU WON!**`,
         `<@${rpsUser}> You have chosen *SCISSORS*!\r The bot have chosen *ROCK*! \r **THE BOT WON!**`,
         `<@${rpsUser}> You have chosen *PAPER*!\r The bot have chosen *SCISSORS*! \r **THE BOT WON!**`,
         `<@${rpsUser}> You have chosen *SCISSORS*!\r The bot have chosen *PAPER*! \r <@${rpsUser}> **YOU WON!**`,
         `<@${rpsUser}> You have chosen *ROCK*!\r The bot have chosen *PAPER*! \r **THE BOT WON!**`,
-        `<@${rpsUser}> You have chosen *PAPER*!\r The bot have chosen *ROCK*! \r <@${rpsUser}> **YOU WON!**`,
+        `<@${rpsUser}> You have chosen *PAPER*!\r The bot have chosen *ROCK*! \r <@${rpsUser}> **YOU WON!**`
       ];
 
       if(!args[1]) {
@@ -473,6 +484,7 @@ bot.on("message", async function(message) {
      const rUser = message.mentions.members.first();
      if(!rUser) return message.channel.send("Could not find user.")
      let rReason = args.slice(2).join(" ")
+     if(!rReason) return message.channel.send("Why do you want to report that person if you don't have a reason?");
 
      var embed = new Discord.MessageEmbed()
      .setTitle("User reports User")
@@ -483,7 +495,7 @@ bot.on("message", async function(message) {
      .addField("Time", message.createdAt)
      .addField("Reason", rReason)
      .setTimestamp()
-     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.1, Made by cleverActon0126#3517")
 
      let reportsChannel = message.guild.channels.cache.find(channel => channel.name === "report-approval");
      if(!reportsChannel) return message.channel.send("Could not find report channel.");
@@ -494,6 +506,7 @@ bot.on("message", async function(message) {
     case "bugreport":
       const brUser = message.author;
       let brReason = args.slice(2).join(" ")
+      if(!brReason) return message.channel.send("If you can't report a bug then don't abuse this command!");
 
       var embed = new Discord.MessageEmbed()
       .setTitle("Bug Reported")
@@ -501,7 +514,7 @@ bot.on("message", async function(message) {
       .addField("The bug is", brReason)
       .setColor(0xff0000)
       .setTimestamp()
-      .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.44.1, Made by cleverActon0126#3517")
 
       let bugreportChannel = message.guild.channels.cache.find(channel => channel.name === "report-approval");
       if(!bugreportChannel) return message.channel.send("Could not find report channel.");
@@ -594,11 +607,11 @@ bot.on("message", async function(message) {
        var embed = new Discord.MessageEmbed()
       .setDescription("Role Added to User")
       .setColor(0xff0000)
-      .addField("Role Added User", `$arkUser} with ID ${arUser.id}`)
+      .addField("Role Added User", `${arUser} with ID ${arUser.id}`)
       .addField("Added By", `<@${message.author.id}> with ID ${message.author.id}`)
       .addField("Added In", message.channel)
       .setTimestamp()
-      .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.44.1, Made by cleverActon0126#3517")
 
       let arChannel = message.guild.channels.cache.find(channel => channel.name === "server-logs");
       if(!arChannel) return message.channel.send("Could not find server logs channel.");
@@ -628,7 +641,7 @@ bot.on("message", async function(message) {
       .addField("Added In", message.channel)
       .addField("Duration", tartime)
       .setTimestamp()
-      .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.44.1, Made by cleverActon0126#3517")
 
       let tarChannel = message.guild.channels.cache.find(channel => channel.name === "server-logs");
       if(!tarChannel) return message.channel.send("Could not find server logs channel.");
@@ -656,7 +669,7 @@ bot.on("message", async function(message) {
       .addField("Removed By", `<@${message.author.id}> with ID ${message.author.id}`)
       .addField("Removed In", message.channel)
       .setTimestamp()
-      .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.44.1, Made by cleverActon0126#3517")
 
       let rrChannel = message.guild.channels.cache.find(channel => channel.name === "server-logs");
       if(!rrChannel) return message.channel.send("Could not find server logs channel.");
@@ -686,7 +699,7 @@ bot.on("message", async function(message) {
       .addField("Removed In", message.channel)
       .addField("Duration", trrtime)
       .setTimestamp()
-      .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.44.1, Made by cleverActon0126#3517")
 
       let trrChannel = message.guild.channels.cache.find(channel => channel.name === "server-logs");
       if(!trrChannel) return message.channel.send("Could not find server logs channel.");
@@ -716,7 +729,7 @@ bot.on("message", async function(message) {
      .addField("Time", message.createdAt)
      .addField("Reason", kReason)
      .setTimestamp()
-     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.1, Made by cleverActon0126#3517")
 
      let kickChannel = message.guild.channels.cache.find(channel => channel.name === "logs");
      if(!kickChannel) return message.channel.send("Could not find server logs channel.");
@@ -749,7 +762,7 @@ bot.on("message", async function(message) {
      .addField("Time", message.createdAt)
      .addField("Reason", tbReason)
      .setTimestamp()
-     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.1, Made by cleverActon0126#3517")
 
      let tempbanChannel = message.guild.channels.cache.find(channel => channel.name === "logs");
      if(!tempbanChannel) return message.channel.send("Could not find server logs channel.");
@@ -784,7 +797,7 @@ bot.on("message", async function(message) {
      .addField("Time", message.createdAt)
      .addField("Reason", bReason)
      .setTimestamp()
-     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.1, Made by cleverActon0126#3517")
 
      let banChannel = message.guild.channels.cache.find(channel => channel.name === "logs");
      if(!banChannel) return message.channel.send("Could not find server logs channel.");
@@ -812,7 +825,7 @@ bot.on("message", async function(message) {
       .addField("Unbanned In", message.channel)
       .addField("Time", message.createdAt)
       .setTimestamp()
-      .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.44.1, Made by cleverActon0126#3517")
 
       let unbanChannel = message.guild.channels.cache.find(channel => channel.name === "logs");
       if(!unbanChannel) return message.channel.send("Could not find server logs channel.");
@@ -827,17 +840,17 @@ bot.on("message", async function(message) {
      if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send("You don\'t have permission to do that!");
 
      var embed = new Discord.MessageEmbed()
-     .setTitle("Lockdown Update")
-     .setDescription("Successfully updated to Version 0.44.0!")
+     .setTitle("Lockdown Update Update")
+     .setDescription("Successfully updated to Version 0.44.1!")
      .addField("Prefix", "?a \(Uncustomable\)")
      .addField("Public Commands", "`help` \(Will lead you to other help commands\), `hello`, `aot`, `bye`, `noticeme`, `support`, `salmon`, `apple`, `pie`, `candy`, `spam`, `8ball`, `ding`, `ping`, `beep`, `door`, `coinflip`, `kill`, `roast`, `hack`, `shutdown`, `joke`, `rps`, `report`, `bugreport`, `time`, `botinfo`, `userinfo`, `serverinfo`")
      .addField("Admin Commands", "`kick`, `ban`, `tempban`, `unban`, `mute`, `tempmute`, `unmute`, `clear`, `addrole`, `tempaddrole`, `removerole`, `tempremoverole`, `lockdown`, `unlock`", true)
-     .addField("New Commands", "`lockdown`, `unlock`", true)
+     .addField("New Commands", "N/A", true)
      .addField("Removed Commands", "N/A", true)
-     .addField("Updates", "1. New admin commands and updated moderation help menu;\r2. Removed default \"Invalid command\";\r3. Added error and disconnect auto announcement.")
+     .addField("Updates", "Updated a few things in this update, the main thing is updating the `lockdown` and `unlock` command.")
      .setColor(0x00ff00)
      .setTimestamp()
-     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.1, Made by cleverActon0126#3517")
 
      message.delete().catch(()=> {});
      message.channel.send(embed);
@@ -867,7 +880,7 @@ bot.on("message", async function(message) {
      .addField("Responsible Admin", `<@${message.member.id}>`)
      .addField("Reason", mReason)
      .setTimestamp()
-     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.1, Made by cleverActon0126#3517")
      muteChannel.send(embed)
      mute2Channel.send(embed)
     break;
@@ -902,7 +915,7 @@ bot.on("message", async function(message) {
      .addField("Responsible Admin", `<@${message.member.id}>`)
      .addField("Reason", `${tmReason}`)
      .setTimestamp()
-     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.1, Made by cleverActon0126#3517")
      tempmuteChannel.send(embed)
      tempmute2Channel.send(embed)
 
@@ -981,6 +994,12 @@ bot.on("message", async function(message) {
     break;
     case "lockdown":
       message.delete().catch(()=> {});
+      var lUser = message.member;
+      if(!message.member.hasPermission("MANAGE_SERVER")) return message.channel.send(`<@${lUser.id}>, hmm, I wonder where is your permission to do that?`);
+
+      var ldr = args.slice(2).join(" ");
+      if(!args[1]) return message.channel.send("There is no time provided.");
+      if(!args[2]) return message.channel.send("There is no reason provided.");
 
       var lac = message.guild.channels.cache.find(channel => channel.name === "announcements");
       if(!lac) return message.channel.send("No announce channel!");
@@ -1018,9 +1037,9 @@ bot.on("message", async function(message) {
       var embed = new Discord.MessageEmbed()
       .setTitle("🔒Server Lockdown🔒")
       .setColor(0xff0000)
-      .addField("Server Lockdown", "The server has been locked by a server moderator or an admin. The duration and time will be announced here shortly. All channels are now disabled. Please be patient and do not spam DM a moderator or admin.")
+      .addField("Server Lockdown", `The server has been locked by a server moderator or an admin. The estimated time will be ${args[1]}.  The reason of locking down is ${ldr}. All channels are now disabled. Please be patient and do not spam DM a moderator or admin. This bot WILL NOT do automatic unlock.`)
       .setTimestamp()
-      .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.44.1, Made by cleverActon0126#3517")
 
       lac.send(embed)
       lc1.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
@@ -1032,6 +1051,9 @@ bot.on("message", async function(message) {
     break;
     case "unlock":
       message.delete().catch(()=> {});
+
+      var ulUser = message.member;
+      if(!message.member.hasPermission("MANAGE_SERVER")) return message.channel.send(`<@${ulUser.id}>, hmm, I wonder where is your permission to do that?`);
 
       var uac = message.guild.channels.cache.find(channel => channel.name === "announcements");
       if(!uac) return message.channel.send("No announce channel!");
@@ -1071,7 +1093,7 @@ bot.on("message", async function(message) {
       .setColor(0x008000)
       .addField("Server Unlock", "The server has been unlocked by a server moderator or an admin. All channels are now available.")
       .setTimestamp()
-      .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
+      .setFooter("Aot Version 0.44.1, Made by cleverActon0126#3517")
 
       uac.send(embed)
       uc1.send("🟢Server unlocked.🟢")
@@ -1080,6 +1102,7 @@ bot.on("message", async function(message) {
       uc4.send("🟢Server unlocked.🟢")
       uc5.send("🟢Server unlocked.🟢")
       uc6.send("🟢Server unlocked.🟢")
+      uc2.bulkDelete(2)
     break;
     //end of admin Commands
     //information
@@ -1090,7 +1113,7 @@ bot.on("message", async function(message) {
      .addField("Bot Name", bot.user.username)
      .addField("Bot Created On:", bot.user.createdAt)
      .setTimestamp()
-     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.1, Made by cleverActon0126#3517")
      message.channel.send(embed);
     break;
     case "userinfo":
@@ -1106,7 +1129,7 @@ bot.on("message", async function(message) {
      .addField("Joined server at", snUser.joinedAt, true)
      .addField("Roles", snUser.roles.cache.map(r => r.toString()))
      .setTimestamp()
-     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.1, Made by cleverActon0126#3517")
      if(!sUser) return message.channel.send(noembed)
 
      var embed = new Discord.MessageEmbed()
@@ -1118,7 +1141,7 @@ bot.on("message", async function(message) {
      .addField("Joined server at", sUser.joinedAt, true)
      .addField("Roles", sUser.roles.cache.map(r => r.toString()))
      .setTimestamp()
-     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.1, Made by cleverActon0126#3517")
      message.channel.send(embed)
     break;
     case "serverinfo":
@@ -1138,7 +1161,7 @@ bot.on("message", async function(message) {
      .addField("AFK Channel", message.guild.afkChannel, true)
      .addField("Voice Channel AFK Timeout", message.guild.afkTimeout, true)
      .setTimestamp()
-     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.1, Made by cleverActon0126#3517")
      message.channel.send(embed)
      break;
     //end of Information
@@ -1154,7 +1177,7 @@ bot.on("message", async function(message) {
      .addField("⚒️Moderation Menu⚒️", "`helpmod`", true)
      .setColor(0x00ffff)
      .setTimestamp()
-     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.1, Made by cleverActon0126#3517")
      message.channel.send(hembed);
     break;
     case "helpgeneral":
@@ -1167,7 +1190,7 @@ bot.on("message", async function(message) {
      .addField("`ping`", "Bot ping", true)
      .setColor(0x00ffff)
      .setTimestamp()
-     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.1, Made by cleverActon0126#3517")
      message.channel.send(embed);
     break;
     case "helpfood":
@@ -1179,7 +1202,7 @@ bot.on("message", async function(message) {
      .addField("`salmon`", "Raw salmon or cooked salmon can be choose", true)
      .setColor(0x00ffff)
      .setTimestamp()
-     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.1, Made by cleverActon0126#3517")
      message.channel.send(embed);
     break;
     case "helpfun":
@@ -1190,13 +1213,13 @@ bot.on("message", async function(message) {
      .addField("`coinflip`", "Flip a coin!", true)
      .addField("`ding`", "Ding, Dong", true)
      .addField("`door`", "Portal door", true)
-     .addField("`joke", "Some jokes for you", true)
+     .addField("`joke`", "Some jokes for you", true)
      .addField("`roast`", "Be mad a people", true)
      .addField("`shutdown`", "Shutdown  people\'s device", true)
      .addField("`spam`", "Spam", true)
      .setColor(0x00ffff)
      .setTimestamp()
-     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.1, Made by cleverActon0126#3517")
      message.channel.send(embed);
     break;
     case "helpinfo":
@@ -1207,7 +1230,7 @@ bot.on("message", async function(message) {
      .addField("`userinfo`", "User\'s information.")
      .setTimestamp()
      .setColor(0x00ffff)
-     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.1, Made by cleverActon0126#3517")
      message.channel.send(embed);
     break;
     case "helpmod":
@@ -1230,8 +1253,8 @@ bot.on("message", async function(message) {
      )
      .addFields(
        { name: "Server Actions", value: "Do things to server, higher permissions required." },
-       { name: "`lockdown`", value: "Locks the server (MANAGE_SERVER", inline: true },
-       { name: "`unlock`", value: "Unlocks the server (MANAGE_SERVER", inline: true },
+       { name: "`lockdown <time> <reason>`", value: "Locks the server (MANAGE_SERVER)", inline: true },
+       { name: "`unlock`", value: "Unlocks the server (MANAGE_SERVER)", inline: true },
        { name: "`clear <1-99>`", value: "Bulk delete messages (VIEW_AUDIT_LOG)", inline: true }
      )
      .addFields(
@@ -1242,7 +1265,7 @@ bot.on("message", async function(message) {
      )
      .setTimestamp()
      .setColor(0x00ffff)
-     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.1, Made by cleverActon0126#3517")
      message.channel.send(embed)
     break;
     case "helputilities":
@@ -1253,7 +1276,7 @@ bot.on("message", async function(message) {
      .addField("`bugreport <bug>`", "Report a bug that Aot made", true)
      .addField("`time`", "Time now", true)
      .setTimestamp()
-     .setFooter("Aot Version 0.44.0, Made by cleverActon0126#3517")
+     .setFooter("Aot Version 0.44.1, Made by cleverActon0126#3517")
      message.channel.send(embed)
     break;
     //end of help menus
