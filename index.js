@@ -78,14 +78,7 @@ bot.on("message", async function(message) {
       var ping = m.createdTimestamp - message.createdTimestamp;
       var botping = bot.ws.ping;
 
-      var embed = new Discord.MessageEmbed()
-      .setTitle("Bot Ping")
-      .setDescription("Bot ping stands for the latency of the bot sending and receiving messages, it can also indicates why the bot is reacting slower than normal. Please note that if someone is spamming commands may slow the ping down.")
-      .addField("🏢", ping)
-      .addField("🤖", botping)
-      .setTimestamp()
-      .setFooter("Aot Version 0.44.2, Made by cleverActon0126#3517")
-      m.edit(embed)
+      m.edit(`🏓Pong! Bot ping is ${ping}ms\r API Latency is ${botping}ms`)
      });
     break;
     case "noticeme":
@@ -142,10 +135,9 @@ bot.on("message", async function(message) {
     case "door":
      dUser = message.author;
 
-     message.channel.send(`$<@{dUser.id}> => :door:`)
+     message.channel.send(`${dUser.tag} => :door:`)
     break;
     case "8ball":
-     var eightballargs = args.slice(1).join(" ");
      var eightball = [
       "🟢It is decidedly so.",
       "🟢Without a doubt.",
@@ -164,8 +156,8 @@ bot.on("message", async function(message) {
       "🔴Very doubtful."
      ];
 
-     if (!args[1]) return message.channel.send('You did not ask a question.')
-     else message.channel.send(`Your Question: ${eightballargs} \r The fortune teller: ${eightball[Math.floor(Math.random() * eightball.length)]}`)
+     if (!args[1]) return message.channel.send('What did you say?')
+     else message.channel.send(eightball[Math.floor(Math.random() * eightball.length)])
     break;
     case "coinflip":
      var coinflip = [
@@ -176,23 +168,23 @@ bot.on("message", async function(message) {
      message.channel.send(coinflip[Math.floor(Math.random() * coinflip.length)]);
     break;
     case "ding":
-     message.channel.send("🔔");
+     message.channel.send("DOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONG!");
     break;
     case "beep":
-     message.channel.send("🤖: Boop!")
+     message.channel.send("Boop!")
     break;
     case "kill":
      const iUser = message.mentions.members.first();
 
      var kill = [
-      `${message.author} has been roasted to a toast like a bread.`,
+      `${message.author} has been roasted to a a toast like a bread.`,
       `${message.author} accidentally stuck his head in the washing machine and got his head washed off.`,
-      `${message.author}\'s beard got pulled off and he lost too much blood. He died. RINP.`,
-      `${message.author} jumped into a swimming pool, but he forgot the water was cleared out last week because it is winter.`,
+      `${message.author}\'s beard got pulled off and he lost too much blood. He died. RIP.`,
+      `${message.author} jumped into a swimming pool, but he forgot the water was cleared out last week because christmas is coming.`,
       `${message.author} jumped into a swimming pool, but he suddenly fotgot how to swim.`,
       `${message.author} is spreading butter on to his bread, but he accidentally used the knife too hard and killed himself.`,
-      `${message.author} is trying to make a bomb and blow The President into pieces, but he accidentally pressed the blow up button and blew himself up.`,
-      `${message.author} got a gun and didnt know how to hold it. He thought the end of the gun was where to point to himself. Then he tries it at the wall. Not to mention what happened.`,
+      `${message.author} is trying to make a bomb and blow Tonald Drump into pieces, but he accidentally pressed the blow up button and blew himself up.`,
+      `${message.author} got a gun and didn"t know how to hold it. He thought the end of the gun was where to point to himself. Then he tries it at the wall. Not to mention what happened.`,
       `${message.author} was robbing a bank alone. He shot the security and the bullet hit the wall. Then the bullet reflected and shot back into himself.`,
       `${message.author} wanted a dive in the ocean. Instead of swimming, his leg was CLEAN cut by the blade of a boat.`
      ];
@@ -200,14 +192,14 @@ bot.on("message", async function(message) {
      if(!iUser) message.channel.send(kill[Math.floor(Math.random() * kill.length)])
 
      var killer = [
-      `<@${iUser.id}> has been roasted to a toast like a bread.`,
+      `<@${iUser.id}> has been roasted to a a toast like a bread.`,
       `<@${iUser.id}> accidentally stuck his head in the washing machine and got his head washed off.`,
-      `<@${iUser.id}>\'s beard got pulled off and he lost too much blood. He died. RINP.`,
-      `<@${iUser.id}> jumped into a swimming pool, but he forgot the water was cleared out last week because it is winter.`,
+      `<@${iUser.id}>\'s beard got pulled off and he lost too much blood. He died. RIP.`,
+      `<@${iUser.id}> jumped into a swimming pool, but he forgot the water was cleared out last week because christmas is coming.`,
       `<@${iUser.id}> jumped into a swimming pool, but he suddenly fotgot how to swim.`,
       `<@${iUser.id}> is spreading butter on to his bread, but he accidentally used the knife too hard and killed himself.`,
-      `<@${iUser.id}> is trying to make a bomb and blow The President into pieces, but he accidentally pressed the blow up button and blew himself up.`,
-      `<@${iUser.id}> got a gun and didn't know how to hold it. He thought the end of the gun was where to point to himself. Then he tries it at the wall. Not to mention what happened.`,
+      `<@${iUser.id}> is trying to make a bomb and blow Tonald Drump into pieces, but he accidentally pressed the blow up button and blew himself up.`,
+      `<@${iUser.id}> got a gun and didn"t know how to hold it. He thought the end of the gun was where to point to himself. Then he tries it at the wall. Not to mention what happened.`,
       `<@${iUser.id}> was robbing a bank alone. He shot the security and the bullet hit the wall. Then the bullet reflected and shot back into himself.`,
       `<@${iUser.id}> wanted a dive in the ocean. Instead of swimming, his leg was CLEAN cut by the blade of a boat.`
      ];
@@ -219,10 +211,10 @@ bot.on("message", async function(message) {
 
       var roast = [
       `<@${message.author.id}> WTH IS WRONG WITH YOU YOU DUMBASS!`,
-      `<@${message.author.id}> YOU IDIOT NEED TO DIE!`,
-      `<@${message.author.id}> ARE YOU AN IDIOT? PANALTY!`,
+      `<@${message.author.id}> YOU IDOT NEED TO DIE!`,
+      `<@${message.author.id}> ARE YOU AN IDOT? PANALTY!`,
       `<@${message.author.id}> ARE YOU SURE YOU WANNA SAY THAT??? I AM GOING TO KILL YOU!`,
-      `<@${message.author.id}> WTF IS WRONG WITH YOU YOU MOTHERF***ER!`,
+      `<@${message.author.id}> WTF IS WRONG WITH YOU YOU MOTHER F***ER!`,
       `<@${message.author.id}> DID YOU GOT THE CORONAVIRUS? WTF?`
       ];
 
@@ -230,10 +222,10 @@ bot.on("message", async function(message) {
 
       var roaster = [
         `<@${roUser.id}> WTH IS WRONG WITH YOU YOU DUMBASS!`,
-        `<@${roUser.id}> YOU IDIOT NEED TO DIE!`,
-        `<@${roUser.id}> ARE YOU AN IDIOT? PANALTY!`,
+        `<@${roUser.id}> YOU IDOT NEED TO DIE!`,
+        `<@${roUser.id}> ARE YOU AN IDOT? PANALTY!`,
         `<@${roUser.id}> ARE YOU SURE YOU WANNA SAY THAT??? I AM GOING TO KILL YOU!`,
-        `<@${roUser.id}> WTF IS WRONG WITH YOU YOU MOTHERF***ER!`,
+        `<@${roUser.id}> WTF IS WRONG WITH YOU YOU MOTHER F***ER!`,
         `<@${roUser.id}> DID YOU GOT THE CORONAVIRUS? WTF?`
       ];
 
@@ -276,7 +268,6 @@ bot.on("message", async function(message) {
       .addField("Step 6", "Hit ok.", true)
       .addField("Step 7", "Watch someone freak out.", true)
       .addField("Linux and MacOS", `We haven"t test out using Linux or MacOS, but you can use a virtual machine to shutdown <@${sdUser.id}>\'s device.`)
-      .addField("Remarks", "This guide is 100% true and safe, it will not delete anyone's computer documents, nor f*ck up andything. You can follow this guide without worrying about peoeple's documents.")
       .setTimestamp()
       .setFooter("Aot Version 0.44.2, Made by cleverActon0126#3517")
       message.channel.send(embed)
@@ -431,11 +422,7 @@ bot.on("message", async function(message) {
       message.channel.send(`<@${message.member.id}> here's your joke: \r` + jokes[Math.floor(Math.random() * jokes.length)])
     break;
     case "meme":
-      const subReddits = [
-      "dankmeme", 
-      "meme",
-      "memes"
-      ]
+      const subReddits = ["dankmeme", "meme", "memes"]
       const random = subReddits[Math.floor(Math.random() * subReddits.length)]
       const img = await randomPuppy(random);
       
@@ -491,9 +478,8 @@ bot.on("message", async function(message) {
      .addField("Reported User", `${rUser} with ID: ${rUser.id}`)
      .addField("Reported By", `${message.author} with ID: ${message.author.id}`)
      .addField("Channel", message.channel)
-     .addField("Time (In UTC)", message.createdAt)
+     .addField("Time", message.createdAt)
      .addField("Reason", rReason)
-     .addField("Time", "https://time.is/UTC")
      .setTimestamp()
      .setFooter("Aot Version 0.44.2, Made by cleverActon0126#3517")
 
@@ -505,7 +491,7 @@ bot.on("message", async function(message) {
     break;
     case "bugreport":
       const brUser = message.author;
-      let brReason = args.slice(1).join(" ")
+      let brReason = args.slice(2).join(" ")
       if(!brReason) return message.channel.send("If you can't report a bug then don't abuse this command!");
 
       var embed = new Discord.MessageEmbed()
@@ -1110,11 +1096,6 @@ bot.on("message", async function(message) {
      .setColor(0x00bfff)
      .addField("Bot Name", bot.user.username)
      .addField("Bot Created On:", bot.user.createdAt)
-     .addField("Bot Creator", "cleverActon0126#3517")
-     .addField("Bot Developers", "cleverActon0126, Fire_Maker, callofdutygamer")
-     .addField("Version", "0.44.2")
-     .addField("Host", "Heroku")
-     .addField("Boy Joined", bot.guild.JoinedAt)
      .setTimestamp()
      .setFooter("Aot Version 0.44.2, Made by cleverActon0126#3517")
      message.channel.send(embed);
