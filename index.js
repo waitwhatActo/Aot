@@ -3,6 +3,7 @@ const ms = require("ms");
 const randomPuppy = require("random-puppy");
 
 const config = require('./config.json');
+const PREFIX = "?a";
 
 const bot = new Discord.Client();
 
@@ -61,7 +62,7 @@ bot.on("disconnect", function() {
 bot.on("message", async function(message) {
   if (message.author.equals(bot.user)) return;
 
-  if (!message.content.startsWith("?a")) return;
+  if (!message.content.startsWith(PREFIX)) return;
 
   const args = message.content.substring(PREFIX.length).split(" ");
 
