@@ -926,7 +926,7 @@ bot.on("message", async function(message) {
      });
      let clearlog = message.guild.channels.cache.find(channel => channel.name === "server-logs")
      if(!clearlog) return message.channel.send("Couldn't find server logs channel.")
-     let clear2log = message.guild.channels.cache.find(channel => channel.name === "server-logs")
+     let clear2log = message.guild.channels.cache.find(channel => channel.name === "logs")
      if(!clear2log) return message.channel.send("Couldn't find server logs channel.")
 
      clearlog.send(`<@${message.member.id}> has deleted ${args[1]} in <#${clearchannel}>`)
@@ -989,15 +989,15 @@ bot.on("message", async function(message) {
       var lc7 = message.guild.channels.cache.find(channel => channel.name === "Event" && channel.type === "category");
       var lc8 = message.guild.channels.cache.find(channel => channel.name === "VC 1" && channel.type === "voice");
       var lc9 = message.guild.channels.cache.find(channel => channel.name === "Rythm VC 1 (96kbps)" && channel.type === "voice");
-      if(!lc1) return message.channel.send("Not enough channelA. :P");
-      if(!lc2) return message.channel.send("Not enough channelB. :P");
-      if(!lc3) return message.channel.send("Not enough channelC. :P");
-      if(!lc4) return message.channel.send("Not enough channelD. :P");
-      if(!lc5) return message.channel.send("Not enough channelE. :P");
-      if(!lc6) return message.channel.send("Not enough channelF. :P");
-      if(!lc7) return message.channel.send("Not enough channelG. :P");
-      if(!lc8) return message.channel.send("Not enough channelH. :P");
-      if(!lc9) return message.channel.send("Not enough channelI. :P");
+      if(!lc1) return message.channel.send("Not enough channel. :P");
+      if(!lc2) return message.channel.send("Not enough channel. :P");
+      if(!lc3) return message.channel.send("Not enough channel. :P");
+      if(!lc4) return message.channel.send("Not enough channel. :P");
+      if(!lc5) return message.channel.send("Not enough channel. :P");
+      if(!lc6) return message.channel.send("Not enough channel. :P");
+      if(!lc7) return message.channel.send("Not enough channel. :P");
+      if(!lc8) return message.channel.send("Not enough channel. :P");
+      if(!lc9) return message.channel.send("Not enough channel. :P");
       
       lc1.updateOverwrite(lc1.guild.roles.everyone, { SEND_MESSAGES: false });
       lc2.updateOverwrite(lc2.guild.roles.everyone, { SEND_MESSAGES: false });
@@ -1039,9 +1039,9 @@ bot.on("message", async function(message) {
       var uc4 = message.guild.channels.cache.find(channel => channel.name === "bot-commands");
       var uc5 = message.guild.channels.cache.find(channel => channel.name === "dank-memer-special");
       var uc6 = message.guild.channels.cache.find(channel => channel.name === "rythm-songs");
-      var uc7 = message.guild.channels.cache.find(channel => channel.name === "event" && channel.type === "category");
+      var uc7 = message.guild.channels.cache.find(channel => channel.name === "Event" && channel.type === "category");
       var uc8 = message.guild.channels.cache.find(channel => channel.name === "VC 1" && channel.type === "voice");
-      var uc9 = message.guild.channels.cache.find(channel => channel.name === "Rythm VC 1" && channel.type === "voice");
+      var uc9 = message.guild.channels.cache.find(channel => channel.name === "Rythm VC 1 (96kbps)" && channel.type === "voice");
       if(!uc1) return message.channel.send("Not enough channel. :P");
       if(!uc2) return message.channel.send("Not enough channel. :P");
       if(!uc3) return message.channel.send("Not enough channel. :P");
