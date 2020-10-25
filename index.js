@@ -508,6 +508,7 @@ bot.on("message", async function(message) {
        .setDescription("Ping is the bot's latency, or response speed. It may vary if people are spamming commands or bot is in a high traffic.")
        .addField("🤖⏲", ping)
        .addField("🏦⏲", botping)
+       m.edit(embed)
       });
      break;
     case "remind":
