@@ -2,8 +2,7 @@ const Discord = require("discord.js");
 const ms = require("ms");
 const randomPuppy = require("random-puppy");
 
-const TOKEN = "NjU1NzY5Njk1MzcwMjE1NDI1.XltsKw.9iHz5WJsqo2awd6NrfnBiAS7s3g";
-const PREFIX = "?a";
+const config = require('./config.json');
 
 const bot = new Discord.Client();
 
@@ -62,7 +61,7 @@ bot.on("disconnect", function() {
 bot.on("message", async function(message) {
   if (message.author.equals(bot.user)) return;
 
-  if (!message.content.startsWith(PREFIX)) return;
+  if (!message.content.startsWith("?a")) return;
 
   const args = message.content.substring(PREFIX.length).split(" ");
 
@@ -510,6 +509,24 @@ bot.on("message", async function(message) {
        .addField("🏦⏲", botping)
       });
      break;
+    case "remind":
+      const rargs = args.slice(2).join(" ");
+      if (!rargs) return message.channel.send("You didn't tell me what to remind you")
+      var rTime = args[1];
+      if (!rTime) return message.channel.send("Invalid time.")
+
+      message.channel.send(`Ok. I will ping and remind you in ${rTime}.`);
+
+      var embed = new Discord.MessageEmbed()
+      .setTitle("Reminder")
+      .setAuthor(message.member.tag, message.member.displayAvatarURL())
+      .addField("I want to remind you:", rargs)
+
+      setTimeout(function() {
+        message.channel.send(`Hey, <@${message.member.id}>.`)
+        message.channel.send(embed)
+      }, rTime)
+    break;
     //end of utilities
     //admin commands
     case "op":
@@ -1273,5 +1290,5 @@ bot.on("message", async function(message) {
   }
 });
 
-bot.login(TOKEN);
+bot.login(config.token);
 
