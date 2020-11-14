@@ -14,7 +14,7 @@ bot.on("ready", function() {
 
 bot.on("guildMemberAdd", function(member) {
   const inChannel = member.guild.channels.cache.find(channel => channel.name === "in-n-out")
-  if(!inChannel) return;
+  if(!inChannel) return console.log("Invalid.");
 
   inChannel.send(`<@${member.id}>`)
 
@@ -57,7 +57,7 @@ bot.on("error", function() {
 bot.on("disconnect", function() {
   const da = bot.guilds.channels.cache.find(channel => channel.id === "656409202448924700");
   da.send("Bot is now disconnected, investigating problem.")
-})
+});
 
 bot.on("message", async function(message) {
   if (message.author.equals(bot.user)) return;
@@ -507,6 +507,9 @@ bot.on("message", async function(message) {
        .setTitle("Bot Ping")
        .addField("Ping", ping)
        .addField("API", botping)
+       .setColor("RANDOM")
+       .setTimestamp()
+       .setFooter("Aot Version 0.47.0, Made by cleverActon0126#3517")
        m.edit(embed)
       });
      break;
@@ -843,6 +846,7 @@ bot.on("message", async function(message) {
      .addField("New Commands", "`remind`", true)
      .addField("Removed Commands", "N/A", true)
      .addField("Updates", "Added remind command.")
+     .addField("Code is available at", "https://github.com/cleverActon0126/actons-database")
      .setColor(0x00ff00)
      .setTimestamp()
      .setFooter("Aot Version 0.47.0, Made by cleverActon0126#3517")
