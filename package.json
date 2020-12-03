@@ -1,6 +1,6 @@
 {
   "name": "aot",
-  "version": "0.47.0",
+  "version": "0.48.0",
   "description": "Acton's bot",
   "main": "index.js",
   "scripts": {
