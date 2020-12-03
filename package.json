@@ -1,18 +1,26 @@
 {
   "name": "aot",
   "version": "0.47.0",
-  "description": "A bot by Acton",
+  "description": "Acton's bot",
   "main": "index.js",
-  "dependencies": {
-    "discord.js": "^12.4.1",
-    "ms": "^2.1.2",
-    "random-puppy": "^1.1.0",
-    "util": "^0.12.3"
-  },
-  "devDependencies": {},
   "scripts": {
-    "test": "node index.js"
+    "test": "?ahelp"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cleverActon0126/actons-database/aot-source"
+  },
+  "keywords": [
+    "Aot"
+  ],
   "author": "Acton",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^12.5.1",
+    "ms": "^2.1.2",
+    "opusscript": "0.0.7",
+    "random-puppy": "^1.1.0",
+    "util": "^0.12.3",
+    "ytdl-core": "^4.1.1"
+  }
 }

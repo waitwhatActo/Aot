@@ -1,11 +1,13 @@
 const Discord = require("discord.js");
 const ms = require("ms");
 const randomPuppy = require("random-puppy");
+const ytdl = require("ytdl-core");
 
 const config = require('./config.json');
 const PREFIX = "?a";
 
 const bot = new Discord.Client();
+const queue = new Map();
 
 bot.on("ready", function() {
   console.log("Connected as Aot#0350 and using version 0.47.0");
@@ -64,7 +66,9 @@ bot.on("message", async function(message) {
 
   if (!message.content.startsWith(PREFIX)) return;
 
-  var args = message.content.substring(PREFIX.length).split(" ");
+  const args = message.content.substring(PREFIX.length).split(" ");
+
+  const serverQueue = queue.get(message.guild.id);
 
   switch (args[0].toLowerCase()) {
     //food Commands
@@ -1296,6 +1300,35 @@ bot.on("message", async function(message) {
      message.channel.send(embed)
     break;
     //end of help menus 
+    //music commands
+    case "play":
+      const voiceChannel = message.member.voice.channel;
+      if(!voiceChannel) return message.channel.send("You need to be in a voice channel to be able to listen to music!");
+      const permissions = voiceChannel.permissionsFor(message.client.user);
+      if(!permissions.has("CONNECT")) return message.channel.send("I don't have permissions to connect to the voice channel.");
+      if(!permissions.has("SPEAK")) return message.channel.send("I can't play music in the voice channel.");
+
+      try {
+        var connection = await voiceChannel.join();
+      } catch (error) {
+        console.log(error)
+        return message.channel.send("I could not join the voice channel. Please try again or contact the developer.")
+      }
+
+      const dispatcher = connection.play(ytdl(args[1], { filter: "audioonly" }))
+      dispatcher.on("end", () => {
+        message.channel.send("Song ended")
+        voiceChannel.leave();
+      });
+
+      dispatcher.setVolumeLogarithmic(5 / 5)
+    break;
+    case "stop":
+      if(!message.member.voice.channel) return message.channel.send("You need to be in a voice channel!")
+      message.member.voice.channel.leave();
+      message.channel.send("Stopped")
+    break;
+    //end of mmusic commands
   }
 });
 
