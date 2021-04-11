@@ -1,6 +1,6 @@
 {
   "name": "aot",
-  "version": "0.49.1",
+  "version": "0.50.0",
   "description": "Acto's bot",
   "main": "index.js",
   "scripts": {
@@ -18,9 +18,7 @@
   "dependencies": {
     "discord.js": "^12.5.1",
     "ms": "^2.1.2",
-    "opusscript": "0.0.7",
     "random-puppy": "^1.1.0",
-    "util": "^0.12.3",
-    "ytdl-core": "^4.1.1"
+    "util": "^0.12.3"
   }
 }
