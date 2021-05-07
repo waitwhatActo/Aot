@@ -7,62 +7,74 @@ const PREFIX = "?a";
 
 const bot = new Discord.Client();
 
+//Channel VARs
+var cgeneral = bot.channels.cache.find(channel => channel.id == "709339392564527185");
+var crandomstuff = bot.channels.cache.find(channel => channel.id == "830999827784925276");
+var ccounting = bot.channels.cache.find(channel => channel.id == "702058356210139137");
+var cspam = bot.channels.cache.find(channel => channel.id == "725534247737360474");
+var cbotcommands = bot.channels.cache.find(channel => channel.id == "709663772620357692");
+var cdankcommands = bot.channels.cache.find(channel => channel.id == "740870836839514143");
+var csongcommands = bot.channels.cache.find(channel => channel.id == "724900582376079391");
+var vgeneral1 = bot.channels.cache.find(channel => channel.id == "608937238549495813");
+var vgeneral2 = bot.channels.cache.find(channel => channel.id == "785345715555401738");
+var vsongvc = bot.channels.cache.find(channel => channel.id == "785346378586259466");
+var vgamingvc = bot.channels.cache.find(channel => channel.id == "833984632021712937");
+//End of Channel VARs
+
 var hmf = [
   "Need help? ?ahelp will be able to help you.",
   "Enjoy your time using Aot.",
-  "Trying to report somebody? Use ?areport anywhere so the person can get moderated earlier.",
+  "Trying to report somebody? DM <@575252669443211264>",
   "Made by cleverActon0126#0126",
-  "Version 0.50.0"
+  "Version 0.51.0"
 ];
 
 bot.on("ready", function() {
-  console.log("Connected as Aot#0350 and using version 0.50.0");
+  console.log("Connected as Aot#0350 and using version 0.51.0");
   bot.user.setPresence({ activity: { name: "?ahelp" }, status: "online" })
 });
 
 bot.on("guildMemberAdd", function(member) {
-  let nmp = member.id
-
   let newmem = [
-    `<@${nmp}> just joined the server - glhf!`,
-    `<@${nmp}> just joined. Everyone, look busy!`,
-    `<@${nmp}> just joined. Can I get a heal?`,
-    `<@${nmp}> joined your party.`,
-    `<@${nmp}> joined. You must construct additional pylons.`,
-    `Ermagherd. <@${nmp}> is here.`,
-    `Welcome, <@${nmp}>. Stay awhile and listen.`,
-    `Welcome, <@${nmp}>. We were expecting you ( ͡° ͜ʖ ͡°)`,
-    `Welcome, <@${nmp}>. We hope you brought pizza.`,
-    `Welcome <@${nmp}>. Leave your weapons by the door.`,
-    `A wild <@${nmp}> appeared.`,
-    `Swoooosh. <@${nmp}> just landed.`,
-    `Brace yourselves. <@${nmp}> just joined the server.`,
-    `<@${nmp}> just joined. Hide your bananas.`,
-    `<@${nmp}> just arrived. Seems OP - please nerf.`,
-    `<@${nmp}> just slid into the server.`,
-    `A <@${nmp}> has spawned in the server.`,
-    `Big <@${nmp}> showed up!`,
-    `Where’s <@${nmp}>? In the server!`,
-    `<@${nmp}> hopped into the server. Kangaroo!!`,
-    `<@${nmp}> just showed up. Hold my beer.`,
-    `Challenger approaching - <@${nmp}> has appeared!`,
-    `It's a bird! It's a plane! Nevermind, it's just <@${nmp}>.`,
-    `It's <@${nmp}>! Praise the sun! [T]/`,
-    `Never gonna give <@${nmp}> up. Never gonna let <@${nmp}> down.`,
-    `Ha! <@${nmp}> has joined! You activated my trap card!`,
-    `Cheers, love! <@${nmp}>'s here!`,
-    `Hey! Listen! <@${nmp}> has joined!`,
-    `We've been expecting you <@${nmp}>`,
-    `It's dangerous to go alone, take <@${nmp}>!`,
-    `<@${nmp}> has joined the server! It's super effective!`,
-    `Cheers, love! <@${nmp}> is here!`,
-    `<@${nmp}> is here, as the prophecy foretold.`,
-    `<@${nmp}> has arrived. Party's over.`,
-    `Ready player <@${nmp}>`,
-    `<@${nmp}> is here to kick butt and chew bubblegum. And <@${nmp}> is all out of gum.`,
-    `Hello. Is it <@${nmp}> you're looking for?`,
-    `<@${nmp}> has joined. Stay a while and listen!`,
-    `Roses are red, violets are blue, <@${nmp}> joined this server with you`
+    `<@${member.id}> just joined the server - glhf!`,
+    `<@${member.id}> just joined. Everyone, look busy!`,
+    `<@${member.id}> just joined. Can I get a heal?`,
+    `<@${member.id}> joined your party.`,
+    `<@${member.id}> joined. You must construct additional pylons.`,
+    `Ermagherd. <@${member.id}> is here.`,
+    `Welcome, <@${member.id}>. Stay awhile and listen.`,
+    `Welcome, <@${member.id}>. We were expecting you ( ͡° ͜ʖ ͡°)`,
+    `Welcome, <@${member.id}>. We hope you brought pizza.`,
+    `Welcome <@${member.id}>. Leave your weapons by the door.`,
+    `A wild <@${member.id}> appeared.`,
+    `Swoooosh. <@${member.id}> just landed.`,
+    `Brace yourselves. <@${member.id}> just joined the server.`,
+    `<@${member.id}> just joined. Hide your bananas.`,
+    `<@${member.id}> just arrived. Seems OP - please nerf.`,
+    `<@${member.id}> just slid into the server.`,
+    `A <@${member.id}> has spawned in the server.`,
+    `Big <@${member.id}> showed up!`,
+    `Where’s <@${member.id}>? In the server!`,
+    `<@${member.id}> hopped into the server. Kangaroo!!`,
+    `<@${member.id}> just showed up. Hold my beer.`,
+    `Challenger approaching - <@${member.id}> has appeared!`,
+    `It's a bird! It's a plane! Nevermind, it's just <@${member.id}>.`,
+    `It's <@${member.id}>! Praise the sun! [T]/`,
+    `Never gonna give <@${member.id}> up. Never gonna let <@${member.id}> down.`,
+    `Ha! <@${member.id}> has joined! You activated my trap card!`,
+    `Cheers, love! <@${member.id}>'s here!`,
+    `Hey! Listen! <@${member.id}> has joined!`,
+    `We've been expecting you <@${member.id}>`,
+    `It's dangerous to go alone, take <@${member.id}>!`,
+    `<@${member.id}> has joined the server! It's super effective!`,
+    `Cheers, love! <@${member.id}> is here!`,
+    `<@${member.id}> is here, as the prophecy foretold.`,
+    `<@${member.id}> has arrived. Party's over.`,
+    `Ready player <@${member.id}>`,
+    `<@${member.id}> is here to kick butt and chew bubblegum. And <@${member.id}> is all out of gum.`,
+    `Hello. Is it <@${member.id}> you're looking for?`,
+    `<@${member.id}> has joined. Stay a while and listen!`,
+    `Roses are red, violets are blue, <@${member.id}> joined this server with you`
   ];
 
   var inchannel = member.guild.channels.cache.find(channel => channel.name === "in-n-out");
@@ -78,14 +90,14 @@ bot.on("guildMemberAdd", function(member) {
   .addField(`Server Information`, `Server informations are available at <#739800400361947176>. It has list of Staffs, Channel Categories, Bots, Roles, Moderations and other useful information about the server.`)
   .setTimestamp()
   .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
-  member.send(embed)
+  member.send(embed).catch(() => inchannel.send(`Welcome, <@${member.id}>. Unfortunately, I could not send a direct message to you, so if you would like to check out the welcome message, type in \`?awelcome\`in <#709663772620357692> to check out the welcome message!`))
 });
 
 bot.on("guildMemberRemove", function(member) {
   const outChannel = member.guild.channels.cache.find(channel => channel.name === "in-n-out")
   if(!outChannel) return;
 
-  outChannel.send(`**${member.username}** has left, but we will never forget them.`)
+  outChannel.send(`**<@${member.id}>** has left, but we will never forget them.`)
 });
 
 bot.on("message", async function(message) {
@@ -108,7 +120,7 @@ bot.on("message", async function(message) {
       }).then(collected => {
         if(collected.size == 0) message.channel.send("What the heck were you typing? You type so SLOW bro.")
         else if(collected.first().content == "cooked") message.channel.send("We just ran out of salmon. Go buy one and we will cook it for ya.")
-        else if(collected.first().content == "cancel") message.channel.send("Operation cancelled")
+        else if(collected.first().content == "cancel") message.channel.send("You just saved another salmon. Help out the earth! #TeamTrees #GoGreen")
         else if(collected.first().content == "raw") message.channel.send("Here\'s your invisible raw salmon.")
         else message.channel.send("That's not one of the option. If you wish to get that kind of salmon, please go to the other shop. We do NOT welcome you here.")
      });
@@ -133,8 +145,16 @@ bot.on("message", async function(message) {
      message.channel.send("🚪")
     break;
     case "8ball":
+     var eballerrembed = new Discord.MessageEmbed()
+     .setTitle("8Ball")
+     .setDescription("You might not know the usage of 8ball. So let's learn how to use it here.")
+     .addField("`8ball [Your question]`", "It's just that simple.")
+     .setColor(0xff0000)
+     .setTimestamp()
+     .setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+
       var eballq = args.slice(1).join(" ");
-      if(!eballq) return message.channel.send("Hmm, you didn't ask a question.");
+      if(!eballq) return message.channel.send(eballerrembed);
 
       var eightball = [
        "🟢It is decidedly so.",
@@ -202,10 +222,18 @@ bot.on("message", async function(message) {
      message.channel.send(killer[Math.floor(Math.random() * killer.length)]);
     break;
     case "shutdown":
+      var shutdownerrembed = new Discord.MessageEmbed()
+      .setTitle("Shutdown")
+      .setDescription("You might not know the usage of shutdown. So let's learn how to use it here.")
+      .addField("`shutdown <@someone>`", "It's just that simple.")
+      .setColor(0xff0000)
+      .setTimestamp()
+      .setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+
       const sdmUser = message.member;
       const sdUser = message.mentions.members.first();const { promisify } = require("util");
       var wait = require("util").promisify(setTimeout);
-      if(!sdUser) return message.channel.send("Who to hack?");
+      if(!sdUser) return message.channel.send(shutdownerrembed);
 
         var msg = await message.channel.send(`Prepare to shutdown ${sdUser.id}\'s device.`)
       await wait(2500)
@@ -252,52 +280,60 @@ bot.on("message", async function(message) {
     spamChannel.send("spam spam");
     break;
     case "hack":
+     var hackerrembed = new Discord.MessageEmbed()
+     .setTitle("Hack")
+     .setDescription("You might not know the usage of Hack. So let's learn how to use it here.")
+     .addField("`hack [@someone]`", "It's just that simple.")
+     .setColor(0xff0000)
+     .setTimestamp()
+     .setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+
       const hsUser = message.member;
       const hUser = message.mentions.members.first();
-      if(!hUser) return message.channel.send("Who to hack?");
+      if(!hUser) return message.channel.send(hackerremebed);
       var wait = require("util").promisify(setTimeout);
 
-      var msg = await message.channel.send(`\`\`\`Enourmoushard Closure [Version 0.50.0] \r(c)   Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>\`\`\``)
+      var msg = await message.channel.send(`\`\`\`Enourmoushard Closure [Version 0.51.0] \r(c)   Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>\`\`\``)
       await wait(5000)
-      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.50.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \`\`\``)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.51.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \`\`\``)
       await wait(1000)
-      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.50.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>\`\`\``)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.51.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>\`\`\``)
       await wait(2500)
-      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.50.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\`\`\``)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.51.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\`\`\``)
       await wait(5000)
-      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.50.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\`\`\``)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.51.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\`\`\``)
       await wait(3000)
-      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.50.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\`\`\``)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.51.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\`\`\``)
       await wait(2500)
-      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.50.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\`\`\``)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.51.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\`\`\``)
       await wait(5000)
-      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.50.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\`\`\``)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.51.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\`\`\``)
       await wait(3000)
-      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.50.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\`\`\``)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.51.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\`\`\``)
       await wait(1500)
-      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.50.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\`\`\``)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.51.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\`\`\``)
       await wait(5000)
-      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.50.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\`\`\``)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.51.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\`\`\``)
       await wait(3000)
-      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.50.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\`\`\``)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.51.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\`\`\``)
       await wait(1000)
-      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.50.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\`\`\``)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.51.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\`\`\``)
       await wait(3000)
-      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.50.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\`\`\``)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.51.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\`\`\``)
       await wait(5000)
-      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.50.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\`\`\``)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.51.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\`\`\``)
       await wait(1000)
-      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.50.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\rAdding malware to their credit card and computer.\`\`\``)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.51.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\rAdding malware to their credit card and computer.\`\`\``)
       await wait(3000)
-      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.50.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\rAdding malware to their credit card and computer.\rActivating malware.\`\`\``)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.51.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\rAdding malware to their credit card and computer.\rActivating malware.\`\`\``)
       await wait(1500)
-      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.50.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\rAdding malware to their credit card and computer.\rActivating malware.\rProcess ended.\`\`\``)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.51.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\rAdding malware to their credit card and computer.\rActivating malware.\rProcess ended.\`\`\``)
       await wait(1000)
-      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.50.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\rAdding malware to their credit card and computer.\rActivating malware.\rProcess ended.\rThe very dangerous and real hacking process has been finished by a bot to prevent you from going to jail you NUM.\`\`\``)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.51.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\rAdding malware to their credit card and computer.\rActivating malware.\rProcess ended.\rThe very dangerous and real hacking process has been finished by a bot to prevent you from going to jail you NUM.\`\`\``)
       await wait(500)
-      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.50.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\rAdding malware to their credit card and computer.\rActivating malware.\rProcess ended.\rThe very dangerous and real hacking process has been finished by a bot to prevent you from going to jail you NUM.\rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>\`\`\``)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.51.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\rAdding malware to their credit card and computer.\rActivating malware.\rProcess ended.\rThe very dangerous and real hacking process has been finished by a bot to prevent you from going to jail you NUM.\rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>\`\`\``)
       await wait(2000)
-      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.50.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\rAdding malware to their credit card and computer.\rActivating malware.\rProcess ended.\rThe very dangerous and real hacking process has been finished by a bot to prevent you from going to jail you NUM.\rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>cls\`\`\``)
+      await msg.edit(`\`\`\`Enourmoushard Closure [Version 0.51.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}\'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\rAdding malware to their credit card and computer.\rActivating malware.\rProcess ended.\rThe very dangerous and real hacking process has been finished by a bot to prevent you from going to jail you NUM.\rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>cls\`\`\``)
       await wait(500)
       await msg.edit(`\`\`\`C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>\`\`\``)
       await wait(1000)
@@ -370,11 +406,19 @@ bot.on("message", async function(message) {
     //end of fun commands
     //admin commands
     case "addrole":
+      var addroleerrembed = new Discord.MessageEmbed()
+      .setTitle("Addrole")
+      .setDescription("Usage for addrole:")
+      .addField("`addrole <@user> <@role>`", "Permission Required: MANAGE_ROLES")
+      .setColor(0xff0000)
+      .setTimestamp()
+      .setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+
       if(!message.member.hasPermission("MANAGE_ROLES")) return message.channel.send("You don\'t have permission to do that.");
       let arUser = message.mentions.members.first();
-      if(!arUser) return message.channel.send("User doesn\'t exist!");
+      if(!arUser) return message.channel.send(addroleerrembed);
       let arRole = message.mentions.roles.first();
-      if(!arRole) return message.channel.send("Role?");
+      if(!arRole) return message.channel.send(addroleerrembed);
 
        var embed = new Discord.MessageEmbed()
       .setDescription("Role Added to User")
@@ -395,11 +439,19 @@ bot.on("message", async function(message) {
       message.channel.send(`Role added for <@${arUser.id}>`);
     break;
     case "tempaddrole":
+      var tempaddroleerrembed = new Discord.MessageEmbed()
+      .setTitle("Tempaddrole")
+      .setDescription("Usage for tempaddrole:")
+      .addField("`tempaddrole <@someone> <@role> <time>`", "Permission Required: MANAGE_ROLES")
+      .setColor(0xff0000)
+      .setTimestamp()
+      .setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+
       if(!message.member.hasPermission("MANAGE_ROLES")) return message.channel.send("You don\'t have permission to do that.");
       let tarUser = message.mentions.members.first();
-      if(!tarUser) return message.channel.send("User doesn\'t exist!");
+      if(!tarUser) return message.channel.send(tempaddroleerrembed);
       let tarRole = message.mentions.roles.first();
-      if(!tarRole) return message.channel.send("Role?");
+      if(!tarRole) return message.channel.send(tempaddroleerrembed);
 
       let tartime = args[3];
 
@@ -428,11 +480,19 @@ bot.on("message", async function(message) {
       },ms(tartime))
     break;
     case "removerole":
+      var removeroleerrembed = new Discord.MessageEmbed()
+      .setTitle("Removerole")
+      .setDescription("Usage for reomverole:")
+      .addField("`removerole <@someone> <@role>`", "Permission Required: MANAGE_ROLES")
+      .setColor(0xff0000)
+      .setTimestamp()
+      .setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+
       if(!message.member.hasPermission("MANAGE_ROLES")) return message.channel.send("You don\'t have permission to do that.");
       let rrUser = message.mentions.members.first();
-      if(!rrUser) return message.channel.send("User doesn\'t exist!");
+      if(!rrUser) return message.channel.send(removeroleerrembed);
       let rrRole = message.mentions.roles.first();
-      if(!rrRole) return message.channel.send("Role?");
+      if(!rrRole) return message.channel.send(removeroleerrembed);
 
       var embed = new Discord.MessageEmbed()
       .setDescription("Role Removed from User")
@@ -452,42 +512,17 @@ bot.on("message", async function(message) {
 
       message.channel.send(`Role removed for <@${rrUser.id}>`)
     break;
-    case "tempremoverole":
-      if(!message.member.hasPermission("MANAGE_ROLES")) return message.channel.send("You don\'t have permission to do that.");
-      let trrUser = message.mentions.members.first();
-      if(!trrUser) return message.channel.send("User doesn\'t exist!");
-      let trrRole = message.mentions.roles.first();
-      if(!trrRole) return message.channel.send("Role?");
-
-      let trrtime = args[3];
-
-      trrUser.roles.remove(trrRole.id);
-
-      var embed = new Discord.MessageEmbed()
-      .setDescription("Role temporily Removed from User")
-      .setColor(0xff0000)
-      .addField("Role Removed User", `${trrUser} with ID ${trrUser.id}`)
-      .addField("Removed By", `<@${message.author.id}> with ID ${message.author.id}`)
-      .addField("Removed In", message.channel)
-      .addField("Duration", trrtime)
-      .setTimestamp()
-      .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
-
-      let trrChannel = message.guild.channels.cache.find(channel => channel.name === "server-logs");
-      if(!trrChannel) return message.channel.send("Could not find server logs channel.");
-
-      trrChannel.send(embed);
-
-      message.channel.send(`Role removed for <@${trrUser.id}> for ${trrtime}`)
-
-      setTimeout(function() {
-        trrUser.roles.add(trrRole.id);
-        message.channel.send(`Role added for <@${trrUser.id}>`)
-      },ms(trrtime))
-    break;
     case "kick":
+      var kickerrembed = new Discord.MessageEmbed()
+      .setTitle("Kick")
+      .setDescription("Usage for kick:")
+      .addField("`kick <@someone> <reason>`", "Permission Required: KICK_MEMBER")
+      .setColor(0xff0000)
+      .setTimestamp()
+      .setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+
      const kUser = message.mentions.members.first();
-     if(!kUser) return message.channel.send("User doesn\'t exist!");
+     if(!kUser) return message.channel.send(kickerrembed);
      let kReason = args.slice(2).join(" ")
      if(!message.member.hasPermission("KICK_MEMBERS")) return message.channel.send("You don\'t have permission to do that!");
      if(kUser.hasPermission("KICK_MEMBERS")) return message.channel.send("That person can\'t be kicked!");
@@ -514,8 +549,16 @@ bot.on("message", async function(message) {
      kUser.send(`You have been kicked from Official Acton Fan Server. Reason: ${kReason}.`)
     break;
     case "tempban":
+      var tempbanerrembed = new Discord.MessageEmbed()
+      .setTitle("Tempban")
+      .setDescription("Usage for tempban:")
+      .addField("`tempban <@someone> <time> <reason>`", "Permission Required: BAN_MEMBER")
+      .setColor(0xff0000)
+      .setTimestamp()
+      .setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+
      const tbUser = message.mentions.members.first()
-     if(!tbUser) return message.channel.send("User doesn\'t exist!")
+     if(!tbUser) return message.channel.send(tempbanerrembed)
      let tbReason = args.slice(3).join(" ")
      if(!message.member.hasPermission("BAN_MEMBERS"))  return message.channel.send("You don\'t have permission to do that!");
      if(tbUser.hasPermission("BAN_MEMBERS")) return message.channel.send("That person cannot be banned!");
@@ -542,8 +585,16 @@ bot.on("message", async function(message) {
      message.channel.send(`<@${tbUser.id}> has been temp banned for ${tempbantime}.`)
     break;
     case "ban":
+      var banerrembed = new Discord.MessageEmbed()
+      .setTitle("Ban")
+      .setDescription("Usage for ban:")
+      .addField("`ban <@someone> <reason>`", "Permission Required: BAN_MEMBERS")
+      .setColor(0xff0000)
+      .setTimestamp()
+      .setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+
      const bUser = message.mentions.members.first();
-     if(!bUser) return message.channel.send("User doesn\'t exist!");
+     if(!bUser) return message.channel.send(banerrembed);
      let bReason = args.slice(2).join(" ")
      if(!message.member.hasPermission("BAN_MEMBERS"))  return message.channel.send("You don\'t have permission to do that!");
      if(bUser.hasPermission("BAN_MEMBERS")) return message.channel.send("That person can\'t be banned!");
@@ -570,8 +621,16 @@ bot.on("message", async function(message) {
      bUser.send(`You have been banned from Official Acton Fan Server. Duration: *Infinity*; Reason: ${bReason}`)
     break;
     case "unban":
+      var unbanerrembed = new Discord.MessageEmbed()
+      .setTitle("Unban")
+      .setDescription("Usage for unban:")
+      .addField("`unban <USER ID> <reason>`", "Permission Required: BAN_MEMBERS")
+      .setColor(0xff0000)
+      .setTimestamp()
+      .setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+
       const ubID = args[1];
-      if(!ubID) return message.channel.send("Who to unban?");
+      if(!ubID) return message.channel.send(unbanerrembed);
       if(!message.member.hasPermission("BAN_MEMBERS")) return message.channel.send("You don\'t have permission to do that!")
 
       var embed = new Discord.MessageEmbed()
@@ -594,26 +653,34 @@ bot.on("message", async function(message) {
      if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send("You don\'t have permission to do that!");
 
      var embed = new Discord.MessageEmbed()
-     .setTitle("Half in BETA, finally")
-     .setDescription("Successfully updated to Version 0.50.0!")
+     .setTitle("Compatibility Update")
+     .setDescription("Successfully updated to Version 0.51.0!")
      .addField("Prefix", "?a \(Uncustomable\)")
      .addField("Public Commands", "`help` \(Will lead you to other help commands\), `salmon`, `apple`, `pie`, `candy`, `spam`, `8ball`, `door`, `coinflip`, `kill`, `hack`, `shutdown`, `rps`,  `botinfo`, `userinfo`, `serverinfo`")
      .addField("Admin Commands", "`kick`, `ban`, `tempban`, `unban`, `mute`, `tempmute`, `unmute`, `clear`, `addrole`, `tempaddrole`, `removerole`, `tempremoverole`, `lockdown`, `unlock`", true)
-     .addField("New Commands", "N/A", true)
-     .addField("Removed Commands", "`ding`, `ping`, `beep`, `report`, `bugreport`, `time`,  `pld`, `pldul`,`contactinfo`, `remind`", true)
-     .addField("Updates", "Massive Updates: \r1. Removed mentioned commands. \r2. Fixed command bugs \r3. Fixed commands that are not working. \r4. Updated commands' content \r5. Updated join and leave content. \r6. Made sure admin commands work \r7. Do not try to kill the bot.")
-     .addField("Other Information from the Developer", "The website will be updated soon as well.")
+     .addField("New Commands", "`welcome`", true)
+     .addField("Removed Commands", "N/A", true)
+     .addField("Updates", "Compatibility Update: \r1. Fixed the welcome message \r2. Removed remaining elements \r3. Debugging \r4. Added `welcome` command \r5. Fixed lockdown commands \r6.Updated command contents")
+     .addField("Other Information from the Developer", "Server will be unlocked soon.")
      .addField("Code is available at", "Base currently down")
      .setColor(0x00ff00)
      .setTimestamp()
-     .setFooter("Aot Version 0.50.0, Made by cleverActon0126#0126")
+     .setFooter("Aot Version 0.51.0, Made by cleverActon0126#0126")
 
      message.delete().catch(()=> {});
      message.channel.send(embed);
     break;
     case "mute":
+      var muteerrembed = new Discord.MessageEmbed()
+      .setTitle("Mute")
+      .setDescription("Usage for mute:")
+      .addField("`mute <@someone> <reason>`", "Permission Required: VIEW_AUDIT_LOG")
+      .setColor(0xff0000)
+      .setTimestamp()
+      .setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+
      const mUser = message.mentions.members.first();
-     if (!mUser) return message.channel.send("User doesn\'t exist!");
+     if (!mUser) return message.channel.send(muteerrembed);
      if(!message.member.hasPermission("VIEW_AUDIT_LOG"))  return message.channel.send("You don\'t have permission to do that!");
      if(mUser.hasPermission("VIEW_AUDIT_LOG")) return message.channel.send("That person can\'t be muted!");
      let mReason = args.slice(2).join(" ")
@@ -638,6 +705,14 @@ bot.on("message", async function(message) {
      muteChannel.send(embed)
     break;
     case "tempmute":
+      var unbanerrembed = new Discord.MessageEmbed()
+      .setTitle("Unban")
+      .setDescription("Usage for unban:")
+      .addField("`unban <USER ID> <reason>`", "Permission Required: VIEW_AUDIT_LOG")
+      .setColor(0xff0000)
+      .setTimestamp()
+      .setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+
      const tmUser = message.mentions.members.first();
      if (!tmUser) return message.channel.send("User doesn\'t exist!");
      if(!message.member.hasPermission("VIEW_AUDIT_LOG"))  return message.channel.send("You don\'t have permission to do that!");
@@ -676,8 +751,16 @@ bot.on("message", async function(message) {
      }, ms(mutetime));
     break;
     case "unmute":
+      var unmuteerrembed = new Discord.MessageEmbed()
+      .setTitle("Unmute")
+      .setDescription("Usage for unmute:")
+      .addField("`unmute <@someone>`", "Permission Required: VIEW_AUDIT_LOG")
+      .setColor(0xff0000)
+      .setTimestamp()
+      .setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+
      const umUser = message.mentions.members.first();
-     if (!umUser) return message.channel.send("User doesn\'t exist!");
+     if (!umUser) return message.channel.send(unmuteerrembed);
      if(!message.member.hasPermission("VIEW_AUDIT_LOG"))  return message.channel.send("You don\'t have permission to do that!");
 
      let unmuterole = umUser.guild.roles.cache.find(role => role.name === "Muted");
@@ -691,8 +774,16 @@ bot.on("message", async function(message) {
      unmute2Channel.send(`<@${umUser.id}> has now been unmuted.`)
     break;
     case "clear":
+      var clearerrembed = new Discord.MessageEmbed()
+      .setTitle("Clear")
+      .setDescription("Usage for clear:")
+      .addField("`clear <1-99>`", "Permission Required: VIEW_AUDIT_LOG")
+      .setColor(0xff0000)
+      .setTimestamp()
+      .setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+
      if(!message.member.hasPermission("VIEW_AUDIT_LOG"))  return message.channel.send("You don\'t have permission to do that!");
-     if(!args[1]) return message.channel.send("How many?");
+     if(!args[1]) return message.channel.send(clearerrembed);
      let clearchannel = message.channel.id;
      message.channel.bulkDelete(args[1]).then(() => {
        message.channel.send(`Deleted ${args[1]} messages.`).then(msg => msg.delete({timeout:3000}));
@@ -714,55 +805,37 @@ bot.on("message", async function(message) {
       var lac = message.guild.channels.cache.find(channel => channel.name === "announcements");
       if(!lac) return message.channel.send("No announce channel!");
 
-      var lc1 = message.guild.channels.cache.find(channel => channel.name === "general");
-      var lc2 = message.guild.channels.cache.find(channel => channel.name === "counting");
-      var lc3 = message.guild.channels.cache.find(channel => channel.name === "spam");
-      var lc4 = message.guild.channels.cache.find(channel => channel.name === "bot-commands");
-      var lc5 = message.guild.channels.cache.find(channel => channel.name === "dank-commands");
-      var lc6 = message.guild.channels.cache.find(channel => channel.name === "song-command");
-      var lc7 = message.guild.channels.cache.find(channel => channel.name === "Event" && channel.type === "category");
-      var lc8 = message.guild.channels.cache.find(channel => channel.name === "VC 1" && channel.type === "voice");
-      var lc9 = message.guild.channels.cache.find(channel => channel.name === "VC 2" && channel.type === "voice");
-      var lc10 = message.guild.channels.cache.find(channel => channel.name === "Rythm VC" && channel.type === "voice");
-      var lc11 = message.guild.channels.cache.find(channel => channel.name === "The Band of AFK" && channel.type === "voice");
-      if(!lc1) return message.channel.send("Not enough channel. (General)");
-      if(!lc2) return message.channel.send("Not enough channel. (Counting)");
-      if(!lc3) return message.channel.send("Not enough channel. (Spam)");
-      if(!lc4) return message.channel.send("Not enough channel. (Bot-Commands)");
-      if(!lc5) return message.channel.send("Not enough channel. (Dank-Commands)");
-      if(!lc6) return message.channel.send("Not enough channel. (Song-Commands)");
-      if(!lc7) return message.channel.send("Not enough channel. (Cat: Event)");
-      if(!lc8) return message.channel.send("Not enough channel. (VC: VC 1)");
-      if(!lc9) return message.channel.send("Not enough channel. (VC: VC 2)");
-      if(!lc10) return message.channel.send("Not enough channel. (VC: Rythm VC)");
-      if(!lc11) return message.channel.send("Not enough channel. (VC: The Band of AFK");
-      
-      lc1.updateOverwrite(lc1.guild.roles.everyone, { SEND_MESSAGES: false });
-      lc2.updateOverwrite(lc2.guild.roles.everyone, { SEND_MESSAGES: false });
-      lc3.updateOverwrite(lc3.guild.roles.everyone, { SEND_MESSAGES: false });
-      lc4.updateOverwrite(lc4.guild.roles.everyone, { SEND_MESSAGES: false });
-      lc5.updateOverwrite(lc5.guild.roles.everyone, { SEND_MESSAGES: false });
-      lc6.updateOverwrite(lc6.guild.roles.everyone, { SEND_MESSAGES: false });
-      lc7.updateOverwrite(lc7.guild.roles.everyone, { SEND_MESSAGES: false });
-      lc8.updateOverwrite(lc8.guild.roles.everyone, { CONNECT: false });
-      lc9.updateOverwrite(lc9.guild.roles.everyone, { CONNECT: false });
-      lc10.updateOverwrite(lc10.guild.roles.everyone, { CONNECT: false });
-      lc11.updateOverwrite(lc11.guild.roles.everyone, { CONNECT: false });
+      cgeneral.updateOverwrite(cgeneral.guild.roles.everyone, { SEND_MESSAGES: false });
+      ccounting.updateOverwrite(ccounting.guild.roles.everyone, { SEND_MESSAGES: false });
+      crandomstuff.updateOverwrite(crandomstuff.guild.roles.everyone, { SEND_MESSAGES: false });
+      cspam.updateOverwrite(cspam.guild.roles.everyone, { SEND_MESSAGES: false });
+      cbotcommands.updateOverwrite(cbotcommands.guild.roles.everyone, { SEND_MESSAGES: false });
+      cdankcommands.updateOverwrite(cdankcommands.guild.roles.everyone, { SEND_MESSAGES: false });
+      csongcommands.updateOverwrite(csongcommands.guild.roles.everyone, { SEND_MESSAGES: false });
+      vgeneral1.updateOverwrite(vgeneral1.guild.roles.everyone, { CONNECT: false });
+      vgeneral2.updateOverwrite(vgeneral2.guild.roles.everyone, { CONNECT: false });
+      vsongvc.updateOverwrite(vsongvc.guild.roles.everyone, { CONNECT: false });
+      vgamingvc.updateOverwrite(vgamingvc.guild.roles.everyone, { CONNECT: false });
 
       var embed = new Discord.MessageEmbed()
       .setTitle("🔒Server Lockdown🔒")
       .setColor(0xff0000)
-      .addField("Server Lockdown", `The server has been locked by the staff team. The estimated time will be ${args[1]}.  The reason of locking down is ${ldr}. All channels are now disabled. Please be patient and do not spam DM a moderator or admin. This bot WILL NOT automatic unlock the server.`)
+      .addField("Server Lockdown", `The server has been locked by the moderators team. The estimated time will be ${args[1]}.  The reason of locking down is ${ldr}. All channels are now disabled. Please be patient and do not spam DM a moderator or admin. This bot WILL NOT automatic unlock the server.`)
       .setTimestamp()
       .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
 
       lac.send(embed)
-      lc1.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
-      lc2.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
-      lc3.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
-      lc4.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
-      lc5.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
-      lc6.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
+      cgeneral.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
+      ccounting.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
+      crandomstuff.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
+      cspam.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
+      cbotcommands.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
+      cdankcommands.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
+      csongcommands.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
+      vgeneral1.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
+      vgeneral2.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
+      vsongvc.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
+      vgamingvc.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
     break;
     case "unlock":
       message.delete().catch(()=> {});
@@ -773,40 +846,17 @@ bot.on("message", async function(message) {
       var uac = message.guild.channels.cache.find(channel => channel.name === "announcements");
       if(!uac) return message.channel.send("No announce channel!");
 
-      var uc1 = message.guild.channels.cache.find(channel => channel.name === "general");
-      var uc2 = message.guild.channels.cache.find(channel => channel.name === "counting");
-      var uc3 = message.guild.channels.cache.find(channel => channel.name === "spam");
-      var uc4 = message.guild.channels.cache.find(channel => channel.name === "bot-commands");
-      var uc5 = message.guild.channels.cache.find(channel => channel.name === "dank-commands");
-      var uc6 = message.guild.channels.cache.find(channel => channel.name === "song-commands");
-      var uc7 = message.guild.channels.cache.find(channel => channel.name === "Event" && channel.type === "category");
-      var uc8 = message.guild.channels.cache.find(channel => channel.name === "VC 1" && channel.type === "voice");
-      var uc9 = message.guild.channels.cache.find(channel => channel.name === "VC 2" && channel.type === "voice");
-      var uc10 = message.guild.channels.cache.find(channel => channel.name === "Rythm VC" && channel.type === "voice");
-      var uc11 = message.guild.channels.cache.find(channel => channel.name === "The Band of AFK" && channel.type === "voice");
-      if(!uc1) return message.channel.send("Not enough channel. (General)");
-      if(!uc2) return message.channel.send("Not enough channel. (Counting)");
-      if(!uc3) return message.channel.send("Not enough channel. (Spam)");
-      if(!uc4) return message.channel.send("Not enough channel. (Bot-Commands)");
-      if(!uc5) return message.channel.send("Not enough channel. (Dank-Commands)");
-      if(!uc6) return message.channel.send("Not enough channel. (Song-Commands)");
-      if(!uc7) return message.channel.send("Not enough channel. (Cat: Event)");
-      if(!uc8) return message.channel.send("Not enough channel. (VC: VC 1)");
-      if(!uc9) return message.channel.send("Not enough channel. (VC: VC 2)");
-      if(!uc10) return message.channel.send("Not enough channel. (VC: Rythm VC)");
-      if(!uc11) return message.channel.send("Not enough channel. (VC: The Band of AFK");
-      
-      uc1.updateOverwrite(uc1.guild.roles.everyone, { SEND_MESSAGES: false });
-      uc2.updateOverwrite(uc2.guild.roles.everyone, { SEND_MESSAGES: false });
-      uc3.updateOverwrite(uc3.guild.roles.everyone, { SEND_MESSAGES: false });
-      uc4.updateOverwrite(uc4.guild.roles.everyone, { SEND_MESSAGES: false });
-      uc5.updateOverwrite(uc5.guild.roles.everyone, { SEND_MESSAGES: false });
-      uc6.updateOverwrite(uc6.guild.roles.everyone, { SEND_MESSAGES: false });
-      uc7.updateOverwrite(uc7.guild.roles.everyone, { SEND_MESSAGES: false });
-      uc8.updateOverwrite(uc8.guild.roles.everyone, { CONNECT: false });
-      uc9.updateOverwrite(uc9.guild.roles.everyone, { CONNECT: false });
-      uc10.updateOverwrite(uc9.guild.roles.everyone, { CONNECT: false });
-      uc11.updateOverwrite(uc9.guild.roles.everyone, { CONNECT: false });
+      cgeneral.updateOverwrite(cgeneral.guild.roles.everyone, { SEND_MESSAGES: true });
+      ccounting.updateOverwrite(ccounting.guild.roles.everyone, { SEND_MESSAGES: true });
+      crandomstuff.updateOverwrite(crandomstuff.guild.roles.everyone, { SEND_MESSAGES: true });
+      cspam.updateOverwrite(cspam.guild.roles.everyone, { SEND_MESSAGES: true });
+      cbotcommands.updateOverwrite(cbotcommands.guild.roles.everyone, { SEND_MESSAGES: true });
+      cdankcommands.updateOverwrite(cdankcommands.guild.roles.everyone, { SEND_MESSAGES: true });
+      csongcommands.updateOverwrite(csongcommands.guild.roles.everyone, { SEND_MESSAGES: true });
+      vgeneral1.updateOverwrite(vgeneral1.guild.roles.everyone, { CONNECT: true });
+      vgeneral2.updateOverwrite(vgeneral2.guild.roles.everyone, { CONNECT: true });
+      vsongvc.updateOverwrite(vsongvc.guild.roles.everyone, { CONNECT: true });
+      vgamingvc.updateOverwrite(vgamingvc.guild.roles.everyone, { CONNECT: true });
 
       var embed = new Discord.MessageEmbed()
       .setTitle("🔓Server Unlock🔓")
@@ -816,12 +866,17 @@ bot.on("message", async function(message) {
       .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
 
       uac.send(embed)
-      uc1.send("🟢Server unlocked.🟢")
-      uc2.send("🟢Server unlocked.🟢")
-      uc3.send("🟢Server unlocked.🟢")
-      uc4.send("🟢Server unlocked.🟢")
-      uc5.send("🟢Server unlocked.🟢")
-      uc6.send("🟢Server unlocked.🟢")
+      cgeneral.send("🟢Server unlocked.🟢")
+      ccounting.send("🟢Server unlocked.🟢")
+      crandomstuff.send("🟢Server unlocked.🟢")
+      cspam.send("🟢Server unlocked.🟢")
+      cbotcommands.send("🟢Server unlocked.🟢")
+      cdankcommands.send("🟢Server unlocked.🟢")
+      csongcommands.send("🟢Server unlocked.🟢")
+      vgeneral1.send("🟢Server unlocked.🟢")
+      vgeneral2.send("🟢Server unlocked.🟢")
+      vsongvc.send("🟢Server unlocked.🟢")
+      vgamingvc.send("🟢Server unlocked.🟢")
     break;
     //end of admin Commands
     //information
@@ -887,7 +942,19 @@ bot.on("message", async function(message) {
      .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
      message.channel.send(embed)
      break;
-    //end of Information
+    case "welcome":
+      var embed = new Discord.MessageEmbed()
+      .setTitle(`Welcome to ${member.guild.name}!`)
+      .setColor("RANDOM")
+      .addField(`Welcome to ${member.guild.name}!`, `Here, you can enjoy your time talking to people in <#709339392564527185>. Have fun!`)
+      .addField(`Announcements`, `Announcements always goes in to this channel: <#740870989134561331>. It is also a announcement channel so if you don't want to click multiple times to be able to see the announcements, you can just follow the channel into your own server.`)
+      .addField(`Rules`, `Please always remember to read the rule in any server you join. For this server, please visit <#651410686705926145> for the rules.`)
+      .addField(`Server Information`, `Server informations are available at <#739800400361947176>. It has list of Staffs, Channel Categories, Bots, Roles, Moderations and other useful information about the server.`)
+      .setTimestamp()
+      .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
+      message.channel.send(embed)
+    break;
+     //end of Information
     //help
     case "help":
       if(args[1] == "food") {
@@ -905,9 +972,7 @@ bot.on("message", async function(message) {
        var fuembed = new Discord.MessageEmbed()
        .setTitle("😀Fun Menu😀", "Available games.")
        .addField("`8ball <your question>`", "Predict your future", true)
-       .addField("`beep`", "Beep, beep, boop, boop", true)
        .addField("`coinflip`", "Flip a coin!", true)
-       .addField("`ding`", "Ding, Dong", true)
        .addField("`door`", "Portal door", true)
        .addField("`roast`", "Be mad a people", true)
        .addField("`shutdown`", "Shutdown  people\'s device", true)
@@ -922,12 +987,13 @@ bot.on("message", async function(message) {
        .addField("`botinfo`", "This bot\'s info")
        .addField("`serverinfo`", "Server information.")
        .addField("`userinfo`", "User\'s information.")
+       .addField("`welcome`", "Welcome message")
        .setTimestamp()
        .setColor(0x00ffff)
        .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
        message.channel.send(iembed);
       } else if (args[1] == "mod") {
-        if(!message.member.hasPermission("VIEW_AUDIT_LOG")) return 
+        if(!message.member.hasPermission("VIEW_AUDIT_LOG")) return message.channel.send("You need permissions to use this command.")
 
         var membed = new Discord.MessageEmbed()
         .setTitle("⚒️Moderation Menu⚒️")
@@ -957,10 +1023,10 @@ bot.on("message", async function(message) {
       } else {
         var hembed = new Discord.MessageEmbed()
        .setTitle("❓Help Menu❓")
-       .addField("🍴Food Menu🍴", "`helpfood`", true)
-       .addField("😀Fun Menu😀", "`helpfun`", true)
-       .addField("❓Info Menu❓", "`helpinfo`", true)
-       .addField("⚒️Moderation Menu⚒️", "`helpmod`", true)
+       .addField("🍴Food Menu🍴", "`help food`", true)
+       .addField("😀Fun Menu😀", "`help fun`", true)
+       .addField("❓Info Menu❓", "`help info`", true)
+       .addField("⚒️Moderation Menu⚒️", "`help mod`", true)
        .setColor(0x00ffff)
        .setTimestamp()
        .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
