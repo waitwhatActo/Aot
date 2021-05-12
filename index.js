@@ -7,20 +7,6 @@ const PREFIX = "?a";
 
 const bot = new Discord.Client();
 
-//Channel VARs
-var cgeneral = bot.channels.cache.find(channel => channel.id == "709339392564527185");
-var crandomstuff = bot.channels.cache.find(channel => channel.id == "830999827784925276");
-var ccounting = bot.channels.cache.find(channel => channel.id == "702058356210139137");
-var cspam = bot.channels.cache.find(channel => channel.id == "725534247737360474");
-var cbotcommands = bot.channels.cache.find(channel => channel.id == "709663772620357692");
-var cdankcommands = bot.channels.cache.find(channel => channel.id == "740870836839514143");
-var csongcommands = bot.channels.cache.find(channel => channel.id == "724900582376079391");
-var vgeneral1 = bot.channels.cache.find(channel => channel.id == "608937238549495813");
-var vgeneral2 = bot.channels.cache.find(channel => channel.id == "785345715555401738");
-var vsongvc = bot.channels.cache.find(channel => channel.id == "785346378586259466");
-var vgamingvc = bot.channels.cache.find(channel => channel.id == "833984632021712937");
-//End of Channel VARs
-
 var hmf = [
   "Need help? ?ahelp will be able to help you.",
   "Enjoy your time using Aot.",
@@ -190,23 +176,9 @@ bot.on("message", async function(message) {
     break;
     case "kill":
      const iUser = message.mentions.members.first();
+     if (!iUser) return message.channel.send("Please ping someone to kill or you are gonna kill yourself.");    
 
      var kill = [
-      `${message.author} has been roasted to a a toast like a bread.`,
-      `${message.author} accidentally stuck his head in the washing machine and got his head washed off.`,
-      `${message.author}\'s beard got pulled off and he lost too much blood. He died. RIP.`,
-      `${message.author} jumped into a swimming pool, but he forgot the water was cleared out last week because christmas is coming.`,
-      `${message.author} jumped into a swimming pool, but he suddenly fotgot how to swim.`,
-      `${message.author} is spreading butter on to his bread, but he accidentally used the knife too hard and killed himself.`,
-      `${message.author} is trying to make a bomb and blow Tonald Drump into pieces, but he accidentally pressed the blow up button and blew himself up.`,
-      `${message.author} got a gun and didn"t know how to hold it. He thought the end of the gun was where to point to himself. Then he tries it at the wall. Not to mention what happened.`,
-      `${message.author} was robbing a bank alone. He shot the security and the bullet hit the wall. Then the bullet reflected and shot back into himself.`,
-      `${message.author} wanted a dive in the ocean. Instead of swimming, his leg was CLEAN cut by the blade of a boat.`
-     ];
-
-     if(!iUser) message.channel.send(kill[Math.floor(Math.random() * kill.length)]);
-
-     var killer = [
       `<@${iUser.id}> has been roasted to a a toast like a bread.`,
       `<@${iUser.id}> accidentally stuck his head in the washing machine and got his head washed off.`,
       `<@${iUser.id}>\'s beard got pulled off and he lost too much blood. He died. RIP.`,
@@ -214,12 +186,12 @@ bot.on("message", async function(message) {
       `<@${iUser.id}> jumped into a swimming pool, but he suddenly fotgot how to swim.`,
       `<@${iUser.id}> is spreading butter on to his bread, but he accidentally used the knife too hard and killed himself.`,
       `<@${iUser.id}> is trying to make a bomb and blow Tonald Drump into pieces, but he accidentally pressed the blow up button and blew himself up.`,
-      `<@${iUser.id}> got a gun and didn"t know how to hold it. He thought the end of the gun was where to point to himself. Then he tries it at the wall. Not to mention what happened.`,
+      `<@${iUser.id}> got a gun and didn't know how to hold it. He thought the end of the gun was where to point to himself. Then he tries it at the wall. Not to mention what happened.`,
       `<@${iUser.id}> was robbing a bank alone. He shot the security and the bullet hit the wall. Then the bullet reflected and shot back into himself.`,
       `<@${iUser.id}> wanted a dive in the ocean. Instead of swimming, his leg was CLEAN cut by the blade of a boat.`
      ];
 
-     message.channel.send(killer[Math.floor(Math.random() * killer.length)]);
+     message.channel.send(kill[Math.floor(Math.random() * kill.length)]);
     break;
     case "shutdown":
       var shutdownerrembed = new Discord.MessageEmbed()
@@ -239,17 +211,17 @@ bot.on("message", async function(message) {
       await wait(2500)
       await msg.edit("Starting process...")
       await wait(2500)
-      await msg.edit(`Locating ${sdUser.id}"s device.`)
+      await msg.edit(`Locating ${sdUser.id}'s device.`)
       await wait(10000)
-      await msg.edit(`Found ${sdUser.id}"s location.`)
+      await msg.edit(`Found ${sdUser.id}'s location.`)
       await wait(3000)
       await msg.edit("Hacking IP address...")
       await wait(13000)
       await msg.edit("IP address found.")
       await wait(2500)
-      await msg.edit(`Starting to shutdown ${sdUser.id}"s device`)
+      await msg.edit(`Starting to shutdown ${sdUser.id}'s device`)
       await wait(5000)
-      await msg.edit(`Failed to shutdown ${sdUser.id}"s device. Manual shutdown needed.`)
+      await msg.edit(`Failed to shutdown ${sdUser.id}'s device. Manual shutdown needed.`)
 
       var embed = new Discord.MessageEmbed()
       .setTitle("Remote Shutdown")
@@ -263,10 +235,10 @@ bot.on("message", async function(message) {
       .addField("Step 2", "Type `shutdown /i` then hit enter.", true)
       .addField("Step 3", "You will see a pop-up window, press add, then type the IP address writen above, hit add.", true)
       .addField("Step 4", "Choose if you want to shutdown or restart his computer.", true)
-      .addField("Step 5", "Type in a message for him.", true)
+      .addField("Step 5", "Type in a message for them.", true)
       .addField("Step 6", "Hit ok.", true)
       .addField("Step 7", "Watch someone freak out.", true)
-      .addField("Linux and MacOS", `We haven"t test out using Linux or MacOS, but you can use a virtual machine to shutdown <@${sdUser.id}>\'s device.`)
+      .addField("Linux and MacOS", `We haven't tested out using Linux or MacOS, but you can use a virtual machine to shutdown <@${sdUser.id}>\'s device.`)
       .setTimestamp()
       .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
       message.channel.send(embed);
@@ -397,7 +369,7 @@ bot.on("message", async function(message) {
         await bwait(10000)
         bmsg.edit(rpswb[Math.floor(Math.random() * rpswb.length)])
       } else {  
-        let wait = require("uitl").promisfy(setTimeout)
+        let wait = require("util").promisfy(setTimeout)
         var hmsg = await message.channel.send("**Please wait 10 seconds to proceed.**  \rYou have chosen to play \"Rock-Paper-Scisors\" with the bot. The proccess is automatic and generated by the bot. \r*DDos is provided by RoadFlare*")
         await wait(10000)
         hmsg.edit(rpswp[Math.floor(Math.random() * rpswp.length)])
@@ -523,16 +495,17 @@ bot.on("message", async function(message) {
 
      const kUser = message.mentions.members.first();
      if(!kUser) return message.channel.send(kickerrembed);
-     let kReason = args.slice(2).join(" ")
+     let kReason = args.slice(2).join(" ");
+     if(!kReason) return message.channel.send("Please provide a reason!");
      if(!message.member.hasPermission("KICK_MEMBERS")) return message.channel.send("You don\'t have permission to do that!");
      if(kUser.hasPermission("KICK_MEMBERS")) return message.channel.send("That person can\'t be kicked!");
-
+     
      var embed = new Discord.MessageEmbed()
      .setDescription("User Kicked")
      .setColor(0xff0000)
      .addField("Kicked User", `${kUser} with ID ${kUser.id}`)
      .addField("Kicked By", `<@${message.author.id}> with ID ${message.author.id}`)
-     .addField("Kicked In", message.channel)
+     .addField("Kicked In", message.channel.toString())
      .addField("Time", message.createdAt)
      .addField("Reason", kReason)
      .setTimestamp()
@@ -541,12 +514,12 @@ bot.on("message", async function(message) {
      let kick2Channel = message.guild.channels.cache.find(channel => channel.name === "server-logs");
      if(!kick2Channel) return message.channel.send("Could not find server logs channel.");
 
-     message.guild.members.kick(kUser);
+     kUser.kick(kReason);
      kick2Channel.send(embed);
 
-     message.channel.send(`<@${kUser.id}> has been kicked.`)
+     message.channel.send(`<@${kUser.id}> has been kicked. Reason: ${kReason}`)
 
-     kUser.send(`You have been kicked from Official Acton Fan Server. Reason: ${kReason}.`)
+     kUser.send(`You have been kicked from ${message.member.guild.name}. Reason: ${kReason}.`)
     break;
     case "tempban":
       var tempbanerrembed = new Discord.MessageEmbed()
@@ -579,10 +552,16 @@ bot.on("message", async function(message) {
      let tempbanChannel = message.guild.channels.cache.find(channel => channel.name === "server-logs");
      if(!tempbanChannel) return message.channel.send("Could not find server logs channel.");
 
-     message.guild.members.ban(bUser, { reason: `User banned by Aot, Ban mod: ${message.author.tag}, Ban Reason: ${bReason}` }, { time: tempbantime });
+     message.guild.members.ban(tbUser, { reason: `User banned by Aot, Ban mod: ${message.author.tag}, Ban Reason: ${tbReason}` }, { time: tempbantime });
      tempbanChannel.send(embed);
 
      message.channel.send(`<@${tbUser.id}> has been temp banned for ${tempbantime}.`)
+
+     setTimeout(function() {
+        message.guild.members.unban(tbUser.id);
+        message.channel.send(`<@${tbUser.id}> has been unbanned.`)
+        tempbanChannel.send(`<@${tbUser.id}> has been unbanned`)
+     }, ms(tempbantime));
     break;
     case "ban":
       var banerrembed = new Discord.MessageEmbed()
@@ -684,6 +663,7 @@ bot.on("message", async function(message) {
      if(!message.member.hasPermission("VIEW_AUDIT_LOG"))  return message.channel.send("You don\'t have permission to do that!");
      if(mUser.hasPermission("VIEW_AUDIT_LOG")) return message.channel.send("That person can\'t be muted!");
      let mReason = args.slice(2).join(" ")
+     if(!mReason) return message.channel.send("Please provide a reason")
 
      let muterole = mUser.guild.roles.cache.find(role => role.name === "Muted");
      if (!muterole) return message.channel.send("Role doesn\'t exist");
@@ -730,6 +710,8 @@ bot.on("message", async function(message) {
 
      tmUser.roles.add(tempmuterole.id);
 
+     message.channel.send(`<@${tmUser.id}> has been muted for ${mutetime}.`);
+
      const tempmuteChannel = tmUser.guild.channels.cache.find(channel => channel.name === "server-logs");
      if(!tempmuteChannel) return;
 
@@ -743,7 +725,6 @@ bot.on("message", async function(message) {
      .setTimestamp()
      .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
      tempmuteChannel.send(embed)
-     tempmute2Channel.send(embed)
 
      setTimeout(function() {
        tmUser.roles.remove(tempmuterole.id);
@@ -794,6 +775,19 @@ bot.on("message", async function(message) {
      clearlog.send(`<@${message.member.id}> has deleted ${args[1]} in <#${clearchannel}>`)
     break;
     case "lockdown":
+      var lcgeneral = message.guild.channels.cache.find(channel => channel.name == "general-chat");
+      var lcrandomstuff = message.guild.channels.cache.find(channel => channel.name == "random-stuff");
+      var lccounting = message.guild.channels.cache.find(channel => channel.name == "counting");
+      var lcspam = message.guild.channels.cache.find(channel => channel.name == "spam");
+      var lcbotcommands = message.guild.channels.cache.find(channel => channel.name == "bot-commands");
+      var lcdankcommands = message.guild.channels.cache.find(channel => channel.name == "dank-commands");
+      var lcsongcommands = message.guild.channels.cache.find(channel => channel.name == "song-commands");
+      var lvgeneral1 = message.guild.channels.cache.find(channel => channel.name == "General VC" && channel.type === "voice");
+      var lvgeneral2 = message.guild.channels.cache.find(channel => channel.name == "General VC 2" && channel.type === "voice");
+      var lvsongvc = message.guild.channels.cache.find(channel => channel.name == "Music VC" && channel.type === "voice");
+      var lvgamingvc = message.guild.channels.cache.find(channel => channel.name == "Gaming VC" && channel.type === "voice");
+      var lvafkvc = message.guild.channels.cache.find(channel => channel.name == "AFK VC" && channel.type === "voice");
+      
       message.delete().catch(()=> {});
       var lUser = message.member;
       if(!message.member.hasPermission("MANAGE_SERVER")) return message.channel.send(`<@${lUser.id}>, hmm, I wonder where is your permission to do that?`);
@@ -805,39 +799,48 @@ bot.on("message", async function(message) {
       var lac = message.guild.channels.cache.find(channel => channel.name === "announcements");
       if(!lac) return message.channel.send("No announce channel!");
 
-      cgeneral.updateOverwrite(cgeneral.guild.roles.everyone, { SEND_MESSAGES: false });
-      ccounting.updateOverwrite(ccounting.guild.roles.everyone, { SEND_MESSAGES: false });
-      crandomstuff.updateOverwrite(crandomstuff.guild.roles.everyone, { SEND_MESSAGES: false });
-      cspam.updateOverwrite(cspam.guild.roles.everyone, { SEND_MESSAGES: false });
-      cbotcommands.updateOverwrite(cbotcommands.guild.roles.everyone, { SEND_MESSAGES: false });
-      cdankcommands.updateOverwrite(cdankcommands.guild.roles.everyone, { SEND_MESSAGES: false });
-      csongcommands.updateOverwrite(csongcommands.guild.roles.everyone, { SEND_MESSAGES: false });
-      vgeneral1.updateOverwrite(vgeneral1.guild.roles.everyone, { CONNECT: false });
-      vgeneral2.updateOverwrite(vgeneral2.guild.roles.everyone, { CONNECT: false });
-      vsongvc.updateOverwrite(vsongvc.guild.roles.everyone, { CONNECT: false });
-      vgamingvc.updateOverwrite(vgamingvc.guild.roles.everyone, { CONNECT: false });
+      lcgeneral.updateOverwrite(lcgeneral.guild.roles.everyone, { SEND_MESSAGE: false });
+      lccounting.updateOverwrite(lccounting.guild.roles.everyone, { SEND_MESSAGES: false });
+      lcrandomstuff.updateOverwrite(lcrandomstuff.guild.roles.everyone, { SEND_MESSAGES: false });
+      lcspam.updateOverwrite(lcspam.guild.roles.everyone, { SEND_MESSAGES: false });
+      lcbotcommands.updateOverwrite(lcbotcommands.guild.roles.everyone, { SEND_MESSAGES: false });
+      lcdankcommands.updateOverwrite(lcdankcommands.guild.roles.everyone, { SEND_MESSAGES: false });
+      lcsongcommands.updateOverwrite(lcsongcommands.guild.roles.everyone, { SEND_MESSAGES: false });
+      lvgeneral1.updateOverwrite(lvgeneral1.guild.roles.everyone, { CONNECT: false });
+      lvgeneral2.updateOverwrite(lvgeneral2.guild.roles.everyone, { CONNECT: false });
+      lvsongvc.updateOverwrite(lvsongvc.guild.roles.everyone, { CONNECT: false });
+      lvgamingvc.updateOverwrite(lvgamingvc.guild.roles.everyone, { CONNECT: false });
+      lvafkvc.updateOverwrite(lvafkvc.guild.roles.everyone, { CONNECT: false });
 
       var embed = new Discord.MessageEmbed()
       .setTitle("🔒Server Lockdown🔒")
       .setColor(0xff0000)
       .addField("Server Lockdown", `The server has been locked by the moderators team. The estimated time will be ${args[1]}.  The reason of locking down is ${ldr}. All channels are now disabled. Please be patient and do not spam DM a moderator or admin. This bot WILL NOT automatic unlock the server.`)
       .setTimestamp()
-      .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
+      .setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
 
-      lac.send(embed)
-      cgeneral.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
-      ccounting.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
-      crandomstuff.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
-      cspam.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
-      cbotcommands.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
-      cdankcommands.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
-      csongcommands.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
-      vgeneral1.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
-      vgeneral2.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
-      vsongvc.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
-      vgamingvc.send("🔴Server lockdown. Please check announcement channel for updates.🔴")
+      lac.send(embed);
+      lcgeneral.send("🔴Server lockdown. Please check announcement channel for updates.🔴");
+      lccounting.send("🔴Server lockdown. Please check announcement channel for updates.🔴");
+      lcrandomstuff.send("🔴Server lockdown. Please check announcement channel for updates.🔴");
+      lcspam.send("🔴Server lockdown. Please check announcement channel for updates.🔴");
+      lcbotcommands.send("🔴Server lockdown. Please check announcement channel for updates.🔴");
+      lcdankcommands.send("🔴Server lockdown. Please check announcement channel for updates.🔴");
+      lcsongcommands.send("🔴Server lockdown. Please check announcement channel for updates.🔴");
     break;
     case "unlock":
+      var ulcgeneral = message.guild.channels.cache.find(channel => channel.name == "general-chat");
+      var ulcrandomstuff = message.guild.channels.cache.find(channel => channel.name == "random-stuff");
+      var ulccounting = message.guild.channels.cache.find(channel => channel.name == "counting");
+      var ulcspam = message.guild.channels.cache.find(channel => channel.name == "spam");
+      var ulcbotcommands = message.guild.channels.cache.find(channel => channel.name == "bot-commands");
+      var ulcdankcommands = message.guild.channels.cache.find(channel => channel.name == "dank-commands");
+      var ulcsongcommands = message.guild.channels.cache.find(channel => channel.name == "song-commands");
+      var ulvgeneral1 = message.guild.channels.cache.find(channel => channel.name == "General VC" && channel.type === "voice");
+      var ulvgeneral2 = message.guild.channels.cache.find(channel => channel.name == "General VC 2" && channel.type === "voice");
+      var ulvsongvc = message.guild.channels.cache.find(channel => channel.name == "Music VC" && channel.type === "voice");
+      var ulvgamingvc = message.guild.channels.cache.find(channel => channel.name == "Gaming VC" && channel.type === "voice");
+      var ulvafkvc = message.guild.channels.cache.find(channel => channel.name == "AFK VC" && channel.type === "voice");
       message.delete().catch(()=> {});
 
       var ulUser = message.member;
@@ -846,37 +849,34 @@ bot.on("message", async function(message) {
       var uac = message.guild.channels.cache.find(channel => channel.name === "announcements");
       if(!uac) return message.channel.send("No announce channel!");
 
-      cgeneral.updateOverwrite(cgeneral.guild.roles.everyone, { SEND_MESSAGES: true });
-      ccounting.updateOverwrite(ccounting.guild.roles.everyone, { SEND_MESSAGES: true });
-      crandomstuff.updateOverwrite(crandomstuff.guild.roles.everyone, { SEND_MESSAGES: true });
-      cspam.updateOverwrite(cspam.guild.roles.everyone, { SEND_MESSAGES: true });
-      cbotcommands.updateOverwrite(cbotcommands.guild.roles.everyone, { SEND_MESSAGES: true });
-      cdankcommands.updateOverwrite(cdankcommands.guild.roles.everyone, { SEND_MESSAGES: true });
-      csongcommands.updateOverwrite(csongcommands.guild.roles.everyone, { SEND_MESSAGES: true });
-      vgeneral1.updateOverwrite(vgeneral1.guild.roles.everyone, { CONNECT: true });
-      vgeneral2.updateOverwrite(vgeneral2.guild.roles.everyone, { CONNECT: true });
-      vsongvc.updateOverwrite(vsongvc.guild.roles.everyone, { CONNECT: true });
-      vgamingvc.updateOverwrite(vgamingvc.guild.roles.everyone, { CONNECT: true });
+      ulcgeneral.updateOverwrite(ulcgeneral.guild.roles.everyone, { SEND_MESSAGE: true });
+      ulccounting.updateOverwrite(ulccounting.guild.roles.everyone, { SEND_MESSAGES: true });
+      ulcrandomstuff.updateOverwrite(ulcrandomstuff.guild.roles.everyone, { SEND_MESSAGES: true });
+      ulcspam.updateOverwrite(ulcspam.guild.roles.everyone, { SEND_MESSAGES: true });
+      ulcbotcommands.updateOverwrite(ulcbotcommands.guild.roles.everyone, { SEND_MESSAGES: true });
+      ulcdankcommands.updateOverwrite(ulcdankcommands.guild.roles.everyone, { SEND_MESSAGES: true });
+      ulcsongcommands.updateOverwrite(ulcsongcommands.guild.roles.everyone, { SEND_MESSAGES: true });
+      ulvgeneral1.updateOverwrite(ulvgeneral1.guild.roles.everyone, { CONNECT: true });
+      ulvgeneral2.updateOverwrite(ulvgeneral2.guild.roles.everyone, { CONNECT: true });
+      ulvsongvc.updateOverwrite(ulvsongvc.guild.roles.everyone, { CONNECT: true });
+      ulvgamingvc.updateOverwrite(ulvgamingvc.guild.roles.everyone, { CONNECT: true });
+      ulvafkvc.updateOverwrite(ulvafkvc.guild.roles.everyone, { CONNECT: true });
 
       var embed = new Discord.MessageEmbed()
       .setTitle("🔓Server Unlock🔓")
       .setColor(0x008000)
       .addField("Server Unlock", "The server has been unlocked by a server moderator or an admin. All channels are now available.")
       .setTimestamp()
-      .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
+      .setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
 
-      uac.send(embed)
-      cgeneral.send("🟢Server unlocked.🟢")
-      ccounting.send("🟢Server unlocked.🟢")
-      crandomstuff.send("🟢Server unlocked.🟢")
-      cspam.send("🟢Server unlocked.🟢")
-      cbotcommands.send("🟢Server unlocked.🟢")
-      cdankcommands.send("🟢Server unlocked.🟢")
-      csongcommands.send("🟢Server unlocked.🟢")
-      vgeneral1.send("🟢Server unlocked.🟢")
-      vgeneral2.send("🟢Server unlocked.🟢")
-      vsongvc.send("🟢Server unlocked.🟢")
-      vgamingvc.send("🟢Server unlocked.🟢")
+      uac.send(embed);
+      ulcgeneral.send("🟢Server unlocked.🟢");
+      ulccounting.send("🟢Server unlocked.🟢");
+      ulcrandomstuff.send("🟢Server unlocked.🟢");
+      ulcspam.send("🟢Server unlocked.🟢");
+      ulcbotcommands.send("🟢Server unlocked.🟢");
+      ulcdankcommands.send("🟢Server unlocked.🟢");
+      ulcsongcommands.send("🟢Server unlocked.🟢");
     break;
     //end of admin Commands
     //information
@@ -887,9 +887,9 @@ bot.on("message", async function(message) {
      .addField("General Information", "Bot's general information", true)
      .addField("Bot Name", bot.user.username, true)
      .addField("Bot Created On:", bot.user.createdAt, true)
-     .addField("Bot Creator", "cleverActon0126#0126", true)
-     .addField("Bot Developers", "Fire4Life, xxgamerxx200014", true)
-     .addField("Bot Contributers", "Acton: All Versions \rFire4Life: N/A \rxxgamerxx200014: N/A")
+     .addField("Bot Creator", "<@428445352354643968>", true)
+     .addField("Bot Developers", "<@696010548378337321>", true)
+     .addField("Bot Contributers", "<@428445352354643968>: All Versions \r<@696010548378337321>: 0.51.0")
      .setTimestamp()
      .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
      message.channel.send(embed);
@@ -944,9 +944,9 @@ bot.on("message", async function(message) {
      break;
     case "welcome":
       var embed = new Discord.MessageEmbed()
-      .setTitle(`Welcome to ${member.guild.name}!`)
+      .setTitle(`Welcome to ${message.channel.guild.name}!`)
       .setColor("RANDOM")
-      .addField(`Welcome to ${member.guild.name}!`, `Here, you can enjoy your time talking to people in <#709339392564527185>. Have fun!`)
+      .addField(`Welcome to ${message.channel.guild.name}!`, `Here, you can enjoy your time talking to people in <#709339392564527185>. Have fun!`)
       .addField(`Announcements`, `Announcements always goes in to this channel: <#740870989134561331>. It is also a announcement channel so if you don't want to click multiple times to be able to see the announcements, you can just follow the channel into your own server.`)
       .addField(`Rules`, `Please always remember to read the rule in any server you join. For this server, please visit <#651410686705926145> for the rules.`)
       .addField(`Server Information`, `Server informations are available at <#739800400361947176>. It has list of Staffs, Channel Categories, Bots, Roles, Moderations and other useful information about the server.`)
@@ -974,9 +974,9 @@ bot.on("message", async function(message) {
        .addField("`8ball <your question>`", "Predict your future", true)
        .addField("`coinflip`", "Flip a coin!", true)
        .addField("`door`", "Portal door", true)
-       .addField("`roast`", "Be mad a people", true)
        .addField("`shutdown`", "Shutdown  people\'s device", true)
        .addField("`spam`", "Spam", true)
+       .addField("`meme`", "Get memes!", true)
        .setColor(0x00ffff)
        .setTimestamp()
        .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
