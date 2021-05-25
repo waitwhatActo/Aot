@@ -449,7 +449,7 @@ bot.on("message", async function(message) {
       setTimeout(function() {
         tarUser.roles.remove(tarRole.id);
         message.channel.send(`Role removed for <@${tarUser.id}>`)
-      },ms(tartime))
+      }, ms(ms(tartime)));
     break;
     case "removerole":
       var removeroleerrembed = new Discord.MessageEmbed()
@@ -561,7 +561,7 @@ bot.on("message", async function(message) {
         message.guild.members.unban(tbUser.id);
         message.channel.send(`<@${tbUser.id}> has been unbanned.`)
         tempbanChannel.send(`<@${tbUser.id}> has been unbanned`)
-     }, ms(tempbantime));
+     }, ms(ms(tempbantime)));
     break;
     case "ban":
       var banerrembed = new Discord.MessageEmbed()
@@ -632,15 +632,15 @@ bot.on("message", async function(message) {
      if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send("You don\'t have permission to do that!");
 
      var embed = new Discord.MessageEmbed()
-     .setTitle("Compatibility Update")
-     .setDescription("Successfully updated to Version 0.51.0!")
+     .setTitle("Admin Temp Commands Bug Fix Update")
+     .setDescription("Successfully updated to Version 0.51.1!")
      .addField("Prefix", "?a \(Uncustomable\)")
-     .addField("Public Commands", "`help` \(Will lead you to other help commands\), `salmon`, `apple`, `pie`, `candy`, `spam`, `8ball`, `door`, `coinflip`, `kill`, `hack`, `shutdown`, `rps`,  `botinfo`, `userinfo`, `serverinfo`")
+     .addField("Public Commands", "`help` \(Will lead you to other help commands\), `salmon`, `apple`, `pie`, `candy`, `spam`, `8ball`, `door`, `coinflip`, `kill`, `hack`, `shutdown`, `rps`,  `botinfo`, `userinfo`, `serverinfo`, `welcome`")
      .addField("Admin Commands", "`kick`, `ban`, `tempban`, `unban`, `mute`, `tempmute`, `unmute`, `clear`, `addrole`, `tempaddrole`, `removerole`, `tempremoverole`, `lockdown`, `unlock`", true)
-     .addField("New Commands", "`welcome`", true)
+     .addField("New Commands", "N/A", true)
      .addField("Removed Commands", "N/A", true)
-     .addField("Updates", "Compatibility Update: \r1. Fixed the welcome message \r2. Removed remaining elements \r3. Debugging \r4. Added `welcome` command \r5. Fixed lockdown commands \r6.Updated command contents")
-     .addField("Other Information from the Developer", "Server will be unlocked soon.")
+     .addField("Updates", "Fixed `tempaddrole`, `tempmute` and `tempban` bug.")
+     .addField("Other Information from the Developer", "N/A")
      .addField("Code is available at", "Base currently down")
      .setColor(0x00ff00)
      .setTimestamp()
@@ -729,7 +729,7 @@ bot.on("message", async function(message) {
      setTimeout(function() {
        tmUser.roles.remove(tempmuterole.id);
        tempmuteChannel.send(`<@${tmUser.id}> has been unmuted!`)
-     }, ms(mutetime));
+     }, ms(ms(mutetime)));
     break;
     case "unmute":
       var unmuteerrembed = new Discord.MessageEmbed()
