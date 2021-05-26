@@ -956,6 +956,12 @@ bot.on("message", async function(message) {
       message.channel.send(embed)
     break;
      //end of Information
+
+    case "test":
+     var arg1 = args.split(1).join(" ");
+     message.channel.send(ms(arg1));
+    break;
+
     //help
     case "help":
       if(args[1] == "food") {
