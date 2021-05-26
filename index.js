@@ -633,7 +633,7 @@ bot.on("message", async function(message) {
      if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send("You don\'t have permission to do that!");
 
      var embed = new Discord.MessageEmbed()
-     .setTitle("Admin Temp Commands Bug Fix Update")
+     .setTitle("Admin Temp Commands Bug Fix Update (yes, again, it wasn't completely patched)")
      .setDescription("Successfully updated to Version 0.51.2!")
      .addField("Prefix", "?a \(Uncustomable\)")
      .addField("Public Commands", "`help` \(Will lead you to other help commands\), `salmon`, `apple`, `pie`, `candy`, `spam`, `8ball`, `door`, `coinflip`, `kill`, `hack`, `shutdown`, `rps`,  `botinfo`, `userinfo`, `serverinfo`, `welcome`")
