@@ -958,7 +958,7 @@ bot.on("message", async function(message) {
      //end of Information
 
     case "test":
-     var arg1 = args.split(1).join(" ");
+     var arg1 = args.slice(1).join(" ");
      message.channel.send(ms(arg1));
     break;
 
