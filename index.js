@@ -562,7 +562,7 @@ bot.on("message", async function(message) {
         message.guild.members.unban(tbUser.id);
         message.channel.send(`<@${tbUser.id}> has been unbanned.`)
         tempbanChannel.send(`<@${tbUser.id}> has been unbanned`)
-     }, ms(ms(tempbantime)));
+     }, ms(tempbantime));
     break;
     case "ban":
       var banerrembed = new Discord.MessageEmbed()
@@ -956,12 +956,6 @@ bot.on("message", async function(message) {
       message.channel.send(embed)
     break;
      //end of Information
-
-    case "test":
-     var arg1 = args.slice(1).join(" ");
-     message.channel.send(ms(arg1));
-    break;
-
     //help
     case "help":
       if(args[1] == "food") {
