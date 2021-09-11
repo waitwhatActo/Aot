@@ -395,7 +395,7 @@ bot.on("message", async function(message) {
       .setTimestamp()
       .setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
 
-      if(!message.member.role.cache.has("645832781469057024") && !message.member.role.cache.has("608937618259836930") || !message.member.role.cache.has("609236733464150037")) return message.channel.send("You don\'t have permission to do that.");
+      if(!message.member.roles.cache.has("645832781469057024") && !message.member.roles.cache.has("608937618259836930") || !message.member.roles.cache.has("609236733464150037")) return message.channel.send("You don\'t have permission to do that.");
       let arUser = message.mentions.members.first();
       if(!arUser) return message.channel.send(addroleerrembed);
       let arRole = message.mentions.roles.first();
@@ -430,7 +430,7 @@ bot.on("message", async function(message) {
       .setTimestamp()
       .setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
 
-      if(!message.member.role.cache.has("645832781469057024") && !message.member.role.cache.has("608937618259836930") || !message.member.role.cache.has("609236733464150037")) return message.channel.send("You don\'t have permission to do that.");
+      if(!message.member.roles.cache.has("645832781469057024") && !message.member.roles.cache.has("608937618259836930") || !message.member.roles.cache.has("609236733464150037")) return message.channel.send("You don\'t have permission to do that.");
       let tarUser = message.mentions.members.first();
       if(!tarUser) return message.channel.send(tempaddroleerrembed);
       let tarRole = message.mentions.roles.first();
@@ -473,7 +473,7 @@ bot.on("message", async function(message) {
       .setTimestamp()
       .setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
 
-      if(!message.member.role.cache.has("645832781469057024") && !message.member.role.cache.has("608937618259836930") || !message.member.role.cache.has("609236733464150037")) return message.channel.send("You don\'t have permission to do that.");
+      if(!message.member.roles.cache.has("645832781469057024") && !message.member.roles.cache.has("608937618259836930") || !message.member.roles.cache.has("609236733464150037")) return message.channel.send("You don\'t have permission to do that.");
       let rrUser = message.mentions.members.first();
       if(!rrUser) return message.channel.send(removeroleerrembed);
       let rrRole = message.mentions.roles.first();
@@ -512,7 +512,7 @@ bot.on("message", async function(message) {
      if(!kUser) return message.channel.send(kickerrembed);
      let kReason = args.slice(2).join(" ");
      if(!kReason) return message.channel.send("Please provide a reason!");
-     if(!message.member.role.cache.has("629687079567360030") || !message.member.role.cache.has("629687079567360030") || !message.member.role.cache.has("645832781469057024") || !message.member.role.cache.has("609236733464150037")) return message.channel.send("You don\'t have permission to do that!");
+     if(!message.member.roles.cache.has("629687079567360030") || !message.member.roles.cache.has("629687079567360030") || !message.member.roles.cache.has("645832781469057024") || !message.member.roles.cache.has("609236733464150037")) return message.channel.send("You don\'t have permission to do that!");
      if(kUser.hasPermission("KICK_MEMBERS")) return message.channel.send("That member can\'t be kicked!");
      
      var embed = new Discord.MessageEmbed()
@@ -551,7 +551,7 @@ bot.on("message", async function(message) {
      if(!tbUser) return message.channel.send(tempbanerrembed);
      let tbReason = args.slice(3).join(" ");
      if (!tbReason) return message.channel.send("Please provide a reason.")
-     if(!message.member.role.cache.has("645832781469057024") || !message.member.role.cache.has("609236733464150037"))  return message.channel.send("You don\'t have permission to do that!");
+     if(!message.member.roles.cache.has("645832781469057024") || !message.member.roles.cache.has("609236733464150037"))  return message.channel.send("You don\'t have permission to do that!");
      if(tbUser.hasPermission("BAN_MEMBERS")) return message.channel.send("That member cannot be banned!");
 
      var tempbantime = args[2];
@@ -595,7 +595,7 @@ bot.on("message", async function(message) {
      const bUser = message.mentions.members.first();
      if(!bUser) return message.channel.send(banerrembed);
      let bReason = args.slice(2).join(" ")
-     if(!message.member.role.cache.has("645832781469057024") || !message.member.role.cache.has("609236733464150037"))  return message.channel.send("You don\'t have permission to do that!");
+     if(!message.member.roles.cache.has("645832781469057024") || !message.member.roles.cache.has("609236733464150037"))  return message.channel.send("You don\'t have permission to do that!");
      if(bUser.hasPermission("BAN_MEMBERS")) return message.channel.send("That member can\'t be banned!");
 
      var embed = new Discord.MessageEmbed()
@@ -631,7 +631,7 @@ bot.on("message", async function(message) {
 
       const ubID = args[1];
       if(!ubID) return message.channel.send(unbanerrembed);
-      if(!message.member.role.cache.has("608937618259836930") && !message.member.role.cache.has("645832781469057024") || !message.member.role.cache.has("609236733464150037")) return message.channel.send("You don\'t have permission to do that!")
+      if(!message.member.roles.cache.has("608937618259836930") && !message.member.roles.cache.has("645832781469057024") || !message.member.roles.cache.has("609236733464150037")) return message.channel.send("You don\'t have permission to do that!")
 
       var embed = new Discord.MessageEmbed()
       .setTitle("User Unbanned")
@@ -652,14 +652,14 @@ bot.on("message", async function(message) {
       message.channel.send(`Successfully unbanned **${ubID}**`)
     break;
     case "update":
-     if(!message.member.role.cache.has("609236733464150037") || !message.member.role.cache.has("736586013387784303")) return message.channel.send("You don\'t have permission to do that!");
+     if(!message.member.roles.cache.has("609236733464150037") || !message.member.roles.cache.has("736586013387784303")) return message.channel.send("You don\'t have permission to do that!");
 
      var embed = new Discord.MessageEmbed()
      .setTitle("Bug Fix Update")
      .setDescription("Successfully updated to Version 0.53.0!")
      .addField("Prefix", "?a \(Uncustomable\)")
      .addField("Public Commands", "`help` \(Will lead you to other help commands\), `salmon`, `apple`, `pie`, `candy`, `spam`, `8ball`, `door`, `coinflip`, `kill`, `hack`, `shutdown`, `rps`,  `botinfo`, `userinfo`, `serverinfo`, `welcome`")
-     .addField("Admin Commands", "`kick`, `ban`, `tempban`, `unban`, `mute`, `tempmute`, `unmute`, `clear`, `addrole`, `tempaddrole`, `removerole`, `tempremoverole`, `lockdown`, `unlock`", true)
+     .addField("Admin Commands", "`kick`, `ban`, `tempban`, `unban`, `mute`, `tempmute`, `unmute`, `clear`, `addrole`, `tempaddrole`, `removerole`,ro `tempremoverole`, `lockdown`, `unlock`", true)
      .addField("New Commands", "N/A", true)
      .addField("Removed Commands", "N/A", true)
      .addField("Updates", "Loads of Bug Fixes: \r1. Installed the FS Package \r2. New Feature: Shows how long the bot has been online on the activity \r3. Welcome message grammar fix \r4. Updated Salmon command content \r5. Updated Hack command to fix not working issue \r6. Replace all moderation commands from \"Permission Required\" to \"Roles Required\". \r7. Updated all moderation messages \r8. Added reply to ban command \r9. Replaced all \"Person\" with \"Member\" \r10. Lockdown command temporarily removed \r11. Updated Ping Command \r12. Updated Botinfo command.")
@@ -685,7 +685,7 @@ bot.on("message", async function(message) {
 
      const mUser = message.mentions.members.first();
      if (!mUser) return message.channel.send(muteerrembed);
-     if(!message.member.role.cache.has("629687079567360030") || !message.member.role.cache.has("609236733464150037") || !message.member.role.cache.has("645832781469057024"))  return message.channel.send("You don\'t have permission to do that!");
+     if(!message.member.roles.cache.has("629687079567360030") || !message.member.roles.cache.has("609236733464150037") || !message.member.roles.cache.has("645832781469057024"))  return message.channel.send("You don\'t have permission to do that!");
      if(mUser.hasPermission("VIEW_AUDIT_LOG")) return message.channel.send("That member can\'t be muted!");
      let mReason = args.slice(2).join(" ")
      if(!mReason) return message.channel.send("Please provide a reason")
@@ -722,7 +722,7 @@ bot.on("message", async function(message) {
 
      const tmUser = message.mentions.members.first();
      if (!tmUser) return message.channel.send("User doesn\'t exist!");
-     if(!message.member.role.cache.has("629687079567360030") || !message.member.role.cache.has("609236733464150037") || !message.member.role.cache.has("645832781469057024"))  return message.channel.send("You don\'t have permission to do that!");
+     if(!message.member.roles.cache.has("629687079567360030") || !message.member.roles.cache.has("609236733464150037") || !message.member.roles.cache.has("645832781469057024"))  return message.channel.send("You don\'t have permission to do that!");
      if(tmUser.hasPermission("VIEW_AUDIT_LOG")) return message.channel.send("That member can\'t be muted!");
      let tmReason = args.slice(3).join(" ")
 
@@ -771,7 +771,7 @@ bot.on("message", async function(message) {
 
      const umUser = message.mentions.members.first();
      if (!umUser) return message.channel.send(unmuteerrembed);
-     if(!message.member.role.cache.has("645832781469057024") || !message.member.role.cache.has("609236733464150037"))  return message.channel.send("You don\'t have permission to do that!");
+     if(!message.member.roles.cache.has("645832781469057024") || !message.member.roles.cache.has("609236733464150037"))  return message.channel.send("You don\'t have permission to do that!");
 
      let unmuterole = umUser.guild.roles.cache.find(role => role.name === "Muted");
      if (!unmuterole) return message.channel.send("Role doesn\'t exist");
@@ -794,7 +794,7 @@ bot.on("message", async function(message) {
       .setTimestamp()
       .setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
 
-     if(!message.member.role.cache.has("645832781469057024") && !message.member.role.cache.has("608937618259836930") || !message.member.role.cache.has("609236733464150037"))  return message.channel.send("You don\'t have permission to do that!");
+     if(!message.member.roles.cache.has("645832781469057024") && !message.member.roles.cache.has("608937618259836930") || !message.member.roles.cache.has("609236733464150037"))  return message.channel.send("You don\'t have permission to do that!");
      if(!args[1]) return message.channel.send(clearerrembed);
      let clearchannel = message.channel.id;
      message.channel.bulkDelete(args[1]).then(() => {
@@ -807,7 +807,7 @@ bot.on("message", async function(message) {
     break;
     case "lockdown":
         message.delete();
-        if(!message.member.role.cache.has("645832781469057024") && !message.member.role.cache.has("608937618259836930") || !message.member.role.cache.has("609236733464150037"))
+        if(!message.member.roles.cache.has("645832781469057024") && !message.member.roles.cache.has("608937618259836930") || !message.member.roles.cache.has("609236733464150037"))
         if(!args[1]) return message.channel.send("") 
         let ldvalue = args[1].toLowerCase();
 
