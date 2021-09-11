@@ -1,14 +1,15 @@
 {
   "name": "aot",
-  "version": "0.52.0",
+  "version": "0.53.0",
   "description": "Acto's bot",
   "main": "index.js",
   "scripts": {
-    "test": "?ahelp"
+    "test": "?ahelp",
+    "prod:start": "pm2-runtime index.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cleverActon0126/actons-database/aot-source"
+    "url": "git+https://github.com/cleverActon0126/aot.git"
   },
   "keywords": [
     "Aot"
@@ -17,9 +18,15 @@
   "license": "ISC",
   "dependencies": {
     "discord.js": "^12.5.3",
+    "fs": "^0.0.1-security",
     "ms": "^2.1.3",
+    "opusscript": "^0.0.8",
     "random-puppy": "^1.1.0",
-    "util": "^0.12.3"
+    "util": "^0.12.4"
   },
+  "bugs": {
+    "url": "https://github.com/cleverActon0126/aot/issues"
+  },
+  "homepage": "https://github.com/cleverActon0126/aot#readme",
   "devDependencies": {}
 }
