@@ -839,7 +839,8 @@ bot.on("message", async function(message) {
      .addField("Bot Created On:", bot.user.createdAt, true)
      .addField("Bot Creator", "<@428445352354643968>", true)
      .addField("Bot Developers", "<@696010548378337321>", true)
-     .addField("Bot Contributers", "<@428445352354643968>: All Versions \r<@696010548378337321>: 0.53.0")
+     .addField("Bot Contributers", "<@428445352354643968>: All Versions \r<@696010548378337321>: N/A")
+     .setThumbnail(bot.user.displayAvatarURL())
      .setTimestamp()
      .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
      message.channel.send(embed);
