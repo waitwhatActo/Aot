@@ -821,7 +821,7 @@ bot.on("message", async function(message) {
       var ping = Date.now() - message.createdTimestamp;
       var APIl = Math.round(bot.ws.ping);
 
-      var embed = new Discord.MessageEmbed
+      var embed = new Discord.MessageEmbed()
       .setTitle("Bot Ping")
       .addField("Ping", ping)
       .addField("API Latency", APIl)
