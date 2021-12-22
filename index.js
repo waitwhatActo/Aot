@@ -27,6 +27,8 @@ bot.on("ready", function() {
 });
 
 bot.on("guildMemberAdd", function(member) {
+  if(member.id == "844370394781712384") return member.roles.add("725361624294096927");
+
   let newmem = [
     `<@${member.id}> just joined the server - glhf!`,
     `<@${member.id}> just joined. Everyone, look busy!`,
@@ -487,7 +489,7 @@ bot.on("message", async function(message) {
      kUser.kick(kReason);
      kick2Channel.send(embed);
 
-     message.channel.send(`**${kUser.user.username}** (${kUser.id}) has been kicked for **${kReason}**`)
+     message.channel.send(`**${kUser.user.username}** (${kUser.id}) has been kicked for **${kReason}**.`)
     break;
     case "tempban":
       message.delete();
@@ -510,11 +512,11 @@ bot.on("message", async function(message) {
      var tempbantime = args[2];
 
      var embed = new Discord.MessageEmbed()
-     .setTitle("User Temp Banned")
+     .setTitle("User Temporaily Banned")
      .setColor(0xff0000)
-     .addField("Temp Banned User", `${tbUser} with ID ${tbUser.id}`)
-     .addField("Temp Banned By", `<@${message.author.id}> with ID ${message.author.id}`)
-     .addField("Temp Banned In", message.channel)
+     .addField("Temporaily Banned User", `${tbUser} with ID ${tbUser.id}`)
+     .addField("Temporaily Banned By", `<@${message.author.id}> with ID ${message.author.id}`)
+     .addField("Temporaily Banned In", message.channel)
      .addField("Time", message.createdAt)
      .addField("Reason", tbReason)
      .setTimestamp()
