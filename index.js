@@ -479,6 +479,8 @@ bot.on("message", async function(message) {
       .addField("Role Removed User", `${rrUser} with ID ${rrUser.id}`)
       .addField("Removed By", `<@${message.author.id}> with ID ${message.author.id}`)
       .addField("Removed In", message.channel)
+      .addField("Removed At", message.createdAt)
+      .addField("Role Removed", `${rrRole}`)
       .setTimestamp()
       .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
 
@@ -489,7 +491,7 @@ bot.on("message", async function(message) {
 
       rrUser.roles.remove(rrRole.id);
 
-      message.channel.send(`Role removed for <@${rrUser.id}>`)
+      message.channel.send(`Succeessfully removed role for <@${rrUser.id}> (**${rrUser.user.username}/${rrUser.displayName}**)!`)
     break;
     case "kick":
       message.delete();
