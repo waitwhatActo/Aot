@@ -69,7 +69,7 @@ bot.on("guildMemberAdd", function(member) {
     `Roses are red, violets are blue, <@${member.id}> joined this server with you`
   ];
 
-  var inchannel = member.guild.channels.cache.find(channel => channel.name === "general");
+  var inchannel = member.guild.channels.cache.find(channel => channel.name === "general-chat");
 
   inchannel.send(newmem[Math.floor(Math.random() * newmem.length)]);
 
@@ -464,7 +464,7 @@ bot.on("message", async function(message) {
      const kUser = message.mentions.members.first();
      if(!kUser) return message.channel.send(kickerrembed);
      let kReason = args.slice(2).join(" ");
-     if(!kReason) kReason = "Not specified";
+     if(!kReason) kReason = "not specified";
      if(!(message.member.roles.cache.has("629687079567360030") || message.member.roles.cache.has("629687079567360030") || message.member.roles.cache.has("645832781469057024") || message.member.roles.cache.has("609236733464150037"))) return message.channel.send("You don\'t have permission to do that!");
      if(kUser.hasPermission("KICK_MEMBERS")) return message.channel.send("That member can\'t be kicked!");
      
@@ -472,7 +472,7 @@ bot.on("message", async function(message) {
      .setDescription("User Kicked")
      .setColor(0xff0000)
      .addField("Kicked User", `${kUser} with ID ${kUser.id}`)
-     .addField("Kicked By", `<@${message.author.id}> with ID ${message.author.id}`)
+     .addField("Kicked By", `<@${message.author.id}> (**${kUser.user.username}**) with ID ${message.author.id}`)
      .addField("Kicked In", message.channel.toString())
      .addField("Time", message.createdAt)
      .addField("Reason", kReason)
@@ -482,12 +482,12 @@ bot.on("message", async function(message) {
      let kick2Channel = message.guild.channels.cache.find(channel => channel.name === "aot-logs");
      if(!kick2Channel) return message.channel.send("Could not find server logs channel.");
 
+     kUser.send(`You have been kicked from ${message.member.guild.name} for: ${kReason}.`)
+
      kUser.kick(kReason);
      kick2Channel.send(embed);
 
-     message.channel.send(`<@${kUser.id}> has been kicked for **${kReason}**`)
-
-     kUser.send(`You have been kicked from ${message.member.guild.name} for: ${kReason}.`)
+     message.channel.send(`**${kUser.user.username}** (${kUser.id}) has been kicked for **${kReason}**`)
     break;
     case "tempban":
       message.delete();
