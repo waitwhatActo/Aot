@@ -69,7 +69,7 @@ bot.on("guildMemberAdd", function(member) {
     `Roses are red, violets are blue, <@${member.id}> joined this server with you`
   ];
 
-  var inchannel = member.guild.channels.cache.find(channel => channel.name === "in-n-out");
+  var inchannel = member.guild.channels.cache.find(channel => channel.name === "general");
 
   inchannel.send(newmem[Math.floor(Math.random() * newmem.length)]);
 
@@ -82,16 +82,8 @@ bot.on("guildMemberAdd", function(member) {
   .addField(`Server Information`, `Server informations are available at <#739800400361947176>. It has list of Staffs, Channel Categories, Bots, Roles, Moderations and other useful information about the server.`)
   .setTimestamp()
   .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
-  member.send(embed).catch(() => inchannel.send(`Welcome, <@${member.id}>. Unfortunately, I could not send a direct message to you, so if you would like to check out the welcome message, type in \`?awelcome\`in <#709663772620357692> to check out the welcome message!`))
+  member.send(embed).catch(() => member.send(embed));
 });
-
-bot.on("guildMemberRemove", function(member) {
-  const outChannel = member.guild.channels.cache.find(channel => channel.name === "in-n-out")
-  if(!outChannel) return;
-
-  outChannel.send(`**<@${member.id}>** has left, but we will never forget them.`)
-});
-
 
 bot.on("message", async function(message) {
   if (message.author.equals(bot.user)) return;
@@ -838,7 +830,7 @@ bot.on("message", async function(message) {
      .addField("Bot Name", bot.user.username, true)
      .addField("Bot Created On:", bot.user.createdAt, true)
      .addField("Bot Creator", "<@428445352354643968>", true)
-     .addField("Bot Developers", "<@696010548378337321>", true)
+     .addField("Bot Developers", "N/A", true)
      .addField("Bot Contributers", "<@428445352354643968>: All Versions \r<@696010548378337321>: N/A")
      .setThumbnail(bot.user.displayAvatarURL())
      .setTimestamp()
