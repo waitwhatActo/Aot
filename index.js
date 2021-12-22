@@ -464,7 +464,7 @@ bot.on("message", async function(message) {
      const kUser = message.mentions.members.first();
      if(!kUser) return message.channel.send(kickerrembed);
      let kReason = args.slice(2).join(" ");
-     if(!kReason) return message.channel.send("Please provide a reason!");
+     if(!kReason) kReason = "Not specified";
      if(!(message.member.roles.cache.has("629687079567360030") || message.member.roles.cache.has("629687079567360030") || message.member.roles.cache.has("645832781469057024") || message.member.roles.cache.has("609236733464150037"))) return message.channel.send("You don\'t have permission to do that!");
      if(kUser.hasPermission("KICK_MEMBERS")) return message.channel.send("That member can\'t be kicked!");
      
