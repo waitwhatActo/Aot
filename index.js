@@ -402,7 +402,7 @@ bot.on("message", async function(message) {
       .setTimestamp()
       .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
 
-      let arChannel = message.guild.channels.cache.find(channel => channel.name === "server-logs");
+      let arChannel = message.guild.channels.cache.find(channel => channel.name === "aot-logs");
       if(!arChannel) return message.channel.send("Could not find server logs channel.");
 
       arChannel.send(embed);
@@ -442,7 +442,7 @@ bot.on("message", async function(message) {
       .setTimestamp()
       .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
 
-      let tarChannel = message.guild.channels.cache.find(channel => channel.name === "server-logs");
+      let tarChannel = message.guild.channels.cache.find(channel => channel.name === "aot-logs");
       if(!tarChannel) return message.channel.send("Could not find server logs channel.");
 
       tarChannel.send(embed);
@@ -480,7 +480,7 @@ bot.on("message", async function(message) {
       .setTimestamp()
       .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
 
-      let rrChannel = message.guild.channels.cache.find(channel => channel.name === "server-logs");
+      let rrChannel = message.guild.channels.cache.find(channel => channel.name === "aot-logs");
       if(!rrChannel) return message.channel.send("Could not find server logs channel.");
 
       rrChannel.send(embed);
@@ -518,7 +518,7 @@ bot.on("message", async function(message) {
      .setTimestamp()
      .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
 
-     let kick2Channel = message.guild.channels.cache.find(channel => channel.name === "server-logs");
+     let kick2Channel = message.guild.channels.cache.find(channel => channel.name === "aot-logs");
      if(!kick2Channel) return message.channel.send("Could not find server logs channel.");
 
      kUser.kick(kReason);
@@ -559,7 +559,7 @@ bot.on("message", async function(message) {
      .setTimestamp()
      .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
 
-     let tempbanChannel = message.guild.channels.cache.find(channel => channel.name === "server-logs");
+     let tempbanChannel = message.guild.channels.cache.find(channel => channel.name === "aot-logs");
      if(!tempbanChannel) return message.channel.send("Could not find server logs channel.");
 
      tbUser.send(`You have been temporarily banned from ${message.member.guild.name} for **${tbReason}**`)
@@ -601,7 +601,7 @@ bot.on("message", async function(message) {
      .setTimestamp()
      .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
 
-     let banChannel = message.guild.channels.cache.find(channel => channel.name === "server-logs");
+     let banChannel = message.guild.channels.cache.find(channel => channel.name === "aot-logs");
      if(!banChannel) return message.channel.send("Could not find server logs channel.");
 
      bUser.send(`You have been permanently banned from ${message.member.guild.name} for: ${bReason}`);
@@ -635,7 +635,7 @@ bot.on("message", async function(message) {
       .setTimestamp()
       .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
 
-      let unban2Channel = message.guild.channels.cache.find(channel => channel.name === "server-logs");
+      let unban2Channel = message.guild.channels.cache.find(channel => channel.name === "aot-logs");
       if(!unban2Channel) return message.channel.send("Could not find server logs channel.");
 
       message.guild.members.unban(ubID)
@@ -687,7 +687,7 @@ bot.on("message", async function(message) {
 
      mUser.roles.add(muterole.id);
 
-     const muteChannel = mUser.guild.channels.cache.find(channel => channel.name === "server-logs");
+     const muteChannel = mUser.guild.channels.cache.find(channel => channel.name === "aot-logs");
      if(!muteChannel) return;
 
      var embed = new Discord.MessageEmbed()
@@ -731,7 +731,7 @@ bot.on("message", async function(message) {
 
      message.channel.send(`<@${tmUser.id}> has been muted for ${mutetime}.`);
 
-     const tempmuteChannel = tmUser.guild.channels.cache.find(channel => channel.name === "server-logs");
+     const tempmuteChannel = tmUser.guild.channels.cache.find(channel => channel.name === "aot-logs");
      if(!tempmuteChannel) return;
 
      var embed = new Discord.MessageEmbed()
@@ -770,7 +770,7 @@ bot.on("message", async function(message) {
 
      umUser.roles.remove(unmuterole.id);
 
-     const unmute2Channel = umUser.guild.channels.cache.find(channel => channel.name === "server-logs");
+     const unmute2Channel = umUser.guild.channels.cache.find(channel => channel.name === "aot-logs");
      if(!unmute2Channel) return;
 
      unmute2Channel.send(`<@${umUser.id}> has now been unmuted.`)
@@ -792,7 +792,7 @@ bot.on("message", async function(message) {
      message.channel.bulkDelete(args[1]).then(() => {
        message.channel.send(`Deleted ${args[1]} messages.`).then(msg => msg.delete({timeout:3000}));
      });
-     let clearlog = message.guild.channels.cache.find(channel => channel.name === "server-logs")
+     let clearlog = message.guild.channels.cache.find(channel => channel.name === "aot-logs")
      if(!clearlog) return message.channel.send("Couldn't find server logs channel.")
 
      clearlog.send(`<@${message.member.id}> has deleted ${args[1]} in <#${clearchannel}>`)
