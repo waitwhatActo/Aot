@@ -396,9 +396,11 @@ bot.on("message", async function(message) {
        var embed = new Discord.MessageEmbed()
       .setDescription("Role Added to User")
       .setColor(0xff0000)
-      .addField("Role Added User", `${arUser} with ID ${arUser.id}`)
+      .addField("User with New Role", `${arUser} with ID ${arUser.id}`)
       .addField("Added By", `<@${message.author.id}> with ID ${message.author.id}`)
       .addField("Added In", message.channel)
+      .addField("Added At", message.createdAt)
+      .addField("Role Added", `${arRole}`)
       .setTimestamp()
       .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
 
@@ -409,7 +411,7 @@ bot.on("message", async function(message) {
 
       arUser.roles.add(arRole.id);
 
-      message.channel.send(`Succeessfully added role for **<@${arUser.tag}>**`);
+      message.channel.send(`Succeessfully added role for <@${arUser.id}> (**${arUser.user.username}/${arUser.displayName}**)!`);
     break;
     case "tempaddrole":
       message.delete();
