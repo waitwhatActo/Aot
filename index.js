@@ -413,49 +413,6 @@ bot.on("message", async function(message) {
 
       message.channel.send(`Succeessfully added role for <@${arUser.id}> (**${arUser.user.username}/${arUser.displayName}**)!`);
     break;
-    case "tempaddrole":
-      message.delete();
-      
-      var tempaddroleerrembed = new Discord.MessageEmbed()
-      .setTitle("Tempaddrole")
-      .setDescription("Usage for tempaddrole:")
-      .addField("`tempaddrole <@someone> <@role> <time>`", "Role(s) required: `@Lead Moderator`& `@Moderator` OR `@Acton`")
-      .setColor(0xff0000)
-      .setTimestamp()
-      .setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
-
-      if(!(message.member.roles.cache.has("645832781469057024") || message.member.roles.cache.has("608937618259836930") || message.member.roles.cache.has("609236733464150037"))) return message.channel.send("You don\'t have permission to do that.");
-      let tarUser = message.mentions.members.first();
-      if(!tarUser) return message.channel.send(tempaddroleerrembed);
-      let tarRole = message.mentions.roles.first();
-      if(!tarRole) return message.channel.send(tempaddroleerrembed);
-
-      let tartime = args[3];
-
-      tarUser.roles.add(tarRole.id);
-
-      var embed = new Discord.MessageEmbed()
-      .setDescription("Role temporily Added to User")
-      .setColor(0xff0000)
-      .addField("Role Added User", `${tarUser} with ID ${tarUser.id}`)
-      .addField("Added By", `<@${message.author.id}> with ID ${message.author.id}`)
-      .addField("Added In", message.channel)
-      .addField("Duration", tartime)
-      .setTimestamp()
-      .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
-
-      let tarChannel = message.guild.channels.cache.find(channel => channel.name === "aot-logs");
-      if(!tarChannel) return message.channel.send("Could not find server logs channel.");
-
-      tarChannel.send(embed);
-
-      message.channel.send(`Role added for <@${tarUser.id}> for ${tartime}`)
-
-      setTimeout(function() {
-        tarUser.roles.remove(tarRole.id);
-        message.channel.send(`Role removed for <@${tarUser.id}>`)
-      }, ms(tartime));
-    break;
     case "removerole":
       message.delete();
 
