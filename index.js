@@ -514,13 +514,24 @@ bot.on("message", async function(message) {
      var embed = new Discord.MessageEmbed()
      .setTitle("User Temporarily Banned")
      .setColor(0xff0000)
-     .addField("Temporarily Banned User", `${tbUser} with ID ${tbUser.id}`)
+     .addField("Temporarily Banned User", `${tbUser} (**${tbUser.user.username}**) with ID ${tbUser.id}`)
      .addField("Temporarily Banned By", `<@${message.author.id}> with ID ${message.author.id}`)
      .addField("Temporarily Banned In", message.channel)
      .addField("Time", message.createdAt)
      .addField("Reason", tbReason)
      .setTimestamp()
-     .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
+     .setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+
+     var embed2 = new Discord.MessageEmbed()
+     .setTitle("User Unbanned")
+     .setColor(0x00ff00)
+     .addField("User Unbanned", `${tbUser} (**${tbUser.user.username}**) with ID ${tbUser.id}`)
+     .addField("Was Temporarily Banned by", `<@${message.author.id}> with ID ${message.author.id}`)
+     .addField("Was Temporarily Banned in", message.channel)
+     .addField("Was Temporarily Banned At", message.createdAt)
+     .addField("Was Temporarily Banned for", tbReason)
+     .setTimestamp()
+     .setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
 
      let tempbanChannel = message.guild.channels.cache.find(channel => channel.name === "aot-logs");
      if(!tempbanChannel) return message.channel.send("Could not find server logs channel.");
@@ -533,7 +544,7 @@ bot.on("message", async function(message) {
 
      setTimeout(function() {
         message.guild.members.unban(tbUser.id);
-        tempbanChannel.send(`<@${tbUser.id}> has been unbanned.`)
+        tempbanChannel.send(embed2);
      }, ms(tempbantime));
     break;
     case "ban":
