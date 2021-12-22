@@ -505,18 +505,18 @@ bot.on("message", async function(message) {
      const tbUser = message.mentions.members.first();
      if(!tbUser) return message.channel.send(tempbanerrembed);
      let tbReason = args.slice(3).join(" ");
-     if (!tbReason) return message.channel.send("Please provide a reason.")
+     if (!tbReason) tbReason = "not specified";
      if(!(message.member.roles.cache.has("645832781469057024") || message.member.roles.cache.has("609236733464150037")))  return message.channel.send("You don\'t have permission to do that!");
      if(tbUser.hasPermission("BAN_MEMBERS")) return message.channel.send("That member cannot be banned!");
 
      var tempbantime = args[2];
 
      var embed = new Discord.MessageEmbed()
-     .setTitle("User Temporaily Banned")
+     .setTitle("User Temporarily Banned")
      .setColor(0xff0000)
-     .addField("Temporaily Banned User", `${tbUser} with ID ${tbUser.id}`)
-     .addField("Temporaily Banned By", `<@${message.author.id}> with ID ${message.author.id}`)
-     .addField("Temporaily Banned In", message.channel)
+     .addField("Temporarily Banned User", `${tbUser} with ID ${tbUser.id}`)
+     .addField("Temporarily Banned By", `<@${message.author.id}> with ID ${message.author.id}`)
+     .addField("Temporarily Banned In", message.channel)
      .addField("Time", message.createdAt)
      .addField("Reason", tbReason)
      .setTimestamp()
@@ -526,10 +526,10 @@ bot.on("message", async function(message) {
      if(!tempbanChannel) return message.channel.send("Could not find server logs channel.");
 
      tbUser.send(`You have been temporarily banned from ${message.member.guild.name} for **${tbReason}**`)
-     message.guild.members.ban(tbUser, { reason: `User banned by Aot, Ban mod: ${message.author.tag}, Ban Reason: ${tbReason}` }, { time: tempbantime });
+     message.guild.members.ban(tbUser, { reason: `User temporarily banned by Aot, Ban mod: ${message.author.tag}, Ban Reason: ${tbReason}` }, { time: ms(ms(tempbantime)) });
      tempbanChannel.send(embed);
 
-     message.channel.send(`<@${tbUser.id}> has been banned for **${tbReason}**.`)
+     message.channel.send(`<@${tbUser.id}> has been temporarily banned for **${ms(ms(tempbantime))}**, for **${tbReason}**.`)
 
      setTimeout(function() {
         message.guild.members.unban(tbUser.id);
