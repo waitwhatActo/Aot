@@ -484,7 +484,7 @@ bot.on("message", async function(message) {
      let kick2Channel = message.guild.channels.cache.find(channel => channel.name === "aot-logs");
      if(!kick2Channel) return message.channel.send("Could not find server logs channel.");
 
-     kUser.send(`You have been kicked from ${message.member.guild.name} for: ${kReason}.`)
+     kUser.send(`You have been kicked from ${message.member.guild.name} for: ${kReason}.`).catch()
 
      kUser.kick(kReason);
      kick2Channel.send(embed);
