@@ -18,7 +18,7 @@ var hmf = [
 
 bot.on("ready", function() {
   console.log("Connected as Aot#0350 and using version 0.54.1");
-  bot.user.setActivity(`?ahelp`, { type: 'PLAYING' });
+  bot.user.setActivity(`?ahelp on v0.54.1`, { type: 'PLAYING' });
   let hours = 0;
   setInterval(async () => {
     hours += 1;
