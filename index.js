@@ -592,7 +592,7 @@ bot.on("message", async function(message) {
       var unbanerrembed = new Discord.MessageEmbed()
       .setTitle("Unban")
       .setDescription("Usage for unban:")
-      .addField("`unban <USER ID> <reason>`", "Role(s) required: `@Moderator`and `@Lead Moderator` OR" `@Acton`)
+      .addField("`unban <USER ID> <reason>`", "Role(s) required: `@Moderator`and `@Lead Moderator` OR `@Acton`")
       .setColor(0xff0000)
       .setTimestamp()
       .setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
