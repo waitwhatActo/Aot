@@ -811,7 +811,12 @@ bot.on("message", async function(message) {
           if(ldchannel == "channel") {
             let ldc = message.channel
 
-            ldc.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: false })
+            ldc.overwritePermissions([
+              {
+                id: message.channel.guild.roles.everyone,
+                deny: ["SEND_MESSAGES"],
+              },
+            ], "Server Lockdown")
 
             message.channel.send("🔒This channel has been locked by a moderator.")
 
@@ -893,18 +898,78 @@ bot.on("message", async function(message) {
               return;
             };
 
-            lds1.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: false })
-            lds2.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: false })
-            lds3.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: false })
-            lds4.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: false })
-            lds5.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: false })
-            lds6.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: false })
-            lds7.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: false })
-            lds8.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: false })
-            lds9.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: false })
-            lds10.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: false })
-            lds11.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: false })
-            lds12.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: false })
+            lds1.overwritePermissions([
+              {
+                id: message.channel.guild.roles.everyone,
+                deny: ["SEND_MESSAGES"],
+              },
+            ], "Server Lockdown")
+            lds2.overwritePermissions([
+              {
+                id: message.channel.guild.roles.everyone,
+                deny: ["SEND_MESSAGES"],
+              },
+            ], "Server Lockdown")
+            lds3.overwritePermissions([
+              {
+                id: message.channel.guild.roles.everyone,
+                deny: ["SEND_MESSAGES"],
+              },
+            ], "Server Lockdown")
+            lds4.overwritePermissions([
+              {
+                id: message.channel.guild.roles.everyone,
+                deny: ["SEND_MESSAGES"],
+              },
+            ], "Server Lockdown")
+            lds5.overwritePermissions([
+              {
+                id: message.channel.guild.roles.everyone,
+                deny: ["SEND_MESSAGES"],
+              },
+            ], "Server Lockdown")
+            lds6.overwritePermissions([
+              {
+                id: message.channel.guild.roles.everyone,
+                deny: ["SEND_MESSAGES"],
+              },
+            ], "Server Lockdown")
+            lds7.overwritePermissions([
+              {
+                id: message.channel.guild.roles.everyone,
+                deny: ["SEND_MESSAGES"],
+              },
+            ], "Server Lockdown")
+            lds8.overwritePermissions([
+              {
+                id: message.channel.guild.roles.everyone,
+                deny: ["SEND_MESSAGES"],
+              },
+            ], "Server Lockdown")
+            lds9.overwritePermissions([
+              {
+                id: message.channel.guild.roles.everyone,
+                deny: ["SEND_MESSAGES"],
+              },
+            ], "Server Lockdown")
+            lds10.overwritePermissions([
+              {
+                id: message.channel.guild.roles.everyone,
+                deny: ["SEND_MESSAGES"],
+              },
+            ], "Server Lockdown")
+            lds11.overwritePermissions([
+              {
+                id: message.channel.guild.roles.everyone,
+                deny: ["SEND_MESSAGES"],
+              },
+            ], "Server Lockdown")
+            lds12.overwritePermissions([
+              {
+                id: message.channel.guild.roles.everyone,
+                deny: ["SEND_MESSAGES"],
+              },
+            ], "Server Lockdown")
 
             message.channel.send("🔒Successfully locked all channels.")
 
@@ -929,7 +994,12 @@ bot.on("message", async function(message) {
           if(ldchannel == "channel") {
             let uldc = message.channel
 
-            uldc.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: true })
+            uldc.overwritePermissions([
+              {
+                id: message.channel.guild.roles.everyone,
+                allow: ["SEND_MESSAGES"],
+              },
+            ], "Server Unlock")
 
             message.channel.send("🔓This channel has been unlocked by a moderator.")
 
@@ -1011,18 +1081,78 @@ bot.on("message", async function(message) {
               return;
             };
 
-            ulds1.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: true })
-            ulds2.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: true })
-            ulds3.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: true })
-            ulds4.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: true })
-            ulds5.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: true })
-            ulds6.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: true })
-            ulds7.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: true })
-            ulds8.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: true })
-            ulds9.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: true })
-            ulds10.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: true })
-            ulds11.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: true })
-            ulds12.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: true })
+            ulds1.overwritePermissions([
+              {
+                id: message.channel.guild.roles.everyone,
+                allow: ["SEND_MESSAGES"],
+              },
+            ], "Server Unlock")
+            ulds2.overwritePermissions([
+              {
+                id: message.channel.guild.roles.everyone,
+                allow: ["SEND_MESSAGES"],
+              },
+            ], "Server Unlock")
+            ulds3.overwritePermissions([
+              {
+                id: message.channel.guild.roles.everyone,
+                allow: ["SEND_MESSAGES"],
+              },
+            ], "Server Unlock")
+            ulds4.overwritePermissions([
+              {
+                id: message.channel.guild.roles.everyone,
+                allow: ["SEND_MESSAGES"],
+              },
+            ], "Server Unlock")
+            ulds5.overwritePermissions([
+              {
+                id: message.channel.guild.roles.everyone,
+                allow: ["SEND_MESSAGES"],
+              },
+            ], "Server Unlock")
+            ulds6.overwritePermissions([
+              {
+                id: message.channel.guild.roles.everyone,
+                allow: ["SEND_MESSAGES"],
+              },
+            ], "Server Unlock")
+            ulds7.overwritePermissions([
+              {
+                id: message.channel.guild.roles.everyone,
+                allow: ["SEND_MESSAGES"],
+              },
+            ], "Server Unlock")
+            ulds8.overwritePermissions([
+              {
+                id: message.channel.guild.roles.everyone,
+                allow: ["SEND_MESSAGES"],
+              },
+            ], "Server Unlock")
+            ulds9.overwritePermissions([
+              {
+                id: message.channel.guild.roles.everyone,
+                allow: ["SEND_MESSAGES"],
+              },
+            ], "Server Unlock")
+            ulds10.overwritePermissions([
+              {
+                id: message.channel.guild.roles.everyone,
+                allow: ["SEND_MESSAGES"],
+              },
+            ], "Server Unlock")
+            ulds11.overwritePermissions([
+              {
+                id: message.channel.guild.roles.everyone,
+                allow: ["SEND_MESSAGES"],
+              },
+            ], "Server Unlock")
+            ulds12.overwritePermissions([
+              {
+                id: message.channel.guild.roles.everyone,
+                allow: ["SEND_MESSAGES"],
+              },
+            ], "Server Unlock")
 
             message.channel.send("🔓Successfully unlocked all channels.")
 
