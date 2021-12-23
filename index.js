@@ -517,8 +517,9 @@ bot.on("message", async function(message) {
      .addField("Temporarily Banned User", `${tbUser} (**${tbUser.user.username}**) with ID ${tbUser.id}`)
      .addField("Temporarily Banned By", `<@${message.author.id}> with ID ${message.author.id}`)
      .addField("Temporarily Banned In", message.channel)
-     .addField("Time", message.createdAt)
-     .addField("Reason", tbReason)
+     .addField("Temporarily Banned At", message.createdAt)
+     .addField("Temporarily Banned For", `${ms(ms(tempbantime))}/${ms(tempbantime)}`)
+     .addField("Temporarily Banned Reason", tbReason)
      .setTimestamp()
      .setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
 
@@ -528,8 +529,8 @@ bot.on("message", async function(message) {
      .addField("User Unbanned", `${tbUser} (**${tbUser.user.username}**) with ID ${tbUser.id}`)
      .addField("Was Temporarily Banned by", `<@${message.author.id}> with ID ${message.author.id}`)
      .addField("Was Temporarily Banned in", message.channel)
-     .addField("Was Temporarily Banned At", message.createdAt)
-     .addField("Was Temporarily Banned for", tbReason)
+     .addField("Was Temporarily Banned at", message.createdAt)
+     .addField("Reason of Temporary Ban", tbReason)
      .setTimestamp()
      .setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
 
@@ -540,7 +541,7 @@ bot.on("message", async function(message) {
      message.guild.members.ban(tbUser, { reason: `User temporarily banned by Aot, Ban mod: ${message.author.tag}, Ban Reason: ${tbReason}` }, { time: ms(ms(tempbantime)) });
      tempbanChannel.send(embed);
 
-     message.channel.send(`<@${tbUser.id}> has been temporarily banned for **${ms(ms(tempbantime))}**, for **${tbReason}**.`)
+     message.channel.send(`<@${tbUser.id}> has been temporarily banned for **${ms(ms(tempbantime))}** for **${tbReason}**.`)
 
      setTimeout(function() {
         message.guild.members.unban(tbUser.id);
@@ -561,17 +562,18 @@ bot.on("message", async function(message) {
      const bUser = message.mentions.members.first();
      if(!bUser) return message.channel.send(banerrembed);
      let bReason = args.slice(2).join(" ")
+     if(!bReason) bReason = "not specified";
      if(!(message.member.roles.cache.has("645832781469057024") || message.member.roles.cache.has("609236733464150037")))  return message.channel.send("You don\'t have permission to do that!");
      if(bUser.hasPermission("BAN_MEMBERS")) return message.channel.send("That member can\'t be banned!");
 
      var embed = new Discord.MessageEmbed()
      .setTitle("User Banned")
      .setColor(0xff0000)
-     .addField("Banned User", `${bUser} with ID ${bUser.id}`)
+     .addField("Banned User", `${bUser} (**${bUser.user.username}**) with ID ${bUser.id}`)
      .addField("Banned By", `<@${message.author.id}> with ID ${message.author.id}`)
      .addField("Banned In", message.channel)
-     .addField("Time", message.createdAt)
-     .addField("Reason", bReason)
+     .addField("Banned At", message.createdAt)
+     .addField("Banned For", bReason)
      .setTimestamp()
      .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
 
@@ -582,7 +584,7 @@ bot.on("message", async function(message) {
      message.guild.members.ban(bUser, {reason: `User banned by Aot, Ban mod: ${message.author.tag}, Ban Reason: ${bReason}`});
      banChannel.send(embed);
 
-     message.channel.send(`<@${bUser.id}> has been banned for **${bReason}**.`)
+     message.channel.send(`**${bUser.user.username}** has been banned for **${bReason}**.`)
     break;
     case "unban":
       message.delete();
@@ -605,7 +607,7 @@ bot.on("message", async function(message) {
       .addField("Unbanned User", `<@${ubID}> with ID ${ubID}`)
       .addField("Unbanned By", `<@${message.author.id}> with ID ${message.author.id}`)
       .addField("Unbanned In", message.channel)
-      .addField("Time", message.createdAt)
+      .addField("Unbanned At", message.createdAt)
       .setTimestamp()
       .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
 
@@ -615,7 +617,7 @@ bot.on("message", async function(message) {
       message.guild.members.unban(ubID)
       unban2Channel.send(embed);
 
-      message.channel.send(`Successfully unbanned **${ubID}**`)
+      message.channel.send(`<@${ubID}> was unbanned.`)
     break;
     case "update":
       if(!(message.member.roles.cache.has("609236733464150037") || message.member.roles.cache.has("736586013387784303"))) return message.channel.send("You don\'t have permission to do that!");
@@ -654,7 +656,7 @@ bot.on("message", async function(message) {
      if(!(message.member.roles.cache.has("629687079567360030") || message.member.roles.cache.has("609236733464150037") || message.member.roles.cache.has("645832781469057024")))  return message.channel.send("You don\'t have permission to do that!");
      if(mUser.hasPermission("VIEW_AUDIT_LOG")) return message.channel.send("That member can\'t be muted!");
      let mReason = args.slice(2).join(" ")
-     if(!mReason) return message.channel.send("Please provide a reason")
+     if(!mReason) mReason = "not specified";
 
      let muterole = mUser.guild.roles.cache.find(role => role.name === "Muted");
      if (!muterole) return message.channel.send("Role doesn\'t exist");
@@ -673,7 +675,9 @@ bot.on("message", async function(message) {
      .addField("Reason", mReason)
      .setTimestamp()
      .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
-     muteChannel.send(embed)
+     muteChannel.send(embed);
+
+     message.channel.send(`<@${mUser.id}> (**${mUser.user.username}**) has been muted.`);
     break;
     case "tempmute":
       message.delete();
@@ -691,37 +695,50 @@ bot.on("message", async function(message) {
      if(!(message.member.roles.cache.has("629687079567360030") || message.member.roles.cache.has("609236733464150037") || message.member.roles.cache.has("645832781469057024")))  return message.channel.send("You don\'t have permission to do that!");
      if(tmUser.hasPermission("VIEW_AUDIT_LOG")) return message.channel.send("That member can\'t be muted!");
      let tmReason = args.slice(3).join(" ")
+     if (!tmReason) tmReason = "not specified";
 
      let tempmuterole = tmUser.guild.roles.cache.find(role => role.name === "Muted");
      if (!tempmuterole) return message.channel.send("Role doesn\'t exist");
 
      let mutetime = args[2];
-
      if(!mutetime){
-       return message.channel.send("You did not say how much time!");
+       return message.channel.send("Please specify how long the member should be muted for.");
      }
 
      tmUser.roles.add(tempmuterole.id);
 
-     message.channel.send(`<@${tmUser.id}> has been muted for ${mutetime}.`);
+     message.channel.send(`<@${tmUser.id}> (**${tmUser.user.username}**) has been muted for **${mutetime}** for **${tmReason}**.`);
 
      const tempmuteChannel = tmUser.guild.channels.cache.find(channel => channel.name === "aot-logs");
      if(!tempmuteChannel) return;
 
      var embed = new Discord.MessageEmbed()
-     .setTitle("Member Muted")
+     .setTitle("Member Temporarily Muted")
      .setColor(0xff0000)
-     .addField("Muted Member", `<@${tmUser.id}>`)
-     .addField("Duration", `${ms(ms(mutetime))}`)
-     .addField("Responsible Admin", `<@${message.member.id}>`)
-     .addField("Reason", `${tmReason}`)
+     .addField("Temporarily Muted Member", `<@${tmUser.id}> (**${tmUser.user.username}**) with ID ${tmUser.id}`)
+     .addField("Temporarily Muted For", `${ms(ms(mutetime))}/${ms(mutetime)}`)
+     .addField("Temporarily Muted By", `<@${message.member.id}> with ID ${message.member.id}`)
+     .addField("Temporarily Muted In", message.channel)
+     .addField("Temporarily Muted Reason", tmReason)
+     .setTimestamp()
+     .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
+     tempmuteChannel.send(embed)
+
+     var embed2 = new Discord.MessageEmbed()
+     .setTitle("Member Unmuted")
+     .setColor(0xff0000)
+     .addField("Was Temporarily Muted Member", `<@${tmUser.id}> (**${tmUser.user.username}**) with ID ${tmUser.id}`)
+     .addField("Was Temporarily Muted For", `${ms(ms(mutetime))}/${ms(mutetime)}`)
+     .addField("Was Temporarily Muted By", `<@${message.member.id}> with ID ${message.member.id}`)
+     .addField("Was Temporarily Muted In", message.channel)
+     .addField("Was Temporarily Muted Reason", tmReason)
      .setTimestamp()
      .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
      tempmuteChannel.send(embed)
 
      setTimeout(function() {
        tmUser.roles.remove(tempmuterole.id);
-       tempmuteChannel.send(`<@${tmUser.id}> has been unmuted!`)
+       tempmuteChannel.send(embed2)
      }, ms(mutetime));
     break;
     case "unmute":
@@ -744,10 +761,19 @@ bot.on("message", async function(message) {
 
      umUser.roles.remove(unmuterole.id);
 
+     var embed = new Discord.MessageEmbed()
+     .setTitle("Member Unmuted")
+     .addField("Unmuted Member", `<@${umUser.id}> (**${umUser.user.username}**) with ID ${tmUser.id}`)
+     .addField("Unmuted By", message.author)
+     .setColor(0x00ff00)
+     .setTimestamp()
+     .setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+
      const unmute2Channel = umUser.guild.channels.cache.find(channel => channel.name === "aot-logs");
      if(!unmute2Channel) return;
 
-     unmute2Channel.send(`<@${umUser.id}> has now been unmuted.`)
+     unmute2Channel.send(embed)
+     message.channel.send(`<@${umUser.id}> (**${umUser.user.username}**) has been unmuted.`)
     break;
     case "clear":
       message.delete();
@@ -769,17 +795,257 @@ bot.on("message", async function(message) {
      let clearlog = message.guild.channels.cache.find(channel => channel.name === "aot-logs")
      if(!clearlog) return message.channel.send("Couldn't find server logs channel.")
 
-     clearlog.send(`<@${message.member.id}> has deleted ${args[1]} in <#${clearchannel}>`)
+     clearlog.send(`<@${message.member.id}> has purged **${args[1]}** messages in <#${clearchannel}>`)
     break;
     case "lockdown":
         message.delete();
         if(!(message.member.roles.cache.has("645832781469057024") || message.member.roles.cache.has("608937618259836930") || message.member.roles.cache.has("609236733464150037")))
-        if(!args[1]) return message.channel.send("") 
+        if(!args[1]) return message.channel.send("`?alockdown LOCK|UNLOCK SERVER|CHANNEL` Please include if I should lock or unlock the server."); 
+        if(!args[2]) return message.channel.send("`?alockdown LOCK|UNLOCK SERVER|CHANNEL` Please include if I should lock or unlock the server.");
         let ldvalue = args[1].toLowerCase();
+        let ldchannel = args[2].toLowerCase();
+        if (!["lock", "unlock"].includes(ldvalue)) return message.channel.send("`?alockdown LOCK|UNLOCK SERVER|CHANNEL` Please include if I should lock or unlock the server.");
+        if (!["server", "channel"].includes(ldchannel)) return message.channel.send("`?alockdown LOCK|UNLOCK SERVER|CHANNEL` Please include if I should lock or unlock the server or this specific channel")
 
-        if (!["lock", "unlock"].includes(ldvalue)) return message.channel.send("`?alockdown LOCK | unlock` Please include if I should lock or unlock the server.");
+        if(ldvalue == "lock") {
+          if(ldchannel == "channel") {
+            let ldc = message.channel
 
-        message.channel.send("Lockdown command currently in development, try again later.");
+            ldc.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: false })
+
+            message.channel.send("🔒This channel has been locked by a moderator.")
+
+            var ldcembed = new Discord.MessageEmbed()
+            .setTitle("Server Unlock")
+            .addField("Lockdown Ended by", message.author)
+            .addField("Lockdown Ended at", message.createdAt)
+            .addField("Lockdown Ended in", message.channel)
+            .addField("Unlock Type", "Server/**Channel**")
+            .setColor(0x00ff00)
+            .setTimestamp()
+            .setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+
+            var ldclog = message.guild.channels.cache.find(channel => channel.name == "aot-logs");
+            if(!ldclog) return;
+
+            ldclog.send(ldcembed);
+          } else if (ldchannel == "server") {
+            var lds1 = message.guild.channels.cache.find(channel => channel.name == "general-chat" && channel.type=="text")
+            var lds2 = message.guild.channels.cache.find(channel => channel.name == "random-stuff" && channel.type=="text")
+            var lds3 = message.guild.channels.cache.find(channel => channel.name == "counting" && channel.type=="text")
+            var lds4 = message.guild.channels.cache.find(channel => channel.name == "politics" && channel.type=="text")
+            var lds5 = message.guild.channels.cache.find(channel => channel.name == "anime" && channel.type=="text")
+            var lds6 = message.guild.channels.cache.find(channel => channel.name == "arts" && channel.type=="text")
+            var lds7 = message.guild.channels.cache.find(channel => channel.name == "gaming" && channel.type=="text")
+            var lds8 = message.guild.channels.cache.find(channel => channel.name == "movie-tvshows" && channel.type=="text")
+            var lds9 = message.guild.channels.cache.find(channel => channel.name == "music" && channel.type=="text")
+            var lds10 = message.guild.channels.cache.find(channel => channel.name == "photography" && channel.type=="text")
+            var lds11 = message.guild.channels.cache.find(channel => channel.name == "technology" && channel.type=="text")
+            var lds12 = message.guild.channels.cache.find(channel => channel.name == "bot-commands" && channel.type=="text")
+
+            if(!lds1) {
+              message.channel.send("Missing channel(s), please check the logs.")
+              console.log("Missing channel 1.")
+              return;
+            } else if (!lds2) {
+              message.channel.send("Missing channel(s), please check the logs.")
+              console.log("Missing channel 2.")
+              return;
+            } else if (!lds3) {
+              message.channel.send("Missing channel(s), please check the logs.")
+              console.log("Missing channel 3.")
+              return;
+            } else if (!lds4) {
+              message.channel.send("Missing channel(s), please check the logs.")
+              console.log("Missing channel 4.")
+              return;
+            } else if (!lds5) {
+              message.channel.send("Missing channel(s), please check the logs.")
+              console.log("Missing channel 5.")
+              return;
+            } else if (!lds6) {
+              message.channel.send("Missing channel(s), please check the logs.")
+              console.log("Missing channel 6.")
+              return;
+            } else if (!lds7) {
+              message.channel.send("Missing channel(s), please check the logs.")
+              console.log("Missing channel 7.")
+              return;
+            } else if (!lds8) {
+              message.channel.send("Missing channel(s), please check the logs.")
+              console.log("Missing channel 8.")
+              return;
+            } else if (!lds9) {
+              message.channel.send("Missing channel(s), please check the logs.")
+              console.log("Missing channel 9.")
+              return;
+            } else if (!lds10) {
+              message.channel.send("Missing channel(s), please check the logs.")
+              console.log("Missing channel 10.")
+              return;
+            } else if (!lds11) {
+              message.channel.send("Missing channel(s), please check the logs.")
+              console.log("Missing channel 11.")
+              return;
+            } else if (!lds12) {
+              message.channel.send("Missing channel(s), please check the logs.")
+              console.log("Missing channel 12.")
+              return;
+            };
+
+            lds1.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: false })
+            lds2.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: false })
+            lds3.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: false })
+            lds4.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: false })
+            lds5.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: false })
+            lds6.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: false })
+            lds7.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: false })
+            lds8.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: false })
+            lds9.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: false })
+            lds10.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: false })
+            lds11.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: false })
+            lds12.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: false })
+
+            message.channel.send("🔒Successfully locked all channels.")
+
+            var ldsembed = new Discord.MessageEmbed()
+            .setTitle("Server Lockdown")
+            .addField("Lockdown Started by", message.author)
+            .addField("Lockdown Started at", message.createdAt)
+            .addField("Lockdown Started in", message.channel)
+            .addField("Lockdown Type", "**Server**/Channel")
+            .setColor(0xff0000)
+            .setTimestamp()
+            .setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+
+            var ldslog = message.guild.channels.cache.find(channel => channel.name == "aot-logs");
+            if(!ldslog) return;
+
+            ldslog.send(ldsembed);
+          } else {
+            return message.channel.send("An error occured, please check the logs.")
+          }
+        } else if (ldvalue == "unlock") {
+          if(ldchannel == "channel") {
+            let uldc = message.channel
+
+            uldc.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: true })
+
+            message.channel.send("🔓This channel has been unlocked by a moderator.")
+
+            var uldcembed = new Discord.MessageEmbed()
+            .setTitle("Server Unlock")
+            .addField("Lockdown Ended by", message.author)
+            .addField("Lockdown Ended at", message.createdAt)
+            .addField("Lockdown Ended in", message.channel)
+            .addField("Unlock Type", "Server/**Channel**")
+            .setColor(0x00ff00)
+            .setTimestamp()
+            .setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+
+            var uldclog = message.guild.channels.cache.find(channel => channel.name == "aot-logs");
+            if(!uldclog) return;
+
+            uldclog.send(uldcembed);
+          } else if (ldchannel == "server") {
+            var ulds1 = message.guild.channels.cache.find(channel => channel.name == "general-chat" && channel.type=="text")
+            var ulds2 = message.guild.channels.cache.find(channel => channel.name == "random-stuff" && channel.type=="text")
+            var ulds3 = message.guild.channels.cache.find(channel => channel.name == "counting" && channel.type=="text")
+            var ulds4 = message.guild.channels.cache.find(channel => channel.name == "politics" && channel.type=="text")
+            var ulds5 = message.guild.channels.cache.find(channel => channel.name == "anime" && channel.type=="text")
+            var ulds6 = message.guild.channels.cache.find(channel => channel.name == "arts" && channel.type=="text")
+            var ulds7 = message.guild.channels.cache.find(channel => channel.name == "gaming" && channel.type=="text")
+            var ulds8 = message.guild.channels.cache.find(channel => channel.name == "movie-tvshows" && channel.type=="text")
+            var ulds9 = message.guild.channels.cache.find(channel => channel.name == "music" && channel.type=="text")
+            var ulds10 = message.guild.channels.cache.find(channel => channel.name == "photography" && channel.type=="text")
+            var ulds11 = message.guild.channels.cache.find(channel => channel.name == "technology" && channel.type=="text")
+            var ulds12 = message.guild.channels.cache.find(channel => channel.name == "bot-commands" && channel.type=="text")
+
+            if(!ulds1) {
+              message.channel.send("Missing channel(s), please check the logs.")
+              console.log("Missing channel 1.")
+              return;
+            } else if (!ulds2) {
+              message.channel.send("Missing channel(s), please check the logs.")
+              console.log("Missing channel 2.")
+              return;
+            } else if (!ulds3) {
+              message.channel.send("Missing channel(s), please check the logs.")
+              console.log("Missing channel 3.")
+              return;
+            } else if (!ulds4) {
+              message.channel.send("Missing channel(s), please check the logs.")
+              console.log("Missing channel 4.")
+              return;
+            } else if (!ulds5) {
+              message.channel.send("Missing channel(s), please check the logs.")
+              console.log("Missing channel 5.")
+              return;
+            } else if (!ulds6) {
+              message.channel.send("Missing channel(s), please check the logs.")
+              console.log("Missing channel 6.")
+              return;
+            } else if (!ulds7) {
+              message.channel.send("Missing channel(s), please check the logs.")
+              console.log("Missing channel 7.")
+              return;
+            } else if (!ulds8) {
+              message.channel.send("Missing channel(s), please check the logs.")
+              console.log("Missing channel 8.")
+              return;
+            } else if (!ulds9) {
+              message.channel.send("Missing channel(s), please check the logs.")
+              console.log("Missing channel 9.")
+              return;
+            } else if (!ulds10) {
+              message.channel.send("Missing channel(s), please check the logs.")
+              console.log("Missing channel 10.")
+              return;
+            } else if (!ulds11) {
+              message.channel.send("Missing channel(s), please check the logs.")
+              console.log("Missing channel 11.")
+              return;
+            } else if (!ulds12) {
+              message.channel.send("Missing channel(s), please check the logs.")
+              console.log("Missing channel 12.")
+              return;
+            };
+
+            ulds1.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: true })
+            ulds2.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: true })
+            ulds3.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: true })
+            ulds4.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: true })
+            ulds5.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: true })
+            ulds6.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: true })
+            ulds7.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: true })
+            ulds8.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: true })
+            ulds9.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: true })
+            ulds10.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: true })
+            ulds11.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: true })
+            ulds12.overwritePermissions(message.channel.guild.roles.everyone, { SEND_MESSAGES: true })
+
+            message.channel.send("🔓Successfully unlocked all channels.")
+
+            var uldsembed = new Discord.MessageEmbed()
+            .setTitle("Server Unlock")
+            .addField("Lockdown Ended by", message.author)
+            .addField("Lockdown Ended at", message.createdAt)
+            .addField("Lockdown Ended in", message.channel)
+            .addField("Unlock Type", "**Server**/Channel")
+            .setColor(0x00ff00)
+            .setTimestamp()
+            .setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+
+            var uldslog = message.guild.channels.cache.find(channel => channel.name == "aot-logs");
+            if(!uldslog) return;
+
+            uldslog.send(uldsembed);
+          } else {
+            return message.channel.send("An error occured, please check the logs.")
+          }
+        } else {
+          return message.channel.send("An error occured, please check the logs.")
+        };
     break;
     //end of admin Commands
     //information
