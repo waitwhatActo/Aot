@@ -1304,11 +1304,12 @@ bot.on("message", async function(message) {
     case "tellraw":
       message.delete();
       if(!(message.member.roles.cache.has("645832781469057024") || message.member.roles.cache.has("609236733464150037")))  return message.channel.send("You don\'t have permission to do that!");
-      var twchannel = args[1].slice(2, twchannel.length - 1);
+      var twchannel = args[1];
       if(!twchannel) return message.channel.send("Please tell me which channel to send to.")
       var twcontent = args.slice(2).join(" ");
       if(!twcontent) return message.channel.send("Please tell me what to say!");
-      var twchannelr = message.guild.channels.cache.find(channel => channel.id == twchannel);
+      var twchanneln = twchannel.slice(2, twchannel.length - 1)
+      var twchannelr = message.guild.channels.cache.find(channel => channel.id == twchanneln);
       if(!twchannelr) return message.channel.send("An error occured.")
 
       twchannelr.send(twcontent)
