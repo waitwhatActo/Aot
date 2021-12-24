@@ -204,10 +204,10 @@ bot.on("message", async function(message) {
       var emute = message.guild.roles.cache.find(role => role.name == "Muted")
       message.member.roles.add(emute.id)
       var euser = message.member
-      message.channel.send(`<@${euser.id}> (**${euser.user.username}**) was automatically muted for **sending malicious stuff**.`)
+      message.channel.send(`<@${euser.id}> (**${euser.user.username}**) was automatically muted for **attempt on pinging everyone/here**.`)
 
       var eembed = new Discord.MessageEmbed()
-      .setTitle("Attempted Scam")
+      .setTitle("Attempted Ping")
       .setColor(0xff0000)
       .addField("Member", message.author)
       .addField("Time", message.createdAt)
@@ -219,7 +219,6 @@ bot.on("message", async function(message) {
 
       var echannel = message.guild.channels.cache.find(channel => channel.name == "aot-logs")
       echannel.send(eembed)
-      echannel.send("@here")
     }
   };
 
