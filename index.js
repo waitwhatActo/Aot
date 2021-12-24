@@ -87,12 +87,14 @@ bot.on("guildMemberAdd", function(member) {
   member.send(embed).catch(() => member.send(embed));
 });
 
+var sl = fs.readFileSync('sl.txt').toString().split("\n");
+
 bot.on("message", async function(message) {
-  var sl = fs.readFileSync('sl.txt').toString().split("\n");
-  console.log(sl);
-  if(message.content.includes(sl)) {
-    message.delete()
-    return;
+  for(var slc = 0; i < sl.length; i++) {
+    if(message.content.includes(sl[slc])){
+      message.delete();
+      console.log("Test success");
+    }
   }
 
   if(message.author.equals(bot.user)) return;
