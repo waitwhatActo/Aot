@@ -119,6 +119,7 @@ bot.on("message", async function(message) {
       var slchannel = message.guild.channels.cache.find(channel => channel.name == "aot-logs")
       slchannel.send(slembed)
       slchannel.send("@here")
+      return;
     }
   };
 
@@ -144,6 +145,7 @@ bot.on("message", async function(message) {
       var nuchannel = message.guild.channels.cache.find(channel => channel.name == "aot-logs")
       nuchannel.send(nuembed)
       nuchannel.send("@here")
+      return;
     }
   };
 
@@ -169,6 +171,7 @@ bot.on("message", async function(message) {
       var schannel = message.guild.channels.cache.find(channel => channel.name == "aot-logs")
       schannel.send(sembed)
       schannel.send("@here")
+      return;
     }
   };
 
@@ -194,6 +197,7 @@ bot.on("message", async function(message) {
       var mchannel = message.guild.channels.cache.find(channel => channel.name == "aot-logs")
       mchannel.send(membed)
       mchannel.send("@here")
+      return;
     }
   };
 
@@ -219,6 +223,7 @@ bot.on("message", async function(message) {
 
       var echannel = message.guild.channels.cache.find(channel => channel.name == "aot-logs")
       echannel.send(eembed)
+      return;
     }
   };
 
@@ -340,7 +345,7 @@ bot.on("message", async function(message) {
       var wait = require("util").promisify(setTimeout);
       if(!sdUser) return message.channel.send(shutdownerrembed);
 
-        var msg = await message.channel.send(`Prepare to shutdown ${sdUser.id}\'s device.`)
+      var msg = await message.channel.send(`Prepare to shutdown ${sdUser.id}\'s device.`)
       await wait(2500)
       await msg.edit("Starting process...")
       await wait(2500)
