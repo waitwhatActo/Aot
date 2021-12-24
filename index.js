@@ -93,7 +93,23 @@ bot.on("message", async function(message) {
   for(var slc = 0; slc < sl.length; slc++) {
     if(message.content.includes(sl[slc])){
       message.delete();
-      console.log("Test success");
+      var slmute = message.guild.roles.cache.find(role => role.name == "Muted")
+      message.member.roles.add(slmute.id)
+      var sluser = message.member
+      message.channel.send(`<@${sluser.id}> (**${sluser.user.username}**) was automatically muted for **attempted scam message**.`)
+
+      var slembed = new Discord.MessageEmbed()
+      .setTitle("Attempted Scam")
+      .addField("Member", message.author)
+      .addField("Time", message.createdAt)
+      .addField("In", message.channel)
+      .addField("Message", message.content)
+      .addField("Please take action", "if neccessary")
+      .setTimestamp()
+      .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
+
+      var slchannel = message.guild.channels.cache.find(channel => channel.name == "aot-logs")
+      slchannel.send(slembed, "@here")
     }
   }
 
@@ -678,7 +694,7 @@ bot.on("message", async function(message) {
      .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
      muteChannel.send(embed);
 
-     message.channel.send(`<@${mUser.id}> (**${mUser.user.username}**) has been muted.`);
+     message.channel.send(`<@${mUser.id}> (**${mUser.user.username}**) has been muted for **mReason**.`);
     break;
     case "tempmute":
       message.delete();
