@@ -109,7 +109,8 @@ bot.on("message", async function(message) {
       .setFooter(hmf[Math.floor(Math.random() * hmf.length)])
 
       var slchannel = message.guild.channels.cache.find(channel => channel.name == "aot-logs")
-      slchannel.send(slembed, "@here")
+      slchannel.send(slembed)
+      slchannel.send("@here")
     }
   }
 
