@@ -887,7 +887,7 @@ bot.on("message", async function(message) {
 
      var embed = new Discord.MessageEmbed()
      .setTitle("Member Unmuted")
-     .addField("Unmuted Member", `<@${umUser.id}> (**${umUser.user.username}**) with ID ${tmUser.id}`)
+     .addField("Unmuted Member", `<@${umUser.id}> (**${umUser.user.username}**) with ID ${umUser.id}`)
      .addField("Unmuted By", message.author)
      .setColor(0x00ff00)
      .setTimestamp()
