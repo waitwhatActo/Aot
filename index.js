@@ -878,7 +878,7 @@ bot.on("message", async function(message) {
 
      const umUser = message.mentions.members.first();
      if (!umUser) return message.channel.send(unmuteerrembed);
-     if(!message.member.roles.cache.has("645832781469057024") || !message.member.roles.cache.has("609236733464150037"))  return message.channel.send("You don\'t have permission to do that!");
+     if(!(message.member.roles.cache.has("645832781469057024") || message.member.roles.cache.has("609236733464150037")))  return message.channel.send("You don\'t have permission to do that!");
 
      let unmuterole = umUser.guild.roles.cache.find(role => role.name === "Muted");
      if (!unmuterole) return message.channel.send("Role doesn\'t exist");
