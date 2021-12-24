@@ -94,6 +94,9 @@ var m = fs.readFileSync('m.txt').toString().split("\n");
 var e = fs.readFileSync("e.txt").toString().split("\n");
 
 bot.on("message", async function(message) {
+
+  if(message.author.equals(bot.user)) return;
+
   for(var slc = 0; slc < sl.length; slc++) {
     if(message.content.includes(sl[slc])){
       message.delete();
@@ -219,8 +222,6 @@ bot.on("message", async function(message) {
       echannel.send("@here")
     }
   };
-
-  if(message.author.equals(bot.user)) return;
 
   if(!message.content.startsWith(PREFIX)) return;
 
