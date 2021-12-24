@@ -88,9 +88,15 @@ bot.on("guildMemberAdd", function(member) {
 });
 
 bot.on("message", async function(message) {
-  if (message.author.equals(bot.user)) return;
+  var sl = fs.readFileSync('sl.txt').toString().split("\n");
+  if(message.content.includes(sl)) {
+    message.delete()
+    return;
+  }
 
-  if (!message.content.startsWith(PREFIX)) return;
+  if(message.author.equals(bot.user)) return;
+
+  if(!message.content.startsWith(PREFIX)) return;
 
   const args = message.content.substring(PREFIX.length).split(" ");
 
