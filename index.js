@@ -90,7 +90,7 @@ bot.on("guildMemberAdd", function(member) {
 var sl = fs.readFileSync('sl.txt').toString().split("\n");
 
 bot.on("message", async function(message) {
-  for(var slc = 0; i < sl.length; slc++) {
+  for(var slc = 0; slc < sl.length; slc++) {
     if(message.content.includes(sl[slc])){
       message.delete();
       console.log("Test success");
