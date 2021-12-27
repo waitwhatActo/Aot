@@ -1322,9 +1322,16 @@ bot.on("message", async function(message) {
     case "slowmode":
       if(!(message.member.roles.cache.has("645832781469057024") || message.member.roles.cache.has("608937618259836930") || message.member.roles.cache.has("609236733464150037"))) return message.channel.send("You don't have permission to do that!");
       var smtime = args[1];
-
-      message.channel.setRateLimitPerUser(smtime);
-      message.channel.send(`Successfully appllied slowmode of **${smtime}** seconds.`)
+      if(smtime == "0") {
+        message.channel.setRateLimitPerUser(0);
+        message.channel.send(`Successfully turned off slowmode for the channel.`)
+      } else if (smtime == 'off') {
+        message.channel.setRateLimitPerUser(0);
+        message.channel.send(`Successfully turned off slowmode for the channel.`)
+      } else {
+        message.channel.setRateLimitPerUser(smtime);
+        message.channel.send(`Successfully appllied slowmode of **${smtime}** seconds.`)
+      }
     break;
     //end of admin Commands
     //information
