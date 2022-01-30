@@ -1,35 +1,34 @@
 /* eslint-disable no-case-declarations */
-/* eslint-disable no-inner-declarations */
-const Discord = require('discord.js');
-const ms = require('ms');
-const randomPuppy = require('random-puppy');
-const fs = require('fs');
+const { Intents, Client, MessageEmbed } = require("discord.js");
+const ms = require("ms");
+const randomPuppy = require("random-puppy");
+const fs = require("fs");
 
-const config = require('./config.json');
-const PREFIX = '?a';
+const config = require("./config.json");
+const PREFIX = "?a";
 
-const bot = new Discord.Client();
+const bot = new Client({ intents: new Intents(32767) });
 
 const hmf = [
-	'Need help? ?ahelp will be able to help you',
-	'Enjoy your time using Aot',
-	'Trying to report somebody? DM @ModMail',
-	'Made by cleverActon0126#0126',
-	'Version 0.57.0',
+	"Need help? ?ahelp will be able to help you",
+	"Enjoy your time using Aot",
+	"Trying to report somebody? DM @ModMail",
+	"Made by cleverActon0126#0126",
+	"Version 0.58.0",
 ];
 
-bot.on('ready', function() {
-	console.log('Connected as Aot#0350 and using version 0.57.0');
-	bot.user.setActivity('?ahelp on v0.57.0', { type: 'PLAYING' });
+bot.on("ready", function() {
+	console.log("Connected as Aot#0350 and using version 0.58.0");
+	bot.user.setActivity("?ahelp on v0.58.0", { type: "PLAYING" });
 	let hours = 0;
 	setInterval(async () => {
 		hours += 1;
-		await bot.user.setActivity(`?ahelp for ${hours} hours on v0.57.0`, { type: 'PLAYING' });
+		await bot.user.setActivity(`?ahelp for ${hours} hours on v0.58.0`, { type: "PLAYING" });
 	}, 3600000);
 });
 
-bot.on('guildMemberAdd', function(member) {
-	if (member.id == '844370394781712384') return member.roles.add('725361624294096927');
+bot.on("guildMemberAdd", function(member) {
+	if (member.id == "844370394781712384") return member.roles.add("725361624294096927");
 
 	const newmem = [
 		`<@${member.id}> just joined the server - glhf!`,
@@ -73,54 +72,54 @@ bot.on('guildMemberAdd', function(member) {
 		`Roses are red, violets are blue, <@${member.id}> joined this server with you`,
 	];
 
-	const inchannel = member.guild.channels.cache.find(channel => channel.name === 'general-chat');
+	const inchannel = member.guild.channels.cache.find(channel => channel.name === "general-chat");
 
 	inchannel.send(newmem[Math.floor(Math.random() * newmem.length)]);
 
-	const embed = new Discord.MessageEmbed()
+	const embed = new MessageEmbed()
 		.setTitle(`Welcome to ${member.guild.name}!`)
-		.setColor('RANDOM')
-		.addField(`Welcome to ${member.guild.name}!`, 'Here, you can enjoy your time talking to people in <#709339392564527185>. Have fun!')
-		.addField('Announcements', 'Announcements always goes in to this channel: <#740870989134561331>. It is also an announcement channel so if you don\'t want to click multiple times to be able to see the announcements, you can just follow the channel into your own server.')
-		.addField('Rules', 'Please always remember to read the rule in any server you join. For this server, please visit <#651410686705926145> for the rules.')
-		.addField('Server Information', 'Server informations are available at <#739800400361947176>. It has list of Staffs, Channel Categories, Bots, Roles, Moderations and other useful information about the server.')
+		.setColor("RANDOM")
+		.addField(`Welcome to ${member.guild.name}!`, "Here, you can enjoy your time talking to people in <#709339392564527185>. Have fun!")
+		.addField("Announcements", "Announcements always goes in to this channel: <#740870989134561331>. It is also an announcement channel so if you don't want to click multiple times to be able to see the announcements, you can just follow the channel into your own server.")
+		.addField("Rules", "Please always remember to read the rule in any server you join. For this server, please visit <#651410686705926145> for the rules.")
+		.addField("Server Information", "Server informations are available at <#739800400361947176>. It has list of Staffs, Channel Categories, Bots, Roles, Moderations and other useful information about the server.")
 		.setTimestamp()
-		.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
-	member.send(embed).catch(() => member.send(embed));
+		.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
+	member.send({ embeds: [embed] }).catch(() => member.send({ embeds: [embed] }));
 });
 
-const sl = fs.readFileSync('sl.txt').toString().split('\n');
-const nu = fs.readFileSync('nu.txt').toString().split('\n');
-const s = fs.readFileSync('s.txt').toString().split('\n');
-const m = fs.readFileSync('m.txt').toString().split('\n');
-const e = fs.readFileSync('e.txt').toString().split('\n');
+const sl = fs.readFileSync("sl.txt").toString().split("\n");
+const nu = fs.readFileSync("nu.txt").toString().split("\n");
+const s = fs.readFileSync("s.txt").toString().split("\n");
+const m = fs.readFileSync("m.txt").toString().split("\n");
+const e = fs.readFileSync("e.txt").toString().split("\n");
 
-bot.on('message', async function(message) {
+bot.on("messageCreate", async function(message) {
 
-	if (message.author.equals(bot.user)) return;
+	if (message.author.equals(bot)) return;
 
 	for (let slc = 0; slc < sl.length; slc++) {
 		if (message.content.includes(sl[slc])) {
 			message.delete();
-			const slmute = message.guild.roles.cache.find(role => role.name == 'Muted');
+			const slmute = message.guild.roles.cache.find(role => role.name == "Muted");
 			message.member.roles.add(slmute.id);
 			const sluser = message.member;
 			message.channel.send(`<@${sluser.id}> (**${sluser.user.username}**) was automatically muted for **attempted scam message**.`);
 
-			const slembed = new Discord.MessageEmbed()
-				.setTitle('Attempted Scam')
+			const slembed = new MessageEmbed()
+				.setTitle("Attempted Scam")
 				.setColor(0xff0000)
-				.addField('Member', message.author)
-				.addField('Time', message.createdAt)
-				.addField('In', message.channel)
-				.addField('Message', message.content)
-				.addField('Please take action', 'if neccessary')
+				.addField("Member", message.author)
+				.addField("Time", `${message.createdAt}`)
+				.addField("In", `${message.channel}`)
+				.addField("Message", message.content)
+				.addField("Please take action", "if neccessary")
 				.setTimestamp()
-				.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-			const slchannel = message.guild.channels.cache.find(channel => channel.name == 'aot-logs');
-			slchannel.send(slembed);
-			slchannel.send('@here');
+			const slchannel = message.guild.channels.cache.find(channel => channel.name == "aot-logs");
+			slchannel.send({ embeds: [slembed] });
+			slchannel.send("@here");
 			return;
 		}
 	}
@@ -128,25 +127,25 @@ bot.on('message', async function(message) {
 	for (let nuc = 0; nuc < nu.length; nuc++) {
 		if (message.content.includes(nu[nuc])) {
 			message.delete();
-			const numute = message.guild.roles.cache.find(role => role.name == 'Muted');
+			const numute = message.guild.roles.cache.find(role => role.name == "Muted");
 			message.member.roles.add(numute.id);
 			const nuuser = message.member;
 			message.channel.send(`<@${nuuser.id}> (**${nuuser.user.username}**) was automatically muted for **sending malicious URLs**.`);
 
-			const nuembed = new Discord.MessageEmbed()
-				.setTitle('Attempted Scam')
+			const nuembed = new MessageEmbed()
+				.setTitle("Attempted Scam")
 				.setColor(0xff0000)
-				.addField('Member', message.author)
-				.addField('Time', message.createdAt)
-				.addField('In', message.channel)
-				.addField('Message', message.content)
-				.addField('Please take action', 'if neccessary')
+				.addField("Member", message.author)
+				.addField("Time", `${message.createdAt}`)
+				.addField("In", `${message.channel}`)
+				.addField("Message", message.content)
+				.addField("Please take action", "if neccessary")
 				.setTimestamp()
-				.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-			const nuchannel = message.guild.channels.cache.find(channel => channel.name == 'aot-logs');
-			nuchannel.send(nuembed);
-			nuchannel.send('@here');
+			const nuchannel = message.guild.channels.cache.find(channel => channel.name == "aot-logs");
+			nuchannel.send({ embeds: [nuembed] });
+			nuchannel.send("@here");
 			return;
 		}
 	}
@@ -154,25 +153,25 @@ bot.on('message', async function(message) {
 	for (let sc = 0; sc < s.length; sc++) {
 		if (message.content.includes(s[sc])) {
 			message.delete();
-			const smute = message.guild.roles.cache.find(role => role.name == 'Muted');
+			const smute = message.guild.roles.cache.find(role => role.name == "Muted");
 			message.member.roles.add(smute.id);
 			const suser = message.member;
 			message.channel.send(`<@${suser.id}> (**${suser.user.username}**) was automatically muted for **sending scam URLs**.`);
 
-			const sembed = new Discord.MessageEmbed()
-				.setTitle('Attempted Scam')
+			const sembed = new MessageEmbed()
+				.setTitle("Attempted Scam")
 				.setColor(0xff0000)
-				.addField('Member', message.author)
-				.addField('Time', message.createdAt)
-				.addField('In', message.channel)
-				.addField('Message', message.content)
-				.addField('Please take action', 'if neccessary')
+				.addField("Member", message.author)
+				.addField("Time", `${message.createdAt}`)
+				.addField("In", `${message.channel}`)
+				.addField("Message", message.content)
+				.addField("Please take action", "if neccessary")
 				.setTimestamp()
-				.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-			const schannel = message.guild.channels.cache.find(channel => channel.name == 'aot-logs');
-			schannel.send(sembed);
-			schannel.send('@here');
+			const schannel = message.guild.channels.cache.find(channel => channel.name == "aot-logs");
+			schannel.send({ embeds: [sembed] });
+			schannel.send("@here");
 			return;
 		}
 	}
@@ -180,143 +179,153 @@ bot.on('message', async function(message) {
 	for (let mc = 0; mc < m.length; mc++) {
 		if (message.content.includes(m[mc])) {
 			message.delete();
-			const mmute = message.guild.roles.cache.find(role => role.name == 'Muted');
+			const mmute = message.guild.roles.cache.find(role => role.name == "Muted");
 			message.member.roles.add(mmute.id);
 			const muser = message.member;
 			message.channel.send(`<@${muser.id}> (**${muser.user.username}**) was automatically muted for **sending malicious stuff**.`);
 
-			const membed = new Discord.MessageEmbed()
-				.setTitle('Attempted Scam')
+			const membed = new MessageEmbed()
+				.setTitle("Attempted Scam")
 				.setColor(0xff0000)
-				.addField('Member', message.author)
-				.addField('Time', message.createdAt)
-				.addField('In', message.channel)
-				.addField('Message', message.content)
-				.addField('Please take action', 'if neccessary')
+				.addField("Member", message.author)
+				.addField("Time", `${message.createdAt}`)
+				.addField("In", `${message.channel}`)
+				.addField("Message", message.content)
+				.addField("Please take action", "if neccessary")
 				.setTimestamp()
-				.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-			const mchannel = message.guild.channels.cache.find(channel => channel.name == 'aot-logs');
-			mchannel.send(membed);
-			mchannel.send('@here');
+			const mchannel = message.guild.channels.cache.find(channel => channel.name == "aot-logs");
+			mchannel.send({ embeds: [membed] });
+			mchannel.send("@here");
 			return;
 		}
 	}
 
 	for (let ec = 0; ec < m.length; ec++) {
 		if (message.content.includes(e[ec])) {
-			if (message.member.roles.cache.has('645832781469057024') || message.member.roles.cache.has('608937618259836930') || message.member.roles.cache.has('609236733464150037')) return;
+			if (message.member.roles.cache.has("645832781469057024") || message.member.roles.cache.has("608937618259836930") || message.member.roles.cache.has("609236733464150037")) return;
 			message.delete();
-			const emute = message.guild.roles.cache.find(role => role.name == 'Muted');
+			const emute = message.guild.roles.cache.find(role => role.name == "Muted");
 			message.member.roles.add(emute.id);
 			const euser = message.member;
 			message.channel.send(`<@${euser.id}> (**${euser.user.username}**) was automatically muted for **attempt on pinging everyone/here**.`);
 
-			const eembed = new Discord.MessageEmbed()
-				.setTitle('Attempted Ping')
+			const eembed = new MessageEmbed()
+				.setTitle("Attempted Ping")
 				.setColor(0xff0000)
-				.addField('Member', message.author)
-				.addField('Time', message.createdAt)
-				.addField('In', message.channel)
-				.addField('Message', message.content)
-				.addField('Please take action', 'if neccessary')
+				.addField("Member", message.author)
+				.addField("Time", `${message.createdAt}`)
+				.addField("In", `${message.channel}`)
+				.addField("Message", message.content)
+				.addField("Please take action", "if neccessary")
 				.setTimestamp()
-				.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-			const echannel = message.guild.channels.cache.find(channel => channel.name == 'aot-logs');
-			echannel.send(eembed);
+			const echannel = message.guild.channels.cache.find(channel => channel.name == "aot-logs");
+			echannel.send({ embeds: [eembed] });
 			return;
 		}
 	}
 
+	if (message.author.equals(bot.user)) return;
+
 	if (!message.content.startsWith(PREFIX)) return;
 
-	const args = message.content.substring(PREFIX.length).split(' ');
+	const args = message.content.substring(PREFIX.length).split(" ");
 
 	switch (args[0].toLowerCase()) {
 	// food Commands
-	case 'salmon':
-		function filter(ma) {
-			return ma.author.id === message.author.id;
-		}
-		message.channel.send('Do you want it `raw` or `cooked`? You could also `cancel` if you don\'t want your salmon. (Please answer in 15 seconds)');
-		message.channel.awaitMessages(filter,
-			{ max: 1,
-				time: 15000,
-			}).then(collected => {
-			if (collected.size == 0) message.channel.send('What the heck were you typing? You type so SLOW bro.');
-			else if (collected.first().content == 'cooked') message.channel.send('We just ran out of salmon. Go buy one and we will cook it for ya.');
-			else if (collected.first().content == 'cancel') message.channel.send('Salmons are tasty imo, just eat some.');
-			else if (collected.first().content == 'raw') message.channel.send('Here\'s your invisible raw salmon.');
-			else message.channel.send('That\'s not one of the option. If you wish to get that kind of salmon, please go to the other shop. We do NOT welcome you here.');
+	case "salmon":
+		message.channel.send("Do you want it `raw` or `cooked`? You could also `cancel` if you don't want your salmon. (Please answer in 15 seconds)");
+		const filter = sm => sm.member == message.member;
+		const collector = message.channel.createMessageCollector({ filter, time: 15000 });
+
+		collector.on("collect", sm => {
+			if (sm.content == "cooked") {
+				message.channel.send("We just ran out of salmon. Go buy one and we will cook it for ya.");
+			}
+			else if (sm.content == "cancel") {
+				{
+					message.channel.send("Salmons are tasty imo, just eat some.");
+				}
+			}
+			else if (sm.content == "raw") {
+				message.channel.send("Here's your invisible raw salmon.");
+			}
+
+		});
+
+		collector.on("end", function() {
+			return;
 		});
 		break;
-	case 'apple':
-		message.channel.send('OK. Here\'s your golden apple. Here you go. Use your imagination to see the apple.');
-		message.channel.send('🍎');
+	case "apple":
+		message.channel.send("OK. Here's your golden apple. Here you go. Use your imagination to see the apple.");
+		message.channel.send("🍎");
 		break;
-	case 'pie':
-		message.channel.send('OK. Here\'s your *pre-baked* pie.');
-		message.channel.send('🥧');
+	case "pie":
+		message.channel.send("OK. Here's your *pre-baked* pie.");
+		message.channel.send("🥧");
 		break;
-	case 'candy':
-		message.channel.send('OK. Oops, it went out of stock, never come back! (No refund)');
+	case "candy":
+		message.channel.send("OK. Oops, it went out of stock, never come back! (No refund)");
 		break;
 		// end of food Commands
 		// fun commands
-	case 'door':
-		const dUser = message.author;
-
-		message.channel.send(`<@${dUser.id}>`);
-		message.channel.send('🚪');
+	case "door":
+		message.channel.send(`${message.author}`);
+		message.channel.send("🚪");
 		break;
-	case '8ball':
-		const eballerrembed = new Discord.MessageEmbed()
-			.setTitle('8Ball')
-			.setDescription('You might not know the usage of 8ball. So let\'s learn how to use it here.')
-			.addField('`8ball [Your question]`', 'It\'s just that simple.')
+	case "8ball":
+		message.channel.sendTyping();
+		const eballerrembed = new MessageEmbed()
+			.setTitle("8Ball")
+			.setDescription("You might not know the usage of 8ball. So let's learn how to use it here.")
+			.addField("`8ball [Your question]`", "It's just that simple.")
 			.setColor(0xff0000)
 			.setTimestamp()
-			.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-		const eballq = args.slice(1).join(' ');
-		if (!eballq) return message.channel.send(eballerrembed);
+		const eballq = args.slice(1).join(" ");
+		if (!eballq) return message.channel.send({ embeds: [eballerrembed] });
 
 		const eightball = [
-			'🟢It is decidedly so.',
-			'🟢Without a doubt.',
-			'🟢Yes - definitely.',
-			'🟢As I see it, yes.',
-			'🟢Signs point to yes.',
-			'🟡Reply hazy, try again.',
-			'🟡Ask again later.',
-			'🟡Better not tell you now.',
-			'🟡Cannot predict now.',
-			'🟡Concentrate and ask again.',
-			'🔴Don\'t count on it.',
-			'🔴My reply is no.',
-			'🔴My sources say no.',
-			'🔴Hell nah.',
-			'🔴Very doubtful.',
+			"🟢It is decidedly so.",
+			"🟢Without a doubt.",
+			"🟢Yes - definitely.",
+			"🟢As I see it, yes.",
+			"🟢Signs point to yes.",
+			"🟡Reply hazy, try again.",
+			"🟡Ask again later.",
+			"🟡Better not tell you now.",
+			"🟡Cannot predict now.",
+			"🟡Concentrate and ask again.",
+			"🔴Don't count on it.",
+			"🔴My reply is no.",
+			"🔴My sources say no.",
+			"🔴Hell nah.",
+			"🔴Very doubtful.",
 		];
 
 		message.channel.send(`Your question: ${eballq} \rThe fortune teller: ${eightball[Math.floor(Math.random() * eightball.length)]}`);
 		break;
-	case 'coinflip':
+	case "coinflip":
 		const coinflip = [
-			'Your coin landed on **TAIL**.',
-			'Your coin landed on **HEADS**.',
+			"Your coin landed on **TAIL**.",
+			"Your coin landed on **HEADS**.",
 		];
 
-		const cfwait = require('util').promisify(setTimeout);
+		const cfwait = require("util").promisify(setTimeout);
 
-		const cfmsg = await message.channel.send('Flipping the coin...');
+		const cfmsg = await message.channel.send("Flipping the coin...");
+		await message.channel.sendTyping();
 		await cfwait(5000);
 		await cfmsg.edit(coinflip[Math.floor(Math.random() * coinflip.length)]);
 		break;
-	case 'kill':
+	case "kill":
 		const iUser = message.mentions.members.first();
-		if (!iUser) return message.channel.send('Please ping someone to kill or you are gonna kill yourself.');
+		if (!iUser) return message.channel.send("Please ping someone to kill or you are gonna kill yourself.");
 
 		const kill = [
 			`<@${iUser.id}> has been roasted to a a toast like a bread.`,
@@ -333,147 +342,92 @@ bot.on('message', async function(message) {
 
 		message.channel.send(kill[Math.floor(Math.random() * kill.length)]);
 		break;
-	case 'shutdown':
-		const shutdownerrembed = new Discord.MessageEmbed()
-			.setTitle('Shutdown')
-			.setDescription('You might not know the usage of shutdown. So let\'s learn how to use it here.')
-			.addField('`shutdown <@someone>`', 'It\'s just that simple.')
+	case "shutdown":
+		const shutdownerrembed = new MessageEmbed()
+			.setTitle("Shutdown")
+			.setDescription("You might not know the usage of shutdown. So let's learn how to use it here.")
+			.addField("`shutdown <@someone>`", "It's just that simple.")
 			.setColor(0xff0000)
 			.setTimestamp()
-			.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
 		const sdmUser = message.member;
 		const sdUser = message.mentions.members.first();
-		const wait = require('util').promisify(setTimeout);
-		if (!sdUser) return message.channel.send(shutdownerrembed);
+		const wait = require("util").promisify(setTimeout);
+		if (!sdUser) return message.channel.send({ embeds: [shutdownerrembed] });
 
 		const msg = await message.channel.send(`Prepare to shutdown ${sdUser.id}'s device.`);
 		await wait(2500);
-		await msg.edit('Starting process...');
+		await msg.edit("Starting process...");
+		await wait(2500);
+		await msg.edit("Optaining IP address...");
+		await wait(13000);
+		await msg.edit("IP address found.");
 		await wait(2500);
 		await msg.edit(`Locating ${sdUser.id}'s device.`);
 		await wait(10000);
 		await msg.edit(`Found ${sdUser.id}'s location.`);
 		await wait(3000);
-		await msg.edit('Hacking IP address...');
-		await wait(13000);
-		await msg.edit('IP address found.');
-		await wait(2500);
-		await msg.edit(`Starting to shutdown ${sdUser.id}'s device`);
+		await msg.edit(`Attempt 1 on shutting down ${sdUser.id}'s device`);
+		await wait(5000);
+		await msg.edit(`Attempt 2 on shutting down ${sdUser.id}'s device`);
+		await wait(5000);
+		await msg.edit(`Attempt 3 on shutting down ${sdUser.id}'s device`);
 		await wait(5000);
 		await msg.edit(`Failed to shutdown ${sdUser.id}'s device. Manual shutdown needed.`);
+		await wait(5000);
+		await msg.delete();
 
-		const embed = new Discord.MessageEmbed()
-			.setTitle('Remote Shutdown')
-			.setDescription('Someone\'s trying to shudown someone\'s device! Beware!')
+		const embed = new MessageEmbed()
+			.setTitle("Remote Shutdown")
+			.setDescription("Someone's trying to shudown someone's device! Beware!")
 			.setColor(0xc8e9ca)
-			.addField('Who\'s remote shutting down people\' device?', `<@${sdmUser.id}>`)
-			.addField('Who\'s being shutted down?', `<@${sdUser.id}>`)
-			.addField(`${sdUser.id}'s IP`, '127.0.0.1')
-			.addField('Windows 7/8.1/10', 'Windows is easy to remote shutdown. If you\'re using Windows, follow the steps below.')
-			.addField('Step 1', 'Open Cmd in administrator.', true)
-			.addField('Step 2', 'Type `shutdown /i` then hit enter.', true)
-			.addField('Step 3', 'You will see a pop-up window, press add, then type the IP address writen above, hit add.', true)
-			.addField('Step 4', 'Choose if you want to shutdown or restart his computer.', true)
-			.addField('Step 5', 'Type in a message for them.', true)
-			.addField('Step 6', 'Hit ok.', true)
-			.addField('Step 7', 'Watch someone freak out.', true)
-			.addField('Linux and MacOS', `We haven't tested out using Linux or MacOS, but you can use a virtual machine to shutdown <@${sdUser.id}>'s device.`)
+			.addField("Who's remote shutting down people' device?", `<@${sdmUser.id}>`)
+			.addField("Who's being shutted down?", `<@${sdUser.id}>`)
+			.addField(`${sdUser.id}'s IP`, "127.0.0.1")
+			.addField("Windows", "Windows is easy to remote shutdown. If you're using Windows, follow the steps below.")
+			.addField("Step 1", "Open Cmd in administrator.", true)
+			.addField("Step 2", "Type `shutdown /i` then hit enter.", true)
+			.addField("Step 3", "You will see a pop-up window, press add, then type the IP address writen above, hit add.", true)
+			.addField("Step 4", "Choose if you want to shutdown or restart his computer.", true)
+			.addField("Step 5", "Type in a message for them.", true)
+			.addField("Step 6", "Hit ok.", true)
+			.addField("Step 7", "Watch someone freak out.", true)
+			.addField("Linux and MacOS", `We haven't tested out using Linux or MacOS, but you can use a virtual machine to shutdown <@${sdUser.id}>'s device.`)
 			.setTimestamp()
-			.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
-		message.channel.send(embed);
+			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
+		message.channel.send({ embeds: [embed] });
 		break;
-	case 'hack':
-		const hackerrembed = new Discord.MessageEmbed()
-			.setTitle('Hack')
-			.setDescription('You might not know the usage of Hack. So let\'s learn how to use it here.')
-			.addField('`hack [@someone]`', 'It\'s just that simple.')
-			.setColor(0xff0000)
-			.setTimestamp()
-			.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
-
-		const hsUser = message.member;
-		const hUser = message.mentions.members.first();
-		if (!hUser) return message.channel.send(hackerrembed);
-		const hwait = require('util').promisify(setTimeout);
-
-		const hmsg = await message.channel.send('```Enourmoushard Closure [Version 0.57.0] \r(c)   Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>```');
-		await hwait(5000);
-		await hmsg.edit(`\`\`\`Enourmoushard Closure [Version 0.57.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \`\`\``);
-		await hwait(1000);
-		await hmsg.edit(`\`\`\`Enourmoushard Closure [Version 0.57.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>\`\`\``);
-		await hwait(2500);
-		await hmsg.edit(`\`\`\`Enourmoushard Closure [Version 0.57.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\`\`\``);
-		await hwait(5000);
-		await hmsg.edit(`\`\`\`Enourmoushard Closure [Version 0.57.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}'s device.\rBypassing Discord Login. (2FA don't exist.)\`\`\``);
-		await hwait(3000);
-		await hmsg.edit(`\`\`\`Enourmoushard Closure [Version 0.57.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\`\`\``);
-		await hwait(2500);
-		await hmsg.edit(`\`\`\`Enourmoushard Closure [Version 0.57.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\`\`\``);
-		await hwait(5000);
-		await hmsg.edit(`\`\`\`Enourmoushard Closure [Version 0.57.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\`\`\``);
-		await hwait(3000);
-		await hmsg.edit(`\`\`\`Enourmoushard Closure [Version 0.57.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\`\`\``);
-		await hwait(1500);
-		await hmsg.edit(`\`\`\`Enourmoushard Closure [Version 0.57.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\`\`\``);
-		await hwait(5000);
-		await hmsg.edit(`\`\`\`Enourmoushard Closure [Version 0.57.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\`\`\``);
-		await hwait(3000);
-		await hmsg.edit(`\`\`\`Enourmoushard Closure [Version 0.57.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\`\`\``);
-		await hwait(1000);
-		await hmsg.edit(`\`\`\`Enourmoushard Closure [Version 0.57.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\`\`\``);
-		await hwait(3000);
-		await hmsg.edit(`\`\`\`Enourmoushard Closure [Version 0.57.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\`\`\``);
-		await hwait(5000);
-		await hmsg.edit(`\`\`\`Enourmoushard Closure [Version 0.57.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\`\`\``);
-		await hwait(1000);
-		await hmsg.edit(`\`\`\`Enourmoushard Closure [Version 0.57.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\rAdding malware to their credit card and computer.\`\`\``);
-		await hwait(3000);
-		await hmsg.edit(`\`\`\`Enourmoushard Closure [Version 0.57.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\rAdding malware to their credit card and computer.\rActivating malware.\`\`\``);
-		await hwait(1500);
-		await hmsg.edit(`\`\`\`Enourmoushard Closure [Version 0.57.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\rAdding malware to their credit card and computer.\rActivating malware.\rProcess ended.\`\`\``);
-		await hwait(1000);
-		await hmsg.edit(`\`\`\`Enourmoushard Closure [Version 0.57.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\rAdding malware to their credit card and computer.\rActivating malware.\rProcess ended.\rThe very dangerous and real hacking process has been finished by a bot to prevent you from going to jail you NUM.\`\`\``);
-		await hwait(500);
-		await hmsg.edit(`\`\`\`Enourmoushard Closure [Version 0.57.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\rAdding malware to their credit card and computer.\rActivating malware.\rProcess ended.\rThe very dangerous and real hacking process has been finished by a bot to prevent you from going to jail you NUM.\rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>\`\`\``);
-		await hwait(2000);
-		await hmsg.edit(`\`\`\`Enourmoushard Closure [Version 0.57.0] \r(c) 2021 Enourmoushard Corporation. All rights reserved.\r \rC:\\Windows\\system32>cd C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks \rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>hacking.js\rPrepare to hack ${hUser.id}'s device.\rBypassing Discord Login. (2FA don't exist.)\rAcquiring email and password.\rEmail found.\rCreating Tinder account using stolen informations.\rLogging into stolen Tinder account.\rFaking love.\rScamming money.\rCreating PayPal using stolen info.\rAccount created, scammed money transfered.\rUsing Paypal to access credit card info.\rCredit card number: #### #### #### ####, SVC:###\rFinishing up.\rAdding malware to their credit card and computer.\rActivating malware.\rProcess ended.\rThe very dangerous and real hacking process has been finished by a bot to prevent you from going to jail you NUM.\rC:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>cls\`\`\``);
-		await hwait(500);
-		await hmsg.edit(`\`\`\`C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>\`\`\``);
-		await hwait(1000);
-		await hmsg.edit(`\`\`\`C:\\Users\\${hsUser.user.username}\\Desktop\\Discord Hacks>exit\`\`\``);
-		await hwait(500);
-		await hmsg.edit('```You have exited the application, nothing to display here.```');
-		break;
-	case 'meme':
+	case "meme":
+		message.channel.sendTyping();
 		const memeSource = [
-			'dankmeme',
-			'meme',
-			'memes',
-			'animemes',
-			'MemesOfAnime',
-			'dankmemes',
-			'wholesomememes',
-			'MemeEconomy',
-			'techsupportanimals',
-			'meirl',
-			'me_irl',
-			'2meirl4meirl',
-			'AdviceAnimals',
+			"dankmeme",
+			"meme",
+			"memes",
+			"animemes",
+			"MemesOfAnime",
+			"dankmemes",
+			"wholesomememes",
+			"MemeEconomy",
+			"techsupportanimals",
+			"meirl",
+			"me_irl",
+			"2meirl4meirl",
+			"AdviceAnimals",
 		];
 		const memeRandomizer = memeSource[Math.floor(Math.random() * memeSource.length)];
 		const memeImage = await randomPuppy(memeRandomizer);
 
-		const memeembed = new Discord.MessageEmbed()
-			.setColor('RANDOM')
+		const memeembed = new MessageEmbed()
+			.setColor("RANDOM")
 			.setImage(memeImage)
-			.setTitle('Here\'s your meme, mom.')
+			.setTitle("Here's your meme, mom.")
 			.setURL(`https://reddit.com/r/${memeRandomizer}`)
 			.setTimestamp()
-			.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
-		message.channel.send(memeembed);
+			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
+		message.channel.send({ embeds: [memeembed] });
 		break;
-	case 'rps':
+	case "rps":
 		const rpspUser = message.mentions.members.first();
 		const rpsUser = message.member.id;
 
@@ -496,861 +450,785 @@ bot.on('message', async function(message) {
 		];
 
 		if (!args[1]) {
-			const bwait = require('util').promisify(setTimeout);
-			const bmsg = await message.channel.send('**Please wait 10 seconds to proceed.**  \rYou have chosen to play \'Rock-Paper-Scisors\' with the bot. The proccess is automatic and generated by the bot. \r*DDos is provided by RoadFlare*');
-			await bwait(10000);
+			const bwait = require("util").promisify(setTimeout);
+			const bmsg = await message.channel.send("**Please wait 5 seconds to proceed.**  \rYou have chosen to play 'Rock-Paper-Scisors' with the bot. The proccess is automatic and generated by the bot. \r*DDos is provided by RoadFlare*");
+			await bwait(5000);
 			bmsg.edit(rpswb[Math.floor(Math.random() * rpswb.length)]);
 		}
 		else {
-			const rpswait = require('util').promisfy(setTimeout);
-			const rpshmsg = await message.channel.send('**Please wait 10 seconds to proceed.**  \rYou have chosen to play \'Rock-Paper-Scisors\' with the bot. The proccess is automatic and generated by the bot. \r*DDos is provided by RoadFlare*');
+			const rpswait = require("util").promisfy(setTimeout);
+			const rpshmsg = await message.channel.send("**Please wait 10 seconds to proceed.**  \rYou have chosen to play 'Rock-Paper-Scisors' with the bot. The proccess is automatic and generated by the bot. \r*DDos is provided by RoadFlare*");
 			await rpswait(10000);
 			rpshmsg.edit(rpswp[Math.floor(Math.random() * rpswp.length)]);
 		}
 		break;
 		// end of fun commands
 		// admin commands
-	case 'addrole':
+	case "addrole":
 		message.delete();
 
-		const addroleerrembed = new Discord.MessageEmbed()
-			.setTitle('Addrole')
-			.setDescription('Usage for addrole:')
-			.addField('`addrole <@user> <@role>`', 'Role(s) required: `@Lead Moderator`& `@Moderator` OR `@Acton`')
+		const addroleerrembed = new MessageEmbed()
+			.setTitle("Addrole")
+			.setDescription("Usage for addrole:")
+			.addField("`addrole <@user> <@role>`", "Role(s) required: `@Lead Moderator`& `@Moderator` OR `@Acton`")
 			.setColor(0xff0000)
 			.setTimestamp()
-			.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-		if (!(message.member.roles.cache.has('645832781469057024') || message.member.roles.cache.has('608937618259836930') || message.member.roles.cache.has('609236733464150037'))) return message.channel.send('You don\'t have permission to do that.');
+		if (!(message.member.roles.cache.has("645832781469057024") || message.member.roles.cache.has("608937618259836930") || message.member.roles.cache.has("609236733464150037"))) return message.channel.send("You don't have permission to do that.");
 		const arUser = message.mentions.members.first();
-		if (!arUser) return message.channel.send(addroleerrembed);
+		if (!arUser) return message.channel.send({ embeds: [addroleerrembed] });
 		const arRole = message.mentions.roles.first();
-		if (!arRole) return message.channel.send(addroleerrembed);
+		if (!arRole) return message.channel.send({ embeds: [addroleerrembed] });
 
-		const addroleembed = new Discord.MessageEmbed()
-			.setDescription('Role Added to User')
+		const addroleembed = new MessageEmbed()
+			.setDescription("Role Added to User")
 			.setColor(0xff0000)
-			.addField('User with New Role', `${arUser} with ID ${arUser.id}`)
-			.addField('Added By', `<@${message.author.id}> with ID ${message.author.id}`)
-			.addField('Added In', message.channel)
-			.addField('Added At', message.createdAt)
-			.addField('Role Added', `${arRole}`)
+			.addField("User with New Role", `${arUser} with ID ${arUser.id}`)
+			.addField("Added By", `<@${message.author.id}> with ID ${message.author.id}`)
+			.addField("Added In", `${message.channel}`)
+			.addField("Added At", `${message.createdAt}`)
+			.addField("Role Added", `${arRole}`)
 			.setTimestamp()
-			.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-		const arChannel = message.guild.channels.cache.find(channel => channel.name === 'aot-logs');
-		if (!arChannel) return message.channel.send('Could not find server logs channel.');
+		const arChannel = message.guild.channels.cache.find(channel => channel.name === "aot-logs");
+		if (!arChannel) return message.channel.send("Could not find server logs channel.");
 
-		arChannel.send(addroleembed);
+		arChannel.send({ embeds: [addroleembed] });
 
 		arUser.roles.add(arRole.id);
 
 		message.channel.send(`Succeessfully added role for <@${arUser.id}> (**${arUser.user.username}/${arUser.displayName}**)!`);
 		break;
-	case 'removerole':
+	case "removerole":
 		message.delete();
 
-		const removeroleerrembed = new Discord.MessageEmbed()
-			.setTitle('Removerole')
-			.setDescription('Usage for reomverole:')
-			.addField('`removerole <@someone> <@role>`', 'Role(s) required: `@Lead Moderator`& `@Moderator` OR `@Acton`')
+		const removeroleerrembed = new MessageEmbed()
+			.setTitle("Removerole")
+			.setDescription("Usage for reomverole:")
+			.addField("`removerole <@someone> <@role>`", "Role(s) required: `@Lead Moderator`& `@Moderator` OR `@Acton`")
 			.setColor(0xff0000)
 			.setTimestamp()
-			.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-		if (!(message.member.roles.cache.has('645832781469057024') || message.member.roles.cache.has('608937618259836930') || message.member.roles.cache.has('609236733464150037'))) return message.channel.send('You don\'t have permission to do that.');
+		if (!(message.member.roles.cache.has("645832781469057024") || message.member.roles.cache.has("608937618259836930") || message.member.roles.cache.has("609236733464150037"))) return message.channel.send("You don't have permission to do that.");
 		const rrUser = message.mentions.members.first();
-		if (!rrUser) return message.channel.send(removeroleerrembed);
+		if (!rrUser) return message.channel.send({ embeds: [removeroleerrembed] });
 		const rrRole = message.mentions.roles.first();
-		if (!rrRole) return message.channel.send(removeroleerrembed);
+		if (!rrRole) return message.channel.send({ embeds: [removeroleerrembed] });
 
-		const rrembed = new Discord.MessageEmbed()
-			.setDescription('Role Removed from User')
+		const rrembed = new MessageEmbed()
+			.setDescription("Role Removed from User")
 			.setColor(0xff0000)
-			.addField('Role Removed User', `${rrUser} with ID ${rrUser.id}`)
-			.addField('Removed By', `<@${message.author.id}> with ID ${message.author.id}`)
-			.addField('Removed In', message.channel)
-			.addField('Removed At', message.createdAt)
-			.addField('Role Removed', `${rrRole}`)
+			.addField("Role Removed User", `${rrUser} with ID ${rrUser.id}`)
+			.addField("Removed By", `<@${message.author.id}> with ID ${message.author.id}`)
+			.addField("Removed In", `${message.channel}`)
+			.addField("Removed At", `${message.createdAt}`)
+			.addField("Role Removed", `${rrRole}`)
 			.setTimestamp()
-			.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-		const rrChannel = message.guild.channels.cache.find(channel => channel.name === 'aot-logs');
-		if (!rrChannel) return message.channel.send('Could not find server logs channel.');
+		const rrChannel = message.guild.channels.cache.find(channel => channel.name === "aot-logs");
+		if (!rrChannel) return message.channel.send("Could not find server logs channel.");
 
-		rrChannel.send(rrembed);
+		rrChannel.send({ embeds: [rrembed] });
 
 		rrUser.roles.remove(rrRole.id);
 
 		message.channel.send(`Succeessfully removed role for <@${rrUser.id}> (**${rrUser.user.username}/${rrUser.displayName}**)!`);
 		break;
-	case 'kick':
+	case "kick":
 		message.delete();
 
-		const kickerrembed = new Discord.MessageEmbed()
-			.setTitle('Kick')
-			.setDescription('Usage for kick:')
-			.addField('`kick <@someone> <reason>`', 'Role(s) required: `@Moderator` OR `@Acton`')
+		const kickerrembed = new MessageEmbed()
+			.setTitle("Kick")
+			.setDescription("Usage for kick:")
+			.addField("`kick <@someone> <reason>`", "Role(s) required: `@Moderator` OR `@Acton`")
 			.setColor(0xff0000)
 			.setTimestamp()
-			.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
 		const kUser = message.mentions.members.first();
-		if (!kUser) return message.channel.send(kickerrembed);
-		let kReason = args.slice(2).join(' ');
-		if (!kReason) kReason = 'not specified';
-		if (!(message.member.roles.cache.has('629687079567360030') || message.member.roles.cache.has('629687079567360030') || message.member.roles.cache.has('645832781469057024') || message.member.roles.cache.has('609236733464150037'))) return message.channel.send('You don\'t have permission to do that!');
-		if (kUser.hasPermission('KICK_MEMBERS')) return message.channel.send('That member can\'t be kicked!');
+		if (!kUser) return message.channel.send({ embeds: [kickerrembed] });
+		let kReason = args.slice(2).join(" ");
+		if (!kReason) kReason = "not specified";
+		if (!(message.member.roles.cache.has("629687079567360030") || message.member.roles.cache.has("629687079567360030") || message.member.roles.cache.has("645832781469057024") || message.member.roles.cache.has("609236733464150037"))) return message.channel.send("You don't have permission to do that!");
+		if (kUser.permissions.has("KICK_MEMBERS")) return message.channel.send("That member can't be kicked!");
 
-		const kembed = new Discord.MessageEmbed()
-			.setDescription('User Kicked')
+		const kembed = new MessageEmbed()
+			.setDescription("User Kicked")
 			.setColor(0xff0000)
-			.addField('Kicked User', `${kUser} with ID ${kUser.id}`)
-			.addField('Kicked By', `<@${message.author.id}> (**${kUser.user.username}**) with ID ${message.author.id}`)
-			.addField('Kicked In', message.channel.toString())
-			.addField('Time', message.createdAt)
-			.addField('Reason', kReason)
+			.addField("Kicked User", `${kUser} with ID ${kUser.id}`)
+			.addField("Kicked By", `<@${message.author.id}> (**${kUser.user.username}**) with ID ${message.author.id}`)
+			.addField("Kicked In", message.channel.toString())
+			.addField("Time", `${message.createdAt}`)
+			.addField("Reason", kReason)
 			.setTimestamp()
-			.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-		const kick2Channel = message.guild.channels.cache.find(channel => channel.name === 'aot-logs');
-		if (!kick2Channel) return message.channel.send('Could not find server logs channel.');
+		const kick2Channel = message.guild.channels.cache.find(channel => channel.name === "aot-logs");
+		if (!kick2Channel) return message.channel.send("Could not find server logs channel.");
 
-		kUser.send(`You have been kicked from ${message.member.guild.name} for: ${kReason}.`).catch();
+		kUser.send(`You have been kicked from ${message.member.guild.name} for: ${kReason}.`).catch(console.log);
 
 		kUser.kick(kReason);
-		kick2Channel.send(kembed);
+		kick2Channel.send({ embeds: [kembed] });
 
 		message.channel.send(`**${kUser.user.username}** (${kUser.id}) has been kicked for **${kReason}**.`);
 		break;
-	case 'tempban':
+	case "tempban":
 		message.delete();
 
-		const tempbanerrembed = new Discord.MessageEmbed()
-			.setTitle('Tempban')
-			.setDescription('Usage for tempban:')
-			.addField('`tempban <@someone> <time> <reason>`', 'Role(s) required: `@Moderator` OR `@Acton`')
+		const tempbanerrembed = new MessageEmbed()
+			.setTitle("Tempban")
+			.setDescription("Usage for tempban:")
+			.addField("`tempban <@someone> <time> <reason>`", "Role(s) required: `@Moderator` OR `@Acton`")
 			.setColor(0xff0000)
 			.setTimestamp()
-			.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
 		const tbUser = message.mentions.members.first();
-		if (!tbUser) return message.channel.send(tempbanerrembed);
-		let tbReason = args.slice(3).join(' ');
-		if (!tbReason) tbReason = 'not specified';
-		if (!(message.member.roles.cache.has('645832781469057024') || message.member.roles.cache.has('609236733464150037'))) return message.channel.send('You don\'t have permission to do that!');
-		if (tbUser.hasPermission('BAN_MEMBERS')) return message.channel.send('That member cannot be banned!');
+		if (!tbUser) return message.channel.send({ embeds: [tempbanerrembed] });
+		let tbReason = args.slice(3).join(" ");
+		if (!tbReason) tbReason = "not specified";
+		if (!(message.member.roles.cache.has("645832781469057024") || message.member.roles.cache.has("609236733464150037"))) return message.channel.send("You don't have permission to do that!");
+		if (tbUser.permissions.has("BAN_MEMBERS")) return message.channel.send("That member cannot be banned!");
 
 		const tempbantime = args[2];
 
-		const tbembed = new Discord.MessageEmbed()
-			.setTitle('User Temporarily Banned')
+		const tbembed = new MessageEmbed()
+			.setTitle("User Temporarily Banned")
 			.setColor(0xff0000)
-			.addField('Temporarily Banned User', `${tbUser} (**${tbUser.user.username}**) with ID ${tbUser.id}`)
-			.addField('Temporarily Banned By', `<@${message.author.id}> with ID ${message.author.id}`)
-			.addField('Temporarily Banned In', message.channel)
-			.addField('Temporarily Banned At', message.createdAt)
-			.addField('Temporarily Banned For', `${ms(ms(tempbantime))}/${ms(tempbantime)}`)
-			.addField('Temporarily Banned Reason', tbReason)
+			.addField("Temporarily Banned User", `${tbUser} (**${tbUser.user.username}**) with ID ${tbUser.id}`)
+			.addField("Temporarily Banned By", `<@${message.author.id}> with ID ${message.author.id}`)
+			.addField("Temporarily Banned In", `${message.channel}`)
+			.addField("Temporarily Banned At", `${message.createdAt}`)
+			.addField("Temporarily Banned For", `${ms(ms(tempbantime))}/${ms(tempbantime)}`)
+			.addField("Temporarily Banned Reason", tbReason)
 			.setTimestamp()
-			.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-		const tbembed2 = new Discord.MessageEmbed()
-			.setTitle('User Unbanned')
+		const tbembed2 = new MessageEmbed()
+			.setTitle("User Unbanned")
 			.setColor(0x00ff00)
-			.addField('User Unbanned', `${tbUser} (**${tbUser.user.username}**) with ID ${tbUser.id}`)
-			.addField('Was Temporarily Banned by', `<@${message.author.id}> with ID ${message.author.id}`)
-			.addField('Was Temporarily Banned in', message.channel)
-			.addField('Was Temporarily Banned at', message.createdAt)
-			.addField('Reason of Temporary Ban', tbReason)
+			.addField("User Unbanned", `${tbUser} (**${tbUser.user.username}**) with ID ${tbUser.id}`)
+			.addField("Was Temporarily Banned by", `<@${message.author.id}> with ID ${message.author.id}`)
+			.addField("Was Temporarily Banned in", `${message.channel}`)
+			.addField("Was Temporarily Banned at", `${message.createdAt}`)
+			.addField("Reason of Temporary Ban", tbReason)
 			.setTimestamp()
-			.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-		const tempbanChannel = message.guild.channels.cache.find(channel => channel.name === 'aot-logs');
-		if (!tempbanChannel) return message.channel.send('Could not find server logs channel.');
+		const tempbanChannel = message.guild.channels.cache.find(channel => channel.name === "aot-logs");
+		if (!tempbanChannel) return message.channel.send("Could not find server logs channel.");
 
-		tbUser.send(`You have been temporarily banned from ${message.member.guild.name} for **${tbReason}**`);
+		tbUser.send(`You have been temporarily banned from ${message.member.guild.name} for **${tbReason}**`).catch(console.log);
 		message.guild.members.ban(tbUser, { reason: `User temporarily banned by Aot, Ban mod: ${message.author.tag}, Ban Reason: ${tbReason}` }, { time: ms(ms(tempbantime)) });
-		tempbanChannel.send(tbembed);
+		tempbanChannel.send({ embeds: [tbembed] });
 
 		message.channel.send(`<@${tbUser.id}> has been temporarily banned for **${ms(ms(tempbantime))}** for **${tbReason}**.`);
 
 		setTimeout(function() {
 			message.guild.members.unban(tbUser.id);
-			tempbanChannel.send(tbembed2);
+			tempbanChannel.send({ embeds: [tbembed2] });
 		}, ms(tempbantime));
 		break;
-	case 'ban':
+	case "ban":
 		message.delete();
 
-		const banerrembed = new Discord.MessageEmbed()
-			.setTitle('Ban')
-			.setDescription('Usage for ban:')
-			.addField('`ban <@someone> <reason>`', 'Role(s) required: `@Moderator`, `@Acton`')
+		const banerrembed = new MessageEmbed()
+			.setTitle("Ban")
+			.setDescription("Usage for ban:")
+			.addField("`ban <@someone> <reason>`", "Role(s) required: `@Moderator`, `@Acton`")
 			.setColor(0xff0000)
 			.setTimestamp()
-			.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
 		const bUser = message.mentions.members.first();
-		if (!bUser) return message.channel.send(banerrembed);
-		let bReason = args.slice(2).join(' ');
-		if (!bReason) bReason = 'not specified';
-		if (!(message.member.roles.cache.has('645832781469057024') || message.member.roles.cache.has('609236733464150037'))) return message.channel.send('You don\'t have permission to do that!');
-		if (bUser.hasPermission('BAN_MEMBERS')) return message.channel.send('That member can\'t be banned!');
+		if (!bUser) return message.channel.send({ embeds: [banerrembed] });
+		let bReason = args.slice(2).join(" ");
+		if (!bReason) bReason = "not specified";
+		if (!(message.member.roles.cache.has("645832781469057024") || message.member.roles.cache.has("609236733464150037"))) return message.channel.send("You don't have permission to do that!");
+		if (bUser.permissions.has("BAN_MEMBERS")) return message.channel.send("That member can't be banned!");
 
-		const bembed = new Discord.MessageEmbed()
-			.setTitle('User Banned')
+		const bembed = new MessageEmbed()
+			.setTitle("User Banned")
 			.setColor(0xff0000)
-			.addField('Banned User', `${bUser} (**${bUser.user.username}**) with ID ${bUser.id}`)
-			.addField('Banned By', `<@${message.author.id}> with ID ${message.author.id}`)
-			.addField('Banned In', message.channel)
-			.addField('Banned At', message.createdAt)
-			.addField('Banned For', bReason)
+			.addField("Banned User", `${bUser} (**${bUser.user.username}**) with ID ${bUser.id}`)
+			.addField("Banned By", `<@${message.author.id}> with ID ${message.author.id}`)
+			.addField("Banned In", `${message.channel}`)
+			.addField("Banned At", `${message.createdAt}`)
+			.addField("Banned For", bReason)
 			.setTimestamp()
-			.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-		const banChannel = message.guild.channels.cache.find(channel => channel.name === 'aot-logs');
-		if (!banChannel) return message.channel.send('Could not find server logs channel.');
+		const banChannel = message.guild.channels.cache.find(channel => channel.name === "aot-logs");
+		if (!banChannel) return message.channel.send("Could not find server logs channel.");
 
-		bUser.send(`You have been permanently banned from ${message.member.guild.name} for: ${bReason}`);
+		bUser.send(`You have been permanently banned from ${message.member.guild.name} for: ${bReason}`).catch(console.log);
 		message.guild.members.ban(bUser, { reason: `User banned by Aot, Ban mod: ${message.author.tag}, Ban Reason: ${bReason}` });
-		banChannel.send(bembed);
+		banChannel.send({ embeds: [bembed] });
 
 		message.channel.send(`**${bUser.user.username}** has been banned for **${bReason}**.`);
 		break;
-	case 'unban':
+	case "unban":
 		message.delete();
 
-		const unbanerrembed = new Discord.MessageEmbed()
-			.setTitle('Unban')
-			.setDescription('Usage for unban:')
-			.addField('`unban <USER ID> <reason>`', 'Role(s) required: `@Moderator`and `@Lead Moderator` OR `@Acton`')
+		const unbanerrembed = new MessageEmbed()
+			.setTitle("Unban")
+			.setDescription("Usage for unban:")
+			.addField("`unban <USER ID> <reason>`", "Role(s) required: `@Moderator`and `@Lead Moderator` OR `@Acton`")
 			.setColor(0xff0000)
 			.setTimestamp()
-			.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
 		const ubID = args[1];
-		if (!ubID) return message.channel.send(unbanerrembed);
-		if (!(message.member.roles.cache.has('608937618259836930') || message.member.roles.cache.has('645832781469057024') || message.member.roles.cache.has('609236733464150037'))) return message.channel.send('You don\'t have permission to do that!');
+		if (!ubID) return message.channel.send({ embeds: [unbanerrembed] });
+		if (!(message.member.roles.cache.has("608937618259836930") || message.member.roles.cache.has("645832781469057024") || message.member.roles.cache.has("609236733464150037"))) return message.channel.send("You don't have permission to do that!");
 
-		const ubembed = new Discord.MessageEmbed()
-			.setTitle('User Unbanned')
+		const ubembed = new MessageEmbed()
+			.setTitle("User Unbanned")
 			.setColor(0xff0000)
-			.addField('Unbanned User', `<@${ubID}> with ID ${ubID}`)
-			.addField('Unbanned By', `<@${message.author.id}> with ID ${message.author.id}`)
-			.addField('Unbanned In', message.channel)
-			.addField('Unbanned At', message.createdAt)
+			.addField("Unbanned User", `<@${ubID}> with ID ${ubID}`)
+			.addField("Unbanned By", `<@${message.author.id}> with ID ${message.author.id}`)
+			.addField("Unbanned In", `${message.channel}`)
+			.addField("Unbanned At", `${message.createdAt}`)
 			.setTimestamp()
-			.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-		const unban2Channel = message.guild.channels.cache.find(channel => channel.name === 'aot-logs');
-		if (!unban2Channel) return message.channel.send('Could not find server logs channel.');
+		const unban2Channel = message.guild.channels.cache.find(channel => channel.name === "aot-logs");
+		if (!unban2Channel) return message.channel.send("Could not find server logs channel.");
 
 		message.guild.members.unban(ubID);
-		unban2Channel.send(ubembed);
-
+		unban2Channel.send({ embeds: [ubembed] });
 		message.channel.send(`<@${ubID}> was unbanned.`);
 		break;
-	case 'update':
-		if (!(message.member.roles.cache.has('609236733464150037') || message.member.roles.cache.has('736586013387784303'))) return message.channel.send('You don\'t have permission to do that!');
+	case "update":
+		if (!(message.member.roles.cache.has("609236733464150037") || message.member.roles.cache.has("736586013387784303"))) return message.channel.send("You don't have permission to do that!");
 
-		const uembed = new Discord.MessageEmbed()
-			.setTitle('Major Code & Bug Fix')
-			.setDescription('Successfully updated to Version 0.57.0!')
-			.addField('Prefix', '?a (Uncustomable)')
-			.addField('Public Commands', '`help` (Will lead you to other help commands), `salmon`, `apple`, `pie`, `candy`, `8ball`, `door`, `coinflip`, `kill`, `hack`, `shutdown`, `rps`,  `botinfo`, `userinfo`, `serverinfo`, `welcome`')
-			.addField('Admin Commands', '`kick`, `ban`, `tempban`, `unban`, `mute`, `tempmute`, `unmute`, `clear`, `addrole`, `removerole`, `lockdown`, `tellraw`, `slowmode`', true)
-			.addField('New Commands', 'N/A', true)
-			.addField('Removed Commands', 'N/A', true)
-			.addField('Updates', 'Major code update due to migrating to V13.')
-			.addField('Other Information from the Developer', 'The bot will be updated to Discord.Js v13 next update (hopefully, if nothing goes wrong).')
-			.addField('Code is available at', 'Base currently down')
+		const uembed = new MessageEmbed()
+			.setTitle("V13 Update")
+			.setDescription("Successfully updated to Version 0.58.0!")
+			.addField("Prefix", "?a (Uncustomable)")
+			.addField("New Commands", "N/A", true)
+			.addField("Removed Commands", "`hack`", true)
+			.addField("Updates", "Updated stuff in code to make the bot V13 compatible")
+			.addField("Other Information from the Developer", "The bot will be soon moved to another host.")
+			.addField("Code is available at", "Base currently down")
 			.setColor(0x00ff00)
 			.setTimestamp()
-			.setFooter('Aot Version 0.57.0, Made by cleverActon0126#0126');
+			.setFooter({ text: "Aot Version 0.58.0, Made by cleverActon0126#0126" });
 
 		message.delete();
-		message.channel.send(uembed);
+		message.channel.send({ embeds: [uembed] });
 		break;
-	case 'mute':
+	case "mute":
 		message.delete();
 
-		const muteerrembed = new Discord.MessageEmbed()
-			.setTitle('Mute')
-			.setDescription('Usage for mute:')
-			.addField('`mute <@someone> <reason>`', 'Role(s) required: `@Trial Moderator` OR `@Moderator` OR `@Acton`')
+		const muteerrembed = new MessageEmbed()
+			.setTitle("Mute")
+			.setDescription("Usage for mute:")
+			.addField("`mute <@someone> <reason>`", "Role(s) required: `@Trial Moderator` OR `@Moderator` OR `@Acton`")
 			.setColor(0xff0000)
 			.setTimestamp()
-			.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
 		const mUser = message.mentions.members.first();
-		if (!mUser) return message.channel.send(muteerrembed);
-		if (!(message.member.roles.cache.has('629687079567360030') || message.member.roles.cache.has('609236733464150037') || message.member.roles.cache.has('645832781469057024'))) return message.channel.send('You don\'t have permission to do that!');
-		if (mUser.hasPermission('VIEW_AUDIT_LOG')) return message.channel.send('That member can\'t be muted!');
-		let mReason = args.slice(2).join(' ');
-		if (!mReason) mReason = 'not specified';
+		if (!mUser) return message.channel.send({ embeds: [muteerrembed] });
+		if (!(message.member.roles.cache.has("629687079567360030") || message.member.roles.cache.has("609236733464150037") || message.member.roles.cache.has("645832781469057024"))) return message.channel.send("You don't have permission to do that!");
+		if (mUser.permissions.has("VIEW_AUDIT_LOG")) return message.channel.send("That member can't be muted!");
+		let mReason = args.slice(2).join(" ");
+		if (!mReason) mReason = "not specified";
 
-		const muterole = mUser.guild.roles.cache.find(role => role.name === 'Muted');
-		if (!muterole) return message.channel.send('Role doesn\'t exist');
+		const muterole = mUser.guild.roles.cache.find(role => role.name === "Muted");
+		if (!muterole) return message.channel.send("Role doesn't exist");
 
 		mUser.roles.add(muterole.id);
 
-		const muteChannel = mUser.guild.channels.cache.find(channel => channel.name === 'aot-logs');
+		const muteChannel = mUser.guild.channels.cache.find(channel => channel.name === "aot-logs");
 		if (!muteChannel) return;
 
-		const membed = new Discord.MessageEmbed()
-			.setTitle('Member Muted')
+		const membed = new MessageEmbed()
+			.setTitle("Member Muted")
 			.setColor(0xff0000)
-			.addField('Muted Member', `<@${mUser.id}>`)
-			.addField('Duration', 'Undefined')
-			.addField('Responsible Admin', `<@${message.member.id}>`)
-			.addField('Reason', mReason)
+			.addField("Muted Member", `<@${mUser.id}>`)
+			.addField("Duration", "Undefined")
+			.addField("Responsible Admin", `<@${message.member.id}>`)
+			.addField("Reason", mReason)
 			.setTimestamp()
-			.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
-		muteChannel.send(membed);
+			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
+		muteChannel.send({ embeds: [membed] });
 
-		message.channel.send(`<@${mUser.id}> (**${mUser.user.username}**) has been muted for **mReason**.`);
+		message.channel.send(`<@${mUser.id}> (**${mUser.user.username}**) has been muted for **${mReason}**.`);
 		break;
-	case 'tempmute':
+	case "tempmute":
 		message.delete();
 
 		const tmUser = message.mentions.members.first();
-		if (!tmUser) return message.channel.send('User doesn\'t exist!');
-		if (!(message.member.roles.cache.has('629687079567360030') || message.member.roles.cache.has('609236733464150037') || message.member.roles.cache.has('645832781469057024'))) return message.channel.send('You don\'t have permission to do that!');
-		if (tmUser.hasPermission('VIEW_AUDIT_LOG')) return message.channel.send('That member can\'t be muted!');
-		let tmReason = args.slice(3).join(' ');
-		if (!tmReason) tmReason = 'not specified';
+		if (!tmUser) return message.channel.send("User doesn't exist!");
+		if (!(message.member.roles.cache.has("629687079567360030") || message.member.roles.cache.has("609236733464150037") || message.member.roles.cache.has("645832781469057024"))) return message.channel.send("You don't have permission to do that!");
+		if (tmUser.permissions.has("VIEW_AUDIT_LOG")) return message.channel.send("That member can't be muted!");
+		let tmReason = args.slice(3).join(" ");
+		if (!tmReason) tmReason = "not specified";
 
-		const tempmuterole = tmUser.guild.roles.cache.find(role => role.name === 'Muted');
-		if (!tempmuterole) return message.channel.send('Role doesn\'t exist');
+		const tempmuterole = tmUser.guild.roles.cache.find(role => role.name === "Muted");
+		if (!tempmuterole) return message.channel.send("Role doesn't exist");
 
 		const mutetime = args[2];
 		if (!mutetime) {
-			return message.channel.send('Please specify how long the member should be muted for.');
+			return message.channel.send("Please specify how long the member should be muted for.");
 		}
 
-		tmUser.roles.add(tempmuterole.id);
-
-		message.channel.send(`<@${tmUser.id}> (**${tmUser.user.username}**) has been muted for **${mutetime}** for **${tmReason}**.`);
-
-		const tempmuteChannel = tmUser.guild.channels.cache.find(channel => channel.name === 'aot-logs');
+		const tempmuteChannel = tmUser.guild.channels.cache.find(channel => channel.name === "aot-logs");
 		if (!tempmuteChannel) return;
 
-		const tmembed = new Discord.MessageEmbed()
-			.setTitle('Member Temporarily Muted')
-			.setColor(0xff0000)
-			.addField('Temporarily Muted Member', `<@${tmUser.id}> (**${tmUser.user.username}**) with ID ${tmUser.id}`)
-			.addField('Temporarily Muted For', `${ms(ms(mutetime))}/${ms(mutetime)}`)
-			.addField('Temporarily Muted By', `<@${message.member.id}> with ID ${message.member.id}`)
-			.addField('Temporarily Muted In', message.channel)
-			.addField('Temporarily Muted Reason', tmReason)
-			.setTimestamp()
-			.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
-		tempmuteChannel.send(tmembed);
+		if (ms(mutetime) > 2419200000) {
+			message.channel.send("The time exceeds the maximum time. Please use the `mute` command instead.");
+		}
+		else {
+			tmUser.roles.add(tempmuterole.id);
+			tmUser.timeout(ms(mutetime), tmReason);
 
-		const tmembed2 = new Discord.MessageEmbed()
-			.setTitle('Member Unmuted')
-			.setColor(0xff0000)
-			.addField('Was Temporarily Muted Member', `<@${tmUser.id}> (**${tmUser.user.username}**) with ID ${tmUser.id}`)
-			.addField('Was Temporarily Muted For', `${ms(ms(mutetime))}/${ms(mutetime)}`)
-			.addField('Was Temporarily Muted By', `<@${message.member.id}> with ID ${message.member.id}`)
-			.addField('Was Temporarily Muted In', message.channel)
-			.addField('Was Temporarily Muted Reason', tmReason)
-			.setTimestamp()
-			.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+			message.channel.send(`<@${tmUser.id}> (**${tmUser.user.username}**) has been muted for **${mutetime}** for **${tmReason}**.`);
 
-		setTimeout(function() {
-			tmUser.roles.remove(tempmuterole.id);
-			tempmuteChannel.send(tmembed2);
-		}, ms(mutetime));
+			const tmembed = new MessageEmbed()
+				.setTitle("Member Temporarily Muted")
+				.setColor(0xff0000)
+				.addField("Temporarily Muted Member", `<@${tmUser.id}> (**${tmUser.user.username}**) with ID ${tmUser.id}`)
+				.addField("Temporarily Muted For", `${ms(ms(mutetime))}/${ms(mutetime)}`)
+				.addField("Temporarily Muted By", `<@${message.member.id}> with ID ${message.member.id}`)
+				.addField("Temporarily Muted In", `${message.channel}`)
+				.addField("Temporarily Muted Reason", tmReason)
+				.setTimestamp()
+				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
+			tempmuteChannel.send({ embeds: [tmembed] });
+
+			const tmembed2 = new MessageEmbed()
+				.setTitle("Member Unmuted")
+				.setColor(0xff0000)
+				.addField("Was Temporarily Muted Member", `<@${tmUser.id}> (**${tmUser.user.username}**) with ID ${tmUser.id}`)
+				.addField("Was Temporarily Muted For", `${ms(ms(mutetime))}/${ms(mutetime)}`)
+				.addField("Was Temporarily Muted By", `<@${message.member.id}> with ID ${message.member.id}`)
+				.addField("Was Temporarily Muted In", `${message.channel}`)
+				.addField("Was Temporarily Muted Reason", tmReason)
+				.setTimestamp()
+				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
+
+			setTimeout(function() {
+				tmUser.roles.remove(tempmuterole.id);
+				tempmuteChannel.send({ embeds: [tmembed2] });
+			}, ms(mutetime));
+		}
 		break;
-	case 'unmute':
+	case "unmute":
 		message.delete();
 
-		const unmuteerrembed = new Discord.MessageEmbed()
-			.setTitle('Unmute')
-			.setDescription('Usage for unmute:')
-			.addField('`unmute <@someone>`', 'Role(s) required: `@Moderator` OR `@Acton`')
+		const unmuteerrembed = new MessageEmbed()
+			.setTitle("Unmute")
+			.setDescription("Usage for unmute:")
+			.addField("`unmute <@someone>`", "Role(s) required: `@Moderator` OR `@Acton`")
 			.setColor(0xff0000)
 			.setTimestamp()
-			.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
 		const umUser = message.mentions.members.first();
-		if (!umUser) return message.channel.send(unmuteerrembed);
-		if (!(message.member.roles.cache.has('645832781469057024') || message.member.roles.cache.has('609236733464150037'))) return message.channel.send('You don\'t have permission to do that!');
+		if (!umUser) return message.channel.send({ embeds: [unmuteerrembed] });
+		if (!(message.member.roles.cache.has("645832781469057024") || message.member.roles.cache.has("609236733464150037"))) return message.channel.send("You don't have permission to do that!");
 
-		const unmuterole = umUser.guild.roles.cache.find(role => role.name === 'Muted');
-		if (!unmuterole) return message.channel.send('Role doesn\'t exist');
+		const unmuterole = umUser.guild.roles.cache.find(role => role.name === "Muted");
+		if (!unmuterole) return message.channel.send("Role doesn't exist");
 
 		umUser.roles.remove(unmuterole.id);
 
-		const umembed = new Discord.MessageEmbed()
-			.setTitle('Member Unmuted')
-			.addField('Unmuted Member', `<@${umUser.id}> (**${umUser.user.username}**) with ID ${umUser.id}`)
-			.addField('Unmuted By', message.author)
+		const umembed = new MessageEmbed()
+			.setTitle("Member Unmuted")
+			.addField("Unmuted Member", `<@${umUser.id}> (**${umUser.user.username}**) with ID ${umUser.id}`)
+			.addField("Unmuted By", `${message.author}`)
 			.setColor(0x00ff00)
 			.setTimestamp()
-			.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-		const unmute2Channel = umUser.guild.channels.cache.find(channel => channel.name === 'aot-logs');
+		const unmute2Channel = umUser.guild.channels.cache.find(channel => channel.name === "aot-logs");
 		if (!unmute2Channel) return;
 
-		unmute2Channel.send(umembed);
+		unmute2Channel.send({ embeds: [umembed] });
 		message.channel.send(`<@${umUser.id}> (**${umUser.user.username}**) has been unmuted.`);
 		break;
-	case 'clear':
+	case "clear":
 		message.delete();
 
-		const clearerrembed = new Discord.MessageEmbed()
-			.setTitle('Clear')
-			.setDescription('Usage for clear:')
-			.addField('`clear <1-99>`', 'Role(s) required: `@Moderator`, `@Acton`')
+		const clearerrembed = new MessageEmbed()
+			.setTitle("Clear")
+			.setDescription("Usage for clear:")
+			.addField("`clear <1-99>`", "Role(s) required: `@Moderator`, `@Acton`")
 			.setColor(0xff0000)
 			.setTimestamp()
-			.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-		if (!(message.member.roles.cache.has('645832781469057024') || message.member.roles.cache.has('608937618259836930') || message.member.roles.cache.has('609236733464150037'))) return message.channel.send('You don\'t have permission to do that!');
-		if (!args[1]) return message.channel.send(clearerrembed);
+		if (!(message.member.roles.cache.has("645832781469057024") || message.member.roles.cache.has("608937618259836930") || message.member.roles.cache.has("609236733464150037"))) return message.channel.send("You don't have permission to do that!");
+		if (!args[1]) return message.channel.send({ embeds: [clearerrembed] });
 		const clearchannel = message.channel.id;
-		message.channel.bulkDelete(args[1]).then(() => {
-			message.channel.send(`Deleted ${args[1]} messages.`).then(cmsg => cmsg.delete({ timeout:3000 }));
-		});
-		const clearlog = message.guild.channels.cache.find(channel => channel.name === 'aot-logs');
-		if (!clearlog) return message.channel.send('Couldn\'t find server logs channel.');
+		message.channel.bulkDelete(args[1]);
+		message.channel.send(`Deleted ${args[1]} messages.`).then(cmsg => cmsg.delete({ timeout:3000 }));
+		const clearlog = message.guild.channels.cache.find(channel => channel.name === "aot-logs");
+		if (!clearlog) return message.channel.send("Couldn't find server logs channel.");
 
 		clearlog.send(`<@${message.member.id}> has purged **${args[1]}** messages in <#${clearchannel}>`);
 		break;
-	case 'lockdown':
+	case "lockdown":
 		message.delete();
-		if (!(message.member.roles.cache.has('645832781469057024') || message.member.roles.cache.has('608937618259836930') || message.member.roles.cache.has('609236733464150037'))) return message.channel.send('You don\'t have permission to do that!');
-		if (!args[1]) return message.channel.send('`?alockdown LOCK|UNLOCK SERVER|CHANNEL` Please include if I should lock or unlock the server.');
-		if (!args[2]) return message.channel.send('`?alockdown LOCK|UNLOCK SERVER|CHANNEL` Please include if I should lock or unlock the server.');
+		if (!(message.member.roles.cache.has("645832781469057024") || message.member.roles.cache.has("608937618259836930") || message.member.roles.cache.has("609236733464150037"))) return message.channel.send("You don't have permission to do that!");
+		if (!args[1]) return message.channel.send("`?alockdown LOCK|UNLOCK SERVER|CHANNEL` Please include if I should lock or unlock the server.");
+		if (!args[2]) return message.channel.send("`?alockdown LOCK|UNLOCK SERVER|CHANNEL` Please include if I should lock or unlock the server.");
 		const ldvalue = args[1].toLowerCase();
 		const ldchannel = args[2].toLowerCase();
-		if (!['lock', 'unlock'].includes(ldvalue)) return message.channel.send('`?alockdown LOCK|UNLOCK SERVER|CHANNEL` Please include if I should lock or unlock the server.');
-		if (!['server', 'channel'].includes(ldchannel)) return message.channel.send('`?alockdown LOCK|UNLOCK SERVER|CHANNEL` Please include if I should lock or unlock the server or this specific channel');
+		if (!["lock", "unlock"].includes(ldvalue)) return message.channel.send("`?alockdown LOCK|UNLOCK SERVER|CHANNEL` Please include if I should lock or unlock the server.");
+		if (!["server", "channel"].includes(ldchannel)) return message.channel.send("`?alockdown LOCK|UNLOCK SERVER|CHANNEL` Please include if I should lock or unlock the server or this specific channel");
 
-		if (ldvalue == 'lock') {
-			if (ldchannel == 'channel') {
+		if (ldvalue == "lock") {
+			if (ldchannel == "channel") {
 				const ldc = message.channel;
 
-				ldc.overwritePermissions([
-					{
-						id: message.channel.guild.roles.everyone,
-						deny: ['SEND_MESSAGES'],
-					},
-				], 'Server Lockdown');
+				ldc.permissionOverwrites.edit(message.channel.guild.roles.everyone, {
+					SEND_MESSAGES: false,
+				});
 
-				message.channel.send('🔒This channel has been locked by a moderator.');
+				message.channel.send("🔒This channel has been locked by a moderator.");
 
-				const ldcembed = new Discord.MessageEmbed()
-					.setTitle('Server Unlock')
-					.addField('Lockdown Ended by', message.author)
-					.addField('Lockdown Ended at', message.createdAt)
-					.addField('Lockdown Ended in', message.channel)
-					.addField('Unlock Type', 'Server/**Channel**')
+				const ldcembed = new MessageEmbed()
+					.setTitle("Server Unlock")
+					.addField("Lockdown Ended by", `${message.author}`)
+					.addField("Lockdown Ended at", `${message.createdAt}`)
+					.addField("Lockdown Ended in", `${message.channel}`)
+					.addField("Unlock Type", "Server/**Channel**")
 					.setColor(0x00ff00)
 					.setTimestamp()
-					.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+					.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-				const ldclog = message.guild.channels.cache.find(channel => channel.name == 'aot-logs');
+				const ldclog = message.guild.channels.cache.find(channel => channel.name == "aot-logs");
 				if (!ldclog) return;
 
-				ldclog.send(ldcembed);
+				ldclog.send({ embeds: [ldcembed] });
 			}
-			else if (ldchannel == 'server') {
-				const lds1 = message.guild.channels.cache.find(channel => channel.name == 'general-chat' && channel.type == 'text');
-				const lds2 = message.guild.channels.cache.find(channel => channel.name == 'random-stuff' && channel.type == 'text');
-				const lds3 = message.guild.channels.cache.find(channel => channel.name == 'counting' && channel.type == 'text');
-				const lds4 = message.guild.channels.cache.find(channel => channel.name == 'politics' && channel.type == 'text');
-				const lds5 = message.guild.channels.cache.find(channel => channel.name == 'anime' && channel.type == 'text');
-				const lds6 = message.guild.channels.cache.find(channel => channel.name == 'arts' && channel.type == 'text');
-				const lds7 = message.guild.channels.cache.find(channel => channel.name == 'gaming' && channel.type == 'text');
-				const lds8 = message.guild.channels.cache.find(channel => channel.name == 'movie-tvshows' && channel.type == 'text');
-				const lds9 = message.guild.channels.cache.find(channel => channel.name == 'music' && channel.type == 'text');
-				const lds10 = message.guild.channels.cache.find(channel => channel.name == 'photography' && channel.type == 'text');
-				const lds11 = message.guild.channels.cache.find(channel => channel.name == 'technology' && channel.type == 'text');
-				const lds12 = message.guild.channels.cache.find(channel => channel.name == 'bot-commands' && channel.type == 'text');
+			else if (ldchannel == "server") {
+				const lds1 = message.guild.channels.cache.find(channel => channel.name == "general-chat" && channel.type == "GUILD_TEXT");
+				const lds2 = message.guild.channels.cache.find(channel => channel.name == "random-stuff" && channel.type == "GUILD_TEXT");
+				const lds3 = message.guild.channels.cache.find(channel => channel.name == "counting" && channel.type == "GUILD_TEXT");
+				const lds4 = message.guild.channels.cache.find(channel => channel.name == "politics" && channel.type == "GUILD_TEXT");
+				const lds5 = message.guild.channels.cache.find(channel => channel.name == "anime" && channel.type == "GUILD_TEXT");
+				const lds6 = message.guild.channels.cache.find(channel => channel.name == "arts" && channel.type == "GUILD_TEXT");
+				const lds7 = message.guild.channels.cache.find(channel => channel.name == "gaming" && channel.type == "GUILD_TEXT");
+				const lds8 = message.guild.channels.cache.find(channel => channel.name == "movie-tvshows" && channel.type == "GUILD_TEXT");
+				const lds9 = message.guild.channels.cache.find(channel => channel.name == "music" && channel.type == "GUILD_TEXT");
+				const lds10 = message.guild.channels.cache.find(channel => channel.name == "photography" && channel.type == "GUILD_TEXT");
+				const lds11 = message.guild.channels.cache.find(channel => channel.name == "technology" && channel.type == "GUILD_TEXT");
+				const lds12 = message.guild.channels.cache.find(channel => channel.name == "bot-commands" && channel.type == "GUILD_TEXT");
 
 				if (!lds1) {
-					message.channel.send('Missing channel(s), please check the logs.');
-					console.log('Missing channel 1.');
+					message.channel.send("Missing channel(s), please check the logs.");
+					console.log("Missing channel 1.");
 					return;
 				}
 				else if (!lds2) {
-					message.channel.send('Missing channel(s), please check the logs.');
-					console.log('Missing channel 2.');
+					message.channel.send("Missing channel(s), please check the logs.");
+					console.log("Missing channel 2.");
 					return;
 				}
 				else if (!lds3) {
-					message.channel.send('Missing channel(s), please check the logs.');
-					console.log('Missing channel 3.');
+					message.channel.send("Missing channel(s), please check the logs.");
+					console.log("Missing channel 3.");
 					return;
 				}
 				else if (!lds4) {
-					message.channel.send('Missing channel(s), please check the logs.');
-					console.log('Missing channel 4.');
+					message.channel.send("Missing channel(s), please check the logs.");
+					console.log("Missing channel 4.");
 					return;
 				}
 				else if (!lds5) {
-					message.channel.send('Missing channel(s), please check the logs.');
-					console.log('Missing channel 5.');
+					message.channel.send("Missing channel(s), please check the logs.");
+					console.log("Missing channel 5.");
 					return;
 				}
 				else if (!lds6) {
-					message.channel.send('Missing channel(s), please check the logs.');
-					console.log('Missing channel 6.');
+					message.channel.send("Missing channel(s), please check the logs.");
+					console.log("Missing channel 6.");
 					return;
 				}
 				else if (!lds7) {
-					message.channel.send('Missing channel(s), please check the logs.');
-					console.log('Missing channel 7.');
+					message.channel.send("Missing channel(s), please check the logs.");
+					console.log("Missing channel 7.");
 					return;
 				}
 				else if (!lds8) {
-					message.channel.send('Missing channel(s), please check the logs.');
-					console.log('Missing channel 8.');
+					message.channel.send("Missing channel(s), please check the logs.");
+					console.log("Missing channel 8.");
 					return;
 				}
 				else if (!lds9) {
-					message.channel.send('Missing channel(s), please check the logs.');
-					console.log('Missing channel 9.');
+					message.channel.send("Missing channel(s), please check the logs.");
+					console.log("Missing channel 9.");
 					return;
 				}
 				else if (!lds10) {
-					message.channel.send('Missing channel(s), please check the logs.');
-					console.log('Missing channel 10.');
+					message.channel.send("Missing channel(s), please check the logs.");
+					console.log("Missing channel 10.");
 					return;
 				}
 				else if (!lds11) {
-					message.channel.send('Missing channel(s), please check the logs.');
-					console.log('Missing channel 11.');
+					message.channel.send("Missing channel(s), please check the logs.");
+					console.log("Missing channel 11.");
 					return;
 				}
 				else if (!lds12) {
-					message.channel.send('Missing channel(s), please check the logs.');
-					console.log('Missing channel 12.');
+					message.channel.send("Missing channel(s), please check the logs.");
+					console.log("Missing channel 12.");
 					return;
 				}
 
-				lds1.overwritePermissions([
-					{
-						id: message.channel.guild.roles.everyone,
-						deny: ['SEND_MESSAGES'],
-					},
-				], 'Server Lockdown');
-				lds2.overwritePermissions([
-					{
-						id: message.channel.guild.roles.everyone,
-						deny: ['SEND_MESSAGES'],
-					},
-				], 'Server Lockdown');
-				lds3.overwritePermissions([
-					{
-						id: message.channel.guild.roles.everyone,
-						deny: ['SEND_MESSAGES'],
-					},
-				], 'Server Lockdown');
-				lds4.overwritePermissions([
-					{
-						id: message.channel.guild.roles.everyone,
-						deny: ['SEND_MESSAGES'],
-					},
-				], 'Server Lockdown');
-				lds5.overwritePermissions([
-					{
-						id: message.channel.guild.roles.everyone,
-						deny: ['SEND_MESSAGES'],
-					},
-				], 'Server Lockdown');
-				lds6.overwritePermissions([
-					{
-						id: message.channel.guild.roles.everyone,
-						deny: ['SEND_MESSAGES'],
-					},
-				], 'Server Lockdown');
-				lds7.overwritePermissions([
-					{
-						id: message.channel.guild.roles.everyone,
-						deny: ['SEND_MESSAGES'],
-					},
-				], 'Server Lockdown');
-				lds8.overwritePermissions([
-					{
-						id: message.channel.guild.roles.everyone,
-						deny: ['SEND_MESSAGES'],
-					},
-				], 'Server Lockdown');
-				lds9.overwritePermissions([
-					{
-						id: message.channel.guild.roles.everyone,
-						deny: ['SEND_MESSAGES'],
-					},
-				], 'Server Lockdown');
-				lds10.overwritePermissions([
-					{
-						id: message.channel.guild.roles.everyone,
-						deny: ['SEND_MESSAGES'],
-					},
-				], 'Server Lockdown');
-				lds11.overwritePermissions([
-					{
-						id: message.channel.guild.roles.everyone,
-						deny: ['SEND_MESSAGES'],
-					},
-				], 'Server Lockdown');
-				lds12.overwritePermissions([
-					{
-						id: message.channel.guild.roles.everyone,
-						deny: ['SEND_MESSAGES'],
-					},
-				], 'Server Lockdown');
+				lds1.permissionOverwrites.edit(message.channel.guild.roles.everyone, {
+					SEND_MESSAGES: false,
+				});
+				lds2.permissionOverwrites.edit(message.channel.guild.roles.everyone, {
+					SEND_MESSAGES: false,
+				});
+				lds3.permissionOverwrites.edit(message.channel.guild.roles.everyone, {
+					SEND_MESSAGES: false,
+				});
+				lds4.permissionOverwrites.edit(message.channel.guild.roles.everyone, {
+					SEND_MESSAGES: false,
+				});
+				lds5.permissionOverwrites.edit(message.channel.guild.roles.everyone, {
+					SEND_MESSAGES: false,
+				});
+				lds6.permissionOverwrites.edit(message.channel.guild.roles.everyone, {
+					SEND_MESSAGES: false,
+				});
+				lds7.permissionOverwrites.edit(message.channel.guild.roles.everyone, {
+					SEND_MESSAGES: false,
+				});
+				lds8.permissionOverwrites.edit(message.channel.guild.roles.everyone, {
+					SEND_MESSAGES: false,
+				});
+				lds9.permissionOverwrites.edit(message.channel.guild.roles.everyone, {
+					SEND_MESSAGES: false,
+				});
+				lds10.permissionOverwrites.edit(message.channel.guild.roles.everyone, {
+					SEND_MESSAGES: false,
+				});
+				lds11.permissionOverwrites.edit(message.channel.guild.roles.everyone, {
+					SEND_MESSAGES: false,
+				});
+				lds12.permissionOverwrites.edit(message.channel.guild.roles.everyone, {
+					SEND_MESSAGES: false,
+				});
 
-				message.channel.send('🔒Successfully locked all channels.');
+				message.channel.send("🔒Successfully locked all channels.");
 
-				const ldsembed = new Discord.MessageEmbed()
-					.setTitle('Server Lockdown')
-					.addField('Lockdown Started by', message.author)
-					.addField('Lockdown Started at', message.createdAt)
-					.addField('Lockdown Started in', message.channel)
-					.addField('Lockdown Type', '**Server**/Channel')
+				const ldsembed = new MessageEmbed()
+					.setTitle("Server Lockdown")
+					.addField("Lockdown Started by", `${message.author}`)
+					.addField("Lockdown Started at", `${message.createdAt}`)
+					.addField("Lockdown Started in", `${message.channel}`)
+					.addField("Lockdown Type", "**Server**/Channel")
 					.setColor(0xff0000)
 					.setTimestamp()
-					.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+					.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-				const ldslog = message.guild.channels.cache.find(channel => channel.name == 'aot-logs');
+				const ldslog = message.guild.channels.cache.find(channel => channel.name == "aot-logs");
 				if (!ldslog) return;
 
-				ldslog.send(ldsembed);
+				ldslog.send({ embeds: [ldsembed] });
 			}
 			else {
-				return message.channel.send('An error occured, please check the logs.');
+				return message.channel.send("An error occured, please check the logs.");
 			}
 		}
-		else if (ldvalue == 'unlock') {
-			if (ldchannel == 'channel') {
+		else if (ldvalue == "unlock") {
+			if (ldchannel == "channel") {
 				const uldc = message.channel;
 
-				uldc.overwritePermissions([
-					{
-						id: message.channel.guild.roles.everyone,
-						allow: ['SEND_MESSAGES'],
-					},
-				], 'Server Unlock');
+				uldc.permissionOverwrites.edit(message.channel.guild.roles.everyone, {
+					SEND_MESSAGES: true,
+				});
 
-				message.channel.send('🔓This channel has been unlocked by a moderator.');
+				message.channel.send("🔓This channel has been unlocked by a moderator.");
 
-				const uldcembed = new Discord.MessageEmbed()
-					.setTitle('Server Unlock')
-					.addField('Lockdown Ended by', message.author)
-					.addField('Lockdown Ended at', message.createdAt)
-					.addField('Lockdown Ended in', message.channel)
-					.addField('Unlock Type', 'Server/**Channel**')
+				const uldcembed = new MessageEmbed()
+					.setTitle("Server Unlock")
+					.addField("Lockdown Ended by", `${message.author}`)
+					.addField("Lockdown Ended at", `${message.createdAt}`)
+					.addField("Lockdown Ended in", `${message.channel}`)
+					.addField("Unlock Type", "Server/**Channel**")
 					.setColor(0x00ff00)
 					.setTimestamp()
-					.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+					.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-				const uldclog = message.guild.channels.cache.find(channel => channel.name == 'aot-logs');
+				const uldclog = message.guild.channels.cache.find(channel => channel.name == "aot-logs");
 				if (!uldclog) return;
 
-				uldclog.send(uldcembed);
+				uldclog.send({ embeds: [uldcembed] });
 			}
-			else if (ldchannel == 'server') {
-				const ulds1 = message.guild.channels.cache.find(channel => channel.name == 'general-chat' && channel.type == 'text');
-				const ulds2 = message.guild.channels.cache.find(channel => channel.name == 'random-stuff' && channel.type == 'text');
-				const ulds3 = message.guild.channels.cache.find(channel => channel.name == 'counting' && channel.type == 'text');
-				const ulds4 = message.guild.channels.cache.find(channel => channel.name == 'politics' && channel.type == 'text');
-				const ulds5 = message.guild.channels.cache.find(channel => channel.name == 'anime' && channel.type == 'text');
-				const ulds6 = message.guild.channels.cache.find(channel => channel.name == 'arts' && channel.type == 'text');
-				const ulds7 = message.guild.channels.cache.find(channel => channel.name == 'gaming' && channel.type == 'text');
-				const ulds8 = message.guild.channels.cache.find(channel => channel.name == 'movie-tvshows' && channel.type == 'text');
-				const ulds9 = message.guild.channels.cache.find(channel => channel.name == 'music' && channel.type == 'text');
-				const ulds10 = message.guild.channels.cache.find(channel => channel.name == 'photography' && channel.type == 'text');
-				const ulds11 = message.guild.channels.cache.find(channel => channel.name == 'technology' && channel.type == 'text');
-				const ulds12 = message.guild.channels.cache.find(channel => channel.name == 'bot-commands' && channel.type == 'text');
+			else if (ldchannel == "server") {
+				const ulds1 = message.guild.channels.cache.find(channel => channel.name == "general-chat" && channel.type == "GUILD_TEXT");
+				const ulds2 = message.guild.channels.cache.find(channel => channel.name == "random-stuff" && channel.type == "GUILD_TEXT");
+				const ulds3 = message.guild.channels.cache.find(channel => channel.name == "counting" && channel.type == "GUILD_TEXT");
+				const ulds4 = message.guild.channels.cache.find(channel => channel.name == "politics" && channel.type == "GUILD_TEXT");
+				const ulds5 = message.guild.channels.cache.find(channel => channel.name == "anime" && channel.type == "GUILD_TEXT");
+				const ulds6 = message.guild.channels.cache.find(channel => channel.name == "arts" && channel.type == "GUILD_TEXT");
+				const ulds7 = message.guild.channels.cache.find(channel => channel.name == "gaming" && channel.type == "GUILD_TEXT");
+				const ulds8 = message.guild.channels.cache.find(channel => channel.name == "movie-tvshows" && channel.type == "GUILD_TEXT");
+				const ulds9 = message.guild.channels.cache.find(channel => channel.name == "music" && channel.type == "GUILD_TEXT");
+				const ulds10 = message.guild.channels.cache.find(channel => channel.name == "photography" && channel.type == "GUILD_TEXT");
+				const ulds11 = message.guild.channels.cache.find(channel => channel.name == "technology" && channel.type == "GUILD_TEXT");
+				const ulds12 = message.guild.channels.cache.find(channel => channel.name == "bot-commands" && channel.type == "GUILD_TEXT");
 
 				if (!ulds1) {
-					message.channel.send('Missing channel(s), please check the logs.');
-					console.log('Missing channel 1.');
+					message.channel.send("Missing channel(s), please check the logs.");
+					console.log("Missing channel 1.");
 					return;
 				}
 				else if (!ulds2) {
-					message.channel.send('Missing channel(s), please check the logs.');
-					console.log('Missing channel 2.');
+					message.channel.send("Missing channel(s), please check the logs.");
+					console.log("Missing channel 2.");
 					return;
 				}
 				else if (!ulds3) {
-					message.channel.send('Missing channel(s), please check the logs.');
-					console.log('Missing channel 3.');
+					message.channel.send("Missing channel(s), please check the logs.");
+					console.log("Missing channel 3.");
 					return;
 				}
 				else if (!ulds4) {
-					message.channel.send('Missing channel(s), please check the logs.');
-					console.log('Missing channel 4.');
+					message.channel.send("Missing channel(s), please check the logs.");
+					console.log("Missing channel 4.");
 					return;
 				}
 				else if (!ulds5) {
-					message.channel.send('Missing channel(s), please check the logs.');
-					console.log('Missing channel 5.');
+					message.channel.send("Missing channel(s), please check the logs.");
+					console.log("Missing channel 5.");
 					return;
 				}
 				else if (!ulds6) {
-					message.channel.send('Missing channel(s), please check the logs.');
-					console.log('Missing channel 6.');
+					message.channel.send("Missing channel(s), please check the logs.");
+					console.log("Missing channel 6.");
 					return;
 				}
 				else if (!ulds7) {
-					message.channel.send('Missing channel(s), please check the logs.');
-					console.log('Missing channel 7.');
+					message.channel.send("Missing channel(s), please check the logs.");
+					console.log("Missing channel 7.");
 					return;
 				}
 				else if (!ulds8) {
-					message.channel.send('Missing channel(s), please check the logs.');
-					console.log('Missing channel 8.');
+					message.channel.send("Missing channel(s), please check the logs.");
+					console.log("Missing channel 8.");
 					return;
 				}
 				else if (!ulds9) {
-					message.channel.send('Missing channel(s), please check the logs.');
-					console.log('Missing channel 9.');
+					message.channel.send("Missing channel(s), please check the logs.");
+					console.log("Missing channel 9.");
 					return;
 				}
 				else if (!ulds10) {
-					message.channel.send('Missing channel(s), please check the logs.');
-					console.log('Missing channel 10.');
+					message.channel.send("Missing channel(s), please check the logs.");
+					console.log("Missing channel 10.");
 					return;
 				}
 				else if (!ulds11) {
-					message.channel.send('Missing channel(s), please check the logs.');
-					console.log('Missing channel 11.');
+					message.channel.send("Missing channel(s), please check the logs.");
+					console.log("Missing channel 11.");
 					return;
 				}
 				else if (!ulds12) {
-					message.channel.send('Missing channel(s), please check the logs.');
-					console.log('Missing channel 12.');
+					message.channel.send("Missing channel(s), please check the logs.");
+					console.log("Missing channel 12.");
 					return;
 				}
 
-				ulds1.overwritePermissions([
-					{
-						id: message.channel.guild.roles.everyone,
-						allow: ['SEND_MESSAGES'],
-					},
-				], 'Server Unlock');
-				ulds2.overwritePermissions([
-					{
-						id: message.channel.guild.roles.everyone,
-						allow: ['SEND_MESSAGES'],
-					},
-				], 'Server Unlock');
-				ulds3.overwritePermissions([
-					{
-						id: message.channel.guild.roles.everyone,
-						allow: ['SEND_MESSAGES'],
-					},
-				], 'Server Unlock');
-				ulds4.overwritePermissions([
-					{
-						id: message.channel.guild.roles.everyone,
-						allow: ['SEND_MESSAGES'],
-					},
-				], 'Server Unlock');
-				ulds5.overwritePermissions([
-					{
-						id: message.channel.guild.roles.everyone,
-						allow: ['SEND_MESSAGES'],
-					},
-				], 'Server Unlock');
-				ulds6.overwritePermissions([
-					{
-						id: message.channel.guild.roles.everyone,
-						allow: ['SEND_MESSAGES'],
-					},
-				], 'Server Unlock');
-				ulds7.overwritePermissions([
-					{
-						id: message.channel.guild.roles.everyone,
-						allow: ['SEND_MESSAGES'],
-					},
-				], 'Server Unlock');
-				ulds8.overwritePermissions([
-					{
-						id: message.channel.guild.roles.everyone,
-						allow: ['SEND_MESSAGES'],
-					},
-				], 'Server Unlock');
-				ulds9.overwritePermissions([
-					{
-						id: message.channel.guild.roles.everyone,
-						allow: ['SEND_MESSAGES'],
-					},
-				], 'Server Unlock');
-				ulds10.overwritePermissions([
-					{
-						id: message.channel.guild.roles.everyone,
-						allow: ['SEND_MESSAGES'],
-					},
-				], 'Server Unlock');
-				ulds11.overwritePermissions([
-					{
-						id: message.channel.guild.roles.everyone,
-						allow: ['SEND_MESSAGES'],
-					},
-				], 'Server Unlock');
-				ulds12.overwritePermissions([
-					{
-						id: message.channel.guild.roles.everyone,
-						allow: ['SEND_MESSAGES'],
-					},
-				], 'Server Unlock');
+				ulds1.permissionOverwrites.edit(message.channel.guild.roles.everyone, {
+					SEND_MESSAGES: true,
+				});
+				ulds2.permissionOverwrites.edit(message.channel.guild.roles.everyone, {
+					SEND_MESSAGES: true,
+				});
+				ulds3.permissionOverwrites.edit(message.channel.guild.roles.everyone, {
+					SEND_MESSAGES: true,
+				});
+				ulds4.permissionOverwrites.edit(message.channel.guild.roles.everyone, {
+					SEND_MESSAGES: true,
+				});
+				ulds5.permissionOverwrites.edit(message.channel.guild.roles.everyone, {
+					SEND_MESSAGES: true,
+				});
+				ulds6.permissionOverwrites.edit(message.channel.guild.roles.everyone, {
+					SEND_MESSAGES: true,
+				});
+				ulds7.permissionOverwrites.edit(message.channel.guild.roles.everyone, {
+					SEND_MESSAGES: true,
+				});
+				ulds8.permissionOverwrites.edit(message.channel.guild.roles.everyone, {
+					SEND_MESSAGES: true,
+				});
+				ulds9.permissionOverwrites.edit(message.channel.guild.roles.everyone, {
+					SEND_MESSAGES: true,
+				});
+				ulds10.permissionOverwrites.edit(message.channel.guild.roles.everyone, {
+					SEND_MESSAGES: true,
+				});
+				ulds11.permissionOverwrites.edit(message.channel.guild.roles.everyone, {
+					SEND_MESSAGES: true,
+				});
+				ulds12.permissionOverwrites.edit(message.channel.guild.roles.everyone, {
+					SEND_MESSAGES: true,
+				});
 
-				message.channel.send('🔓Successfully unlocked all channels.');
+				message.channel.send("🔓Successfully unlocked all channels.");
 
-				const uldsembed = new Discord.MessageEmbed()
-					.setTitle('Server Unlock')
-					.addField('Lockdown Ended by', message.author)
-					.addField('Lockdown Ended at', message.createdAt)
-					.addField('Lockdown Ended in', message.channel)
-					.addField('Unlock Type', '**Server**/Channel')
+				const uldsembed = new MessageEmbed()
+					.setTitle("Server Unlock")
+					.addField("Lockdown Ended by", `${message.author}`)
+					.addField("Lockdown Ended at", `${message.createdAt}`)
+					.addField("Lockdown Ended in", `${message.channel}`)
+					.addField("Unlock Type", "**Server**/Channel")
 					.setColor(0x00ff00)
 					.setTimestamp()
-					.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+					.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-				const uldslog = message.guild.channels.cache.find(channel => channel.name == 'aot-logs');
+				const uldslog = message.guild.channels.cache.find(channel => channel.name == "aot-logs");
 				if (!uldslog) return;
 
-				uldslog.send(uldsembed);
+				uldslog.send({ embeds: [uldsembed] });
 			}
 			else {
-				return message.channel.send('An error occured, please check the logs.');
+				return message.channel.send("An error occured, please check the logs.");
 			}
 		}
 		else {
-			return message.channel.send('An error occured, please check the logs.');
+			return message.channel.send("An error occured, please check the logs.");
 		}
 		break;
-	case 'tellraw':
+	case "tellraw":
 		message.delete();
-		if (!(message.member.roles.cache.has('645832781469057024') || message.member.roles.cache.has('609236733464150037'))) return message.channel.send('You don\'t have permission to do that!');
+		if (!(message.member.roles.cache.has("645832781469057024") || message.member.roles.cache.has("609236733464150037"))) return message.channel.send("You don't have permission to do that!");
 		const twchannel = args[1];
-		if (!twchannel) return message.channel.send('Please tell me which channel to send to.');
-		const twcontent = args.slice(2).join(' ');
-		if (!twcontent) return message.channel.send('Please tell me what to say!');
+		if (!twchannel) return message.channel.send("Please tell me which channel to send to.");
+		const twcontent = args.slice(2).join(" ");
+		if (!twcontent) return message.channel.send("Please tell me what to say!");
 		const twchanneln = twchannel.slice(2, twchannel.length - 1);
 		const twchannelr = message.guild.channels.cache.find(channel => channel.id == twchanneln);
-		if (!twchannelr) return message.channel.send('An error occured.');
+		if (!twchannelr) return message.channel.send("An error occured.");
 
 		twchannelr.send(twcontent);
 		break;
-	case 'slowmode':
-		if (!(message.member.roles.cache.has('645832781469057024') || message.member.roles.cache.has('608937618259836930') || message.member.roles.cache.has('609236733464150037'))) return message.channel.send('You don\'t have permission to do that!');
+	case "slowmode":
+		if (!(message.member.roles.cache.has("645832781469057024") || message.member.roles.cache.has("608937618259836930") || message.member.roles.cache.has("609236733464150037"))) return message.channel.send("You don't have permission to do that!");
 		const smtime = args[1];
-		if (smtime == '0') {
+		if (smtime == "0") {
 			message.channel.setRateLimitPerUser(0);
-			message.channel.send('Successfully turned off slowmode for the channel.');
+			message.channel.send("Successfully turned off slowmode for the channel.");
 		}
-		else if (smtime == 'off') {
+		else if (smtime == "off") {
 			message.channel.setRateLimitPerUser(0);
-			message.channel.send('Successfully turned off slowmode for the channel.');
+			message.channel.send("Successfully turned off slowmode for the channel.");
 		}
 		else {
 			message.channel.setRateLimitPerUser(smtime);
@@ -1359,180 +1237,190 @@ bot.on('message', async function(message) {
 		break;
 		// end of admin Commands
 		// information
-	case 'ping':
+	case "ping":
 		const ping = Date.now() - message.createdTimestamp;
 		const APIl = Math.round(bot.ws.ping);
 
-		const pembed = new Discord.MessageEmbed()
-			.setTitle('Bot Ping')
-			.addField('Ping', ping)
-			.addField('API Latency', APIl)
+		const pembed = new MessageEmbed()
+			.setTitle("Bot Ping")
+			.addField("Ping", `${ping}`)
+			.addField("API Latency", `${APIl}`)
 			.setTimestamp()
-			.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
+			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-		message.channel.send(pembed);
+		message.channel.send({ embeds: [pembed] });
 		break;
-	case 'botinfo':
-		const biembed = new Discord.MessageEmbed()
-			.setTitle('Bot Information')
+	case "botinfo":
+		const biembed = new MessageEmbed()
+			.setTitle("Bot Information")
 			.setColor(0x00bfff)
-			.addField('General Information', 'Bot\'s general information', true)
-			.addField('Bot Name', bot.user.username, true)
-			.addField('Bot Created On:', bot.user.createdAt, true)
-			.addField('Bot Creator', '<@428445352354643968>', true)
-			.addField('Bot Developers', 'N/A', true)
-			.addField('Bot Contributers', '<@428445352354643968>: All Versions \r<@696010548378337321>: N/A')
+			.addField("General Information", "Bot's general information", true)
+			.addField("Bot Name", bot.user.username, true)
+			.addField("Bot Created On:", `${bot.user.createdAt}`, true)
+			.addField("Bot Creator", "<@428445352354643968>", true)
+			.addField("Bot Developers", "N/A", true)
+			.addField("Bot Contributers", "<@428445352354643968>: All Versions \r<@696010548378337321>: N/A")
 			.setThumbnail(bot.user.displayAvatarURL())
 			.setTimestamp()
-			.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
-		message.channel.send(biembed);
+			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
+		message.channel.send({ embeds: [biembed] });
 		break;
-	case 'userinfo':
+	case "userinfo":
 		const sUser = message.mentions.members.first();
 		const snUser = message.member;
 
-		const noembed = new Discord.MessageEmbed()
-			.setTitle('User Info')
+		const noembed = new MessageEmbed()
+			.setTitle("User Info")
 			.setColor(0x00bfff)
 			.setThumbnail(snUser.user.displayAvatarURL())
-			.addField('Username', snUser.user.tag)
-			.addField('Server Nickname', snUser.displayName)
-			.addField('Account created at', snUser.user.createdAt, true)
-			.addField('Joined server at', snUser.joinedAt, true)
-			.addField('Roles', snUser.roles.cache.map(r => r.toString()))
+			.addField("Username", snUser.user.tag)
+			.addField("Server Nickname", snUser.displayName)
+			.addField("Account created at", `${snUser.user.createdAt}`, true)
+			.addField("Joined server at", `${snUser.joinedAt}`, true)
+			.addField("Roles", `${snUser.roles.cache.map(r => r.toString())}`)
 			.setTimestamp()
-			.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
-		if (!sUser) return message.channel.send(noembed);
+			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
+		if (!sUser) return message.channel.send({ embeds: [noembed] });
 
-		const sembed = new Discord.MessageEmbed()
-			.setTitle('User Info')
+		const sembed = new MessageEmbed()
+			.setTitle("User Info")
 			.setColor(0x00bfff)
 			.setThumbnail(sUser.user.displayAvatarURL())
-			.addField('Username', sUser.user.tag)
-			.addField('Server Nickname', sUser.displayName)
-			.addField('Account created at', sUser.user.createdAt, true)
-			.addField('Joined server at', sUser.joinedAt, true)
-			.addField('Roles', sUser.roles.cache.map(r => r.toString()))
+			.addField("Username", sUser.user.tag)
+			.addField("Server Nickname", sUser.displayName)
+			.addField("Account created at", `${sUser.user.createdAt}`, true)
+			.addField("Joined server at", `${sUser.joinedAt}`, true)
+			.addField("Roles", `${sUser.roles.cache.map(r => r.toString())}`)
 			.setTimestamp()
-			.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
-		message.channel.send(sembed);
+			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
+		message.channel.send({ embeds: [sembed] });
 		break;
-	case 'serverinfo':
-		const siembed = new Discord.MessageEmbed()
-			.setTitle('Server Info')
-			.setDescription('Server\'s information.')
+	case "serverinfo":
+		const siembed = new MessageEmbed()
+			.setTitle("Server Info")
+			.setDescription("Server's information.")
 			.setColor(0x00bfff)
-			.addField('Server General', 'Server General Information')
-			.addField('Server Name', message.guild.name, true)
-			.addField('Owner', message.guild.owner, true)
-			.addField('Created at', message.guild.createdAt, true)
-			.addField('Users in server', message.guild.memberCount, true)
-			.addField('Server Boost', 'Server Boost Information')
-			.addField('Server Boost Level', message.guild.premiumTier, true)
-			.addField('Server Boosts Count', message.guild.premiumSubscriptionCount, true)
-			.addField('Voice Channels', 'Voice Channels Information')
-			.addField('AFK Channel', message.guild.afkChannel, true)
-			.addField('Voice Channel AFK Timeout', message.guild.afkTimeout, true)
+			.addField("Server General", "Server General Information")
+			.addField("Server Name", message.guild.name, true)
+			.addField("Owner", `${message.guild.owner}`, true)
+			.addField("Created at", `${message.guild.createdAt}`, true)
+			.addField("Users in server", `${message.guild.memberCount}`, true)
+			.addField("Server Boost", "Server Boost Information")
+			.addField("Server Boost Level", message.guild.premiumTier, true)
+			.addField("Server Boosts Count", `${message.guild.premiumSubscriptionCount}`, true)
+			.addField("Voice Channels", "Voice Channels Information")
+			.addField("AFK Channel", `${message.guild.afkChannel}`, true)
+			.addField("Voice Channel AFK Timeout", `${message.guild.afkTimeout}`, true)
 			.setThumbnail(message.guild.iconURL())
 			.setTimestamp()
-			.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
-		message.channel.send(siembed);
+			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
+		message.channel.send({ embeds: [siembed] });
 		break;
-	case 'welcome':
-		const wembed = new Discord.MessageEmbed()
+	case "welcome":
+		const wembed = new MessageEmbed()
 			.setTitle(`Welcome to ${message.channel.guild.name}!`)
-			.setColor('RANDOM')
-			.addField(`Welcome to ${message.channel.guild.name}!`, 'Here, you can enjoy your time talking to people in <#709339392564527185>. Have fun!')
-			.addField('Announcements', 'Announcements always goes in to this channel: <#740870989134561331>. It is also a announcement channel so if you don\'t want to click multiple times to be able to see the announcements, you can just follow the channel into your own server.')
-			.addField('Rules', 'Please always remember to read the rule in any server you join. For this server, please visit <#651410686705926145> for the rules.')
-			.addField('Server Information', 'Server informations are available at <#739800400361947176>. It has list of Staffs, Channel Categories, Bots, Roles, Moderations and other useful information about the server.')
+			.setColor("RANDOM")
+			.addField(`Welcome to ${message.channel.guild.name}!`, "Here, you can enjoy your time talking to people in <#709339392564527185>. Have fun!")
+			.addField("Announcements", "Announcements always goes in to this channel: <#740870989134561331>. It is also a announcement channel so if you don't want to click multiple times to be able to see the announcements, you can just follow the channel into your own server.")
+			.addField("Rules", "Please always remember to read the rule in any server you join. For this server, please visit <#651410686705926145> for the rules.")
+			.addField("Server Information", "Server informations are available at <#739800400361947176>. It has list of Staffs, Channel Categories, Bots, Roles, Moderations and other useful information about the server.")
 			.setTimestamp()
-			.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
-		message.channel.send(wembed);
+			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
+		message.channel.send({ embeds: [wembed] });
 		break;
 		// end of Information
 		// help
-	case 'help':
-		if (args[1] == 'food') {
-			const fembed = new Discord.MessageEmbed()
-				.setTitle('🍴Food Menu🍴', 'These are the foods for you to eat.')
-				.addField('`apple`', 'NORMAL apple', true)
-				.addField('`candy`', 'Sweet one', true)
-				.addField('`pie`', 'Pie', true)
-				.addField('`salmon`', 'Raw salmon or cooked salmon?', true)
+	case "help":
+		if (args[1] == "food") {
+			const fembed = new MessageEmbed()
+				.setTitle("🍴Food Menu🍴", "These are the foods for you to eat.")
+				.addField("`apple`", "NORMAL apple", true)
+				.addField("`candy`", "Sweet one", true)
+				.addField("`pie`", "Pie", true)
+				.addField("`salmon`", "Raw salmon or cooked salmon?", true)
 				.setColor(0x00ffff)
 				.setTimestamp()
-				.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
-			message.channel.send(fembed);
+				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
+			message.channel.send({ embeds: [fembed] });
 		}
-		else if (args[1] == 'fun') {
-			const fuembed = new Discord.MessageEmbed()
-				.setTitle('😀Fun Menu😀', 'Available games.')
-				.addField('`8ball <your question>`', 'Predict your future', true)
-				.addField('`coinflip`', 'Flip a coin!', true)
-				.addField('`door`', 'Portal door', true)
-				.addField('`shutdown`', 'Shutdown  people\'s device', true)
-				.addField('`meme`', 'Get memes!', true)
+		else if (args[1] == "fun") {
+			const fuembed = new MessageEmbed()
+				.setTitle("😀Fun Menu😀", "Available games.")
+				.addField("`8ball <your question>`", "Predict the future", true)
+				.addField("`coinflip`", "Flip a coin!", true)
+				.addField("`door`", "Portal door", true)
+				.addField("`shutdown`", "Shutdown people's device", true)
+				.addField("`meme`", "Get memes!", true)
+				.addField("`rps`", "Rock Paper Scissors", true)
+				.addField("`kill`", "Not killing someone in real life...", true)
 				.setColor(0x00ffff)
 				.setTimestamp()
-				.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
-			message.channel.send(fuembed);
+				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
+			message.channel.send({ embeds: [fuembed] });
 		}
-		else if (args[1] == 'info') {
-			const iembed = new Discord.MessageEmbed()
-				.setTitle('❓Info Menu❓', 'Informations')
-				.addField('`botinfo`', 'This bot\'s info')
-				.addField('`serverinfo`', 'Server information.')
-				.addField('`userinfo`', 'User\'s information.')
-				.addField('`welcome`', 'Welcome message')
+		else if (args[1] == "info") {
+			const iembed = new MessageEmbed()
+				.setTitle("❓Info Menu❓", "Informations")
+				.addField("`botinfo`", "This bot's info")
+				.addField("`serverinfo`", "Server information.")
+				.addField("`userinfo`", "User's information.")
+				.addField("`welcome`", "Welcome message")
+				.addField("`ping`", "The latency of the bot and API")
 				.setTimestamp()
 				.setColor(0x00ffff)
-				.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
-			message.channel.send(iembed);
+				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
+			message.channel.send({ embeds: [iembed] });
 		}
-		else if (args[1] == 'mod') {
-			if (!message.member.hasPermission('VIEW_AUDIT_LOG')) return message.channel.send('You need permissions to use this command.');
+		else if (args[1] == "mod") {
+			if (!message.member.permissions.has("VIEW_AUDIT_LOG")) return message.channel.send("You need permissions to use this command.");
 
-			const moembed = new Discord.MessageEmbed()
-				.setTitle('⚒️Moderation Menu⚒️')
+			const moembed = new MessageEmbed()
+				.setTitle("⚒️Moderation Menu⚒️")
 				.addFields(
-					{ name: ' Actions', value: 'All moderation actions to member' },
-					{ name: '`kick <@someone> <reason>`', value: 'Kick member ', inline: true },
-					{ name: '`ban <@someone> <reason>`', value: 'Ban member', inline: true },
-					{ name: '`tempban <@someone> <reason>`', value: 'Temporary ban member', inline: true },
-					{ name: '`mute <@someone> <reason>`', value: 'Mute member', inline: true },
-					{ name: '`tempmute <@someone> <time> <reason>`', value: 'Temporary mute member', inline: true },
-					{ name: '`unmute <@someone>`', value: 'Unmute a muted member', inline: true },
-					{ name: '`addrole <@someone> <@role>`', value: 'Add a role to a member', inline: true },
-					{ name: '`tempaddrole <@someone> <@role> <time>`', value: 'Add a role to a member temporary', inline: true },
-					{ name: '`removerole <@someone> <@role>`', value: 'Remove a role from a member', inline: true },
-					{ name: '`tempremoverole <@someone <@role> <time>`', value: 'Remove a role from a member temporary', inline: true },
+					{ name: " Actions", value: "All moderation actions to member" },
+					{ name: "`kick <@someone> <reason>`", value: "Kick member ", inline: true },
+					{ name: "`ban <@someone> <reason>`", value: "Ban member", inline: true },
+					{ name: "`tempban <@someone> <reason>`", value: "Temporary ban member", inline: true },
+					{ name: "`unban <user ID>`", value: "Unban a member", inline: true },
+					{ name: "`mute <@someone> <reason>`", value: "Mute member", inline: true },
+					{ name: "`tempmute <@someone> <time> <reason>`", value: "Temporary mute member", inline: true },
+					{ name: "`unmute <@someone>`", value: "Unmute a muted member", inline: true },
+					{ name: "`addrole <@someone> <@role>`", value: "Add a role to a member", inline: true },
+					{ name: "`tempaddrole <@someone> <@role> <time>`", value: "Add a role to a member temporary", inline: true },
+					{ name: "`removerole <@someone> <@role>`", value: "Remove a role from a member", inline: true },
+					{ name: "`tempremoverole <@someone <@role> <time>`", value: "Remove a role from a member temporary", inline: true },
 				)
 				.addFields(
-					{ name: 'Server Actions', value: 'Do things to server, higher permissions required.' },
-					{ name: '`lockdown <time> <reason>`', value: 'Locks the server', inline: true },
-					{ name: '`unlock`', value: 'Unlocks the server', inline: true },
-					{ name: '`clear <1-99>`', value: 'Bulk delete messages', inline: true },
-					{ name: '`slowmode <time (no units)>`', value: 'Sets a slowmode for the channel', inline: true },
+					{ name: "Server Actions", value: "Do things to server, higher permissions required." },
+					{ name: "`lockdown <time> <reason>`", value: "Locks the server", inline: true },
+					{ name: "`clear <1-99>`", value: "Bulk delete messages", inline: true },
+					{ name: "`slowmode <time (no units)>`", value: "Sets a slowmode for the channel", inline: true },
 				)
-				.addField('`tellraw <#channel> <message>`', 'Makes Aot say whatever you want it to say in any channel.')
+				.addField("`tellraw <#channel> <message>`", "Makes Aot say whatever you want it to say in any channel.")
 				.setTimestamp()
 				.setColor(0x00ffff)
-				.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
-			message.channel.send(moembed);
+				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
+			message.channel.send({ embeds: [moembed] });
 		}
 		else {
-			const hembed = new Discord.MessageEmbed()
-				.setTitle('❓Help Menu❓')
-				.addField('🍴Food Menu🍴', '`help food`', true)
-				.addField('😀Fun Menu😀', '`help fun`', true)
-				.addField('❓Info Menu❓', '`help info`', true)
-				.addField('⚒️Moderation Menu⚒️', '`help mod`', true)
-				.setColor(0x00ffff)
-				.setTimestamp()
-				.setFooter(hmf[Math.floor(Math.random() * hmf.length)]);
-			message.channel.send(hembed);
+			const hembed = new MessageEmbed()
+				.setTitle("❓Help Menu❓")
+				.addField("🍴Food Menu🍴", "`help food`", true)
+				.addField("😀Fun Menu😀", "`help fun`", true)
+				.addField("❓Info Menu❓", "`help info`", true)
+				.addField("⚒️Moderation Menu⚒️", "`help mod`", true)
+				.setColor(0x00ffff).setTimestamp()
+				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
+			message.channel.send({ embeds: [hembed] });
 		}
+		break;
+	case "testcommand":
+		if (!message.member.id == "428445352354643968") return;
+		const tcembed = new MessageEmbed()
+			.setTitle("h")
+			.addField("h", "h")
+			.setFooter("h");
+		message.channel.send({ embeds: [tcembed] });
 		break;
 	}
 });
