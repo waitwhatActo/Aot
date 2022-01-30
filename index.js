@@ -3,6 +3,7 @@ const { Intents, Client, MessageEmbed } = require("discord.js");
 const ms = require("ms");
 const randomPuppy = require("random-puppy");
 const fs = require("fs");
+const io = require("@pm2/io");
 
 const config = require("./config.json");
 const PREFIX = "?a";
@@ -16,6 +17,11 @@ const hmf = [
 	"Made by cleverActon0126#0126",
 	"Version 0.58.0",
 ];
+
+io.init({
+	transactions: true,
+	http: true,
+});
 
 bot.on("ready", function() {
 	console.log("Connected as Aot#0350 and using version 0.58.0");
