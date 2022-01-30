@@ -715,7 +715,7 @@ bot.on("messageCreate", async function(message) {
 			.addField("Removed Commands", "`hack`", true)
 			.addField("Updates", "Updated stuff in code to make the bot V13 compatible")
 			.addField("Other Information from the Developer", "The bot will be soon moved to another host.")
-			.addField("Code is available at", "Base currently down")
+			.addField("Code is available at", "Aot is now open source and available at: https://github.com/cleverActon0126/Aot")
 			.setColor(0x00ff00)
 			.setTimestamp()
 			.setFooter({ text: "Aot Version 0.58.0, Made by cleverActon0126#0126" });
