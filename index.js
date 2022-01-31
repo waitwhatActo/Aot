@@ -15,7 +15,7 @@ const hmf = [
 	"Enjoy your time using Aot",
 	"Trying to report somebody? DM @ModMail",
 	"Made by cleverActon0126#0126",
-	"Version 0.58.0",
+	"Version 0.58.1",
 ];
 
 io.init({
@@ -24,12 +24,12 @@ io.init({
 });
 
 bot.on("ready", function() {
-	console.log("Connected as Aot#0350 and using version 0.58.0");
-	bot.user.setActivity("?ahelp on v0.58.0", { type: "PLAYING" });
+	console.log("Connected as Aot#0350 and using version 0.58.1");
+	bot.user.setActivity("?ahelp on v0.58.1", { type: "PLAYING" });
 	let hours = 0;
 	setInterval(async () => {
 		hours += 1;
-		await bot.user.setActivity(`?ahelp for ${hours} hours on v0.58.0`, { type: "PLAYING" });
+		await bot.user.setActivity(`?ahelp for ${hours} hours on v0.58.1`, { type: "PLAYING" });
 	}, 3600000);
 });
 
@@ -715,17 +715,17 @@ bot.on("messageCreate", async function(message) {
 		if (!(message.member.roles.cache.has("609236733464150037") || message.member.roles.cache.has("736586013387784303"))) return message.channel.send("You don't have permission to do that!");
 
 		const uembed = new MessageEmbed()
-			.setTitle("V13 Update")
-			.setDescription("Successfully updated to Version 0.58.0!")
+			.setTitle("Command Minor Update")
+			.setDescription("Successfully updated to Version 0.58.1!")
 			.addField("Prefix", "?a (Uncustomable)")
-			.addField("New Commands", "N/A", true)
-			.addField("Removed Commands", "`hack`", true)
-			.addField("Updates", "Updated stuff in code to make the bot V13 compatible")
+			.addField("New Commands", "`grant`(Admins Only)", true)
+			.addField("Removed Commands", "N/A", true)
+			.addField("Updates", "1. Added `grant` command to allow moderators granting members permissions easily. \r2.Updated `ping` command bug. \r3. Updated `help` command. \r4. Updated `serverinfo` command to fix bug and add content.")
 			.addField("Other Information from the Developer", "The bot will be soon moved to another host.")
-			.addField("Code is available at", "Aot is now open source and available at: https://github.com/cleverActon0126/Aot")
+			.addField("Code is available at", "https://github.com/cleverActon0126/Aot")
 			.setColor(0x00ff00)
 			.setTimestamp()
-			.setFooter({ text: "Aot Version 0.58.0, Made by cleverActon0126#0126" });
+			.setFooter({ text: "Aot Version 0.58.1, Made by cleverActon0126#0126" });
 
 		message.delete();
 		message.channel.send({ embeds: [uembed] });
@@ -1242,20 +1242,32 @@ bot.on("messageCreate", async function(message) {
 			message.channel.send(`Successfully appllied slowmode of **${smtime}** seconds.`);
 		}
 		break;
+	case "grant":
+		message.delete();
+		if (!(message.member.roles.cache.has("645832781469057024") || message.member.roles.cache.has("608937618259836930") || message.member.roles.cache.has("609236733464150037"))) return message.channel.send("You don't have permission to do that.");
+		const gmUser = message.mentions.members.first();
+		if (!gmUser) return message.channel.send("Please specify which member should I grant permission to.");
+		if (gmUser.roles.find(role => role.id == "725361624294096927")) return message.channel.send("The user currently have the role.");
+		const gRole = message.guild.roles.cache.find(role => role.id == "725361624294096927");
+		if (!gRole) return message.channel.send("Couldn't find a role to grant.");
+
+		gmUser.roles.add(gRole);
+		message.channel.send(`<@${gmUser.id}> (**${gmUser.nickname}**) has been granted permissions.`);
+		break;
 		// end of admin Commands
 		// information
 	case "ping":
-		const ping = Date.now() - message.createdTimestamp;
+		const sent = await message.channel.send({ content: "Pinging...", fetchReply: true });
 		const APIl = Math.round(bot.ws.ping);
 
 		const pembed = new MessageEmbed()
 			.setTitle("Bot Ping")
-			.addField("Ping", `${ping}`)
-			.addField("API Latency", `${APIl}`)
+			.addField("Ping", `${sent.createdTimestamp - message.createdTimestamp}ms`)
+			.addField("API Latency", `${APIl}ms`)
 			.setTimestamp()
 			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-		message.channel.send({ embeds: [pembed] });
+		await sent.edit({ embeds: [pembed] });
 		break;
 	case "botinfo":
 		const biembed = new MessageEmbed()
@@ -1309,7 +1321,8 @@ bot.on("messageCreate", async function(message) {
 			.setColor(0x00bfff)
 			.addField("Server General", "Server General Information")
 			.addField("Server Name", message.guild.name, true)
-			.addField("Owner", `${message.guild.owner}`, true)
+			.addField("Server ID", `${message.guild.id}`, true)
+			.addField("Owner", `${message.guild.fetchOwner}`, true)
 			.addField("Created at", `${message.guild.createdAt}`, true)
 			.addField("Users in server", `${message.guild.memberCount}`, true)
 			.addField("Server Boost", "Server Boost Information")
@@ -1395,7 +1408,8 @@ bot.on("messageCreate", async function(message) {
 					{ name: "`addrole <@someone> <@role>`", value: "Add a role to a member", inline: true },
 					{ name: "`tempaddrole <@someone> <@role> <time>`", value: "Add a role to a member temporary", inline: true },
 					{ name: "`removerole <@someone> <@role>`", value: "Remove a role from a member", inline: true },
-					{ name: "`tempremoverole <@someone <@role> <time>`", value: "Remove a role from a member temporary", inline: true },
+					{ name: "`tempremoverole <@someone> <@role> <time>`", value: "Remove a role from a member temporary", inline: true },
+					{ name: "`grant <@someone>`", value: "Gives a member permissions", inline: true },
 				)
 				.addFields(
 					{ name: "Server Actions", value: "Do things to server, higher permissions required." },
