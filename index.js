@@ -35,6 +35,7 @@ bot.on("ready", function() {
 
 bot.on("guildMemberAdd", function(member) {
 	if (member.id == "844370394781712384") return member.roles.add("725361624294096927");
+	if (member.id == "875324848967135294") return member.roles.add("725361624294096927");
 
 	const newmem = [
 		`<@${member.id}> just joined the server - glhf!`,
