@@ -1,3 +1,5 @@
 *.ini
 .eslintrc.json
 config.json
+update.txt
+counting.txt

@@ -15,7 +15,7 @@ const hmf = [
 	"Enjoy your time using Aot",
 	"Trying to report somebody? DM @ModMail",
 	"Made by cleverActon0126#0126",
-	"Version 0.58.1",
+	"Version 0.58.1.1",
 ];
 
 io.init({
@@ -24,13 +24,33 @@ io.init({
 });
 
 bot.on("ready", function() {
-	console.log("Connected as Aot#0350 and using version 0.58.1");
-	bot.user.setActivity("?ahelp on v0.58.1", { type: "PLAYING" });
+	console.log("Connected as Aot#0350 and using version 0.58.1.1");
+	bot.user.setActivity("?ahelp on v0.58.1.1", { type: "PLAYING" });
 	let hours = 0;
 	setInterval(async () => {
 		hours += 1;
-		await bot.user.setActivity(`?ahelp for ${hours} hours on v0.58.1`, { type: "PLAYING" });
+		await bot.user.setActivity(`?ahelp for ${hours} hours on v0.58.1.1`, { type: "PLAYING" });
 	}, 3600000);
+
+	const uembed = new MessageEmbed()
+		.setTitle("Minor Bug Fix Update")
+		.setDescription("Successfully updated to Version 0.58.1.1!")
+		.addField("Prefix", "?a (Uncustomable)")
+		.addField("New Commands", "`grant`(Admins Only)", true)
+		.addField("Removed Commands", "N/A", true)
+		.addField("Updates", "Minor bug fixes")
+		.addField("Other Information from the Developer", "New host, new stuff. A lot of things will be released soon as a new host gives us no limitation.")
+		.addField("Code is available at", "https://github.com/cleverActon0126/Aot")
+		.setColor(0x00ff00)
+		.setTimestamp()
+		.setFooter({ text: "Aot Version 0.58.1.1, Made by cleverActon0126#0126" });
+
+	const update = fs.readFileSync("update.txt").toString();
+	if (update == "1") {
+		const readyupdate = bot.channels.cache.get("656409202448924700");
+		readyupdate.send({ embeds: [uembed] });
+		fs.writeFileSync("update.txt", "0");
+	}
 });
 
 bot.on("guildMemberAdd", function(member) {
@@ -232,6 +252,18 @@ bot.on("messageCreate", async function(message) {
 			const echannel = message.guild.channels.cache.find(channel => channel.name == "aot-logs");
 			echannel.send({ embeds: [eembed] });
 			return;
+		}
+	}
+
+	if (message.channel.id == "702058356210139137") {
+		let counting = fs.readFileSync("counting.txt").toString();
+		if (message.content.startsWith(counting)) {
+			const countinga = ++counting;
+			fs.writeFileSync("counting.txt", countinga.toString());
+			return;
+		}
+		else {
+			message.delete();
 		}
 	}
 
@@ -710,25 +742,6 @@ bot.on("messageCreate", async function(message) {
 		message.guild.members.unban(ubID);
 		unban2Channel.send({ embeds: [ubembed] });
 		message.channel.send(`<@${ubID}> was unbanned.`);
-		break;
-	case "update":
-		if (!(message.member.roles.cache.has("609236733464150037") || message.member.roles.cache.has("736586013387784303"))) return message.channel.send("You don't have permission to do that!");
-
-		const uembed = new MessageEmbed()
-			.setTitle("Command Minor Update")
-			.setDescription("Successfully updated to Version 0.58.1!")
-			.addField("Prefix", "?a (Uncustomable)")
-			.addField("New Commands", "`grant`(Admins Only)", true)
-			.addField("Removed Commands", "N/A", true)
-			.addField("Updates", "1. Added `grant` command to allow moderators granting members permissions easily. \r2.Updated `ping` command bug. \r3. Updated `help` command. \r4. Updated `serverinfo` command to fix bug and add content.")
-			.addField("Other Information from the Developer", "The bot will be soon moved to another host.")
-			.addField("Code is available at", "https://github.com/cleverActon0126/Aot")
-			.setColor(0x00ff00)
-			.setTimestamp()
-			.setFooter({ text: "Aot Version 0.58.1, Made by cleverActon0126#0126" });
-
-		message.delete();
-		message.channel.send({ embeds: [uembed] });
 		break;
 	case "mute":
 		message.delete();
