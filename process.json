@@ -1,7 +1,8 @@
 {
-    "apps": [{
-      "script": "index.js",
-      "watch": true,
-      "ignore_watch" : ["counting.txt"]
-    }]
-  }
+    "script": "index.js",
+    "watch": true,
+    "ignore_watch" : ["counting.txt"],
+    "watch_options": {
+    "followSymlinks": false
+    }
+}
