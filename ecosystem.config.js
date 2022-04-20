@@ -4,7 +4,7 @@ module.exports = {
 		script : "./index.js",
 		watch : true,
 		ignore_watch : [
-			"./lists/",
+			"lists",
 		],
 		autorestart : true,
 	}],
