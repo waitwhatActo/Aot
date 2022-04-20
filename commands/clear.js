@@ -15,6 +15,7 @@ module.exports = {
 				.setDescription("Bulk purged a specific member's message")
 				.setRequired(false)),
 	async execute(interaction) {
+		const user = interaction.user;
 		const amount = interaction.options.getNumber("amount");
 		const target = interaction.options.getUser("member");
 
@@ -37,7 +38,7 @@ module.exports = {
 			});
 			const { hmf, bot } = "../index.js";
 			const embed = new Discord.MessageEmbed()
-				.setAuthor({ author: interaction.user.username, iconURL: interaction.member.user.avatarURL() })
+				.setAuthor({ author: user.username, iconURL: interaction.member.user.avatarURL() })
 				.setColor("RANDOM")
 				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)], iconURL: bot.user.avatarURL() });
 
@@ -54,7 +55,7 @@ module.exports = {
 		else {
 			const { hmf, bot } = "../index.js";
 			const embed = new Discord.MessageEmbed()
-				.setAuthor({ author: interaction.user.username, iconURL: interaction.member.user.avatarURL() })
+				.setAuthor({ author: user.username, iconURL: interaction.member.user.avatarURL() })
 				.setColor("RANDOM")
 				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)], iconURL: bot.user.avatarURL() });
 			await interaction.channel.bulkDelete(amount, true).then(messages => {
