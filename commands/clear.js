@@ -18,6 +18,7 @@ module.exports = {
 		const user = interaction.user;
 		const amount = interaction.options.getNumber("amount");
 		const target = interaction.options.getUser("member");
+		const { hmf, bot } = "../index.js";
 
 		if (amount > 100 || amount < 0) {
 			interaction.reply({ content:"Amount of message bulk purge cannot exceed 100 or be under 1.", ephemeral: true });
@@ -36,7 +37,6 @@ module.exports = {
 					i++;
 				}
 			});
-			const { hmf, bot } = "../index.js";
 			const embed = new Discord.MessageEmbed()
 				.setAuthor({ name: `${user.username}`, iconURL: interaction.member.user.avatarURL() })
 				.setColor("RANDOM")
@@ -53,7 +53,6 @@ module.exports = {
 			});
 		}
 		else {
-			const { hmf, bot } = "../index.js";
 			const embed = new Discord.MessageEmbed()
 				.setAuthor({ name: `${user.username}`, iconURL: interaction.member.user.avatarURL() })
 				.setColor("RANDOM")
