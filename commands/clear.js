@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const Discord = require("discord.js");
 
 module.exports = {
 	name: "clear",
@@ -34,21 +35,35 @@ module.exports = {
 					i++;
 				}
 			});
+			const { hmf, bot } = "../index.js";
+			const embed = new Discord.MessageEmbed()
+				.setAuthor({ author: interaction.member.user.username, iconURL: interaction.member.user.avatarURL() })
+				.setColor("RANDOM")
+				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)], iconURL: bot.user.avatarURL() });
+
 
 			await interaction.channel.bulkDelete(filtered, true).then(messages => {
 				interaction.reply({ content: `Bulk purged **${messages.size}** from ${target}.`, ephemeral: true });
 				const clearlog = interaction.guild.channels.cache.find(channel => channel.name === "aot-logs");
 				if (!clearlog) return interaction.channel.send("Couldn't find server logs channel.");
 
-				clearlog.send(`<@${interaction.member.id}> has purged **${messages.size}** messages by ${target} in <#${interaction.channel.id}>`);
+				embed.setDescription(`**<@${interaction.member.id}> has purged **${messages.size}** messages by ${target} in <#${interaction.channel.id}>**`);
+				clearlog.send({ embeds: [embed] });
 			});
 		}
 		else {
+			const { hmf, bot } = "../index.js";
+			const embed = new Discord.MessageEmbed()
+				.setAuthor({ author: interaction.member.user.username, iconURL: interaction.member.user.avatarURL() })
+				.setColor("RANDOM")
+				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)], iconURL: bot.user.avatarURL() });
 			await interaction.channel.bulkDelete(amount, true).then(messages => {
 				interaction.reply({ content: `Bulk purged **${messages.size}** from the channel.`, ephemeral: true });
 				const clearlog = interaction.guild.channels.cache.find(channel => channel.name === "aot-logs");
 				if (!clearlog) return interaction.channel.send("Couldn't find server logs channel.");
-				clearlog.send(`<@${interaction.member.id}> has purged **${messages.size}** messages in <#${interaction.channel.id}>`);
+
+				embed.setDescription(`**<@${interaction.member.id}> has purged **${messages.size}** messages by ${target} in <#${interaction.channel.id}>**`);
+				clearlog.send({ embeds: [embed] });
 			});
 		}
 	},
