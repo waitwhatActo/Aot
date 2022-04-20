@@ -37,7 +37,7 @@ module.exports = {
 			});
 			const { hmf, bot } = "../index.js";
 			const embed = new Discord.MessageEmbed()
-				.setAuthor({ author: interaction.member.user.username, iconURL: interaction.member.user.avatarURL() })
+				.setAuthor({ author: interaction.user.username, iconURL: interaction.member.user.avatarURL() })
 				.setColor("RANDOM")
 				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)], iconURL: bot.user.avatarURL() });
 
@@ -54,7 +54,7 @@ module.exports = {
 		else {
 			const { hmf, bot } = "../index.js";
 			const embed = new Discord.MessageEmbed()
-				.setAuthor({ author: interaction.member.user.username, iconURL: interaction.member.user.avatarURL() })
+				.setAuthor({ author: interaction.user.username, iconURL: interaction.member.user.avatarURL() })
 				.setColor("RANDOM")
 				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)], iconURL: bot.user.avatarURL() });
 			await interaction.channel.bulkDelete(amount, true).then(messages => {
