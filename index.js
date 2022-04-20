@@ -385,6 +385,11 @@ bot.on("messageCreate", async function(message) {
 	if (message.channel.id == "702058356210139137") {
 		const countmember = fs.readFileSync("./lists/counting-member.txt").toString();
 		let counting = fs.readFileSync("./lists/counting.txt").toString();
+
+		if (countmember == message.member.id) {
+			message.delete();
+			return;
+		}
 		if (message.content.startsWith(counting) || !message.member.id === countmember) {
 			const countinga = ++counting;
 			const member = message.member.id;
@@ -392,10 +397,7 @@ bot.on("messageCreate", async function(message) {
 			fs.writeFileSync("./lists/counting-member.txt", member.toString());
 			return;
 		}
-		else if (countmember == message.member.id){
-			message.delete();
-			return;
-		} else {
+		else {
 			message.delete();
 			return;
 		}
