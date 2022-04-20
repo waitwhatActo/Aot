@@ -4,7 +4,7 @@ module.exports = {
 		script : "./index.js",
 		watch : true,
 		ignore_watch : [
-			"counting.txt",
+			"./lists/",
 		],
 		autorestart : true,
 	}],

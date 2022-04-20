@@ -1,57 +1,147 @@
 /* eslint-disable no-case-declarations */
-const { Intents, Client, MessageEmbed } = require("discord.js");
+const { Intents, Client, MessageEmbed, Collection } = require("discord.js");
 const ms = require("ms");
 const randomPuppy = require("random-puppy");
 const fs = require("fs");
 const io = require("@pm2/io");
+const mongoose = require("mongoose");
+const { Database } = require("./config.json");
+const bandb = require("./Schemas/BanSchema.js");
+const mutedb = require("./Schemas/MuteSchema.js");
 
 const config = require("./config.json");
 const PREFIX = "?a";
 
 const bot = new Client({ intents: new Intents(32767) });
 
+
+bot.commands = new Collection();
+const commandFiles = fs.readdirSync("./commands").filter(file => file.endsWith(".js"));
+
 const hmf = [
 	"Need help? ?ahelp will be able to help you",
 	"Enjoy your time using Aot",
 	"Trying to report somebody? DM @ModMail",
 	"Made by cleverActon0126#0126",
-	"Version 0.58.1.1",
+	"Version 0.60.0",
 ];
+
+module.exports = { hmf, bot };
 
 io.init({
 	transactions: true,
 	http: true,
 });
 
-bot.on("ready", function() {
-	console.log("Connected as Aot#0350 and using version 0.58.1.1");
-	bot.user.setActivity("?ahelp on v0.58.1.1", { type: "PLAYING" });
-	let hours = 0;
+let hours = 0;
+
+bot.once("ready", function() {
+	if (!Database) {
+		console.log("Database does not present. Exiting...");
+		process.exit();
+		return;
+	}
+	mongoose.connect(Database, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+	}).then(() => {
+		console.log("Database is now connected");
+	}).catch((err) => {
+		console.log(err);
+		console.log("Failed to connect to database. Exitting...");
+		process.exit();
+		return;
+	});
+	console.log("Connected as Aot#0350 and using version 0.60.0");
+	bot.user.setActivity("?ahelp on v0.60.0", { type: "PLAYING" });
 	setInterval(async () => {
 		hours += 1;
-		await bot.user.setActivity(`?ahelp for ${hours} hours on v0.58.1.1`, { type: "PLAYING" });
+		await bot.user.setActivity(`?ahelp for ${hours} hours on v0.60.0`, { type: "PLAYING" });
 	}, 3600000);
+	setInterval(async () => {
+		await bot.users.cache.get("428445352354643968").send("Pinging").then(ready => {
+			const embed = new MessageEmbed()
+				.setTitle("Aot is online!")
+				.addField("Aot is currently online", "with no issues.")
+				.addField("I've been online for", `${hours} hour(s)`)
+				.addField("The current time is", `<t:${Math.round(ready.createdTimestamp / 1000)}:F>`)
+				.addField("Ping", `${bot.ws.ping}ms`);
+			ready.edit({ embeds: [embed] });
+		});
+	}, 1800000);
+	setInterval(async () => {
+		const cd = Date.now();
+		const unban = await bandb.find({ unbantime: `${Math.floor(cd / 1000)}` });
+		const unmute = await mutedb.find({ unmutetime: `${Math.floor(cd / 1000)}` });
+		for (let i = 0; unban.length > i;) {
+			const server = bot.guilds.cache.get("608937238549495809");
+			if (!server) return console.log("Failed to unban.");
+			server.bans.remove(unban[0].userId);
+			const unbanembed = new MessageEmbed()
+				.setTitle("User Unbanned")
+				.setColor(0x00ff00)
+				.addField("Was Temporarily Banned User", `<@${unban[0].userId}> (**${unban[0].username}**) with ID ${unban[0].userId}`)
+				.addField("Was Temporarily Banned By", `<@${unban[0].adminId}> with ID ${unban[0].adminId}`)
+				.addField("Was Temporarily Banned At", `<t:${Math.round(unban[0].bantime / 1000)}:F>`)
+				.addField("War Temporarily Banned For", unban[0].reason)
+				.setTimestamp()
+				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
+			const channel = server.channels.cache.get("885808423483080744");
+			channel.send({ embeds: [unbanembed] });
+			unban.shift();
+		}
+		for (let i = 0; unban.length > i;) {
+			const server = bot.guilds.cache.get("608937238549495809");
+			if (!server) return console.log("Failed to unmute.");
+			const member = server.members.cache.get(unmute[0].userId);
+			member.roles.cache.remove("885808423483080744");
+			member.timeout(null);
+			const unmuteembed = new MessageEmbed()
+				.setTitle("Member Unmuted")
+				.addField("Was Temporarily Muted User", `<@${unmute[0].userId}> (**${unmute[0].username}**) with ID ${unmute[0].userId}`)
+				.addField("Was Temporarily Muted By", `<@${unmute[0].adminId}> with ID ${unmute[0].adminId}`)
+				.addField("Was Temporarily Muted At", `<t:${Math.round(unmute[0].time / 1000)}:F>`)
+				.addField("Was Temporarily Muted For", `${unmute[0].reason}`)
+				.setColor(0x00ff00)
+				.setTimestamp()
+				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
+			const channel = server.channels.cache.get("885808423483080744");
+			channel.send({ embeds: [unmuteembed] });
+			unmute.shift();
+		}
+	}, 1000);
 
 	const uembed = new MessageEmbed()
-		.setTitle("Minor Bug Fix Update")
-		.setDescription("Successfully updated to Version 0.58.1.1!")
-		.addField("Prefix", "?a (Uncustomable)")
-		.addField("New Commands", "`grant`(Admins Only)", true)
-		.addField("Removed Commands", "N/A", true)
-		.addField("Updates", "Minor bug fixes")
-		.addField("Other Information from the Developer", "New host, new stuff. A lot of things will be released soon as a new host gives us no limitation.")
+		.setTitle("Discord.js v13,  Slash Commands and Warning System")
+		.setDescription("Successfully updated to Version 0.60.0!")
+		.addField("Prefix", "?a")
+		.addField("New Commands", "Slash admin Commands `/warn`", true)
+		.addField("Removed Commands", "All ?a admin commands are deprecated.", true)
+		.addField("Updates", "1. All admin commands are moved to slash commands for easy access and faster maintain. \n2. New Systems has been implemented, including the long waited warning system! \n3. ALL `?a` ADMIN COMMANDS ARE DEPRECATED. Which means they will be no longer maintained, and will be removed in the next update. \n4. Updated other commands. \n5.Slowly improving all embeds \n6. Help command will be soon implemented to slash commands \n7. Bug fixes to prevent bot crashing, replace deprecated libraries.")
+		.addField("Other Information from the Developer", "This is one of the most painful but yet best update we have ever created, we will NOT migrate all commands to slash commands to keep the originality of `?a`. Thank you everyone!")
 		.addField("Code is available at", "https://github.com/cleverActon0126/Aot")
+		.addField("Project List is available at", "https://github.com/users/cleverActon0126/projects/2/views/1")
 		.setColor(0x00ff00)
 		.setTimestamp()
-		.setFooter({ text: "Aot Version 0.58.1.1, Made by cleverActon0126#0126" });
+		.setFooter({ text: "Aot Version 0.60.0, Made by cleverActon0126#0126" });
 
-	const update = fs.readFileSync("update.txt").toString();
+	const guild = bot.guilds.cache.get("608937238549495809");
+	guild.commands.set([])
+		.then(command => command.delete())
+		.catch(error => console.log(error));
+
+	const update = fs.readFileSync("./lists/update.txt").toString();
 	if (update == "1") {
 		const readyupdate = bot.channels.cache.get("656409202448924700");
 		readyupdate.send({ embeds: [uembed] });
 		fs.writeFileSync("update.txt", "0");
 	}
 });
+
+for (const file of commandFiles) {
+	const command = require(`./commands/${file}`);
+	bot.commands.set(command.data.name, command);
+}
 
 bot.on("guildMemberAdd", function(member) {
 	if (member.id == "844370394781712384") return member.roles.add("725361624294096927");
@@ -115,11 +205,48 @@ bot.on("guildMemberAdd", function(member) {
 	member.send({ embeds: [embed] }).catch(() => member.send({ embeds: [embed] }));
 });
 
-const sl = fs.readFileSync("sl.txt").toString().split("\n");
-const nu = fs.readFileSync("nu.txt").toString().split("\n");
-const s = fs.readFileSync("s.txt").toString().split("\n");
-const m = fs.readFileSync("m.txt").toString().split("\n");
-const e = fs.readFileSync("e.txt").toString().split("\n");
+const sl = fs.readFileSync("./lists/sl.txt").toString().split("\n");
+const nu = fs.readFileSync("./lists/nu.txt").toString().split("\n");
+const s = fs.readFileSync("./lists/s.txt").toString().split("\n");
+const m = fs.readFileSync("./lists/m.txt").toString().split("\n");
+const e = fs.readFileSync("./lists/e.txt").toString().split("\n");
+
+bot.on("interactionCreate", async function(interaction) {
+	if (!(interaction.isCommand() || interaction.isContextMenu())) return;
+
+	const command = bot.commands.get(interaction.commandName);
+
+	if (!command) return;
+
+	try {
+		await command.execute(interaction);
+	}
+	catch (error) {
+		console.error(error);
+		await interaction.reply({ content: "There was an error while executing this command!", ephemeral: true });
+	}
+});
+
+bot.on("messageUpdate", async function(oldmessage, newmessage) {
+	if (oldmessage.author.bot) return;
+
+	const count = 1950;
+	const original = oldmessage.content.slice(0, count) + (oldmessage.content.length > count ? " ..." : "");
+	const edited = newmessage.content.slice(0, count) + (newmessage.content.length > count ? " ..." : "");
+
+	const logembed = new MessageEmbed()
+		.setColor("AQUA")
+		.setDescription(`A [message](${newmessage.url}) has been edited by ${newmessage.author} in ${newmessage.channel}.`)
+		.addField("Before", `\`\`\`${original}\`\`\``)
+		.addField("After", `\`\`\`${edited}\`\`\``);
+
+	if (newmessage.attachments.size > 0) {
+		logembed.addField("Attachments:", `${newmessage.attachments.map((a) => a.url)}`);
+	}
+
+	bot.channels.get("885808423483080744").send({ embeds: [logembed] });
+	bot.channels.get("860825678407663657").send({ embeds: [logembed] });
+});
 
 bot.on("messageCreate", async function(message) {
 
@@ -256,14 +383,18 @@ bot.on("messageCreate", async function(message) {
 	}
 
 	if (message.channel.id == "702058356210139137") {
-		let counting = fs.readFileSync("counting.txt").toString();
-		if (message.content.startsWith(counting)) {
+		const countmember = fs.readFileSync("./lists/counting-member.txt").toString();
+		let counting = fs.readFileSync("./lists/counting.txt").toString();
+		if (message.content.startsWith(counting) || !message.member.id === countmember) {
 			const countinga = ++counting;
-			fs.writeFileSync("counting.txt", countinga.toString());
+			const member = message.member.id;
+			fs.writeFileSync("./lists/counting.txt", countinga.toString());
+			fs.writeFileSync("./lists/counting-member.txt", member.toString());
 			return;
 		}
 		else {
 			message.delete();
+			return;
 		}
 	}
 
@@ -1288,7 +1419,7 @@ bot.on("messageCreate", async function(message) {
 			.setColor(0x00bfff)
 			.addField("General Information", "Bot's general information", true)
 			.addField("Bot Name", bot.user.username, true)
-			.addField("Bot Created On:", `${bot.user.createdAt}`, true)
+			.addField("Bot Created On:", `<t:${Math.round(bot.user.createdTimestamp / 1000)}:F>`, true)
 			.addField("Bot Creator", "<@428445352354643968>", true)
 			.addField("Bot Developers", "N/A", true)
 			.addField("Bot Contributers", "<@428445352354643968>: All Versions \r<@696010548378337321>: N/A")
@@ -1307,8 +1438,8 @@ bot.on("messageCreate", async function(message) {
 			.setThumbnail(snUser.user.displayAvatarURL())
 			.addField("Username", snUser.user.tag)
 			.addField("Server Nickname", snUser.displayName)
-			.addField("Account created at", `${snUser.user.createdAt}`, true)
-			.addField("Joined server at", `${snUser.joinedAt}`, true)
+			.addField("Account created at", `<t:${Math.round(snUser.user.createdTimestamp / 1000)}:F>`, true)
+			.addField("Joined server at", `<t:${snUser.joinedTimestamp}:F>`, true)
 			.addField("Roles", `${snUser.roles.cache.map(r => r.toString())}`)
 			.setTimestamp()
 			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
@@ -1320,8 +1451,8 @@ bot.on("messageCreate", async function(message) {
 			.setThumbnail(sUser.user.displayAvatarURL())
 			.addField("Username", sUser.user.tag)
 			.addField("Server Nickname", sUser.displayName)
-			.addField("Account created at", `${sUser.user.createdAt}`, true)
-			.addField("Joined server at", `${sUser.joinedAt}`, true)
+			.addField("Account created at", `<t:${Math.round(sUser.user.createdTimestamp / 1000)}:F>`, true)
+			.addField("Joined server at", `<t:${sUser.joinedTimestamp}:F>`, true)
 			.addField("Roles", `${sUser.roles.cache.map(r => r.toString())}`)
 			.setTimestamp()
 			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
@@ -1332,16 +1463,16 @@ bot.on("messageCreate", async function(message) {
 			.setTitle("Server Info")
 			.setDescription("Server's information.")
 			.setColor(0x00bfff)
-			.addField("Server General", "Server General Information")
+			.addField("Server General", "​")
 			.addField("Server Name", message.guild.name, true)
 			.addField("Server ID", `${message.guild.id}`, true)
 			.addField("Owner", `${message.guild.fetchOwner}`, true)
-			.addField("Created at", `${message.guild.createdAt}`, true)
+			.addField("Created at", `<t:${Math.round(message.guild.createdTimestamp / 1000)}:F>`, true)
 			.addField("Users in server", `${message.guild.memberCount}`, true)
 			.addField("Server Boost", "Server Boost Information")
 			.addField("Server Boost Level", message.guild.premiumTier, true)
 			.addField("Server Boosts Count", `${message.guild.premiumSubscriptionCount}`, true)
-			.addField("Voice Channels", "Voice Channels Information")
+			.addField("Voice Channels", "​")
 			.addField("AFK Channel", `${message.guild.afkChannel}`, true)
 			.addField("Voice Channel AFK Timeout", `${message.guild.afkTimeout}`, true)
 			.setThumbnail(message.guild.iconURL())
@@ -1410,7 +1541,7 @@ bot.on("messageCreate", async function(message) {
 			const moembed = new MessageEmbed()
 				.setTitle("⚒️Moderation Menu⚒️")
 				.addFields(
-					{ name: " Actions", value: "All moderation actions to member" },
+					{ name: " Actions", value: "​" },
 					{ name: "`kick <@someone> <reason>`", value: "Kick member ", inline: true },
 					{ name: "`ban <@someone> <reason>`", value: "Ban member", inline: true },
 					{ name: "`tempban <@someone> <reason>`", value: "Temporary ban member", inline: true },
@@ -1425,7 +1556,7 @@ bot.on("messageCreate", async function(message) {
 					{ name: "`grant <@someone>`", value: "Gives a member permissions", inline: true },
 				)
 				.addFields(
-					{ name: "Server Actions", value: "Do things to server, higher permissions required." },
+					{ name: "Server Actions", value: "​" },
 					{ name: "`lockdown <time> <reason>`", value: "Locks the server", inline: true },
 					{ name: "`clear <1-99>`", value: "Bulk delete messages", inline: true },
 					{ name: "`slowmode <time (no units)>`", value: "Sets a slowmode for the channel", inline: true },
