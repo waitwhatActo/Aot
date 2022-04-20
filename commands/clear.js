@@ -40,7 +40,7 @@ module.exports = {
 			const embed = new Discord.MessageEmbed()
 				.setAuthor({ name: `${user.username}`, iconURL: interaction.member.user.avatarURL() })
 				.setColor("RANDOM")
-				.setTimestmap();
+				.setTimestamp();
 
 
 			await interaction.channel.bulkDelete(filtered, true).then(messages => {
@@ -56,7 +56,7 @@ module.exports = {
 			const embed = new Discord.MessageEmbed()
 				.setAuthor({ name: `${user.username}`, iconURL: interaction.member.user.avatarURL() })
 				.setColor("RANDOM")
-				.setTimestmap();
+				.setTimestamp();
 			await interaction.channel.bulkDelete(amount, true).then(messages => {
 				interaction.reply({ content: `Bulk purged **${messages.size}** from the channel.`, ephemeral: true });
 				const clearlog = interaction.guild.channels.cache.find(channel => channel.name === "aot-logs");
