@@ -392,7 +392,10 @@ bot.on("messageCreate", async function(message) {
 			fs.writeFileSync("./lists/counting-member.txt", member.toString());
 			return;
 		}
-		else {
+		else if (countmember == message.member.id){
+			message.delete();
+			return;
+		} else {
 			message.delete();
 			return;
 		}
