@@ -244,8 +244,8 @@ bot.on("messageUpdate", async function(oldmessage, newmessage) {
 		logembed.addField("Attachments:", `${newmessage.attachments.map((a) => a.url)}`);
 	}
 
-	bot.channels.get("885808423483080744").send({ embeds: [logembed] });
-	bot.channels.get("860825678407663657").send({ embeds: [logembed] });
+	bot.channels.cache.get("885808423483080744").send({ embeds: [logembed] });
+	bot.channels.cache.get("860825678407663657").send({ embeds: [logembed] });
 });
 
 bot.on("messageCreate", async function(message) {
