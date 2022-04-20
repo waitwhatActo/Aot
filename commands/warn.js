@@ -92,7 +92,7 @@ module.exports = {
 
 			const warnfetch = await warn.find({ userId: member.id });
 			if (!warnfetch) return;
-			let warntimes = 1;
+			let warntimes = 0;
 			for (; warnfetch.length > 0;) {
 				warnfetch.shift();
 				warntimes++;
