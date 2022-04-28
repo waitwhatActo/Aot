@@ -13,6 +13,8 @@ module.exports = {
 	 */
 	async execute(interaction) {
 		const target = await interaction.guild.members.fetch(interaction.targetId);
+		let targetnick = target.nickname;
+		if (targetnick == null) targetnick = target.username;
 
 		const { hmf } = require("../index.js");
 
@@ -24,7 +26,7 @@ module.exports = {
 			})
 			.setThumbnail(target.user.avatarURL({ dynamics: true, size: 512 }))
 			.addField("Username", `${target.user.username}`)
-			.addField("Server Nickname", `${target.nickname}`)
+			.addField("Server Nickname", `${targetnick}`)
 			.addField("Roles", `${target.roles.cache.map(r => r).join(" ").replace("@everyone", "") || "None"}`)
 			.addField("Member Since", `<t:${parseInt(target.joinedTimestamp / 1000)}:F>`)
 			.addField("User Since", `<t:${parseInt(target.user.createdTimestamp / 1000)}:F>`)
