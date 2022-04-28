@@ -390,7 +390,7 @@ bot.on("messageCreate", async function(message) {
 			message.delete();
 			return;
 		}
-		if (message.content.startsWith(counting) || !message.member.id === countmember) {
+		if (message.content.startsWith(counting)) {
 			const countinga = ++counting;
 			const member = message.member.id;
 			fs.writeFileSync("./lists/counting.txt", countinga.toString());

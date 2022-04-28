@@ -1,4 +1,4 @@
-const { Discord } = require("discord.js");
+const Discord = require("discord.js");
 const { ContextMenuCommandBuilder } = require("@discordjs/builders");
 
 module.exports = {
