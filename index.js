@@ -83,7 +83,7 @@ bot.once("ready", function() {
 				.addField("Was Temporarily Banned User", `<@${unban[0].userId}> (**${unban[0].username}**) with ID ${unban[0].userId}`)
 				.addField("Was Temporarily Banned By", `<@${unban[0].adminId}> with ID ${unban[0].adminId}`)
 				.addField("Was Temporarily Banned At", `<t:${Math.round(unban[0].bantime / 1000)}:F>`)
-				.addField("War Temporarily Banned For", unban[0].reason)
+				.addField("Was Temporarily Banned For", unban[0].reason)
 				.setTimestamp()
 				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 			const channel = server.channels.cache.get("885808423483080744");
@@ -363,7 +363,7 @@ bot.on("messageCreate", async function(message) {
 			const emute = message.guild.roles.cache.find(role => role.name == "Muted");
 			message.member.roles.add(emute.id);
 			const euser = message.member;
-			message.channel.send(`<@${euser.id}> (**${euser.user.username}**) was automatically muted for **attempt on pinging everyone/here**.`);
+			message.channel.send(`<@${euser.id}> (**${euser.user.username}**) was automatically muted for **attempting pinging everyone/here**.`);
 
 			const eembed = new MessageEmbed()
 				.setTitle("Attempted Ping")
@@ -412,7 +412,7 @@ bot.on("messageCreate", async function(message) {
 	switch (args[0].toLowerCase()) {
 	// food Commands
 	case "salmon":
-		message.channel.send("Do you want it `raw` or `cooked`? You could also `cancel` if you don't want your salmon. (Please answer in 15 seconds)");
+		message.channel.send("Would you like your salmon `raw` or `cooked`? You could also `cancel` if you don't want your salmon. (Please answer in 15 seconds)");
 		const filter = sm => sm.member == message.member;
 		const collector = message.channel.createMessageCollector({ filter, time: 15000 });
 
@@ -436,7 +436,7 @@ bot.on("messageCreate", async function(message) {
 		});
 		break;
 	case "apple":
-		message.channel.send("OK. Here's your golden apple. Here you go. Use your imagination to see the apple.");
+		message.channel.send("OK. Here's your golden apple.. Use your imagination to see the apple.");
 		message.channel.send("🍎");
 		break;
 	case "pie":
@@ -503,9 +503,9 @@ bot.on("messageCreate", async function(message) {
 		if (!iUser) return message.channel.send("Please ping someone to kill or you are gonna kill yourself.");
 
 		const kill = [
-			`<@${iUser.id}> has been roasted to a a toast like a bread.`,
+			`<@${iUser.id}> has been toasted like some bread.`,
 			`<@${iUser.id}> accidentally stuck his head in the washing machine and got his head washed off.`,
-			`<@${iUser.id}>'s beard got pulled off and he lost too much blood. He died. RIP.`,
+			`<@${iUser.id}>'s beard got pulled off and he lost too much blood and died. RIP.`,
 			`<@${iUser.id}> jumped into a swimming pool, but he forgot the water was cleared out last week because christmas is coming.`,
 			`<@${iUser.id}> jumped into a swimming pool, but he suddenly fotgot how to swim.`,
 			`<@${iUser.id}> is spreading butter on to his bread, but he accidentally used the knife too hard and killed himself.`,
@@ -799,7 +799,7 @@ bot.on("messageCreate", async function(message) {
 		if (!tempbanChannel) return message.channel.send("Could not find server logs channel.");
 
 		tbUser.send(`You have been temporarily banned from ${message.member.guild.name} for **${tbReason}**`).catch(console.log);
-		message.guild.members.ban(tbUser, { reason: `User temporarily banned by Aot, Ban mod: ${message.author.tag}, Ban Reason: ${tbReason}` }, { time: ms(ms(tempbantime)) });
+		message.guild.members.ban(tbUser, { reason: `User temporarily banned by: ${message.author.tag}, Ban Reason: ${tbReason}` }, { time: ms(ms(tempbantime)) });
 		tempbanChannel.send({ embeds: [tbembed] });
 
 		message.channel.send(`<@${tbUser.id}> has been temporarily banned for **${ms(ms(tempbantime))}** for **${tbReason}**.`);
@@ -842,7 +842,7 @@ bot.on("messageCreate", async function(message) {
 		if (!banChannel) return message.channel.send("Could not find server logs channel.");
 
 		bUser.send(`You have been permanently banned from ${message.member.guild.name} for: ${bReason}`).catch(console.log);
-		message.guild.members.ban(bUser, { reason: `User banned by Aot, Ban mod: ${message.author.tag}, Ban Reason: ${bReason}` });
+		message.guild.members.ban(bUser, { reason: `User banned by: ${message.author.tag}, Ban Reason: ${bReason}` });
 		banChannel.send({ embeds: [bembed] });
 
 		message.channel.send(`**${bUser.user.username}** has been banned for **${bReason}**.`);
@@ -1388,14 +1388,14 @@ bot.on("messageCreate", async function(message) {
 		}
 		else {
 			message.channel.setRateLimitPerUser(smtime);
-			message.channel.send(`Successfully appllied slowmode of **${smtime}** seconds.`);
+			message.channel.send(`Successfully applied slowmode of **${smtime}** seconds.`);
 		}
 		break;
 	case "grant":
 		message.delete();
 		if (!(message.member.roles.cache.has("645832781469057024") || message.member.roles.cache.has("608937618259836930") || message.member.roles.cache.has("609236733464150037"))) return message.channel.send("You don't have permission to do that.");
 		const gmUser = message.mentions.members.first();
-		if (!gmUser) return message.channel.send("Please specify which member should I grant permission to.");
+		if (!gmUser) return message.channel.send("Please specify which member I should grant permission to.");
 		if (gmUser.roles.find(role => role.id == "725361624294096927")) return message.channel.send("The user currently have the role.");
 		const gRole = message.guild.roles.cache.find(role => role.id == "725361624294096927");
 		if (!gRole) return message.channel.send("Couldn't find a role to grant.");
