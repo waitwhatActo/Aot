@@ -158,7 +158,7 @@ bot.once("ready", async function() {
 
 	var calced = Math.min(calca, calcb, calcc, calcd, calce);
 
-	bot.users.cache.get("428445352354643968").send(`Aot is currently online, on version 0.60.1, at <t:${date.getTime}:F>`);
+	bot.users.cache.get("428445352354643968").send(`Aot is currently online, on version 0.60.1, at <t:${date.getTime()}:F>`);
 	await setTimeout(function() {
 		feed();
 	}, (15 - calced) * 60 * 1000)
