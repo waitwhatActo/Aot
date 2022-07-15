@@ -59,13 +59,15 @@ module.exports = {
 			catch (err) {
 				const acto = bot.users.cache.get("428445352354643968");
 				acto.send(`Failed to store Warn ${warnid} data to DB for <@${member.id}>. Error: \n` + err);
+				interaction.reply({ content:`An error has occured. This could be due to failing to store Warn ${warnid} data to DB. You can try again, but if this keeps happening, please contact the bot owner.`, ephmeral: true });
 				return;
 			}
-			interaction.reply({ content: `<@${member.id}> has been warned for **${reason}**.` });
+
+			await interaction.reply({ content: `<@${member.id}> has been warned for **${reason}**.` });
 			const embed = new Discord.MessageEmbed()
-				.setTitle("Member Warned")
+				.setDescription("**Member Warned**")
 				.setColor(0xff0000)
-				.setFooter({ text: `Case ID: 000${warnid}`, iconURL: bot.user.avatarURL() })
+				.setFooter({ text: `Case ID: ${warnid}`, iconURL: bot.user.avatarURL() })
 				.setTimestamp()
 				.addField("Member Warned by", `<@${interaction.member.id}> with ID ${interaction.member.id}`)
 				.addField("Member Warned", `<@${member.id}> with ID ${member.id}`)
@@ -75,20 +77,24 @@ module.exports = {
 				.setAuthor({ name: member.username, iconURL: member.avatarURL() });
 
 			const warnchannel = interaction.guild.channels.cache.get("885808423483080744");
-			if (!warnchannel) return interaction.reply("Could not find server logs channel.");
+			if (!warnchannel) return interaction.reply({ content: "Could not find server logs channel.", ephmeral: true });
 
-			warnchannel.send({ embeds: [embed] });
+			await warnchannel.send({ embeds: [embed] });
 
 			try {
-				member.send(`You have been warned for **${reason}** in **${interaction.guild.name}**. If you have any inquiries or opinions with the warn, please use the modmail to message mods and provide the WarnID: \`${warnid}\``);
+				member.send(`You have been warned for **${reason}** in **${interaction.guild.name}**. \rIf you have any inquiries or opinions with the warn, please use the modmail to message mods and provide the WarnID: \`${warnid}\``);
 			}
 			catch (err) {
-				const acto = bot.users.cache.get("428445352354643968");
-				acto.send(`Unable to DM user <@${member.id}> for warn. (WarnID \`${warnid}\`) Error: \n` + err);
+				console.log(err);
 			}
 
 			++warnid;
-			fs.writeFileSync(path.join(__dirname, "../lists/warnid.txt"), warnid.toString());
+			try {
+				fs.writeFileSync(path.join(__dirname, "../lists/warnid.txt"), warnid.toString());
+			}
+			catch {
+				interaction.followUp({ content:"Failed to update warnId, immediately contact bot owner.", ephemeral: true });
+			}
 
 			const warnfetch = await warn.find({ userId: member.id });
 			if (!warnfetch) return;
@@ -99,24 +105,68 @@ module.exports = {
 			}
 			const guildmember = interaction.guild.members.cache.get(member.id);
 			if (warntimes >= 6) {
-				guildmember.timeout(86400000, "6 Warnings Auto-Mute: 24 Hours");
-				member.send(`You have been automatically muted in **${interaction.guild.name}** for **24h** due to having **${warntimes}** warnings.`);
+				try {
+					guildmember.timeout(86400000, "6 Warnings Auto-Mute: 24 Hours");
+				}
+				catch {
+					try {
+						guildmember.timeout(86400000, "6 Warnings Auto-Mute: 24 Hours");
+					}
+					catch {
+						interaction.followUp({ content: "An error has occured. The bot has failed to auto mute the warned member for 24 hours. Please manually mute the member.", ephemeral: true });
+					}
+				}
+				try {
+					member.send(`You have been automatically muted in **${interaction.guild.name}** for **24h** due to having **${warntimes}** warnings.`);
+				}
+				catch (err) {
+					console.log(err);
+				}
 			}
 			else if (warntimes == 4) {
-				guildmember.timeout(43200000, "4 Warnings Auto-Mute: 12 Hours");
-				member.send(`You have been automatically muted in **${interaction.guild.name}** for **12h** due to having **${warntimes}** warnings.`);
+				try {
+					guildmember.timeout(43200000, "4 Warnings Auto-Mute: 12 Hours");
+				}
+				catch {
+					try {
+						guildmember.timeout(43200000, "4 Warnings Auto-Mute: 12 Hours");
+					}
+					catch {
+						interaction.followUp({ content: "An error has occured. The bot has failed to auto mute the warned member for 12 hours. Please manually mute the member.", ephemeral: true });
+					}
+				}
+				try {
+					member.send(`You have been automatically muted in **${interaction.guild.name}** for **12h** due to having **${warntimes}** warnings.`);
+				}
+				catch (err) {
+					console.log(err);
+				}
 			}
 			else if (warntimes == 2) {
-				guildmember.timeout(21600000, "2 Warnings Auto-Mute: 6 Hours");
-				member.send(`You have been automatically muted in **${interaction.guild.name}** for **6h** due to having **${warntimes}** warnings.`);
+				try {
+					guildmember.timeout(21600000, "2 Warnings Auto-Mute: 6 Hours");
+				}
+				catch {
+					try {
+						guildmember.timeout(21600000, "2 Warnings Auto-Mute: 6 Hours");
+					}
+					catch {
+						interaction.followUp({ content: "An error has occured. The bot has failed to auto mute the warned member for 6 hours. Please manually mute the member.", ephemeral: true });
+					}
+				}
+				try {
+					member.send(`You have been automatically muted in **${interaction.guild.name}** for **6h** due to having **${warntimes}** warnings.`);
+				}
+				catch (err) {
+					console.log(err);
+				}
 			}
 			else {
 				try {
 					member.send(`You have been warned **${warntimes}** times in **${interaction.guild.name}** in total. Another warn will result in a mute, please be aware of your acts.`);
 				}
 				catch (err) {
-					const acto = bot.users.cache.get("428445352354643968");
-					acto.send(`Unable to DM user <@${member.id}>. Error: \n` + err);
+					console.log(err);
 				}
 			}
 			break;
@@ -139,7 +189,6 @@ module.exports = {
 			let warnstring = "";
 			if (!warnquery) {
 				embed.setDescription("No Warning has been found from all records.");
-
 				interaction.reply({ embeds: [embed] });
 			}
 			else {
@@ -161,8 +210,16 @@ module.exports = {
 
 			const warnidquery = await warn.find({ warnId: `${warnid}` });
 			if (!warnidquery.length) return interaction.reply({ content: `Warning \`${warnid}\` was not found in the database.` });
-			else if (warnidquery.legnth >= 2) return interaction.reply({ content: `Warning \`${warnid}\` found 2 or more cases, please retry or contact the developer.` });
-			await warn.deleteOne({ warnId: `${warnid}` });
+			else if (warnidquery.legnth >= 2) return interaction.reply({ content: `Warning \`${warnid}\` found 2 or more cases, please retry or contact the bot owner.` });
+
+			try {
+				await warn.deleteOne({ warnId: `${warnid}` });
+			}
+			catch {
+				interaction.reply({ content: `Failed to delete warning \`${warnid}\` of member <@${warnidquery[0].userId}. Please try again. If the problem persists, please contact the bot owner.`, ephemeral: true });
+				return;
+			}
+
 			interaction.reply({ content: `Successfully deleted warning \`${warnid}\` of member <@${warnidquery[0].userId}>.` });
 
 			const { bot, hmf } = require("../index.js");

@@ -87,7 +87,10 @@ module.exports = {
 
 			user.send(`You have been banned permanently from ${interaction.guild.name} for: ${reason}.`).catch(console.log);
 			if (keep == true) {
-				interaction.guild.members.ban(user, { days: 7, reason: reason }).catch(console.log);
+				try {
+					interaction.guild.members.ban(user, { days: 7, reason: reason }).catch(console.log);
+				}
+				
 			}
 			else {
 				interaction.guild.members.ban(user, { days: 0, reason: reason }).catch(console.log);
@@ -161,31 +164,39 @@ module.exports = {
 		case "unban": {
 			if (!(interaction.member.roles.cache.has("608937618259836930") || interaction.member.roles.cache.has("645832781469057024") || interaction.member.roles.cache.has("609236733464150037"))) return interaction.reply({ content: "You don't have permission to do that!", ephemeral: true });
 			const user = interaction.options.get("userid").value;
-			const banneduser = await interaction.guild.bans.fetch(user).catch(console.log);
-			if (!banneduser) {
-				await interaction.reply({ content: "This user is not banned or does not exist!", ephemeral: true });
-				break;
+
+			try {
+				await interaction.guild.bans.fetch(user).catch(console.log);
 			}
-			else {
-				const { hmf } = require("../index.js");
+			catch {
+				interaction.reply({ content: "An error has occured. This could be due to non-existant user or user not banned.", ephemeral: true });
+				return;
+			}
+			try {
 				await interaction.guild.members.unban(user);
-				const ubembed = new Discord.MessageEmbed()
-					.setTitle("User Unbanned")
-					.setColor(0x00ff00)
-					.addField("Unbanned User", `<@${user}> with ID ${user}`)
-					.addField("Unbanned By", `<@${interaction.member.id}> with ID ${interaction.member.id}`)
-					.addField("Unbanned In", `${interaction.channel}`)
-					.addField("Unbanned At", `<t:${Math.round(interaction.createdTimestamp / 1000)}:F>`)
-					.setTimestamp()
-					.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
-
-				const unban2Channel = interaction.guild.channels.cache.find(channel => channel.name === "aot-logs");
-				if (!unban2Channel) return interaction.reply({ content: "Could not find server logs channel.", ephemeral: true });
-
-				unban2Channel.send({ embeds: [ubembed] });
-
-				interaction.reply(`<@${user}> has been unbanned.`);
 			}
+			catch {
+				interaction.reply({ content: "An error has occured. This could be due to user not being able to be unbanned. You can try again, but if this keeps happening, please notify the bot owner.", ephemeral: true });
+				return;
+			}
+
+			const { hmf } = require("../index.js");
+			const ubembed = new Discord.MessageEmbed()
+				.setTitle("User Unbanned")
+				.setColor(0x00ff00)
+				.addField("Unbanned User", `<@${user}> with ID ${user}`)
+				.addField("Unbanned By", `<@${interaction.member.id}> with ID ${interaction.member.id}`)
+				.addField("Unbanned In", `${interaction.channel}`)
+				.addField("Unbanned At", `<t:${Math.round(interaction.createdTimestamp / 1000)}:F>`)
+				.setTimestamp()
+				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
+
+			const unban2Channel = interaction.guild.channels.cache.find(channel => channel.name === "aot-logs");
+			if (!unban2Channel) return interaction.reply({ content: "Could not find server logs channel.", ephemeral: true });
+
+			unban2Channel.send({ embeds: [ubembed] });
+
+			interaction.reply(`<@${user}> has been unbanned.`);
 			break;
 		}
 		}
