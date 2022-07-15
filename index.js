@@ -23,7 +23,7 @@ const hmf = [
 	"Enjoy your time using Aot",
 	"Trying to report somebody? DM @ModMail",
 	"Made by cleverActon0126#0126",
-	"Version 0.60.0",
+	"Version 0.60.1",
 ];
 
 module.exports = { hmf, bot };
@@ -34,6 +34,22 @@ io.init({
 });
 
 let hours = 0;
+let feedcon = 0;
+
+function feed() {
+	if (feedcon = 0) return;
+	setInterval(async () => {
+		await bot.users.cache.get("428445352354643968").send("Pinging").then(ready => {
+			const embed = new MessageEmbed()
+				.setTitle("Aot is online!")
+				.addField("Aot is currently online", "with no issues.")
+				.addField("I've been online for", `${hours} hour(s)`)
+				.addField("The current time is", `<t:${Math.round(ready.createdTimestamp / 1000)}:F>`)
+				.addField("Ping", `${bot.ws.ping}ms`);
+			ready.edit({ embeds: [embed] });
+		});
+	}, 1800000);
+}
 
 bot.once("ready", function() {
 	if (!Database) {
@@ -52,23 +68,12 @@ bot.once("ready", function() {
 		process.exit();
 		return;
 	});
-	console.log("Connected as Aot#0350 and using version 0.60.0");
-	bot.user.setActivity("?ahelp on v0.60.0", { type: "PLAYING" });
+	console.log("Connected as Aot#0350 and using version 0.60.1");
+	bot.user.setActivity("?ahelp on v0.60.1", { type: "PLAYING" });
 	setInterval(async () => {
 		hours += 1;
-		await bot.user.setActivity(`?ahelp for ${hours} hours on v0.60.0`, { type: "PLAYING" });
+		await bot.user.setActivity(`?ahelp for ${hours} hours on v0.60.1`, { type: "PLAYING" });
 	}, 3600000);
-	setInterval(async () => {
-		await bot.users.cache.get("428445352354643968").send("Pinging").then(ready => {
-			const embed = new MessageEmbed()
-				.setTitle("Aot is online!")
-				.addField("Aot is currently online", "with no issues.")
-				.addField("I've been online for", `${hours} hour(s)`)
-				.addField("The current time is", `<t:${Math.round(ready.createdTimestamp / 1000)}:F>`)
-				.addField("Ping", `${bot.ws.ping}ms`);
-			ready.edit({ embeds: [embed] });
-		});
-	}, 1800000);
 	setInterval(async () => {
 		const cd = Date.now();
 		const unban = await bandb.find({ unbantime: `${Math.floor(cd / 1000)}` });
@@ -113,17 +118,17 @@ bot.once("ready", function() {
 
 	const uembed = new MessageEmbed()
 		.setTitle("Discord.js v13,  Slash Commands and Warning System")
-		.setDescription("Successfully updated to Version 0.60.0!")
+		.setDescription("Successfully updated to Version 0.60.1!")
 		.addField("Prefix", "?a")
-		.addField("New Commands", "Slash admin Commands `/warn`", true)
-		.addField("Removed Commands", "All ?a admin commands are deprecated.", true)
-		.addField("Updates", "1. All admin commands are moved to slash commands for easy access and faster maintain. \n2. New Systems has been implemented, including the long waited warning system! \n3. ALL `?a` ADMIN COMMANDS ARE DEPRECATED. Which means they will be no longer maintained, and will be removed in the next update. \n4. Updated other commands. \n5.Slowly improving all embeds \n6. Help command will be soon implemented to slash commands \n7. Bug fixes to prevent bot crashing, replace deprecated libraries.")
-		.addField("Other Information from the Developer", "This is one of the most painful but yet best update we have ever created, we will NOT migrate all commands to slash commands to keep the originality of `?a`. Thank you everyone!")
+		.addField("New Commands", "N/A`", true)
+		.addField("Removed Commands", "N/A", true)
+		.addField("Updates", "Update some outdated functions to improve bot.")
+		.addField("Other Information from the Developer", "")
 		.addField("Code is available at", "https://github.com/cleverActon0126/Aot")
 		.addField("Project List is available at", "https://github.com/users/cleverActon0126/projects/2/views/1")
 		.setColor(0x00ff00)
 		.setTimestamp()
-		.setFooter({ text: "Aot Version 0.60.0, Made by cleverActon0126#0126" });
+		.setFooter({ text: "Aot Version 0.60.1, Made by cleverActon0126#0126" });
 
 	const guild = bot.guilds.cache.get("608937238549495809");
 	guild.commands.set([])
@@ -136,6 +141,27 @@ bot.once("ready", function() {
 		readyupdate.send({ embeds: [uembed] });
 		fs.writeFileSync("update.txt", "0");
 	}
+
+	var date = new Date();
+	var time = date.getMinutes();
+
+	var calca = 60 - time;
+	if (calca < 0) calca = 61;
+	var calcb = 45 - time;
+	if (calcb < 0) calca = 61;
+	var calcc = 30 - time;
+	if (calcc < 0) calca = 61;
+	var calcd = 15 - time;
+	if (calcd < 0) calca = 61;
+	var calce = 0 - time;
+	if (calce < 0) calca = 61;
+
+	var calced = Math.min(calca, calcb, calcc, calcd, calce);
+
+	bot.users.cache.get("428445352354643968").send(`Aot is currently online, on version 0.60.1, at <t:${date.getTime}:F>`);
+	await setTimeout(function() {
+		feed();
+	}, (15 - calced) * 60 * 1000)
 });
 
 for (const file of commandFiles) {
@@ -144,6 +170,7 @@ for (const file of commandFiles) {
 }
 
 bot.on("guildMemberAdd", function(member) {
+	if (!oldmessage.server.id == "608937238549495809") return;
 	if (member.id == "844370394781712384") return member.roles.add("725361624294096927");
 	if (member.id == "875324848967135294") return member.roles.add("725361624294096927");
 
@@ -228,6 +255,7 @@ bot.on("interactionCreate", async function(interaction) {
 });
 
 bot.on("messageUpdate", async function(oldmessage, newmessage) {
+	if (!oldmessage.server.id == "608937238549495809") return;
 	if (oldmessage.author.bot) return;
 
 	const count = 1950;
