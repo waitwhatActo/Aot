@@ -161,6 +161,7 @@ bot.once("ready", async function() {
 	bot.users.cache.get("428445352354643968").send(`Aot is currently online, on version 0.60.1, at <t:${date.getTime()}:F>`);
 	await setTimeout(function() {
 		feed();
+		feedcon = 1;
 	}, (15 - calced) * 60 * 1000)
 });
 
