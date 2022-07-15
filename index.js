@@ -51,7 +51,7 @@ function feed() {
 	}, 1800000);
 }
 
-bot.once("ready", function() {
+bot.once("ready", await function() {
 	if (!Database) {
 		console.log("Database does not present. Exiting...");
 		process.exit();
