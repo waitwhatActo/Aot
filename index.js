@@ -123,7 +123,7 @@ bot.once("ready", async function() {
 		.addField("New Commands", "N/A`", true)
 		.addField("Removed Commands", "N/A", true)
 		.addField("Updates", "Update some outdated functions to improve bot.")
-		.addField("Other Information from the Developer", "N/A")
+		.addField("Other Information from the Developer", "")
 		.addField("Code is available at", "https://github.com/cleverActon0126/Aot")
 		.addField("Project List is available at", "https://github.com/users/cleverActon0126/projects/2/views/1")
 		.setColor(0x00ff00)

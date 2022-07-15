@@ -14,7 +14,7 @@ module.exports = {
 	async execute(interaction) {
 		const target = await interaction.guild.members.fetch(interaction.targetId);
 		let targetnick = target.nickname;
-		if (targetnick == null) targetnick = target.user.username;
+		if (targetnick == null) targetnick = target.username;
 
 		const { hmf } = require("../index.js");
 
