@@ -38,6 +38,15 @@ let feedcon = 0;
 
 function feed() {
 	if (feedcon = 0) return;
+	await bot.users.cache.get("428445352354643968").send("Pinging").then(ready => {
+		const embed = new MessageEmbed()
+			.setTitle("Aot is online!")
+			.addField("Aot is currently online", "with no issues.")
+			.addField("I've been online for", `${hours} hour(s)`)
+			.addField("The current time is", `<t:${Math.round(ready.createdTimestamp / 1000)}:F>`)
+			.addField("Ping", `${bot.ws.ping}ms`);
+		ready.edit({ embeds: [embed] });
+	});
 	setInterval(async () => {
 		await bot.users.cache.get("428445352354643968").send("Pinging").then(ready => {
 			const embed = new MessageEmbed()
@@ -158,7 +167,7 @@ bot.once("ready", async function() {
 
 	var calced = Math.min(calca, calcb, calcc, calcd, calce);
 
-	bot.users.cache.get("428445352354643968").send(`Aot is currently online, on version 0.60.1, at <t:${date.getTime()}:F>`);
+	bot.users.cache.get("428445352354643968").send(`Aot is currently online, on version 0.60.1, at <t:${Math.round(date.getTime() / 1000)}:F>`);
 	await setTimeout(function() {
 		feed();
 		feedcon = 1;

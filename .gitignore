@@ -1,4 +1,5 @@
 *.ini
+.gitconfig
 .eslintrc.json
 config.json
 update.txt
