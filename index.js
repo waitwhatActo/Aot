@@ -265,7 +265,7 @@ bot.on("interactionCreate", async function(interaction) {
 });
 
 bot.on("messageUpdate", async function(oldmessage, newmessage) {
-	if (!oldmessage.server.id == "608937238549495809") return;
+	if (!oldmessage.message.server.id == "608937238549495809") return;
 	if (oldmessage.author.bot) return;
 
 	const count = 1950;
