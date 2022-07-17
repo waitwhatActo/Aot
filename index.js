@@ -36,7 +36,7 @@ io.init({
 let hours = 0;
 let feedcon = 0;
 
-function feed() {
+async function feed() {
 	if (feedcon = 0) return;
 	await bot.users.cache.get("428445352354643968").send("Pinging").then(ready => {
 		const embed = new MessageEmbed()
