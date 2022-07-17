@@ -155,15 +155,15 @@ bot.once("ready", async function() {
 	var time = await date.getMinutes();
 
 	var calca = 60 - time;
-	if (calca < 0) calca = undefined;
+	if (calca < 0) calca = 61;
 	var calcb = 45 - time;
-	if (calcb < 0) calcb = undefined;
+	if (calcb < 0) calcb = 61;
 	var calcc = 30 - time;
-	if (calcc < 0) calcc = undefined;
+	if (calcc < 0) calcc = 61;
 	var calcd = 15 - time;
-	if (calcd < 0) calcd = undefined;
+	if (calcd < 0) calcd = 61;
 	var calce = 0 - time;
-	if (calce < 0) calce = undefined;
+	if (calce < 0) calce = 61;
 
 	var calced = Math.min(calca, calcb, calcc, calcd, calce);
 
