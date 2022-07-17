@@ -37,7 +37,7 @@ let hours = 0;
 let feedcon = 0;
 
 async function feed() {
-	if (feedcon = 0) return;
+	if (feedcon == 0) return;
 	await bot.users.cache.get("428445352354643968").send("Pinging").then(ready => {
 		const embed = new MessageEmbed()
 			.setTitle("Aot is online!")
@@ -151,27 +151,27 @@ bot.once("ready", async function() {
 		fs.writeFileSync("update.txt", "0");
 	}
 
-	var date = await new Date();
-	var time = await date.getMinutes();
+	const date = await new Date();
+	const time = await date.getMinutes();
 
-	var calca = 60 - time;
+	let calca = 60 - time;
 	if (calca < 0) calca = 61;
-	var calcb = 45 - time;
+	let calcb = 45 - time;
 	if (calcb < 0) calcb = 61;
-	var calcc = 30 - time;
+	let calcc = 30 - time;
 	if (calcc < 0) calcc = 61;
-	var calcd = 15 - time;
+	let calcd = 15 - time;
 	if (calcd < 0) calcd = 61;
-	var calce = 0 - time;
+	let calce = 0 - time;
 	if (calce < 0) calce = 61;
 
-	var calced = Math.min(calca, calcb, calcc, calcd, calce);
+	const calced = Math.min(calca, calcb, calcc, calcd, calce);
 
 	bot.users.cache.get("428445352354643968").send(`Aot is currently online, on version 0.60.1, at <t:${Math.round(date.getTime() / 1000)}:F>`);
 	await setTimeout(function() {
 		feed();
 		feedcon = 1;
-	}, (15 - calced) * 60 * 1000)
+	}, (15 - calced) * 60 * 1000);
 });
 
 for (const file of commandFiles) {
@@ -180,7 +180,7 @@ for (const file of commandFiles) {
 }
 
 bot.on("guildMemberAdd", function(member) {
-	if (!oldmessage.server.id == "608937238549495809") return;
+	if (member.guildId == "608937238549495809") return;
 	if (member.id == "844370394781712384") return member.roles.add("725361624294096927");
 	if (member.id == "875324848967135294") return member.roles.add("725361624294096927");
 
