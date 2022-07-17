@@ -151,19 +151,19 @@ bot.once("ready", async function() {
 		fs.writeFileSync("update.txt", "0");
 	}
 
-	var date = new Date();
-	var time = date.getMinutes();
+	var date = await new Date();
+	var time = await date.getMinutes();
 
 	var calca = 60 - time;
-	if (calca < 0) calca = 61;
+	if (calca < 0) calca = undefined;
 	var calcb = 45 - time;
-	if (calcb < 0) calca = 61;
+	if (calcb < 0) calcb = undefined;
 	var calcc = 30 - time;
-	if (calcc < 0) calca = 61;
+	if (calcc < 0) calcc = undefined;
 	var calcd = 15 - time;
-	if (calcd < 0) calca = 61;
+	if (calcd < 0) calcd = undefined;
 	var calce = 0 - time;
-	if (calce < 0) calca = 61;
+	if (calce < 0) calce = undefined;
 
 	var calced = Math.min(calca, calcb, calcc, calcd, calce);
 
