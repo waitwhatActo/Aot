@@ -60,7 +60,7 @@ async function feed() {
 	}, 1800000);
 }
 
-bot.once("ready", async function() {
+bot.once("ready", async () => {
 	if (!Database) {
 		console.log("Database does not present. Exiting...");
 		process.exit();
@@ -75,13 +75,12 @@ bot.once("ready", async function() {
 		console.log(err);
 		console.log("Failed to connect to database. Exitting...");
 		process.exit();
-		return;
 	});
 	console.log("Connected as Aot#0350 and using version 0.60.1");
 	bot.user.setActivity("?ahelp on v0.60.1", { type: "PLAYING" });
 	setInterval(async () => {
 		hours += 1;
-		await bot.user.setActivity(`?ahelp for ${hours} hours on v0.60.1`, { type: "PLAYING" });
+		bot.user.setActivity(`?ahelp for ${hours} hours on v0.60.1`, { type: "PLAYING" });
 	}, 3600000);
 	setInterval(async () => {
 		const cd = Date.now();
@@ -89,7 +88,7 @@ bot.once("ready", async function() {
 		const unmute = await mutedb.find({ unmutetime: `${Math.floor(cd / 1000)}` });
 		for (let i = 0; unban.length > i;) {
 			const server = bot.guilds.cache.get("608937238549495809");
-			if (!server) return console.log("Failed to unban.");
+			if (!server) {return console.log("Failed to unban.");}
 			server.bans.remove(unban[0].userId);
 			const unbanembed = new MessageEmbed()
 				.setTitle("User Unbanned")
@@ -106,7 +105,7 @@ bot.once("ready", async function() {
 		}
 		for (let i = 0; unban.length > i;) {
 			const server = bot.guilds.cache.get("608937238549495809");
-			if (!server) return console.log("Failed to unmute.");
+			if (!server) {return console.log("Failed to unmute.");}
 			const member = server.members.cache.get(unmute[0].userId);
 			member.roles.cache.remove("885808423483080744");
 			member.timeout(null);
@@ -151,26 +150,26 @@ bot.once("ready", async function() {
 		fs.writeFileSync("update.txt", "0");
 	}
 
-	const date = await new Date();
-	const time = await date.getMinutes();
+	const date = new Date();
+	const time = date.getMinutes();
 
 	let calca = 60 - time;
-	if (calca < 0) calca = 61;
+	if (calca < 0) {calca = 61;}
 	let calcb = 45 - time;
-	if (calcb < 0) calcb = 61;
+	if (calcb < 0) {calcb = 61;}
 	let calcc = 30 - time;
-	if (calcc < 0) calcc = 61;
+	if (calcc < 0) {calcc = 61;}
 	let calcd = 15 - time;
-	if (calcd < 0) calcd = 61;
+	if (calcd < 0) {calcd = 61;}
 	let calce = 0 - time;
-	if (calce < 0) calce = 61;
+	if (calce < 0) {calce = 61;}
 
 	const calced = Math.min(calca, calcb, calcc, calcd, calce);
 
 	bot.users.cache.get("428445352354643968").send(`Aot is currently online, on version 0.60.1, at <t:${Math.round(date.getTime() / 1000)}:F>`);
-	await setTimeout(function() {
+	setTimeout(() => {
 		feed();
-		feedcon = 1;
+		feedcon += 1;
 	}, (15 - calced) * 60 * 1000);
 });
 
