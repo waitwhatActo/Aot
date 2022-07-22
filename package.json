@@ -36,6 +36,6 @@
   },
   "homepage": "https://github.com/cleverActon0126/aot#readme",
   "devDependencies": {
-    "eslint": "^8.19.0"
+    "eslint": "^8.20.0"
   }
 }
