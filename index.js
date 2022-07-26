@@ -206,8 +206,8 @@ bot.once("ready", async () => {
 
 	bot.users.cache.get("428445352354643968").send(`Acto Utils is currently online, on version 0.61.0, at <t:${Math.round(date.getTime() / 1000)}:F>`);
 	setTimeout(() => {
-		feeder();
 		feedcon += 1;
+		feeder();
 	}, (15 - calced) * 60 * 1000);
 
 	const counter = await countdb.create({
