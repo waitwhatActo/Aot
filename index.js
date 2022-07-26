@@ -1,29 +1,29 @@
-/* eslint-disable no-case-declarations */
 const { Intents, Client, MessageEmbed, Collection } = require("discord.js");
 const ms = require("ms");
 const randomPuppy = require("random-puppy");
 const fs = require("fs");
 const io = require("@pm2/io");
 const mongoose = require("mongoose");
-const { Database } = require("./config.json");
+const { Database, token, backupbot, update } = require("./config.json");
 const bandb = require("./Schemas/BanSchema.js");
 const mutedb = require("./Schemas/MuteSchema.js");
-
-const config = require("./config.json");
+const countdb = require("./Schemas/CountSchema.js");
 const PREFIX = "?a";
-
 const bot = new Client({ intents: new Intents(32767) });
 
+let hours = 0;
+let feedcon = 0;
+let backupbotevents = 0;
 
 bot.commands = new Collection();
 const commandFiles = fs.readdirSync("./commands").filter(file => file.endsWith(".js"));
 
 const hmf = [
 	"Need help? ?ahelp will be able to help you",
-	"Enjoy your time using Aot",
+	"Enjoy your time using Acto Utils",
 	"Trying to report somebody? DM @ModMail",
 	"Made by cleverActon0126#0126",
-	"Version 0.60.1",
+	"Version 0.61.0",
 ];
 
 module.exports = { hmf, bot };
@@ -33,15 +33,22 @@ io.init({
 	http: true,
 });
 
-let hours = 0;
-let feedcon = 0;
-
-async function feed() {
+const feeder = async () => {
+	if (backupbot == 1 && backupbotevents == 0) return;
 	if (feedcon == 0) return;
 	await bot.users.cache.get("428445352354643968").send("Pinging").then(ready => {
 		const embed = new MessageEmbed()
-			.setTitle("Aot is online!")
-			.addField("Aot is currently online", "with no issues.")
+			.setTitle("Acto Utils is online!")
+			.addField("Acto Utils is currently online", "with no issues.")
+			.addField("I've been online for", `${hours} hour(s)`)
+			.addField("The current time is", `<t:${Math.round(ready.createdTimestamp / 1000)}:F>`)
+			.addField("Ping", `${bot.ws.ping}ms`);
+		ready.edit({ embeds: [embed] });
+	});
+	await bot.users.cache.get("933317965024210995").send("Pinging").then(ready => {
+		const embed = new MessageEmbed()
+			.setTitle("Acto Utils is online!")
+			.addField("Acto Utils is currently online", "with no issues.")
 			.addField("I've been online for", `${hours} hour(s)`)
 			.addField("The current time is", `<t:${Math.round(ready.createdTimestamp / 1000)}:F>`)
 			.addField("Ping", `${bot.ws.ping}ms`);
@@ -50,21 +57,30 @@ async function feed() {
 	setInterval(async () => {
 		await bot.users.cache.get("428445352354643968").send("Pinging").then(ready => {
 			const embed = new MessageEmbed()
-				.setTitle("Aot is online!")
-				.addField("Aot is currently online", "with no issues.")
+				.setTitle("Acto Utils is online!")
+				.addField("Acto Utils is currently online", "with no issues.")
+				.addField("I've been online for", `${hours} hour(s)`)
+				.addField("The current time is", `<t:${Math.round(ready.createdTimestamp / 1000)}:F>`)
+				.addField("Ping", `${bot.ws.ping}ms`);
+			ready.edit({ embeds: [embed] });
+		});
+		await bot.users.cache.get("933317965024210995").send("Pinging").then(ready => {
+			const embed = new MessageEmbed()
+				.setTitle("Acto Utils is online!")
+				.addField("Acto Utils is currently online", "with no issues.")
 				.addField("I've been online for", `${hours} hour(s)`)
 				.addField("The current time is", `<t:${Math.round(ready.createdTimestamp / 1000)}:F>`)
 				.addField("Ping", `${bot.ws.ping}ms`);
 			ready.edit({ embeds: [embed] });
 		});
 	}, 1800000);
-}
+
+};
 
 bot.once("ready", async () => {
 	if (!Database) {
 		console.log("Database does not present. Exiting...");
 		process.exit();
-		return;
 	}
 	mongoose.connect(Database, {
 		useNewUrlParser: true,
@@ -76,13 +92,40 @@ bot.once("ready", async () => {
 		console.log("Failed to connect to database. Exitting...");
 		process.exit();
 	});
-	console.log("Connected as Aot#0350 and using version 0.60.1");
-	bot.user.setActivity("?ahelp on v0.60.1", { type: "PLAYING" });
+	console.log("Connected as Acto Utils#0350 and using version 0.61.0");
+	if (backupbot == 0) {
+		bot.user.setPresence({ activities: [{ name: `on 0.61.0 for ${hours} hour(s)` }], status: "online" });
+	}
+	else if (backupbot == 1 && backupbotevents == 0) {
+		bot.user.setStatus("invisible");
+		setInterval(async () => {
+			const botcheckid = bot.users.cache.get("655769695370215425");
+			if (!botcheckid) {
+				console.log("Failed to check Acto Utils's status. Reconfirm ID and/or code.");
+				process.exit;
+			}
+			if (botcheckid.user.presence.status == "offline" && backupbotevents == 0) {
+				backupbotevents = 1;
+				bot.user.setPresence({ activities: [{ name: `on 0.61.0 for ${hours}` }], status: "online" });
+			}
+			else if (botcheckid.user.presence.status == "online" && backupbotevents == 1) {
+				bot.user.setActivity("invisible");
+				backupbotevents == 0;
+			}
+		}, 60000);
+	}
+	else {
+		console.log("Backupbot value is incorrect or not present, fix issue before rebooting bot.");
+		process.exit();
+	}
 	setInterval(async () => {
-		hours += 1;
-		bot.user.setActivity(`?ahelp for ${hours} hours on v0.60.1`, { type: "PLAYING" });
+		if (backupbot == 0) {
+			hours += 1;
+			bot.user.setPresence({ activities: [{ name: `on 0.61.0 for ${hours} hours` }], status: "online" });
+		}
 	}, 3600000);
 	setInterval(async () => {
+		if (backupbot == 1 && backupbotevents == 0) return;
 		const cd = Date.now();
 		const unban = await bandb.find({ unbantime: `${Math.floor(cd / 1000)}` });
 		const unmute = await mutedb.find({ unmutetime: `${Math.floor(cd / 1000)}` });
@@ -125,26 +168,21 @@ bot.once("ready", async () => {
 	}, 1000);
 
 	const uembed = new MessageEmbed()
-		.setTitle("Discord.js v13,  Slash Commands and Warning System")
-		.setDescription("Successfully updated to Version 0.60.1!")
+		.setTitle("New Backup System")
+		.setDescription("Successfully updated to Version 0.61.0!")
 		.addField("Prefix", "?a")
 		.addField("New Commands", "N/A`", true)
 		.addField("Removed Commands", "N/A", true)
-		.addField("Updates", "Update some outdated functions to improve bot.")
+		.addField("Updates", "Updated some code to allow external backup bot.")
 		.addField("Other Information from the Developer", "N/A")
 		.addField("Code is available at", "https://github.com/cleverActon0126/Aot")
 		.addField("Project List is available at", "https://github.com/users/cleverActon0126/projects/2/views/1")
 		.setColor(0x00ff00)
 		.setTimestamp()
-		.setFooter({ text: "Aot Version 0.60.1, Made by cleverActon0126#0126" });
+		.setFooter({ text: "Acto Utils Version 0.61.0, Made by cleverActon0126#0126" });
 
-	const guild = bot.guilds.cache.get("608937238549495809");
-	guild.commands.set([])
-		.then(command => command.delete())
-		.catch(error => console.log(error));
-
-	const update = fs.readFileSync("./lists/update.txt").toString();
-	if (update == "1") {
+	if (update == 1) {
+		if (backupbot == 1 && backupbotevents == 0) return;
 		const readyupdate = bot.channels.cache.get("656409202448924700");
 		readyupdate.send({ embeds: [uembed] });
 		fs.writeFileSync("update.txt", "0");
@@ -166,11 +204,17 @@ bot.once("ready", async () => {
 
 	const calced = Math.min(calca, calcb, calcc, calcd, calce);
 
-	bot.users.cache.get("428445352354643968").send(`Aot is currently online, on version 0.60.1, at <t:${Math.round(date.getTime() / 1000)}:F>`);
+	bot.users.cache.get("428445352354643968").send(`Acto Utils is currently online, on version 0.61.0, at <t:${Math.round(date.getTime() / 1000)}:F>`);
 	setTimeout(() => {
-		feed();
+		feeder();
 		feedcon += 1;
 	}, (15 - calced) * 60 * 1000);
+
+	const counter = await countdb.create({
+		userId: "709851167781552160",
+		numbercounted: "2026",
+	});
+	await counter.save();
 });
 
 for (const file of commandFiles) {
@@ -179,6 +223,7 @@ for (const file of commandFiles) {
 }
 
 bot.on("guildMemberAdd", function(member) {
+	if (backupbot == 1 && backupbotevents == 0) return;
 	if (member.guildId == "608937238549495809") return;
 	if (member.id == "844370394781712384") return member.roles.add("725361624294096927");
 	if (member.id == "875324848967135294") return member.roles.add("725361624294096927");
@@ -248,6 +293,7 @@ const m = fs.readFileSync("./lists/m.txt").toString().split("\n");
 const e = fs.readFileSync("./lists/e.txt").toString().split("\n");
 
 bot.on("interactionCreate", async function(interaction) {
+	if (backupbot == 1 && backupbotevents == 0) return;
 	if (!(interaction.isCommand() || interaction.isContextMenu())) return;
 
 	const command = bot.commands.get(interaction.commandName);
@@ -264,6 +310,7 @@ bot.on("interactionCreate", async function(interaction) {
 });
 
 bot.on("messageUpdate", async function(oldmessage, newmessage) {
+	if (backupbot == 1 && backupbotevents == 0) return;
 	if (oldmessage.guildId == "608937238549495809") return;
 	if (oldmessage.author.bot) return;
 
@@ -286,9 +333,7 @@ bot.on("messageUpdate", async function(oldmessage, newmessage) {
 });
 
 bot.on("messageCreate", async function(message) {
-
-	if (message.author.equals(bot)) return;
-
+	if (backupbot == 1 && backupbotevents == 0) return;
 	for (let slc = 0; slc < sl.length; slc++) {
 		if (message.content.includes(sl[slc])) {
 			message.delete();
@@ -308,13 +353,12 @@ bot.on("messageCreate", async function(message) {
 				.setTimestamp()
 				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-			const slchannel = message.guild.channels.cache.find(channel => channel.name == "aot-logs");
+			const slchannel = message.guild.channels.cache.find(channel => channel.name == "Acto Utils-logs");
 			slchannel.send({ embeds: [slembed] });
 			slchannel.send("@here");
 			return;
 		}
 	}
-
 	for (let nuc = 0; nuc < nu.length; nuc++) {
 		if (message.content.includes(nu[nuc])) {
 			message.delete();
@@ -334,13 +378,12 @@ bot.on("messageCreate", async function(message) {
 				.setTimestamp()
 				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-			const nuchannel = message.guild.channels.cache.find(channel => channel.name == "aot-logs");
+			const nuchannel = message.guild.channels.cache.find(channel => channel.name == "Acto Utils-logs");
 			nuchannel.send({ embeds: [nuembed] });
 			nuchannel.send("@here");
 			return;
 		}
 	}
-
 	for (let sc = 0; sc < s.length; sc++) {
 		if (message.content.includes(s[sc])) {
 			message.delete();
@@ -360,13 +403,12 @@ bot.on("messageCreate", async function(message) {
 				.setTimestamp()
 				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-			const schannel = message.guild.channels.cache.find(channel => channel.name == "aot-logs");
+			const schannel = message.guild.channels.cache.find(channel => channel.name == "Acto Utils-logs");
 			schannel.send({ embeds: [sembed] });
 			schannel.send("@here");
 			return;
 		}
 	}
-
 	for (let mc = 0; mc < m.length; mc++) {
 		if (message.content.includes(m[mc])) {
 			message.delete();
@@ -386,13 +428,12 @@ bot.on("messageCreate", async function(message) {
 				.setTimestamp()
 				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-			const mchannel = message.guild.channels.cache.find(channel => channel.name == "aot-logs");
+			const mchannel = message.guild.channels.cache.find(channel => channel.name == "Acto Utils-logs");
 			mchannel.send({ embeds: [membed] });
 			mchannel.send("@here");
 			return;
 		}
 	}
-
 	for (let ec = 0; ec < m.length; ec++) {
 		if (message.content.includes(e[ec])) {
 			if (message.member.roles.cache.has("645832781469057024") || message.member.roles.cache.has("608937618259836930") || message.member.roles.cache.has("609236733464150037")) return;
@@ -413,25 +454,29 @@ bot.on("messageCreate", async function(message) {
 				.setTimestamp()
 				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-			const echannel = message.guild.channels.cache.find(channel => channel.name == "aot-logs");
+			const echannel = message.guild.channels.cache.find(channel => channel.name == "Acto Utils-logs");
 			echannel.send({ embeds: [eembed] });
 			return;
 		}
 	}
-
 	if (message.channel.id == "702058356210139137") {
-		const countmember = fs.readFileSync("./lists/counting-member.txt").toString();
-		let counting = fs.readFileSync("./lists/counting.txt").toString();
+		let counting = countdb.findOne().sort({ created_at: -1 });
+		const countmember = countdb.findOne().sort({ created_at: -1 });
 
 		if (countmember == message.member.id) {
 			message.delete();
 			return;
 		}
-		if (message.content.startsWith(counting)) {
-			const countinga = ++counting;
-			const member = message.member.id;
-			fs.writeFileSync("./lists/counting.txt", countinga.toString());
-			fs.writeFileSync("./lists/counting-member.txt", member.toString());
+		else if (message.author.equals(bot)) {
+			message.delete();
+			return;
+		}
+		if (message.content.startsWith(counting += 1)) {
+			const countingdb = await countdb.create({
+				userId: message.member.id,
+				numbercounted: message.content.args[0],
+			});
+			await countingdb.save();
 			return;
 		}
 		else {
@@ -439,16 +484,13 @@ bot.on("messageCreate", async function(message) {
 			return;
 		}
 	}
-
+	if (message.author.equals(bot)) return;
 	if (message.author.equals(bot.user)) return;
-
 	if (!message.content.startsWith(PREFIX)) return;
-
 	const args = message.content.substring(PREFIX.length).split(" ");
-
 	switch (args[0].toLowerCase()) {
 	// food Commands
-	case "salmon":
+	case "salmon": {
 		message.channel.send("Would you like your salmon `raw` or `cooked`? You could also `cancel` if you don't want your salmon. (Please answer in 15 seconds)");
 		const filter = sm => sm.member == message.member;
 		const collector = message.channel.createMessageCollector({ filter, time: 15000 });
@@ -472,24 +514,29 @@ bot.on("messageCreate", async function(message) {
 			return;
 		});
 		break;
-	case "apple":
+	}
+	case "apple": {
 		message.channel.send("OK. Here's your golden apple.. Use your imagination to see the apple.");
 		message.channel.send("🍎");
 		break;
-	case "pie":
+	}
+	case "pie": {
 		message.channel.send("OK. Here's your *pre-baked* pie.");
 		message.channel.send("🥧");
 		break;
-	case "candy":
+	}
+	case "candy": {
 		message.channel.send("OK. Oops, it went out of stock, never come back! (No refund)");
 		break;
-		// end of food Commands
-		// fun commands
-	case "door":
+	}
+	// end of food Commands
+	// fun commands
+	case "door": {
 		message.channel.send(`${message.author}`);
 		message.channel.send("🚪");
 		break;
-	case "8ball":
+	}
+	case "8ball": {
 		message.channel.sendTyping();
 		const eballerrembed = new MessageEmbed()
 			.setTitle("8Ball")
@@ -522,7 +569,8 @@ bot.on("messageCreate", async function(message) {
 
 		message.channel.send(`Your question: ${eballq} \rThe fortune teller: ${eightball[Math.floor(Math.random() * eightball.length)]}`);
 		break;
-	case "coinflip":
+	}
+	case "coinflip": {
 		const coinflip = [
 			"Your coin landed on **TAIL**.",
 			"Your coin landed on **HEADS**.",
@@ -535,7 +583,8 @@ bot.on("messageCreate", async function(message) {
 		await cfwait(5000);
 		await cfmsg.edit(coinflip[Math.floor(Math.random() * coinflip.length)]);
 		break;
-	case "kill":
+	}
+	case "kill": {
 		const iUser = message.mentions.members.first();
 		if (!iUser) return message.channel.send("Please ping someone to kill or you are gonna kill yourself.");
 
@@ -554,7 +603,8 @@ bot.on("messageCreate", async function(message) {
 
 		message.channel.send(kill[Math.floor(Math.random() * kill.length)]);
 		break;
-	case "shutdown":
+	}
+	case "shutdown": {
 		const shutdownerrembed = new MessageEmbed()
 			.setTitle("Shutdown")
 			.setDescription("You might not know the usage of shutdown. So let's learn how to use it here.")
@@ -610,7 +660,8 @@ bot.on("messageCreate", async function(message) {
 			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 		message.channel.send({ embeds: [embed] });
 		break;
-	case "meme":
+	}
+	case "meme": {
 		message.channel.sendTyping();
 		const memeSource = [
 			"dankmeme",
@@ -639,7 +690,8 @@ bot.on("messageCreate", async function(message) {
 			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 		message.channel.send({ embeds: [memeembed] });
 		break;
-	case "rps":
+	}
+	case "rps": {
 		const rpspUser = message.mentions.members.first();
 		const rpsUser = message.member.id;
 
@@ -674,9 +726,10 @@ bot.on("messageCreate", async function(message) {
 			rpshmsg.edit(rpswp[Math.floor(Math.random() * rpswp.length)]);
 		}
 		break;
-		// end of fun commands
-		// admin commands
-	case "addrole":
+	}
+	// end of fun commands
+	// admin commands
+	case "addrole": {
 		message.delete();
 
 		const addroleerrembed = new MessageEmbed()
@@ -704,7 +757,7 @@ bot.on("messageCreate", async function(message) {
 			.setTimestamp()
 			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-		const arChannel = message.guild.channels.cache.find(channel => channel.name === "aot-logs");
+		const arChannel = message.guild.channels.cache.find(channel => channel.name === "Acto Utils-logs");
 		if (!arChannel) return message.channel.send("Could not find server logs channel.");
 
 		arChannel.send({ embeds: [addroleembed] });
@@ -713,7 +766,8 @@ bot.on("messageCreate", async function(message) {
 
 		message.channel.send(`Succeessfully added role for <@${arUser.id}> (**${arUser.user.username}/${arUser.displayName}**)!`);
 		break;
-	case "removerole":
+	}
+	case "removerole": {
 		message.delete();
 
 		const removeroleerrembed = new MessageEmbed()
@@ -741,7 +795,7 @@ bot.on("messageCreate", async function(message) {
 			.setTimestamp()
 			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-		const rrChannel = message.guild.channels.cache.find(channel => channel.name === "aot-logs");
+		const rrChannel = message.guild.channels.cache.find(channel => channel.name === "Acto Utils-logs");
 		if (!rrChannel) return message.channel.send("Could not find server logs channel.");
 
 		rrChannel.send({ embeds: [rrembed] });
@@ -750,7 +804,8 @@ bot.on("messageCreate", async function(message) {
 
 		message.channel.send(`Succeessfully removed role for <@${rrUser.id}> (**${rrUser.user.username}/${rrUser.displayName}**)!`);
 		break;
-	case "kick":
+	}
+	case "kick": {
 		message.delete();
 
 		const kickerrembed = new MessageEmbed()
@@ -779,7 +834,7 @@ bot.on("messageCreate", async function(message) {
 			.setTimestamp()
 			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-		const kick2Channel = message.guild.channels.cache.find(channel => channel.name === "aot-logs");
+		const kick2Channel = message.guild.channels.cache.find(channel => channel.name === "Acto Utils-logs");
 		if (!kick2Channel) return message.channel.send("Could not find server logs channel.");
 
 		kUser.send(`You have been kicked from ${message.member.guild.name} for: ${kReason}.`).catch(console.log);
@@ -789,7 +844,8 @@ bot.on("messageCreate", async function(message) {
 
 		message.channel.send(`**${kUser.user.username}** (${kUser.id}) has been kicked for **${kReason}**.`);
 		break;
-	case "tempban":
+	}
+	case "tempban": {
 		message.delete();
 
 		const tempbanerrembed = new MessageEmbed()
@@ -832,7 +888,7 @@ bot.on("messageCreate", async function(message) {
 			.setTimestamp()
 			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-		const tempbanChannel = message.guild.channels.cache.find(channel => channel.name === "aot-logs");
+		const tempbanChannel = message.guild.channels.cache.find(channel => channel.name === "Acto Utils-logs");
 		if (!tempbanChannel) return message.channel.send("Could not find server logs channel.");
 
 		tbUser.send(`You have been temporarily banned from ${message.member.guild.name} for **${tbReason}**`).catch(console.log);
@@ -846,7 +902,8 @@ bot.on("messageCreate", async function(message) {
 			tempbanChannel.send({ embeds: [tbembed2] });
 		}, ms(tempbantime));
 		break;
-	case "ban":
+	}
+	case "ban": {
 		message.delete();
 
 		const banerrembed = new MessageEmbed()
@@ -875,7 +932,7 @@ bot.on("messageCreate", async function(message) {
 			.setTimestamp()
 			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-		const banChannel = message.guild.channels.cache.find(channel => channel.name === "aot-logs");
+		const banChannel = message.guild.channels.cache.find(channel => channel.name === "Acto Utils-logs");
 		if (!banChannel) return message.channel.send("Could not find server logs channel.");
 
 		bUser.send(`You have been permanently banned from ${message.member.guild.name} for: ${bReason}`).catch(console.log);
@@ -884,7 +941,8 @@ bot.on("messageCreate", async function(message) {
 
 		message.channel.send(`**${bUser.user.username}** has been banned for **${bReason}**.`);
 		break;
-	case "unban":
+	}
+	case "unban": {
 		message.delete();
 
 		const unbanerrembed = new MessageEmbed()
@@ -909,14 +967,15 @@ bot.on("messageCreate", async function(message) {
 			.setTimestamp()
 			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-		const unban2Channel = message.guild.channels.cache.find(channel => channel.name === "aot-logs");
+		const unban2Channel = message.guild.channels.cache.find(channel => channel.name === "Acto Utils-logs");
 		if (!unban2Channel) return message.channel.send("Could not find server logs channel.");
 
 		message.guild.members.unban(ubID);
 		unban2Channel.send({ embeds: [ubembed] });
 		message.channel.send(`<@${ubID}> was unbanned.`);
 		break;
-	case "mute":
+	}
+	case "mute": {
 		message.delete();
 
 		const muteerrembed = new MessageEmbed()
@@ -939,7 +998,7 @@ bot.on("messageCreate", async function(message) {
 
 		mUser.roles.add(muterole.id);
 
-		const muteChannel = mUser.guild.channels.cache.find(channel => channel.name === "aot-logs");
+		const muteChannel = mUser.guild.channels.cache.find(channel => channel.name === "Acto Utils-logs");
 		if (!muteChannel) return;
 
 		const membed = new MessageEmbed()
@@ -955,7 +1014,8 @@ bot.on("messageCreate", async function(message) {
 
 		message.channel.send(`<@${mUser.id}> (**${mUser.user.username}**) has been muted for **${mReason}**.`);
 		break;
-	case "tempmute":
+	}
+	case "tempmute": {
 		message.delete();
 
 		const tmUser = message.mentions.members.first();
@@ -973,7 +1033,7 @@ bot.on("messageCreate", async function(message) {
 			return message.channel.send("Please specify how long the member should be muted for.");
 		}
 
-		const tempmuteChannel = tmUser.guild.channels.cache.find(channel => channel.name === "aot-logs");
+		const tempmuteChannel = tmUser.guild.channels.cache.find(channel => channel.name === "Acto Utils-logs");
 		if (!tempmuteChannel) return;
 
 		if (ms(mutetime) > 2419200000) {
@@ -1014,7 +1074,8 @@ bot.on("messageCreate", async function(message) {
 			}, ms(mutetime));
 		}
 		break;
-	case "unmute":
+	}
+	case "unmute": {
 		message.delete();
 
 		const unmuteerrembed = new MessageEmbed()
@@ -1042,13 +1103,14 @@ bot.on("messageCreate", async function(message) {
 			.setTimestamp()
 			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-		const unmute2Channel = umUser.guild.channels.cache.find(channel => channel.name === "aot-logs");
+		const unmute2Channel = umUser.guild.channels.cache.find(channel => channel.name === "Acto Utils-logs");
 		if (!unmute2Channel) return;
 
 		unmute2Channel.send({ embeds: [umembed] });
 		message.channel.send(`<@${umUser.id}> (**${umUser.user.username}**) has been unmuted.`);
 		break;
-	case "clear":
+	}
+	case "clear": {
 		message.delete();
 
 		const clearerrembed = new MessageEmbed()
@@ -1064,12 +1126,13 @@ bot.on("messageCreate", async function(message) {
 		const clearchannel = message.channel.id;
 		message.channel.bulkDelete(args[1]);
 		message.channel.send(`Deleted ${args[1]} messages.`).then(cmsg => cmsg.delete({ timeout:3000 }));
-		const clearlog = message.guild.channels.cache.find(channel => channel.name === "aot-logs");
+		const clearlog = message.guild.channels.cache.find(channel => channel.name === "Acto Utils-logs");
 		if (!clearlog) return message.channel.send("Couldn't find server logs channel.");
 
 		clearlog.send(`<@${message.member.id}> has purged **${args[1]}** messages in <#${clearchannel}>`);
 		break;
-	case "lockdown":
+	}
+	case "lockdown": {
 		message.delete();
 		if (!(message.member.roles.cache.has("645832781469057024") || message.member.roles.cache.has("608937618259836930") || message.member.roles.cache.has("609236733464150037"))) return message.channel.send("You don't have permission to do that!");
 		if (!args[1]) return message.channel.send("`?alockdown LOCK|UNLOCK SERVER|CHANNEL` Please include if I should lock or unlock the server.");
@@ -1099,7 +1162,7 @@ bot.on("messageCreate", async function(message) {
 					.setTimestamp()
 					.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-				const ldclog = message.guild.channels.cache.find(channel => channel.name == "aot-logs");
+				const ldclog = message.guild.channels.cache.find(channel => channel.name == "Acto Utils-logs");
 				if (!ldclog) return;
 
 				ldclog.send({ embeds: [ldcembed] });
@@ -1228,7 +1291,7 @@ bot.on("messageCreate", async function(message) {
 					.setTimestamp()
 					.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-				const ldslog = message.guild.channels.cache.find(channel => channel.name == "aot-logs");
+				const ldslog = message.guild.channels.cache.find(channel => channel.name == "Acto Utils-logs");
 				if (!ldslog) return;
 
 				ldslog.send({ embeds: [ldsembed] });
@@ -1257,7 +1320,7 @@ bot.on("messageCreate", async function(message) {
 					.setTimestamp()
 					.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-				const uldclog = message.guild.channels.cache.find(channel => channel.name == "aot-logs");
+				const uldclog = message.guild.channels.cache.find(channel => channel.name == "Acto Utils-logs");
 				if (!uldclog) return;
 
 				uldclog.send({ embeds: [uldcembed] });
@@ -1386,7 +1449,7 @@ bot.on("messageCreate", async function(message) {
 					.setTimestamp()
 					.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-				const uldslog = message.guild.channels.cache.find(channel => channel.name == "aot-logs");
+				const uldslog = message.guild.channels.cache.find(channel => channel.name == "Acto Utils-logs");
 				if (!uldslog) return;
 
 				uldslog.send({ embeds: [uldsembed] });
@@ -1399,7 +1462,8 @@ bot.on("messageCreate", async function(message) {
 			return message.channel.send("An error occured, please check the logs.");
 		}
 		break;
-	case "tellraw":
+	}
+	case "tellraw": {
 		message.delete();
 		if (!(message.member.roles.cache.has("645832781469057024") || message.member.roles.cache.has("609236733464150037"))) return message.channel.send("You don't have permission to do that!");
 		const twchannel = args[1];
@@ -1412,7 +1476,8 @@ bot.on("messageCreate", async function(message) {
 
 		twchannelr.send(twcontent);
 		break;
-	case "slowmode":
+	}
+	case "slowmode": {
 		if (!(message.member.roles.cache.has("645832781469057024") || message.member.roles.cache.has("608937618259836930") || message.member.roles.cache.has("609236733464150037"))) return message.channel.send("You don't have permission to do that!");
 		const smtime = args[1];
 		if (smtime == "0") {
@@ -1428,7 +1493,8 @@ bot.on("messageCreate", async function(message) {
 			message.channel.send(`Successfully applied slowmode of **${smtime}** seconds.`);
 		}
 		break;
-	case "grant":
+	}
+	case "grant": {
 		message.delete();
 		if (!(message.member.roles.cache.has("645832781469057024") || message.member.roles.cache.has("608937618259836930") || message.member.roles.cache.has("609236733464150037"))) return message.channel.send("You don't have permission to do that.");
 		const gmUser = message.mentions.members.first();
@@ -1440,9 +1506,10 @@ bot.on("messageCreate", async function(message) {
 		gmUser.roles.add(gRole);
 		message.channel.send(`<@${gmUser.id}> (**${gmUser.nickname}**) has been granted permissions.`);
 		break;
-		// end of admin Commands
-		// information
-	case "ping":
+	}
+	// end of admin Commands
+	// information
+	case "ping": {
 		const sent = await message.channel.send({ content: "Pinging...", fetchReply: true });
 		const APIl = Math.round(bot.ws.ping);
 
@@ -1455,7 +1522,8 @@ bot.on("messageCreate", async function(message) {
 
 		await sent.edit({ embeds: [pembed] });
 		break;
-	case "botinfo":
+	}
+	case "botinfo": {
 		const biembed = new MessageEmbed()
 			.setTitle("Bot Information")
 			.setColor(0x00bfff)
@@ -1470,7 +1538,8 @@ bot.on("messageCreate", async function(message) {
 			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 		message.channel.send({ embeds: [biembed] });
 		break;
-	case "userinfo":
+	}
+	case "userinfo": {
 		const sUser = message.mentions.members.first();
 		const snUser = message.member;
 
@@ -1500,7 +1569,8 @@ bot.on("messageCreate", async function(message) {
 			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 		message.channel.send({ embeds: [sembed] });
 		break;
-	case "serverinfo":
+	}
+	case "serverinfo": {
 		const siembed = new MessageEmbed()
 			.setTitle("Server Info")
 			.setDescription("Server's information.")
@@ -1522,7 +1592,8 @@ bot.on("messageCreate", async function(message) {
 			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 		message.channel.send({ embeds: [siembed] });
 		break;
-	case "welcome":
+	}
+	case "welcome": {
 		const wembed = new MessageEmbed()
 			.setTitle(`Welcome to ${message.channel.guild.name}!`)
 			.setColor("RANDOM")
@@ -1534,9 +1605,10 @@ bot.on("messageCreate", async function(message) {
 			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 		message.channel.send({ embeds: [wembed] });
 		break;
-		// end of Information
-		// help
-	case "help":
+	}
+	// end of Information
+	// help
+	case "help": {
 		if (args[1] == "food") {
 			const fembed = new MessageEmbed()
 				.setTitle("🍴Food Menu🍴", "These are the foods for you to eat.")
@@ -1603,7 +1675,7 @@ bot.on("messageCreate", async function(message) {
 					{ name: "`clear <1-99>`", value: "Bulk delete messages", inline: true },
 					{ name: "`slowmode <time (no units)>`", value: "Sets a slowmode for the channel", inline: true },
 				)
-				.addField("`tellraw <#channel> <message>`", "Makes Aot say whatever you want it to say in any channel.")
+				.addField("`tellraw <#channel> <message>`", "Makes Acto Utils say whatever you want it to say in any channel.")
 				.setTimestamp()
 				.setColor(0x00ffff)
 				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
@@ -1621,7 +1693,8 @@ bot.on("messageCreate", async function(message) {
 			message.channel.send({ embeds: [hembed] });
 		}
 		break;
-	case "testcommand":
+	}
+	case "testcommand": {
 		if (!message.member.id == "428445352354643968") return;
 		const tcembed = new MessageEmbed()
 			.setTitle("h")
@@ -1630,6 +1703,7 @@ bot.on("messageCreate", async function(message) {
 		message.channel.send({ embeds: [tcembed] });
 		break;
 	}
+	}
 });
 
-bot.login(config.token);
+bot.login(token);
