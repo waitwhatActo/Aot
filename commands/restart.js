@@ -13,7 +13,7 @@ module.exports = {
 		),
 	async execute(interaction) {
 		const delay = interaction.options.getNumber("delay");
-		if (!interaction.member.id === "428445352354643968");
+		if (!interaction.member.id == "428445352354643968") return interaction.reply({ content: "You don't have permission to do that!", ephemeral: true });
 		if (!delay) {
 			interaction.reply("Restarting bot...");
 			console.log("Bot was online for Bot restart triggered.");
