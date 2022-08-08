@@ -63,7 +63,7 @@ module.exports = {
 			}
 			catch (err) {
 				const acto = bot.users.cache.get("428445352354643968");
-				acto.send(`Failed to store Warn ${warnid} data to DB for <@${member.id}>. Error: \n` + err);
+				acto.send(`Failed to store Warn 000${warnid} data to DB for <@${member.id}>. Error: \n` + err);
 				interaction.reply({ content:`An error has occured. This could be due to failing to store Warn ${warnid} data to DB. You can try again, but if this keeps happening, please contact the bot owner.`, ephmeral: true });
 				return;
 			}
@@ -72,7 +72,7 @@ module.exports = {
 			const embed = new Discord.MessageEmbed()
 				.setDescription("**Member Warned**")
 				.setColor(0xff0000)
-				.setFooter({ text: `Case ID: ${warnid}`, iconURL: bot.user.avatarURL() })
+				.setFooter({ text: `Case ID: 000${warnid}`, iconURL: bot.user.avatarURL() })
 				.setTimestamp()
 				.addField("Member Warned by", `<@${interaction.member.id}> with ID ${interaction.member.id}`)
 				.addField("Member Warned", `<@${member.id}> with ID ${member.id}`)
@@ -87,7 +87,7 @@ module.exports = {
 			await warnchannel.send({ embeds: [embed] });
 
 			try {
-				member.send(`You have been warned for **${reason}** in **${interaction.guild.name}**. \rIf you have any inquiries or opinions with the warn, please use the modmail to message mods and provide the WarnID: \`${warnid}\``);
+				member.send(`You have been warned for **${reason}** in **${interaction.guild.name}**. \rIf you have any inquiries or opinions with the warn, please use the modmail to message mods and provide the WarnID: \`000${warnid}\``);
 			}
 			catch (err) {
 				console.log(err);
