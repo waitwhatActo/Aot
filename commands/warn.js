@@ -41,7 +41,7 @@ module.exports = {
 			const member = interaction.options.getUser("member");
 			const reason = interaction.options.get("reason")?.value ?? "not specified";
 			const warnidpre = warn.find().sort({ createdAt: -1 }).limit(1);
-			let warnid = warnidpre.warnId += 1;
+			let warnid = warnidpre[0].warnId += 1;
 
 			const warndb = await warn.create({
 				username: member.username,
