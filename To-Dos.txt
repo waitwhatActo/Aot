@@ -1,0 +1,12 @@
+Change .addField to .addFields
+
+Scam Detections:
+- Buttons to easily ban or mute
+- Editted embed of
+    a. Who took the action
+    b. when
+    c. changed color 
+    d. past record
+        i. scam messages
+        ii. warn history
+    

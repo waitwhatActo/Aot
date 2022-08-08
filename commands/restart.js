@@ -15,13 +15,13 @@ module.exports = {
 		const delay = interaction.options.getNumber("delay");
 		if (!interaction.member.id == "428445352354643968") return interaction.reply({ content: "You don't have permission to do that!", ephemeral: true });
 		if (!delay) {
-			interaction.reply({ content: "Restarting bot..." });
+			await interaction.reply({ content: "Restarting bot..." });
 			console.log("Bot was online for Bot restart triggered.");
 			process.exit();
 		}
 		else {
-			setTimeout(function() {
-				interaction.reply({ content: `Restarting bot in ${delay}ms...` });
+			setTimeout(async () => {
+				await interaction.reply({ content: `Restarting bot in ${delay}ms...` });
 				console.log("Bot restart triggered.");
 				process.exit();
 			});

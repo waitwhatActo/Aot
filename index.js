@@ -1,4 +1,4 @@
-const { Intents, Client, MessageEmbed, Collection } = require("discord.js");
+const { IntentsBitField, Client, EmbedBuilder, Collection } = require("discord.js");
 const ms = require("ms");
 const randomPuppy = require("random-puppy");
 const fs = require("fs");
@@ -8,8 +8,10 @@ const { Database, token, backupbot, update } = require("./config.json");
 const bandb = require("./Schemas/BanSchema.js");
 const mutedb = require("./Schemas/MuteSchema.js");
 const countdb = require("./Schemas/CountSchema.js");
+const filterdb = require("./Schemas/FilterSchema.js");
+const { InteractionType } = require("discord-api-types/v9");
 const PREFIX = "?a";
-const bot = new Client({ intents: new Intents(32767) });
+const bot = new Client({ intents: new IntentsBitField(32767) });
 
 let hours = 0;
 let feedcon = 0;
@@ -37,7 +39,7 @@ const feeder = async () => {
 	if (backupbot == 1 && backupbotevents == 0) return;
 	if (feedcon == 0) return;
 	await bot.users.cache.get("428445352354643968").send("Pinging").then(ready => {
-		const embed = new MessageEmbed()
+		const embed = new EmbedBuilder()
 			.setTitle("Acto Utils is online!")
 			.addField("Acto Utils is currently online", "with no issues.")
 			.addField("I've been online for", `${hours} hour(s)`)
@@ -46,7 +48,7 @@ const feeder = async () => {
 		ready.edit({ embeds: [embed] });
 	});
 	await bot.users.cache.get("933317965024210995").send("Pinging").then(ready => {
-		const embed = new MessageEmbed()
+		const embed = new EmbedBuilder()
 			.setTitle("Acto Utils is online!")
 			.addField("Acto Utils is currently online", "with no issues.")
 			.addField("I've been online for", `${hours} hour(s)`)
@@ -56,7 +58,7 @@ const feeder = async () => {
 	});
 	setInterval(async () => {
 		await bot.users.cache.get("428445352354643968").send("Pinging").then(ready => {
-			const embed = new MessageEmbed()
+			const embed = new EmbedBuilder()
 				.setTitle("Acto Utils is online!")
 				.addField("Acto Utils is currently online", "with no issues.")
 				.addField("I've been online for", `${hours} hour(s)`)
@@ -65,7 +67,7 @@ const feeder = async () => {
 			ready.edit({ embeds: [embed] });
 		});
 		await bot.users.cache.get("933317965024210995").send("Pinging").then(ready => {
-			const embed = new MessageEmbed()
+			const embed = new EmbedBuilder()
 				.setTitle("Acto Utils is online!")
 				.addField("Acto Utils is currently online", "with no issues.")
 				.addField("I've been online for", `${hours} hour(s)`)
@@ -96,7 +98,7 @@ bot.once("ready", async () => {
 	if (backupbot == 0) {
 		bot.user.setPresence({ activities: [{ name: `on 0.61.0 for ${hours} hour(s)` }], status: "online" });
 	}
-	else if (backupbot == 1 && backupbotevents == 0) {
+	else if (backupbot == 1) {
 		bot.user.setStatus("invisible");
 		setInterval(async () => {
 			const botcheckid = bot.users.cache.get("655769695370215425");
@@ -104,11 +106,11 @@ bot.once("ready", async () => {
 				console.log("Failed to check Acto Utils's status. Reconfirm ID and/or code.");
 				process.exit;
 			}
-			if (botcheckid.user.presence.status == "offline" && backupbotevents == 0) {
+			if (botcheckid.presence.status == "offline" && backupbotevents == 0) {
 				backupbotevents = 1;
 				bot.user.setPresence({ activities: [{ name: `on 0.61.0 for ${hours}` }], status: "online" });
 			}
-			else if (botcheckid.user.presence.status == "online" && backupbotevents == 1) {
+			else if (botcheckid.presence.status == "online" && backupbotevents == 1) {
 				bot.user.setActivity("invisible");
 				backupbotevents == 0;
 			}
@@ -133,7 +135,7 @@ bot.once("ready", async () => {
 			const server = bot.guilds.cache.get("608937238549495809");
 			if (!server) {return console.log("Failed to unban.");}
 			server.bans.remove(unban[0].userId);
-			const unbanembed = new MessageEmbed()
+			const unbanembed = new EmbedBuilder()
 				.setTitle("User Unbanned")
 				.setColor(0x00ff00)
 				.addField("Was Temporarily Banned User", `<@${unban[0].userId}> (**${unban[0].username}**) with ID ${unban[0].userId}`)
@@ -152,7 +154,7 @@ bot.once("ready", async () => {
 			const member = server.members.cache.get(unmute[0].userId);
 			member.roles.cache.remove("885808423483080744");
 			member.timeout(null);
-			const unmuteembed = new MessageEmbed()
+			const unmuteembed = new EmbedBuilder()
 				.setTitle("Member Unmuted")
 				.addField("Was Temporarily Muted User", `<@${unmute[0].userId}> (**${unmute[0].username}**) with ID ${unmute[0].userId}`)
 				.addField("Was Temporarily Muted By", `<@${unmute[0].adminId}> with ID ${unmute[0].adminId}`)
@@ -167,16 +169,18 @@ bot.once("ready", async () => {
 		}
 	}, 1000);
 
-	const uembed = new MessageEmbed()
+	const uembed = new EmbedBuilder()
 		.setTitle("New Backup System")
 		.setDescription("Successfully updated to Version 0.61.0!")
-		.addField("Prefix", "?a")
-		.addField("New Commands", "N/A`", true)
-		.addField("Removed Commands", "N/A", true)
-		.addField("Updates", "Updated some code to allow external backup bot.")
-		.addField("Other Information from the Developer", "N/A")
-		.addField("Code is available at", "https://github.com/cleverActon0126/Aot")
-		.addField("Project List is available at", "https://github.com/users/cleverActon0126/projects/2/views/1")
+		.addFields([
+			{ name: "Prefix", value: "?a" },
+			{ name: "New commands", value: "N/A", inline: true },
+			{ name: "Removed Commands", value :"N/A", inline: true },
+			{ name: "Updates", value: "Updated some code to allow external backup bot." },
+			{ name: "Other Info", value: "N/A" },
+			{ name: "Source Code", value: "[https://github.com/cleverActon0126/Aot](https://github.com/cleverActon0126/Aot)" },
+			{ name: "To-Do Reference", value: "[https://github.com/users/cleverActon0126/projects/2/views/1](https://github.com/users/cleverActon0126/projects/2/views/1)" },
+		])
 		.setColor(0x00ff00)
 		.setTimestamp()
 		.setFooter({ text: "Acto Utils Version 0.61.0, Made by cleverActon0126#0126" });
@@ -274,13 +278,13 @@ bot.on("guildMemberAdd", function(member) {
 
 	inchannel.send(newmem[Math.floor(Math.random() * newmem.length)]);
 
-	const embed = new MessageEmbed()
-		.setTitle(`Welcome to ${member.guild.name}!`)
+	const embed = new EmbedBuilder()
+		.setDescription(`**Welcome to ${member.guild.name}!**`)
 		.setColor("RANDOM")
-		.addField(`Welcome to ${member.guild.name}!`, "Here, you can enjoy your time talking to people in <#709339392564527185>. Have fun!")
-		.addField("Announcements", "Announcements always goes in to this channel: <#740870989134561331>. It is also an announcement channel so if you don't want to click multiple times to be able to see the announcements, you can just follow the channel into your own server.")
-		.addField("Rules", "Please always remember to read the rule in any server you join. For this server, please visit <#651410686705926145> for the rules.")
-		.addField("Server Information", "Server informations are available at <#739800400361947176>. It has list of Staffs, Channel Categories, Bots, Roles, Moderations and other useful information about the server.")
+		.addFields([
+			{ name: `Welcome, ${member.nickname}!`, value: `Have a great time in ${member.guild.name}!` },
+			{ name: "*Psst, here are some tips!*", value: "Read the rules (<#651410686705926145>) before you continue your exploration as they are crucial. You can check <#922778404988805190> for server related announcements and <#740870989134561331> for Youtube or content creating related announcements. There's more for you to discover!" },
+		])
 		.setTimestamp()
 		.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 	member.send({ embeds: [embed] }).catch(() => member.send({ embeds: [embed] }));
@@ -293,8 +297,10 @@ const m = fs.readFileSync("./lists/m.txt").toString().split("\n");
 const e = fs.readFileSync("./lists/e.txt").toString().split("\n");
 
 bot.on("interactionCreate", async function(interaction) {
-	if (backupbot == 1 && backupbotevents == 0) return;
-	if (!(interaction.isCommand() || interaction.isContextMenu())) return;
+	if (backupbot == 1 && backupbotevents == 0) {
+		interaction.reply({ content: "Hey there! This bot is a backup bot and is currently not in service as the main bot is still available. Please use the main bot instead." });
+	}
+	if (!interaction.type === InteractionType.ApplicationCommand) return;
 
 	const command = bot.commands.get(interaction.commandName);
 
@@ -318,14 +324,15 @@ bot.on("messageUpdate", async function(oldmessage, newmessage) {
 	const original = oldmessage.content.slice(0, count) + (oldmessage.content.length > count ? " ..." : "");
 	const edited = newmessage.content.slice(0, count) + (newmessage.content.length > count ? " ..." : "");
 
-	const logembed = new MessageEmbed()
+	const logembed = new EmbedBuilder()
 		.setColor("AQUA")
 		.setDescription(`A [message](${newmessage.url}) has been edited by ${newmessage.author} in ${newmessage.channel}.`)
-		.addField("Before", `\`\`\`${original}\`\`\``)
-		.addField("After", `\`\`\`${edited}\`\`\``);
-
+		.addFields([
+			{ name: "Before", value: `\`\`\`${original}\`\`\`` },
+			{ name: "After", value: `\`\`\`${edited}\`\`\`` },
+		]);
 	if (newmessage.attachments.size > 0) {
-		logembed.addField("Attachments:", `${newmessage.attachments.map((a) => a.url)}`);
+		logembed.addFields([{ name: "Attachments:", value: `${newmessage.attachments.map((a) => a.url)}` }]);
 	}
 
 	bot.channels.cache.get("885808423483080744").send({ embeds: [logembed] });
@@ -342,16 +349,18 @@ bot.on("messageCreate", async function(message) {
 			const sluser = message.member;
 			message.channel.send(`<@${sluser.id}> (**${sluser.user.username}**) was automatically muted for **attempted scam message**.`);
 
-			const slembed = new MessageEmbed()
-				.setTitle("Attempted Scam")
-				.setColor(0xff0000)
-				.addField("Member", message.author)
-				.addField("Time", `${message.createdAt}`)
-				.addField("In", `${message.channel}`)
-				.addField("Message", message.content)
-				.addField("Please take action", "if neccessary")
+			const slembed = new EmbedBuilder()
+				.setDescription("⚠️**Attempted Scam**⚠️")
+				.setAuthor({ name: message.member.username, iconURL: message.member.avatarURL() })
+				.setFooter({ name: "Automated Scam Links Detector by Acto Utils", iconURL: bot.client.avatarURL() })
+				.setColor(0xffff00)
 				.setTimestamp()
-				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
+				.addFields([
+					{ name: "Scam URL Sent By", value: message.member.username },
+					{ name: "Scam URL Sent At", value: `<t:${Math.round(message.createTimestamp / 1000)}:F>` },
+					{ name: "Scam URL Sent In", value: `<#${message.channelId}>` },
+					{ name: "Scam Message Content", value: `${message.content}` },
+				]);
 
 			const slchannel = message.guild.channels.cache.find(channel => channel.name == "Acto Utils-logs");
 			slchannel.send({ embeds: [slembed] });
@@ -367,7 +376,7 @@ bot.on("messageCreate", async function(message) {
 			const nuuser = message.member;
 			message.channel.send(`<@${nuuser.id}> (**${nuuser.user.username}**) was automatically muted for **sending malicious URLs**.`);
 
-			const nuembed = new MessageEmbed()
+			const nuembed = new EmbedBuilder()
 				.setTitle("Attempted Scam")
 				.setColor(0xff0000)
 				.addField("Member", message.author)
@@ -392,7 +401,7 @@ bot.on("messageCreate", async function(message) {
 			const suser = message.member;
 			message.channel.send(`<@${suser.id}> (**${suser.user.username}**) was automatically muted for **sending scam URLs**.`);
 
-			const sembed = new MessageEmbed()
+			const sembed = new EmbedBuilder()
 				.setTitle("Attempted Scam")
 				.setColor(0xff0000)
 				.addField("Member", message.author)
@@ -417,7 +426,7 @@ bot.on("messageCreate", async function(message) {
 			const muser = message.member;
 			message.channel.send(`<@${muser.id}> (**${muser.user.username}**) was automatically muted for **sending malicious stuff**.`);
 
-			const membed = new MessageEmbed()
+			const membed = new EmbedBuilder()
 				.setTitle("Attempted Scam")
 				.setColor(0xff0000)
 				.addField("Member", message.author)
@@ -443,7 +452,7 @@ bot.on("messageCreate", async function(message) {
 			const euser = message.member;
 			message.channel.send(`<@${euser.id}> (**${euser.user.username}**) was automatically muted for **attempting pinging everyone/here**.`);
 
-			const eembed = new MessageEmbed()
+			const eembed = new EmbedBuilder()
 				.setTitle("Attempted Ping")
 				.setColor(0xff0000)
 				.addField("Member", message.author)
@@ -538,10 +547,9 @@ bot.on("messageCreate", async function(message) {
 	}
 	case "8ball": {
 		message.channel.sendTyping();
-		const eballerrembed = new MessageEmbed()
-			.setTitle("8Ball")
-			.setDescription("You might not know the usage of 8ball. So let's learn how to use it here.")
-			.addField("`8ball [Your question]`", "It's just that simple.")
+		const eballerrembed = new EmbedBuilder()
+			.setDescription("**8ball Command Usage**")
+			.addFields([{ name: "`8ball [Your question]`", value: "It's just that simple." }])
 			.setColor(0xff0000)
 			.setTimestamp()
 			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
@@ -605,10 +613,9 @@ bot.on("messageCreate", async function(message) {
 		break;
 	}
 	case "shutdown": {
-		const shutdownerrembed = new MessageEmbed()
-			.setTitle("Shutdown")
-			.setDescription("You might not know the usage of shutdown. So let's learn how to use it here.")
-			.addField("`shutdown <@someone>`", "It's just that simple.")
+		const shutdownerrembed = new EmbedBuilder()
+			.setDescription("**Shutdown Command Usage**")
+			.addFields([{ name: "`shutdown <@someone>`", value: "It's just that simple." }])
 			.setColor(0xff0000)
 			.setTimestamp()
 			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
@@ -623,39 +630,23 @@ bot.on("messageCreate", async function(message) {
 		await msg.edit("Starting process...");
 		await wait(2500);
 		await msg.edit("Optaining IP address...");
-		await wait(13000);
+		await wait(Math.floor(Math.Random() * 25000) + 5000);
 		await msg.edit("IP address found.");
-		await wait(2500);
-		await msg.edit(`Locating ${sdUser.id}'s device.`);
-		await wait(10000);
-		await msg.edit(`Found ${sdUser.id}'s location.`);
-		await wait(3000);
-		await msg.edit(`Attempt 1 on shutting down ${sdUser.id}'s device`);
-		await wait(5000);
-		await msg.edit(`Attempt 2 on shutting down ${sdUser.id}'s device`);
-		await wait(5000);
-		await msg.edit(`Attempt 3 on shutting down ${sdUser.id}'s device`);
 		await wait(5000);
 		await msg.edit(`Failed to shutdown ${sdUser.id}'s device. Manual shutdown needed.`);
 		await wait(5000);
 		await msg.delete();
 
-		const embed = new MessageEmbed()
-			.setTitle("Remote Shutdown")
-			.setDescription("Someone's trying to shudown someone's device! Beware!")
-			.setColor(0xc8e9ca)
-			.addField("Who's remote shutting down people' device?", `<@${sdmUser.id}>`)
-			.addField("Who's being shutted down?", `<@${sdUser.id}>`)
-			.addField(`${sdUser.id}'s IP`, "127.0.0.1")
-			.addField("Windows", "Windows is easy to remote shutdown. If you're using Windows, follow the steps below.")
-			.addField("Step 1", "Open Cmd in administrator.", true)
-			.addField("Step 2", "Type `shutdown /i` then hit enter.", true)
-			.addField("Step 3", "You will see a pop-up window, press add, then type the IP address writen above, hit add.", true)
-			.addField("Step 4", "Choose if you want to shutdown or restart his computer.", true)
-			.addField("Step 5", "Type in a message for them.", true)
-			.addField("Step 6", "Hit ok.", true)
-			.addField("Step 7", "Watch someone freak out.", true)
-			.addField("Linux and MacOS", `We haven't tested out using Linux or MacOS, but you can use a virtual machine to shutdown <@${sdUser.id}>'s device.`)
+		const embed = new EmbedBuilder()
+			.setTitle("**Remote Shutdown**")
+			.setColor("RANDOM")
+			.addFields([
+				{ name: "Assasin", value: `<@${sdmUser.id}>` },
+				{ name: "Target", value: `<@${sdUser.id}>` },
+				{ name: "Target IP", value: "127.0.0.1" },
+				{ name: "Procedures", value: "___Windows Only___" },
+				{ name: "___Follow Carefully____", value: "Open Command Prompt or `cmd` with Administrator Permissions, type `shutdown /i` and hit enter. Press add on the pop-up and type in the Target IP, then press OK. Then choose for a shutdown or a restart and type a message. Press OK and enjoy the show of someone freaking out." },
+			])
 			.setTimestamp()
 			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 		message.channel.send({ embeds: [embed] });
@@ -681,7 +672,7 @@ bot.on("messageCreate", async function(message) {
 		const memeRandomizer = memeSource[Math.floor(Math.random() * memeSource.length)];
 		const memeImage = await randomPuppy(memeRandomizer);
 
-		const memeembed = new MessageEmbed()
+		const memeembed = new EmbedBuilder()
 			.setColor("RANDOM")
 			.setImage(memeImage)
 			.setTitle("Here's your meme, mom.")
@@ -732,10 +723,9 @@ bot.on("messageCreate", async function(message) {
 	case "addrole": {
 		message.delete();
 
-		const addroleerrembed = new MessageEmbed()
-			.setTitle("Addrole")
-			.setDescription("Usage for addrole:")
-			.addField("`addrole <@user> <@role>`", "Role(s) required: `@Lead Moderator`& `@Moderator` OR `@Acton`")
+		const addroleerrembed = new EmbedBuilder()
+			.setDescription("**Addrole (Admin/Moderators Only) command usage")
+			.addFields([{ name: "`addrole <@user> <@role>`", value: "Role(s) required: `@Lead Moderator`& `@Moderator` OR `@Acton`" }])
 			.setColor(0xff0000)
 			.setTimestamp()
 			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
@@ -746,16 +736,19 @@ bot.on("messageCreate", async function(message) {
 		const arRole = message.mentions.roles.first();
 		if (!arRole) return message.channel.send({ embeds: [addroleerrembed] });
 
-		const addroleembed = new MessageEmbed()
-			.setDescription("Role Added to User")
-			.setColor(0xff0000)
-			.addField("User with New Role", `${arUser} with ID ${arUser.id}`)
-			.addField("Added By", `<@${message.author.id}> with ID ${message.author.id}`)
-			.addField("Added In", `${message.channel}`)
-			.addField("Added At", `${message.createdAt}`)
-			.addField("Role Added", `${arRole}`)
+		const addroleembed = new EmbedBuilder()
+			.setDescription("**Role Added to Member**")
+			.setAuthor({ name: `${arUser.username}`, iconURL: `${arUser.avatarURL()}` })
+			.setColor(0xffff00)
+			.addFields([
+				{ name: "Role added to", value: `${arUser} (${arUser.id})` },
+				{ name: "Role added by", value: `<@${message.author.id}> (${message.author.id})` },
+				{ name: "Role added in", value: `${message.channel}` },
+				{ name: "Role added at", value: `${message.createdAt}` },
+				{ name: "Role added", value: `${arRole}` },
+			])
 			.setTimestamp()
-			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
+			.setFooter({ text: `${message.author.username}`, iconURL: `${message.member.avatarURL()}` });
 
 		const arChannel = message.guild.channels.cache.find(channel => channel.name === "Acto Utils-logs");
 		if (!arChannel) return message.channel.send("Could not find server logs channel.");
@@ -770,10 +763,9 @@ bot.on("messageCreate", async function(message) {
 	case "removerole": {
 		message.delete();
 
-		const removeroleerrembed = new MessageEmbed()
-			.setTitle("Removerole")
-			.setDescription("Usage for reomverole:")
-			.addField("`removerole <@someone> <@role>`", "Role(s) required: `@Lead Moderator`& `@Moderator` OR `@Acton`")
+		const removeroleerrembed = new EmbedBuilder()
+			.setDescription("**Removerole (Admins and Moderators Only) command usage**")
+			.addFields([{ name: "`removerole <@someone> <@role>`", value: "Role(s) required: `@Lead Moderator`& `@Moderator` OR `@Acton`" }])
 			.setColor(0xff0000)
 			.setTimestamp()
 			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
@@ -784,16 +776,19 @@ bot.on("messageCreate", async function(message) {
 		const rrRole = message.mentions.roles.first();
 		if (!rrRole) return message.channel.send({ embeds: [removeroleerrembed] });
 
-		const rrembed = new MessageEmbed()
-			.setDescription("Role Removed from User")
+		const rrembed = new EmbedBuilder()
+			.setDescription("**Role Removed from Member**")
+			.setAuthor({ name: `${rrUser.username}`, iconURL: `${rrUser.avatarURL()}` })
 			.setColor(0xff0000)
-			.addField("Role Removed User", `${rrUser} with ID ${rrUser.id}`)
-			.addField("Removed By", `<@${message.author.id}> with ID ${message.author.id}`)
-			.addField("Removed In", `${message.channel}`)
-			.addField("Removed At", `${message.createdAt}`)
-			.addField("Role Removed", `${rrRole}`)
+			.addFields([
+				{ name: "Role removed from", value: `${rrUser} (${rrUser.id})` },
+				{ name: "Role removed by", value: `<@${message.author.id}> (${message.author.id})` },
+				{ name: "Role removed in", value: `${message.channel}` },
+				{ name: "Role Removed at", value: `<t:${Math.round(message.createdTimestamp / 1000)}` },
+				{ name: "Role removed", value: `${rrRole}` },
+			])
 			.setTimestamp()
-			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
+			.setFooter({ text: `${rrUser.username}`, iconURL: `${rrUser.avatarURL()}` });
 
 		const rrChannel = message.guild.channels.cache.find(channel => channel.name === "Acto Utils-logs");
 		if (!rrChannel) return message.channel.send("Could not find server logs channel.");
@@ -808,10 +803,9 @@ bot.on("messageCreate", async function(message) {
 	case "kick": {
 		message.delete();
 
-		const kickerrembed = new MessageEmbed()
-			.setTitle("Kick")
-			.setDescription("Usage for kick:")
-			.addField("`kick <@someone> <reason>`", "Role(s) required: `@Moderator` OR `@Acton`")
+		const kickerrembed = new EmbedBuilder()
+			.setDescription("**Kick (Admins and Moderators Only) command usage")
+			.addFields([{ name: "`kick <@someone> <reason>`", value: "Role(s) required: `@Moderator` OR `@Acton`" }])
 			.setColor(0xff0000)
 			.setTimestamp()
 			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
@@ -823,16 +817,19 @@ bot.on("messageCreate", async function(message) {
 		if (!(message.member.roles.cache.has("629687079567360030") || message.member.roles.cache.has("629687079567360030") || message.member.roles.cache.has("645832781469057024") || message.member.roles.cache.has("609236733464150037"))) return message.channel.send("You don't have permission to do that!");
 		if (kUser.permissions.has("KICK_MEMBERS")) return message.channel.send("That member can't be kicked!");
 
-		const kembed = new MessageEmbed()
-			.setDescription("User Kicked")
+		const kembed = new EmbedBuilder()
+			.setDescription("**User Kicked from Server**")
 			.setColor(0xff0000)
-			.addField("Kicked User", `${kUser} with ID ${kUser.id}`)
-			.addField("Kicked By", `<@${message.author.id}> (**${kUser.user.username}**) with ID ${message.author.id}`)
-			.addField("Kicked In", message.channel.toString())
-			.addField("Time", `${message.createdAt}`)
-			.addField("Reason", kReason)
+			.addFields([
+				{ name: "Kicked member", value: `${kUser} (${kUser.id})` },
+				{ name: "Kicked by", value: `<@${message.author.id}> (${message.author.id})` },
+				{ name: "Kicked in", value: `${message.channel}` },
+				{ name: "Kicked at", value: `<t:${Math.round(message.createdTimestamp / 1000)}:F>` },
+				{ name: "Kicked for", value: `${kReason}` },
+			])
 			.setTimestamp()
-			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
+			.setAuthor({ name: kUser.username, iconUrl: kUser.avatarURL() })
+			.setFooter({ text: message.author.username, iconURL: message.author.iconURL() });
 
 		const kick2Channel = message.guild.channels.cache.find(channel => channel.name === "Acto Utils-logs");
 		if (!kick2Channel) return message.channel.send("Could not find server logs channel.");
@@ -848,10 +845,9 @@ bot.on("messageCreate", async function(message) {
 	case "tempban": {
 		message.delete();
 
-		const tempbanerrembed = new MessageEmbed()
-			.setTitle("Tempban")
-			.setDescription("Usage for tempban:")
-			.addField("`tempban <@someone> <time> <reason>`", "Role(s) required: `@Moderator` OR `@Acton`")
+		const tempbanerrembed = new EmbedBuilder()
+			.setDescription("**Tempban (Admins and Moderators Only) command usage**")
+			.addField([{ name: "`tempban <@someone> <time> <reason>`", value: "Role(s) required: `@Moderator` OR `@Acton`" }])
 			.setColor(0xff0000)
 			.setTimestamp()
 			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
@@ -865,9 +861,14 @@ bot.on("messageCreate", async function(message) {
 
 		const tempbantime = args[2];
 
-		const tbembed = new MessageEmbed()
-			.setTitle("User Temporarily Banned")
+		const tbembed = new EmbedBuilder()
+			.setDescription("**Member Temporarily Banned**")
 			.setColor(0xff0000)
+			.addFields([
+				{ name: "Temporarily Banned Member", value: `<@${tbUser.id}> (${tbUser.id})` },
+				{ name: "Temporarily Banned By", value: `<@${message.author.id}> {${message.author.id}}` },
+				{ name: "Temporarily Banned In", value: `<#${message.channelId}>` },
+			])
 			.addField("Temporarily Banned User", `${tbUser} (**${tbUser.user.username}**) with ID ${tbUser.id}`)
 			.addField("Temporarily Banned By", `<@${message.author.id}> with ID ${message.author.id}`)
 			.addField("Temporarily Banned In", `${message.channel}`)
@@ -877,7 +878,7 @@ bot.on("messageCreate", async function(message) {
 			.setTimestamp()
 			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 
-		const tbembed2 = new MessageEmbed()
+		const tbembed2 = new EmbedBuilder()
 			.setTitle("User Unbanned")
 			.setColor(0x00ff00)
 			.addField("User Unbanned", `${tbUser} (**${tbUser.user.username}**) with ID ${tbUser.id}`)
@@ -906,7 +907,7 @@ bot.on("messageCreate", async function(message) {
 	case "ban": {
 		message.delete();
 
-		const banerrembed = new MessageEmbed()
+		const banerrembed = new EmbedBuilder()
 			.setTitle("Ban")
 			.setDescription("Usage for ban:")
 			.addField("`ban <@someone> <reason>`", "Role(s) required: `@Moderator`, `@Acton`")
@@ -921,7 +922,7 @@ bot.on("messageCreate", async function(message) {
 		if (!(message.member.roles.cache.has("645832781469057024") || message.member.roles.cache.has("609236733464150037"))) return message.channel.send("You don't have permission to do that!");
 		if (bUser.permissions.has("BAN_MEMBERS")) return message.channel.send("That member can't be banned!");
 
-		const bembed = new MessageEmbed()
+		const bembed = new EmbedBuilder()
 			.setTitle("User Banned")
 			.setColor(0xff0000)
 			.addField("Banned User", `${bUser} (**${bUser.user.username}**) with ID ${bUser.id}`)
@@ -945,7 +946,7 @@ bot.on("messageCreate", async function(message) {
 	case "unban": {
 		message.delete();
 
-		const unbanerrembed = new MessageEmbed()
+		const unbanerrembed = new EmbedBuilder()
 			.setTitle("Unban")
 			.setDescription("Usage for unban:")
 			.addField("`unban <USER ID> <reason>`", "Role(s) required: `@Moderator`and `@Lead Moderator` OR `@Acton`")
@@ -957,7 +958,7 @@ bot.on("messageCreate", async function(message) {
 		if (!ubID) return message.channel.send({ embeds: [unbanerrembed] });
 		if (!(message.member.roles.cache.has("608937618259836930") || message.member.roles.cache.has("645832781469057024") || message.member.roles.cache.has("609236733464150037"))) return message.channel.send("You don't have permission to do that!");
 
-		const ubembed = new MessageEmbed()
+		const ubembed = new EmbedBuilder()
 			.setTitle("User Unbanned")
 			.setColor(0xff0000)
 			.addField("Unbanned User", `<@${ubID}> with ID ${ubID}`)
@@ -978,7 +979,7 @@ bot.on("messageCreate", async function(message) {
 	case "mute": {
 		message.delete();
 
-		const muteerrembed = new MessageEmbed()
+		const muteerrembed = new EmbedBuilder()
 			.setTitle("Mute")
 			.setDescription("Usage for mute:")
 			.addField("`mute <@someone> <reason>`", "Role(s) required: `@Trial Moderator` OR `@Moderator` OR `@Acton`")
@@ -1001,7 +1002,7 @@ bot.on("messageCreate", async function(message) {
 		const muteChannel = mUser.guild.channels.cache.find(channel => channel.name === "Acto Utils-logs");
 		if (!muteChannel) return;
 
-		const membed = new MessageEmbed()
+		const membed = new EmbedBuilder()
 			.setTitle("Member Muted")
 			.setColor(0xff0000)
 			.addField("Muted Member", `<@${mUser.id}>`)
@@ -1045,7 +1046,7 @@ bot.on("messageCreate", async function(message) {
 
 			message.channel.send(`<@${tmUser.id}> (**${tmUser.user.username}**) has been muted for **${mutetime}** for **${tmReason}**.`);
 
-			const tmembed = new MessageEmbed()
+			const tmembed = new EmbedBuilder()
 				.setTitle("Member Temporarily Muted")
 				.setColor(0xff0000)
 				.addField("Temporarily Muted Member", `<@${tmUser.id}> (**${tmUser.user.username}**) with ID ${tmUser.id}`)
@@ -1057,7 +1058,7 @@ bot.on("messageCreate", async function(message) {
 				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 			tempmuteChannel.send({ embeds: [tmembed] });
 
-			const tmembed2 = new MessageEmbed()
+			const tmembed2 = new EmbedBuilder()
 				.setTitle("Member Unmuted")
 				.setColor(0xff0000)
 				.addField("Was Temporarily Muted Member", `<@${tmUser.id}> (**${tmUser.user.username}**) with ID ${tmUser.id}`)
@@ -1078,7 +1079,7 @@ bot.on("messageCreate", async function(message) {
 	case "unmute": {
 		message.delete();
 
-		const unmuteerrembed = new MessageEmbed()
+		const unmuteerrembed = new EmbedBuilder()
 			.setTitle("Unmute")
 			.setDescription("Usage for unmute:")
 			.addField("`unmute <@someone>`", "Role(s) required: `@Moderator` OR `@Acton`")
@@ -1095,7 +1096,7 @@ bot.on("messageCreate", async function(message) {
 
 		umUser.roles.remove(unmuterole.id);
 
-		const umembed = new MessageEmbed()
+		const umembed = new EmbedBuilder()
 			.setTitle("Member Unmuted")
 			.addField("Unmuted Member", `<@${umUser.id}> (**${umUser.user.username}**) with ID ${umUser.id}`)
 			.addField("Unmuted By", `${message.author}`)
@@ -1113,7 +1114,7 @@ bot.on("messageCreate", async function(message) {
 	case "clear": {
 		message.delete();
 
-		const clearerrembed = new MessageEmbed()
+		const clearerrembed = new EmbedBuilder()
 			.setTitle("Clear")
 			.setDescription("Usage for clear:")
 			.addField("`clear <1-99>`", "Role(s) required: `@Moderator`, `@Acton`")
@@ -1152,7 +1153,7 @@ bot.on("messageCreate", async function(message) {
 
 				message.channel.send("🔒This channel has been locked by a moderator.");
 
-				const ldcembed = new MessageEmbed()
+				const ldcembed = new EmbedBuilder()
 					.setTitle("Server Unlock")
 					.addField("Lockdown Ended by", `${message.author}`)
 					.addField("Lockdown Ended at", `${message.createdAt}`)
@@ -1281,7 +1282,7 @@ bot.on("messageCreate", async function(message) {
 
 				message.channel.send("🔒Successfully locked all channels.");
 
-				const ldsembed = new MessageEmbed()
+				const ldsembed = new EmbedBuilder()
 					.setTitle("Server Lockdown")
 					.addField("Lockdown Started by", `${message.author}`)
 					.addField("Lockdown Started at", `${message.createdAt}`)
@@ -1310,7 +1311,7 @@ bot.on("messageCreate", async function(message) {
 
 				message.channel.send("🔓This channel has been unlocked by a moderator.");
 
-				const uldcembed = new MessageEmbed()
+				const uldcembed = new EmbedBuilder()
 					.setTitle("Server Unlock")
 					.addField("Lockdown Ended by", `${message.author}`)
 					.addField("Lockdown Ended at", `${message.createdAt}`)
@@ -1439,7 +1440,7 @@ bot.on("messageCreate", async function(message) {
 
 				message.channel.send("🔓Successfully unlocked all channels.");
 
-				const uldsembed = new MessageEmbed()
+				const uldsembed = new EmbedBuilder()
 					.setTitle("Server Unlock")
 					.addField("Lockdown Ended by", `${message.author}`)
 					.addField("Lockdown Ended at", `${message.createdAt}`)
@@ -1513,7 +1514,7 @@ bot.on("messageCreate", async function(message) {
 		const sent = await message.channel.send({ content: "Pinging...", fetchReply: true });
 		const APIl = Math.round(bot.ws.ping);
 
-		const pembed = new MessageEmbed()
+		const pembed = new EmbedBuilder()
 			.setTitle("Bot Ping")
 			.addField("Ping", `${sent.createdTimestamp - message.createdTimestamp}ms`)
 			.addField("API Latency", `${APIl}ms`)
@@ -1524,7 +1525,7 @@ bot.on("messageCreate", async function(message) {
 		break;
 	}
 	case "botinfo": {
-		const biembed = new MessageEmbed()
+		const biembed = new EmbedBuilder()
 			.setTitle("Bot Information")
 			.setColor(0x00bfff)
 			.addField("General Information", "Bot's general information", true)
@@ -1543,7 +1544,7 @@ bot.on("messageCreate", async function(message) {
 		const sUser = message.mentions.members.first();
 		const snUser = message.member;
 
-		const noembed = new MessageEmbed()
+		const noembed = new EmbedBuilder()
 			.setTitle("User Info")
 			.setColor(0x00bfff)
 			.setThumbnail(snUser.user.displayAvatarURL())
@@ -1556,7 +1557,7 @@ bot.on("messageCreate", async function(message) {
 			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
 		if (!sUser) return message.channel.send({ embeds: [noembed] });
 
-		const sembed = new MessageEmbed()
+		const sembed = new EmbedBuilder()
 			.setTitle("User Info")
 			.setColor(0x00bfff)
 			.setThumbnail(sUser.user.displayAvatarURL())
@@ -1571,7 +1572,7 @@ bot.on("messageCreate", async function(message) {
 		break;
 	}
 	case "serverinfo": {
-		const siembed = new MessageEmbed()
+		const siembed = new EmbedBuilder()
 			.setTitle("Server Info")
 			.setDescription("Server's information.")
 			.setColor(0x00bfff)
@@ -1594,7 +1595,7 @@ bot.on("messageCreate", async function(message) {
 		break;
 	}
 	case "welcome": {
-		const wembed = new MessageEmbed()
+		const wembed = new EmbedBuilder()
 			.setTitle(`Welcome to ${message.channel.guild.name}!`)
 			.setColor("RANDOM")
 			.addField(`Welcome to ${message.channel.guild.name}!`, "Here, you can enjoy your time talking to people in <#709339392564527185>. Have fun!")
@@ -1610,7 +1611,7 @@ bot.on("messageCreate", async function(message) {
 	// help
 	case "help": {
 		if (args[1] == "food") {
-			const fembed = new MessageEmbed()
+			const fembed = new EmbedBuilder()
 				.setTitle("🍴Food Menu🍴", "These are the foods for you to eat.")
 				.addField("`apple`", "NORMAL apple", true)
 				.addField("`candy`", "Sweet one", true)
@@ -1622,7 +1623,7 @@ bot.on("messageCreate", async function(message) {
 			message.channel.send({ embeds: [fembed] });
 		}
 		else if (args[1] == "fun") {
-			const fuembed = new MessageEmbed()
+			const fuembed = new EmbedBuilder()
 				.setTitle("😀Fun Menu😀", "Available games.")
 				.addField("`8ball <your question>`", "Predict the future", true)
 				.addField("`coinflip`", "Flip a coin!", true)
@@ -1637,7 +1638,7 @@ bot.on("messageCreate", async function(message) {
 			message.channel.send({ embeds: [fuembed] });
 		}
 		else if (args[1] == "info") {
-			const iembed = new MessageEmbed()
+			const iembed = new EmbedBuilder()
 				.setTitle("❓Info Menu❓", "Informations")
 				.addField("`botinfo`", "This bot's info")
 				.addField("`serverinfo`", "Server information.")
@@ -1652,7 +1653,7 @@ bot.on("messageCreate", async function(message) {
 		else if (args[1] == "mod") {
 			if (!message.member.permissions.has("VIEW_AUDIT_LOG")) return message.channel.send("You need permissions to use this command.");
 
-			const moembed = new MessageEmbed()
+			const moembed = new EmbedBuilder()
 				.setTitle("⚒️Moderation Menu⚒️")
 				.addFields(
 					{ name: " Actions", value: "​" },
@@ -1682,7 +1683,7 @@ bot.on("messageCreate", async function(message) {
 			message.channel.send({ embeds: [moembed] });
 		}
 		else {
-			const hembed = new MessageEmbed()
+			const hembed = new EmbedBuilder()
 				.setTitle("❓Help Menu❓")
 				.addField("🍴Food Menu🍴", "`help food`", true)
 				.addField("😀Fun Menu😀", "`help fun`", true)
@@ -1696,7 +1697,7 @@ bot.on("messageCreate", async function(message) {
 	}
 	case "testcommand": {
 		if (!message.member.id == "428445352354643968") return;
-		const tcembed = new MessageEmbed()
+		const tcembed = new EmbedBuilder()
 			.setTitle("h")
 			.addField("h", "h")
 			.setFooter("h");
