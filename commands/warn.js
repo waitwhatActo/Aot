@@ -40,9 +40,7 @@ module.exports = {
 			if (!(interaction.member.roles.cache.has("629687079567360030") || interaction.member.roles.cache.has("629687079567360030") || interaction.member.roles.cache.has("645832781469057024") || interaction.member.roles.cache.has("609236733464150037"))) return interaction.reply({ content: "You don't have permission to do that!" });
 			const member = interaction.options.getUser("member");
 			const reason = interaction.options.get("reason")?.value ?? "not specified";
-			const warnidpre1 = await warn.find().sort({ "warnid": 1 }).limit(32);
-			console.log(warnidpre1);
-			const warnidpre = warnidpre1.exec();
+			const warnidpre = await warn.find().sort({ "warnid": 1 }).limit(32).exec();
 			let warnidpre2 = parseInt(warnidpre[0].warnId);
 			console.log(warnidpre2);
 			let warnid = warnidpre2 += 1;
