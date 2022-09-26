@@ -22,7 +22,7 @@
     "@discordjs/voice": "^0.10.0",
     "@pm2/io": "^5.0.0",
     "discord-api-types": "^0.36.2",
-    "discord.js": "^13.8.1",
+    "discord.js": "^14.5.0",
     "file-system": "^2.2.2",
     "got": "^12.2.0",
     "mongoose": "^6.4.7",
