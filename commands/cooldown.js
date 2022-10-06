@@ -1,5 +1,4 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
-const Discord = require("discord.js");
+const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
 const ms = require("ms");
 
 module.exports = {
@@ -8,36 +7,29 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName("cooldown")
 		.setDescription("Change a channel's cooldown duration.")
+		.setDMPermission(false)
 		.addStringOption(option =>
 			option.setName("duration")
 				.setDescription("Duration of cooldown. (Format: 10s, 1m, 1day, null)")
 				.setRequired(true)),
 	async execute(interaction) {
+		const { ids } = require("../index.js");
 		if (!(interaction.member.roles.cache.has("645832781469057024") || interaction.member.roles.cache.has("608937618259836930") || interaction.member.roles.cache.has("609236733464150037"))) return interaction.reply({ content: "You don't have permission to do that!", ephemeral: true });
-		let duration = interaction.options.get("duration").value;
-		if (duration == "null") {
-			duration = 0;
-		}
-		else {
-			Math.round(ms(interaction.options.get("duration").value) / 1000);
-			if (!duration) return interaction.reply({ content: "Please provide a valid value for duration", ephemeral: true });
-			else if (duration == undefined) return interaction.reply({ content: "Please provide a valid value for duration", ephemeral: true });
-			else if (isNaN(duration)) return interaction.reply({ content: "Please provide a valid value for duration", ephemeral: true });
-		}
+		const duration = interaction.options.get("duration").value;
+		if (!duration) return interaction.reply({ content: "Please enter a valid time, in the format of `1h/1hour`.", ephemeral: true });
+		// @ts-ignore
+		interaction.channel.setRateLimitPerUser(ms(duration) / 1000);
+		interaction.reply({ content: `The slowmode for the channel has been set to **${ms(ms(duration))}**` });
 
-		interaction.channel.setRateLimitPerUser(duration).catch(console.log);
-		interaction.reply({ content: `The slowmode for the channel has been set to **${ms(duration * 1000)}**` });
 
-		const { hmf, bot } = require("../index.js");
-
-		const embed = new Discord.MessageEmbed()
-			.setAuthor({ name: `${interaction.member.user.tag}`, iconURL: interaction.member.avatarURL({ dynamic: true }) })
-			.setDescription(`**Slowmode for <#${interaction.channel.id}> has been changed to _*${ms(duration * 1000)}*_ by <@${interaction.member.id}>**`)
+		const embed = new EmbedBuilder()
+			.setAuthor({ name: `${interaction.channel.name}`, iconURL: interaction.guild.iconURL({ size: 4096, extension: "png" }) })
+			.setDescription(`**Slowmode for <#${interaction.channel.id}> has been changed to _*${ms(ms(duration))}*_ by <@${interaction.member.id}>** (${interaction.member.id}).`)
 			.setTimestamp()
-			.setColor("RANDOM")
-			.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)], iconURL: bot.user.avatarURL() });
+			.setColor("Random")
+			.setFooter({ text: `${interaction.member.user.tag}`, iconURL: interaction.member.user.avatarURL({ dynamic: true, size: 4096, extension: "png" }) });
 
-		const channel = interaction.guild.channels.cache.get("885808423483080744");
+		const channel = interaction.guild.channels.fetch(ids.channels.logging.general);
 		if (!channel) return interaction.reply("Could not find server logs channel.");
 
 		channel.send({ embeds: [embed] });

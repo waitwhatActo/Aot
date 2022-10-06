@@ -1,5 +1,4 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
-const Discord = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const ms = require("ms");
 const mute = require("../Schemas/MuteSchema.js");
 
@@ -9,6 +8,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName("mute")
 		.setDescription("mute a member")
+		.setDMPermission(false)
 		.addSubcommand(subcommand =>
 			subcommand.setName("permanent")
 				.setDescription("Mutes a member permanently.")
@@ -39,7 +39,7 @@ module.exports = {
 		)
 		.addSubcommand(subcommand =>
 			subcommand.setName("unmute")
-				.setDescription("Unmute a memeber.")
+				.setDescription("Unmute a member.")
 				.addUserOption(option =>
 					option.setName("member")
 						.setDescription("Member to unmute.")
@@ -58,91 +58,157 @@ module.exports = {
 
 			if (!(interaction.member.roles.cache.has("629687079567360030") || interaction.member.roles.cache.has("609236733464150037") || interaction.member.roles.cache.has("645832781469057024"))) return interaction.reply({ content: "You don't have permission to do that!", ephemeral: true });
 
-			const muteChannel = interaction.guild.channels.cache.get("885808423483080744");
+			const muteChannel = interaction.guild.channels.fetch("885808423483080744");
 			if (!muteChannel) return;
 
-			const { hmf } = require("../index.js");
-
-			const membed = new Discord.MessageEmbed()
-				.setTitle("Member Permanently Muted")
+			const membed = new EmbedBuilder()
+				.setDescription("**Member Muted**")
 				.setColor(0xff0000)
-				.addField("Muted Member", `<@${user.id}>`)
-				.addField("Permanently Muted At", `<t:${Math.round(interaction.createdTimestamp / 1000)}:F>`)
-				.addField("Duration", "Infinite")
-				.addField("Responsible Admin", `<@${interaction.member.id}>`)
-				.addField("Reason", `${reason}`)
+				.addFields([
+					{ name: "Muted Member", value: `<@${user.user.id}> (${user.user.id})` },
+					{ name: "Muted By", value: `<@${interaction.member.user.id}> (${interaction.member.user.id})` },
+					{ name: "Muted At", value: `<t:${Math.round(interaction.createdTimestamp / 1000)}:F>` },
+					{ name: "Muted In", value: `<#${interaction.channelId}>` },
+					{ name: "Muted For", value: `${reason}` },
+					{ name: "Mute Type", value: "Permanent Infinite" },
+				])
+				.setAuthor({ name: `${user.user.tag}`, iconURL: user.user.avatarURL({ size: 4096, extension: "png" }) })
 				.setTimestamp()
-				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
-			const muterole = interaction.guild.roles.cache.get("726205475397566505");
+				.setFooter({ text: `${interaction.member.user.tag}`, iconURL: interaction.member.user.avatarURL({ size: 4096, extension: "png" }) });
+			const muterole = interaction.guild.roles.fetch("726205475397566505");
 			if (!muterole) return;
 
-			user.roles.add(muterole.id);
-			muteChannel.send({ embeds: [membed] });
-
-			user.timeout(2419200000, reason);
-
 			const mutedb = await mute.create({
-				username: user.username,
-				userId: user.id,
+				username: user.user.username,
+				userId: user.user.id,
 				duration: "0",
 				reason: reason,
-				adminusername: interaction.member.username,
-				adminId: interaction.member.id,
+				adminusername: interaction.username,
+				adminId: interaction.member.user.id,
 				permanent: true,
 				time: interaction.createdTimestamp,
 			});
-			await mutedb.save();
+			try {
+				await mutedb.save();
+			}
+			catch {
+				console.log();
+				interaction.reply({ content: "An error has occurred. This could be due to failing to save data to database. You should contact the bot owner to get this issue fixed as it is most likely a bot issue. The mute has been aborted.", ephemeral: true });
+				return;
+			}
 
-			interaction.reply(`<@${user.id}> (**${user.user.username}**) has been permanently muted for **${reason}**.`);
+			try {
+				user.roles.add(muterole.id);
+				user.timeout(2419200000, reason);
+			}
+			catch {
+				console.log();
+				interaction.reply({ content: "An error has occurred. This could be due to unable to mute member. You can try again, but if the problem persists, please contact the bot owner. The mute has been aborted.", ephemeral: true });
+				try {
+					user.roles.remove("726205475397566505");
+					user.timeout(null, "Failure to mute");
+				}
+				catch {
+					console.log();
+					interaction.catchUp({ content: "An error has occurred. This could be due not being able to remove role or unmute member. Please manually remove role Muted and un-timeout member.", ephemeral: true });
+				}
+				return;
+			}
+
+			try {
+				user.send({ content: `You have been permanently muted in **${interaction.guild.name}** for **${reason}**` });
+			}
+			catch {
+				console.log();
+			}
+
+			muteChannel.send({ embeds: [membed] });
+			interaction.reply(`<@${user.user.id}> (**${user.user.username}**) has been permanently muted for **${reason}**.`);
 			break;
 		}
 		case "temporary": {
 			const user = interaction.options.getMember("member");
 			const reason = interaction.options.get("reason")?.value ?? "not specified";
 			let time = ms(interaction.options.get("duration").value);
+			const timea = ms(ms(interaction.options.get("duration").value));
 			if (!(interaction.member.roles.cache.has("629687079567360030") || interaction.member.roles.cache.has("609236733464150037") || interaction.member.roles.cache.has("645832781469057024"))) return interaction.reply({ content: "You don't have permission to do that!", ephemeral: true });
 
 			if (!time) {
+				interaction.reply({ content: "Please enter a time to mute the member. The mute has been aborted.", ephemeral: true });
 				return;
 			}
-			else if (time > 2419200000) {
+
+			const membed = new EmbedBuilder()
+				.setDescription("**Member Muted**")
+				.setColor(0xff0000)
+				.addFields([
+					{ name: "Muted Member", value: `<@${user.user.id}> (${user.user.id})` },
+					{ name: "Muted By", value: `<@${interaction.member.user.id}> (${interaction.member.user.id})` },
+					{ name: "Muted At", value: `<t:${Math.round(interaction.createdTimestamp / 1000)}:F>` },
+					{ name: "Muted In", value: `<#${interaction.channelId}>` },
+					{ name: "Muted For", value: `${reason}` },
+					{ name: "Muted Duration", value: `${ms(time)}` },
+					{ name: "Mute Type", value: "Temporary Finite" },
+				])
+				.setAuthor({ name: `${user.user.tag}`, iconURL: user.user.avatarURL({ size: 4096, extension: "png" }) })
+				.setTimestamp()
+				.setFooter({ text: `${interaction.member.user.tag}`, iconURL: interaction.member.user.avatarURL({ size: 4096, extension: "png" }) });
+			const muterole = interaction.guild.roles.fetch("726205475397566505");
+			if (!muterole) return interaction.reply({ content: "Mute role was not found", ephemeral: true });
+			const muteChannel = interaction.guild.channels.fetch("885808423483080744");
+			if (!muteChannel) return interaction.reply({ content: "Mute channel was not found", ephemeral: true });
+
+			const mutedb = await mute.create({
+				username: user.user.username,
+				userId: user.user.id,
+				duration: time,
+				reason: reason,
+				adminusername: interaction.member.user.username,
+				adminId: interaction.member.user.id,
+				permanent: false,
+				time: interaction.createdTimestamp,
+				// @ts-ignore
+				unmutetime: Math.round((interaction.createdTimestamp += time) / 1000),
+			});
+			try {
+				await mutedb.save();
+			}
+			catch {
+				console.log();
+				interaction.replay({ content: "An error has occurred this could be due to not being able to save data to database. You should contact the bot owner to get this issue fixed as it is most likely a bot issue. The mute has been aborted.", ephemeral: true });
+				return;
+			}
+
+			if (parseInt(time) > 2419200000) {
 				time = "2419200000";
 			}
 
-			const { hmf } = require("../index.js");
+			try {
+				user.roles.add("726205475397566505");
+				user.timeout(time, reason);
+			}
+			catch {
+				console.log();
+				interaction.reply({ content: "An error has occurred. This could be due not being able to add role or mute member. You can try again, but if the problem persists, please contact the bot owner. The mute has been aborted.", ephemeral: true });
+				try {
+					user.roles.remove("726205475397566505");
+					user.timeout(null, "Failure to mute");
+				}
+				catch {
+					console.log();
+					interaction.catchUp({ content: "An error has occurred. This could be due not being able to remove role or unmute member. Please manually remove role Muted and un-timeout member.", ephemeral: true });
+				}
+				return;
+			}
 
-			const membed = new Discord.MessageEmbed()
-				.setTitle("Member Temporarily Muted")
-				.setColor(0xff0000)
-				.addField("Muted Member", `<@${user.id}>`)
-				.addField("Temporarily Muted At", `<t:${Math.round(interaction.createdTimestamp / 1000)}:F>`)
-				.addField("Duration", `${ms(time)}`)
-				.addField("Responsible Admin", `<@${interaction.member.id}>`)
-				.addField("Reason", `${reason}`)
-				.setTimestamp()
-				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
-			const muterole = interaction.guild.roles.cache.get("726205475397566505");
-			if (!muterole) return;
-			const muteChannel = interaction.guild.channels.cache.get("885808423483080744");
-
-			user.roles.add("885808423483080744");
-			user.timeout(time, reason).catch(console.log);
-
-			const mutedb = await mute.create({
-				username: user.username,
-				userId: user.id,
-				duration: time,
-				reason: reason,
-				adminusername: interaction.member.username,
-				adminId: interaction.member.id,
-				permanent: false,
-				time: interaction.createdTimestamp,
-				unmutetime: Math.round((interaction.createdTimestamp += time) / 1000),
-			});
-			await mutedb.save();
+			try {
+				user.send({ content: `You have been temporarily muted for **${timea}** in **${interaction.guild.name} for **${reason}**` });
+			}
+			catch {
+				console.log();
+			}
 
 			muteChannel.send({ embeds: [membed] });
-
 			interaction.reply(`<@${user.id}> (**${user.user.username}**) has been temporarily muted for **${reason}**.`);
 			break;
 		}
@@ -155,25 +221,42 @@ module.exports = {
 			if (user.isCommunicationDisabled() == true || user.roles.cache.has("726205475397566505")) {
 
 				if (user.isCommunicationDisabled() == true) {
-					user.timeout(null, reason);
+					try {
+						user.timeout(null, reason);
+					}
+					catch {
+						console.log();
+						interaction.reply({ content: "An error has occurred. This could be due to unable to unmute member. You can try again, but if the problem persists, please contact the bot owner. The unmute has been aborted.", ephemeral: true });
+						return;
+					}
 				}
 				else if (user.roles.cache.has("726205475397566505")) {
-					user.roles.remove("726205475397566505");
+					try {
+						user.roles.remove("726205475397566505");
+					}
+					catch {
+						console.log();
+						interaction.reply({ content: "An error has occurred. This could be due to unable to unmute member. You can try again, but if the problem persists, please contact the bot owner. The unmute has been aborted.", ephemeral: true });
+						return;
+					}
 				}
 
-				const { hmf } = require("../index.js");
-
-				const embed = new Discord.MessageEmbed()
-					.setTitle("Member Unmuted")
-					.addField("Unmuted Member", `<@${user.id}> (**${user.user.username}**) with ID ${user.id}`)
-					.addField("Responsible Admin", `${interaction.user}`)
-					.addField("Unmuted At", `<t:${Math.round(interaction.createdTimestamp / 1000)}:F>`)
-					.addField("Reason", `${reason}`)
-					.setColor(0x00ff00)
+				const embed = new EmbedBuilder()
+					.setDescription("**Member Unmuted**")
+					.setColor(0xff0000)
+					.addFields([
+						{ name: "Unmuted Member", value: `<@${user.user.id}> (${user.user.id})` },
+						{ name: "Unmuted By", value: `<@${interaction.user.id}> (${interaction.user.id})` },
+						{ name: "Unmuted At", value: `<t:${Math.round(interaction.createdTimestamp / 1000)}:F>` },
+						{ name: "Unmuted In", value: `<#${interaction.channelId}>` },
+						{ name: "Unmuted For", value: `${reason}` },
+						{ name: "Unmute Type", value: "UNMUTE Permanent Infinite" },
+					])
+					.setAuthor({ name: `${user.user.tag}`, iconURL: user.user.avatarURL({ size: 4096, extension: "png" }) })
 					.setTimestamp()
-					.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
+					.setFooter({ text: `${interaction.member.user.tag}`, iconURL: interaction.member.user.avatarURL({ size: 4096, extension: "png" }) });
 				interaction.reply(`<@${user.id}> (**${user.user.username}**) has been unmuted.`);
-				const muteChannel = interaction.guild.channels.cache.get("885808423483080744");
+				const muteChannel = interaction.guild.channels.fetch("885808423483080744");
 				muteChannel.send({ embeds: [embed] });
 			}
 			else {

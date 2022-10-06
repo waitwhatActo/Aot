@@ -4,7 +4,9 @@
         "moduleResolution": "Node",
         "target": "ES2020",
         "jsx": "preserve",
-        "strictFunctionTypes": true
+        "strictFunctionTypes": true,
+        "checkJs": true,
+        "resolveJsonModule": true
     },
     "exclude": [
         "node_modules",

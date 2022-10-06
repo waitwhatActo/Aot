@@ -1,5 +1,4 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
-const Discord = require("discord.js");
+const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
 const ms = require("ms");
 const ban = require("../Schemas/BanSchema.js");
 
@@ -10,6 +9,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName("ban")
 		.setDescription("Ban a member")
+		.setDMPermission(false)
 		.addSubcommand(subcommand =>
 			subcommand
 				.setName("permanent")
@@ -35,13 +35,14 @@ module.exports = {
 				.setDescription("Temporarily ban a member.")
 				.addUserOption(option =>
 					option.setName("member")
-						.setDescription("Member to ban temporaraily.")
+						.setDescription("Member to ban temporarily.")
 						.setRequired(true),
 				)
 				.addStringOption(option =>
 					option.setName("duration")
 						.setDescription("Duration of temporary ban.")
-						.setRequired(true))
+						.setRequired(true),
+				)
 				.addBooleanOption(option =>
 					option.setName("keep")
 						.setDescription("Keep member's messages. If not, bot will delete up to 7 days of the member's past messages.")
@@ -62,37 +63,60 @@ module.exports = {
 						.setRequired(true),
 				)),
 	async execute(interaction) {
+		const { bot } = require("../index.js");
 		switch (interaction.options._subcommand) {
 		case "permanent": {
 			const user = interaction.options.getUser("member");
+			const member = interaction.options.getMember("member");
 			const reason = interaction.options.get("reason")?.value ?? "not specified";
 			const keep = interaction.options.getBoolean("keep");
 			if (!(interaction.member.roles.cache.has("645832781469057024") || interaction.member.roles.cache.has("609236733464150037"))) return interaction.reply({ content: "You don't have permission to do that!", ephemeral: true });
-			if (!user) return interaction.reply({ content: "There was no member specified.", ephemeral: true });
+			if (!user) return interaction.reply({ content: "There was no member specified. Ban has been aborted.", ephemeral: true });
 
-			const banchannel = interaction.guild.channels.cache.get("885808423483080744");
-			if (!banchannel) return interaction.reply("Could not find server logs channel.");
-
-			const { hmf } = require("../index.js");
-			const bembed = new Discord.MessageEmbed()
-				.setDescription("User Permanently Banned")
+			const bembed = new EmbedBuilder()
+				.setDescription("**Member Banned**")
 				.setColor(0xff0000)
-				.addField("Banned User", `${user} with ID ${user.id}`)
-				.addField("Banned By", `<@${interaction.user.id}> (**${user.username}**) with ID ${interaction.user.id}`)
-				.addField("Banned In", interaction.channel.toString())
-				.addField("Banned At", `<t:${Math.round(interaction.createdTimestamp / 1000)}:F>`)
-				.addField("Banned For", `${reason}`)
+				.addFields([
+					{ name: "Banned Member", value: `<@${user.id}> (**<@${user.id}**)` },
+					{ name: "Banned By", value: `<@${interaction.user.id}> (**${interaction.user.id}**)` },
+					{ name: "Banned In", value: `<#${interaction.channelId}>` },
+					{ name: "Banned At", value: `<t:${Math.round(interaction.createdTimestamp / 1000)}:F>` },
+					{ name: "Banned For", value: reason },
+				])
 				.setTimestamp()
-				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
+				.setAuthor({ name: `${user.tag}`, iconURL: user.avatarURL({ size: 4096, extension: "png" }) })
+				.setFooter({ text: `${interaction.user.tag}`, iconURL: interaction.user.avatarURL({ size: 4096, extension: "png" }) });
 
-			user.send(`You have been banned permanently from ${interaction.guild.name} for: ${reason}.`).catch(console.log);
-			if (keep == true) {
-				interaction.guild.members.ban(user, { days: 7, reason: reason }).catch(console.log);
+			if (keep == false) {
+				try {
+					interaction.guild.members.ban(member, { deleteMessageDays: 7, reason: reason });
+				}
+				catch {
+					console.log();
+					interaction.reply({ content: "An error has occurred. This could be due to user unbannable. You can try again, but if the problem persists, please contact the bot owner. Ban has been aborted.", ephemeral: true });
+					return;
+				}
 			}
 			else {
-				interaction.guild.members.ban(user, { days: 0, reason: reason }).catch(console.log);
+				try {
+					interaction.guild.members.ban(user, { deleteMessageDays: 0, reason: reason });
+				}
+				catch {
+					console.log();
+					interaction.reply({ content: "An error has occurred. This could be due to user unbannable. You can try again, but if the problem persists, please contact the bot owner.", ephemeral: true });
+					return;
+				}
+			}
+			try {
+				user.send(`You have been banned permanently from ${interaction.guild.name} for: ${reason}.`);
+			}
+			catch {
+				console.log();
 			}
 			interaction.reply(`**${user.username}** was banned for **${reason}**.`);
+
+			const banchannel = interaction.guild.channels.fetch("885808423483080744");
+			if (!banchannel) return interaction.reply("Could not find server logs channel.");
 			banchannel.send({ embeds: [bembed] });
 
 			const bandb = await ban.create({
@@ -112,37 +136,29 @@ module.exports = {
 			const reason = interaction.options.get("reason")?.value ?? "not specified";
 			const time = interaction.options.get("duration").value;
 			const keep = interaction.options.getBoolean("keep");
-			if (!time) return interaction.reply({ content: "Please include the ban duration.", ephemeral: true });
+			if (!time) return interaction.reply({ content: "Please include the ban duration. Ban has been aborted.", ephemeral: true });
+			else if (time == undefined) return interaction.reply({ content: "Please enter a valid time, in the format of `1h/1hour`. Ban has been aborted." });
 			if (!(interaction.member.roles.cache.has("645832781469057024") || interaction.member.roles.cache.has("609236733464150037"))) return interaction.reply({ content: "You don't have permission to do that!", ephemeral: true });
 			if (!user) return interaction.reply({ content: "There was no member specified.", ephemeral: true });
 
-			interaction.reply(`**${user.username}** was temporarily banned for ${time} for **${reason}**.`);
+			const banchannel = interaction.guild.channels.fetch("885808423483080744");
+			if (!banchannel) return interaction.reply({ content: "Could not find server logs channel. Ban has been aborted.", ephemeral: true });
 
-			const banchannel = interaction.guild.channels.cache.get("885808423483080744");
-			if (!banchannel) return interaction.reply("Could not find server logs channel.");
-
-			const { hmf } = require("../index.js");
-			const bembed = new Discord.MessageEmbed()
-				.setDescription("User Temporarily Banned")
+			const bembed = new EmbedBuilder()
+				.setDescription("**Member Temporarily Banned**")
 				.setColor(0xff0000)
-				.addField("Temporarily Banned User", `${user} with ID ${user.id}`)
-				.addField("Temporarily Banned By", `<@${interaction.user.id}> (**${user.username}**) with ID ${interaction.user.id}`)
-				.addField("Temporarily Banned In", interaction.channel.toString())
-				.addField("Temporarily Banned At", `<t:${Math.round(interaction.createdTimestamp / 1000)}:F>`)
-				.addField("Temporary Ban Duration", `${time}`)
-				.addField("Temporarily Banned For", reason)
-				.addField("Temporarily Banned Until", `<t:${Math.round((interaction.createdTimestamp += ms(time)) / 1000)}:F>`)
+				.addFields([
+					{ name: "Temporarily Banned Member", value: `<@${user.id}> (${user.id})` },
+					{ name: "Temporarily Banned By", value: `<@${interaction.user.id}> {${interaction.user.id}}` },
+					{ name: "Temporarily Banned In", value: `<#${interaction.channelId}>` },
+					{ name: "Temporarily Banned At", value: `<t:${Math.round(interaction.createdTimestamp / 1000)}:F>` },
+					{ name: "Temporarily Banned For", value: `${reason}` },
+					// @ts-ignore
+					{ name: "Temporary Ban Duration", value: `${ms(ms(time))} (or until <t:${(interaction.createdTimestamp += ms(time)) / 1000}:F>)` },
+				])
 				.setTimestamp()
-				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
-
-			user.send(`You have been banned from ${interaction.guild.name} temporarily for ${time} for **${reason}**.`).catch(console.log);
-			if (keep == true) {
-				interaction.guild.members.ban(user, { days: 7, reason: reason }).catch(console.log);
-			}
-			else {
-				interaction.guild.members.ban(user, { days: 0, reason: reason }).catch(console.log);
-			}
-			banchannel.send({ embeds: [bembed] });
+				.setAuthor({ name: `${user.tag}`, iconURL: user.avatarURL({ size: 4096, extension: "png" }) })
+				.setFooter({ text: `${interaction.user.tag}`, iconURL: interaction.user.avatarURL({ size: 4096, extension: "png" }) });
 
 			const bandb = await ban.create({
 				username: user.username,
@@ -153,39 +169,90 @@ module.exports = {
 				adminId: interaction.user.id,
 				permanent: false,
 				bantime: interaction.createdTimestamp,
+				// @ts-ignore
 				unbantime: Math.round((interaction.createdTimestamp += ms(time)) / 1000),
 			});
-			await bandb.save();
+			try {
+				await bandb.save();
+			}
+			catch {
+				interaction.reply({ content: "An error has occurred. This could be due to unable to save data to database. You should contact the bot owner to get this issue fixed as it is most likely a bot issue. The ban has been aborted.", ephemeral: true });
+			}
+
+			if (keep == true) {
+				try {
+					await interaction.guild.members.ban(user, { deleteMessageDays: 7, reason: reason });
+				}
+				catch {
+					console.log();
+					interaction.reply({ content: "An error has occurred. This could be due to user unbannable. You can try again, but if the problem persists, please contact the bot owner.", ephemeral: true });
+					return;
+				}
+			}
+			else {
+				try {
+					await interaction.guild.members.ban(user, { deleteMessageDays: 0, reason: reason });
+				}
+				catch {
+					console.log();
+					interaction.reply({ content: "An error has occurred. This could be due to user unbannable. You can try again, but if the problem persists, please contact the bot owner.", ephemeral: true });
+					return;
+				}
+			}
+			interaction.reply(`**${user.username}** was temporarily banned for ${time} for **${reason}**.`);
+			try {
+				user.send(`You have been banned from ${interaction.guild.name} temporarily for ${time} for **${reason}**.`);
+			}
+			catch {
+				console.log();
+			}
+			banchannel.send({ embeds: [bembed] });
 			break;
 		}
 		case "unban": {
 			if (!(interaction.member.roles.cache.has("608937618259836930") || interaction.member.roles.cache.has("645832781469057024") || interaction.member.roles.cache.has("609236733464150037"))) return interaction.reply({ content: "You don't have permission to do that!", ephemeral: true });
 			const user = interaction.options.get("userid").value;
-			const banneduser = await interaction.guild.bans.fetch(user).catch(console.log);
-			if (!banneduser) {
-				await interaction.reply({ content: "This user is not banned or does not exist!", ephemeral: true });
-				break;
+
+			try {
+				await interaction.guild.bans.fetch(user);
+			}
+			catch {
+				interaction.reply({ content: "An error has occurred. This could be due to non-existent user or user not banned.", ephemeral: true });
+				return;
+			}
+			try {
+				await interaction.guild.members.unban(user);
+			}
+			catch {
+				interaction.reply({ content: "An error has occurred. This could be due to user not being able to be unbanned. You can try again, but if this keeps happening, please notify the bot owner.", ephemeral: true });
+				return;
+			}
+
+			const ubembed = new EmbedBuilder()
+				.setDescription("**Member Unbanned**")
+				.setColor(0xff0000)
+				.addFields([
+					{ name: "Unbanned Member", value: `<@${user}> (${user})` },
+					{ name: "Unbanned By", value: `<@${interaction.user.id}> (${interaction.user.id})` },
+					{ name: "Unbanned At", value: `<t:${Math.round(interaction.createdTimestamp / 1000)}:F>` },
+				])
+				.setTimestamp()
+				.setFooter({ text: `${interaction.user.tag}`, iconURL: interaction.user.avatarURL({ size: 4096, extension: "png" }) });
+
+			const userfetched = await bot.users.fetch(user);
+			if (!userfetched) {
+				console.log();
 			}
 			else {
-				const { hmf } = require("../index.js");
-				await interaction.guild.members.unban(user);
-				const ubembed = new Discord.MessageEmbed()
-					.setTitle("User Unbanned")
-					.setColor(0x00ff00)
-					.addField("Unbanned User", `<@${user}> with ID ${user}`)
-					.addField("Unbanned By", `<@${interaction.member.id}> with ID ${interaction.member.id}`)
-					.addField("Unbanned In", `${interaction.channel}`)
-					.addField("Unbanned At", `<t:${Math.round(interaction.createdTimestamp / 1000)}:F>`)
-					.setTimestamp()
-					.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
-
-				const unban2Channel = interaction.guild.channels.cache.find(channel => channel.name === "aot-logs");
-				if (!unban2Channel) return interaction.reply({ content: "Could not find server logs channel.", ephemeral: true });
-
-				unban2Channel.send({ embeds: [ubembed] });
-
-				interaction.reply(`<@${user}> has been unbanned.`);
+				ubembed.setAuthor({ name: `${userfetched.tag}`, iconURL: userfetched.avatarURL({ size: 4096, extension: "png" }) });
 			}
+
+			const unban2Channel = interaction.guild.channels.cache.find(channel => channel.name === "aot-logs");
+			if (!unban2Channel) return interaction.reply({ content: "Could not find server logs channel.", ephemeral: true });
+
+			unban2Channel.send({ embeds: [ubembed] });
+
+			interaction.reply(`<@${user}> has been unbanned.`);
 			break;
 		}
 		}

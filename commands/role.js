@@ -1,5 +1,4 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
-const Discord = require("discord.js");
+const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
 
 module.exports = {
 	type: "slash",
@@ -7,6 +6,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName("role")
 		.setDescription("make editions to a members roles")
+		.setDMPermission(false)
 		.addSubcommand(subcommand =>
 			subcommand.setName("give")
 				.setDescription("Gives a member a role")
@@ -39,23 +39,31 @@ module.exports = {
 			const member = interaction.options.getMember("member");
 			const role = interaction.options.getRole("role");
 
-			member.roles.add(role.id).catch(console.log);
+			try {
+				member.roles.add(role.id);
+			}
+			catch {
+				interaction.reply({ content: "An error has occurred. This could be due to not being able to add the role to the member. You can try again, but if the problem persists, please contact the bot owner.", ephemeral: true });
+				console.log();
+				return;
+			}
 
-			interaction.reply(`${member.user} has been given the role **${role.name}**.`);
+			interaction.reply(`${member} has been given the role **${role.name}**.`);
 
-			const { hmf } = require("../index.js");
-
-			const embed = new Discord.MessageEmbed()
-				.setDescription("Role Added to User")
-				.setColor(0xff0000)
-				.addField("User with New Role", `${member} with ID ${member.id}`)
-				.addField("Added By", `<@${interaction.member.id}> with ID ${interaction.member.id}`)
-				.addField("Added In", `${interaction.channel}`)
-				.addField("Added At", `<t:${Math.round(interaction.createdTimestamp / 1000)}:F>`)
-				.addField("Role Added", `${role}`)
+			const embed = new EmbedBuilder()
+				.setDescription("**Role Added to Member**")
+				.setAuthor({ name: `${member.user.tag}`, iconURL: `${member.user.avatarURL({ size: 4096, extension: "png" })}` })
+				.setColor(0xffff00)
+				.addFields([
+					{ name: "Role added to", value: `${member} (${member.id})` },
+					{ name: "Role added by", value: `<@${interaction.member.user.id}> (${interaction.member.user.id})` },
+					{ name: "Role added in", value: `${interaction.channel}` },
+					{ name: "Role added at", value: `<t:${Math.round(interaction.createdTimestamp / 1000)}:F>` },
+					{ name: "Role added", value: `${role}` },
+				])
 				.setTimestamp()
-				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
-			const channel = interaction.guild.channels.cache.get("885808423483080744");
+				.setFooter({ text: `${interaction.member.user.tag}`, iconURL: `${interaction.member.avatarURL({ size: 4096, extension: "png" })}` });
+			const channel = interaction.guild.channels.fetch("885808423483080744");
 			channel.send({ embeds: [embed] });
 			break;
 		}
@@ -64,23 +72,31 @@ module.exports = {
 			const role = interaction.options.getRole("role");
 			if (!member) return interaction.reply({ content: "There was no member specified.", ephemeral: true });
 
-			member.roles.remove(role.id).catch(console.log);
+			try {
+				member.roles.remove(role.id);
+			}
+			catch {
+				interaction.reply({ content: "An error has occurred. This could be due to not being able to remove the role to the member. You can try again, but if the problem persists, please contact the bot owner.", ephemeral: true });
+				console.log();
+				return;
+			}
 
-			interaction.reply(`The role **${role.name}** has been removed from ${member.user}.`);
+			interaction.reply(`The role **${role.name}** has been removed from ${member}.`);
 
-			const { hmf } = require("../index.js");
-
-			const embed = new Discord.MessageEmbed()
-				.setDescription("Role Removed from User")
+			const embed = new EmbedBuilder()
+				.setDescription("**Role Removed from Member**")
+				.setAuthor({ name: `${member.user.tag}`, iconURL: `${member.user.avatarURL({ size: 4096, extension: "png" })}` })
 				.setColor(0xff0000)
-				.addField("User with Removed Role", `${member} with ID ${member.id}`)
-				.addField("Removed By", `<@${interaction.member.id}> with ID ${interaction.member.id}`)
-				.addField("Removed In", `${interaction.channel}`)
-				.addField("Removed At", `<t:${Math.round(interaction.createdTimestamp / 1000)}:F>`)
-				.addField("Role Removed", `${role}`)
+				.addFields([
+					{ name: "Role removed from", value: `${member} (${member.id})` },
+					{ name: "Role removed by", value: `<@${member.user.id}> (${member.user.id})` },
+					{ name: "Role removed in", value: `${interaction.channel}` },
+					{ name: "Role Removed at", value: `<t:${Math.round(interaction.createdTimestamp / 1000)}:F>` },
+					{ name: "Role removed", value: `${role}` },
+				])
 				.setTimestamp()
-				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)] });
-			const channel = interaction.guild.channels.cache.get("885808423483080744");
+				.setFooter({ text: `${member.user.tag}`, iconURL: `${member.user.avatarURL({ size: 4096, extension: "png" })}` });
+			const channel = interaction.guild.channels.fetch("885808423483080744");
 			channel.send({ embeds: [embed] });
 			break;
 		}
