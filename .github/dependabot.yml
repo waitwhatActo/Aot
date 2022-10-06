@@ -10,3 +10,5 @@ updates:
     schedule:
       interval: "daily"
       time: "12:00"
+    assignees:
+      - "cleverActon0126"
