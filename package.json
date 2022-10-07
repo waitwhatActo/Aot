@@ -20,7 +20,7 @@
     "@discordjs/rest": "^1.2.0",
     "@discordjs/voice": "^0.11.0",
     "@pm2/io": "^5.0.0",
-    "discord-api-types": "^0.37.11",
+    "discord-api-types": "^0.37.12",
     "discord.js": "^14.5.0",
     "file-system": "^2.2.2",
     "got": "^12.5.1",
