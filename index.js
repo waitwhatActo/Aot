@@ -1,4 +1,4 @@
-const { IntentsBitField, Client, EmbedBuilder, Collection, ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType } = require("discord.js");
+const { IntentsBitField, Client, EmbedBuilder, Collection, ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType, TextChannel } = require("discord.js");
 const randomPuppy = require("random-puppy");
 const fs = require("node:fs");
 const io = require("@pm2/io");
@@ -157,7 +157,7 @@ bot.once("ready", async () => {
 	setInterval(async () => {
 		if (backupbot == 0) {
 			hours += 1;
-			bot.user.setPresence({ activities: [{ name: `on 0.62.0 for ${hours} hours` }], status: "online" });
+			bot.user.setPresence({ activities: [{ name: `on v0.62.0 for ${hours} hours` }], status: "online" });
 		}
 	}, 3600000);
 	setInterval(async () => {
@@ -261,27 +261,27 @@ bot.once("ready", async () => {
 	}, 1000);
 
 	const uembed = new EmbedBuilder()
+		.setAuthor({ name: "Acto Utils Update", iconURL: bot.user.avatarURL({ extension: "png", size: 4096 }) })
 		.setTitle("Chat Filter Improvement, Slash Admin Commands Migration & General Bot Polishing")
 		.setDescription("Successfully updated to Version 0.62.0!")
 		.addFields([
 			{ name: "**Dependencies Update**", value: "- Discord.js -> `14.5.0`\r - mongoose -> `6.6.5`\r - @discordjs/builders -> Removed\r - @discordjs/rest -> `1.2.0`\r - @discordjs/voice -> `0.11.0`\r - got -> `12.5.1`\r - NEW unidici -> `5.11.0`" },
 			{ name: "**Features Update**", value: "- Updated to Discord.js v14 \r- New & Improved Chat Filter: Gives mods more options to take care of suspected trolls, spams or etc; Also stores to database and will appear in `/warn query` \r- Slash Admin Commands (SAC): All admin commands are now migrated to slash commands instead of using the old `?a` prefix. There may be a few exceptions in the future. \r- New embeds layout: Embeds now include your username and profile picture. Pretty cool, isn't it? \r- Replying instead of sending: The bot now *replies* to your message instead of straight up sending it in the chat. \r- Updated Scam Links List, Malicious URLS List" },
 			{ name: "**Patched Features**", value: "- Discord.js v14 necessary features syntax update \r- Scheduled Feed Countdown \r- Offline backup mechanism \r- Embeds Coloring \r- Some typos causing the command to not work" },
-			{ name: "**Commands Updates**", value: "__Updates__\r- Embeds are all reworked \r- All admin commands are moved to slash commands. This includes `/ban` (previously `?aban`, `?atempban`, `?aunban`), `/clear`, `/cooldown` (previously `?aslowmode`), `/grant`, `/kick`, `/lockdown` (previously `?alockdown` & `?aunlock`), `/mute` (previously `?amute`, `?aunmute`, `?atempmute`), `/restart`, `/role` (previously `?aaddrole`, `?atempaddrole`, `?aremoverole`, `?atempremoverole`). Exceptions is `?atellraw` \r- All typos are now fixed \r- `?ashutdown`: Changed some code to improve performance and looks. \r- `?abotinfo`: Reworked embed & content \r- `?auserinfo`, `/userinfo`, User Information (User Application): Reworked embed & content \r- `?aserverinfo`: Reworked embed & content \r- `?awelcome`: Reworked embed & content \r- `?ahelp` (and all subcommands): Reworked embed & Updated content \r- `/ping`: Fixed an issue with the command and reworked embed \r `/warn query`: Fixed an issue with the command and reworked embed \r__Additions__ \r - None \r __Deletions__ \r - None (or because the change is too much I didn't see)" },
+			{ name: "**Commands Updates**", value: "__Updates__\r- All embeds reworked \r- All admin commands moved to slash commands. This includes `/ban` (previously `?aban`, `?atempban`, `?aunban`), `/clear`, `/cooldown` (previously `?aslowmode`), `/grant`, `/kick`, `/lockdown` (previously `?alockdown` & `?aunlock`), `/mute` (previously `?amute`, `?aunmute`, `?atempmute`), `/restart`, `/role` (previously `?aaddrole`, `?atempaddrole`, `?aremoverole`, `?atempremoverole`). Exception is `?atellraw` \r- All typos are now fixed \r- `?ashutdown`: Shortened content & command and improved looks. \r- `?abotinfo`: Reworked embed & content \r- `?auserinfo`, `/userinfo`, User Information (User Application): Reworked embed & content \r- `?aserverinfo`: Reworked embed & content \r- `?awelcome`: Reworked embed & content \r- `?ahelp` (and all subcommands): Reworked embed & Updated content \r- `/ping`: Fixed an issue with the command and reworked embed \r `/warn query`: Fixed an issue with the command and reworked embed \r__Additions__ \r - None \r __Deletions__ \r - None" },
 			{ name: "Other Info", value: "Bot host is currently being moved (and shipped), steady bot uptime will be back in a few days to weeks." },
 			{ name: "Source Code", value: "[https://github.com/cleverActon0126/Aot](https://github.com/cleverActon0126/Aot)" },
 			{ name: "Next Update", value: "0.62.1 - Chat filter improvements" },
 		])
 		.setColor(0x00ff00)
 		.setTimestamp()
-		.setFooter({ text: "Acto Utils Version 0.62.0, Made by cleverActon0126#0126" });
+		.setFooter({ text: "Acto Utils Version 0.62.0, Made by cleverActon0126#0126", iconURL: bot.user.avatarURL({ extension: "png", size: 4096 }) });
 
 	if (update == 1) {
 		if (backupbot == 1 && backupbotevents == 0) return;
 		const readyupdate = await bot.channels.fetch(ids.channels.botupdates);
 		// @ts-ignore
 		readyupdate.send({ embeds: [uembed] });
-		fs.writeFileSync("update.txt", "0");
 	}
 
 	const date = new Date();
