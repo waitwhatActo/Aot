@@ -12,5 +12,10 @@ module.exports = {
 			"node_modules",
 		],
 		autorestart : true,
+		post_update: [
+			"ncu -u",
+			"npm i",
+		],
+		time: true,
 	}],
 };
