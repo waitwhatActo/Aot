@@ -1,4 +1,4 @@
-const { IntentsBitField, Client, EmbedBuilder, Collection, ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType, TextChannel } = require("discord.js");
+const { IntentsBitField, Client, EmbedBuilder, Collection, ActionRowBuilder, ButtonBuilder, ComponentType, ButtonStyle } = require("discord.js");
 const randomPuppy = require("random-puppy");
 const fs = require("node:fs");
 const io = require("@pm2/io");
@@ -285,26 +285,15 @@ bot.once("ready", async () => {
 	}
 
 	const date = new Date();
-	const time = date.getMinutes();
-
-	let calca = 60 - time;
-	if (calca < 0) { calca = 61; }
-	let calcb = 45 - time;
-	if (calcb < 0) { calcb = 61; }
-	let calcc = 30 - time;
-	if (calcc < 0) { calcc = 61; }
-	let calcd = 15 - time;
-	if (calcd < 0) { calcd = 61; }
-	let calce = 0 - time;
-	if (calce < 0) { calce = 61; }
-
-	const calced = Math.min(calca, calcb, calcc, calcd, calce);
+	const minutes = date.getMinutes();
+	const lowestCalc = (Math.ceil(minutes / 30) * 30) - minutes;
+	const seconds = 60 - date.getSeconds();
 
 	(await bot.users.fetch("428445352354643968")).send(`Acto Utils is currently online, on version 0.62.0, at <t:${Math.round(date.getTime() / 1000)}:F>`);
 	setTimeout(() => {
 		feedcon += 1;
 		feeder();
-	}, calced * 60000);
+	}, (lowestCalc - 1) * 60000 + seconds * 1000);
 
 	const counter = await countdb.create({
 		userId: "709851167781552160",
@@ -1573,7 +1562,6 @@ bot.on("messageCreate", async function(message) {
 			}
 		}
 		// Counting
-
 		if (message.channel.id == ids.channels.muteables[2]) {
 			const args = message.content.split(" ");
 			const counting = await countdb.find({}).sort({ created_at: -1 });
