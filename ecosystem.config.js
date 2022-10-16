@@ -12,7 +12,6 @@ module.exports = {
 			"node_modules",
 		],
 		autorestart : true,
-		max_memory_restart: "50M",
 		post_update: [
 			"ncu -u",
 			"npm i",
