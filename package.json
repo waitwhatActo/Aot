@@ -29,7 +29,7 @@
     "opusscript": "^0.0.8",
     "random-puppy": "^1.1.0",
     "undici": "^5.11.0",
-    "util": "^0.12.4"
+    "util": "^0.12.5"
   },
   "bugs": {
     "url": "https://github.com/cleverActon0126/aot/issues"
