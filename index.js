@@ -88,7 +88,7 @@ const feeder = async () => {
 				.addFields([
 					{ name: "Acto Utils has been online for", value: `${hours} hours` },
 					{ name: "The current time is", value: `<t:${Math.round(ready.createdTimestamp / 1000)}:F>` },
-					{ name: "Bot ping", value: `${bot.ws.ping}ms` },
+					{ name: "Bot ping", value: 'Latency is ${msg.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(client.ws.ping)}ms` },
 					{ name: "​", value: "Check the logs for errors if necessary." },
 				])
 				.setFooter({ text: "Made for Acto (428445352354643968).", iconURL: acto.avatarURL({ size: 4096, extension: "png" }) })
@@ -102,7 +102,7 @@ const feeder = async () => {
 				.addFields([
 					{ name: "Acto Utils has been online for", value: `${hours} hours` },
 					{ name: "The current time is", value: `<t:${Math.round(ready.createdTimestamp / 1000)}:F>` },
-					{ name: "Bot ping", value: `${bot.ws.ping}ms` },
+					{ name: "Bot ping", value: 'Latency is ${msg.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(client.ws.ping)}ms` },
 					{ name: "​", value: "Check the logs for errors if necessary." },
 				])
 				.setFooter({ text: "Made for Delilah (933317965024210995). Acto says \"ily\" to you", iconURL: del.avatarURL({ size: 4096, extension: "png" }) })
