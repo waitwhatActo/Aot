@@ -302,7 +302,7 @@ bot.once("ready", async () => {
 
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
-	bot.application.commands.set(command.data.name, command);
+	bot.commands.set(command.data.name, command);
 }
 // @ts-ignore
 bot.on("guildMemberAdd", async function(member) {
