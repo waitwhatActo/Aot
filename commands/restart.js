@@ -1,5 +1,4 @@
 const { SlashCommandBuilder } = require("discord.js");
-const { ids } = require("../index.js");
 
 module.exports = {
 	type: "slash",
@@ -14,6 +13,7 @@ module.exports = {
 				.setRequired(false),
 		),
 	async execute(interaction) {
+		const { ids } = require("../index.js");
 		const delay = interaction.options.getNumber("delay");
 		if (!interaction.member.id == ids.members.acto) return interaction.reply({ content: "You don't have permission to do that!", ephemeral: true });
 		if (!delay) {

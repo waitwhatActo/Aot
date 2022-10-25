@@ -1,4 +1,4 @@
-const { IntentsBitField, Client, EmbedBuilder, Collection, ActionRowBuilder, ButtonBuilder, ComponentType, ButtonStyle } = require("discord.js");
+const { IntentsBitField, Client, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ComponentType, ButtonStyle, Collection } = require("discord.js");
 const randomPuppy = require("random-puppy");
 const fs = require("node:fs");
 const io = require("@pm2/io");
@@ -66,7 +66,7 @@ const feeder = async () => {
 			.setAuthor({ name: "Scheduled Acto Utils Feed", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) });
 		ready.edit({ embeds: [embed] });
 	});
-	const del = await bot.users.fetch("933317965024210995");
+	const del = await bot.users.fetch("710272856772050994");
 	await del.send("Pinging").then(ready => {
 		const embed = new EmbedBuilder()
 			.setDescription("**Acto Utils is online!**")
@@ -189,8 +189,7 @@ bot.once("ready", async () => {
 				.addFields(
 					{ name: "Unbanned User", value: `<@${unban[0].userId} (**${unban[0].userId})` },
 					{ name: "Unbanned User Banned By", value: `<@${unban[0].adminId} (**${unban[0].adminId}**)` },
-					// @ts-ignore
-					{ name: "Unbanned At", value: `<t:${Math.round(unban[0].bantime / 1000)}:F>` },
+					{ name: "Unbanned At", value: `<t:${Math.round(parseInt(unban[0].bantime) / 1000)}:F>` },
 					{ name: "Unbanned User Banned For", value: unban[0].reason },
 				)
 				.setTimestamp();
@@ -221,8 +220,7 @@ bot.once("ready", async () => {
 				.addFields(
 					{ name: "Unmuted Member", value: `<@${unmute[0].userId}> (${unmute[0].userId})` },
 					{ name: "Unmuted Member Muted By", value: `<@${unmute[0].adminId} (${unmute[0].adminId})` },
-					// @ts-ignore
-					{ name: "Unmuted At", value: `<t:${Math.round(unmute[0].time / 1000)}:F>` },
+					{ name: "Unmuted At", value: `<t:${Math.round(parseInt(unmute[0].time) / 1000)}:F>` },
 					{ name: "Unmuted Member Muted For", value: `${unmute[0].reason}` },
 				)
 				.setTimestamp()
@@ -304,7 +302,7 @@ bot.once("ready", async () => {
 
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
-	bot.commands.set(command.data.name, command);
+	bot.application.commands.set(command.data.name, command);
 }
 // @ts-ignore
 bot.on("guildMemberAdd", async function(member) {
@@ -420,1152 +418,347 @@ bot.on("messageCreate", async function(message) {
 	if (!message.inGuild()) return;
 	if (message.author.equals(bot.user)) return;
 
+	let cftypei = "";
+	let cftype = "";
+	let cfstring1 = "";
+	let cfstring1l = "";
+	async function chatfilter() {
+		message.delete();
+		const cfmuterole = await message.guild.roles.fetch(ids.roles.muted);
+		message.member.roles.add(cfmuterole);
+		const cfmsgmember = message.member;
+		message.channel.send(`<@${cfmsgmember.id}> (**${cfmsgmember.user.username})`);
+
+		switch (cftypei) {
+		case "sl": {
+			cfstring1 = "Scam URL";
+			cfstring1l = "scam link";
+			cftype = "scamlink";
+			break;
+		}
+		case "m": {
+			cfstring1 = "Scam";
+			cfstring1l = "malicious content";
+			cftype = "malicious";
+			break;
+		}
+		case "nu": {
+			cfstring1 = "Malciious URL";
+			cfstring1l = "malicious URL";
+			cftype = "malurl";
+			break;
+		}
+		case "e": {
+			cfstring1 = "Mass Mention";
+			cfstring1l = "mass mention";
+			cftype = "massmention";
+			break;
+		}
+
+		}
+
+		const cfbuttons = new ActionRowBuilder()
+			.addComponents(
+				new ButtonBuilder()
+					.setCustomId("ban")
+					.setLabel("Permanently Ban Member")
+					.setStyle(ButtonStyle.Primary),
+			)
+			.addComponents(
+				new ButtonBuilder()
+					.setCustomId("mute")
+					.setLabel("Permanently Mute Member")
+					.setStyle(ButtonStyle.Secondary),
+			)
+			.addComponents(
+				new ButtonBuilder()
+					.setCustomId("warnmute")
+					.setLabel("Warn & Temporarily Mute Member")
+					.setStyle(ButtonStyle.Secondary),
+			)
+			.addComponents(
+				new ButtonBuilder()
+					.setCustomId("warn")
+					.setLabel("Warn Member")
+					.setStyle(ButtonStyle.Secondary),
+			)
+			.addComponents(
+				new ButtonBuilder()
+					.setCustomId("falsealarm")
+					.setLabel("False Alarm")
+					.setStyle(ButtonStyle.Success),
+			);
+
+		const warnhistory = await warndb.find({}).sort({ warnid: 1 });
+		let warnhistorystring = "";
+		let warnhistorylength = 0;
+		for (; warnhistory.length > 0;) {
+			if (warnhistory[0].userId == message.member.user.id) {
+				if (warnhistorylength >= 3) {
+					if (warnhistorylength == 3) {
+						warnhistorystring += "... \n";
+					}
+					warnhistorylength += 1;
+					return;
+				}
+				warnhistorystring += `\`000${warnhistory[0].warnId}\` **${warnhistory[0].reason}** • <t:${Math.round(parseInt(warnhistory[0].time) / 1000)}:F> \n`;
+				warnhistorylength += 1;
+			}
+		}
+
+		const cfembed = new EmbedBuilder()
+			.setDescription(`⚠️**Attempted ${cfstring1}**⚠️`)
+			.setAuthor({ name: message.member.user.tag, iconURL: message.member.user.avatarURL({ size: 4096, extension: "png" }) })
+			.setFooter({ text: "Select an action within 48 hours.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) })
+			.setColor(0xfec13d)
+			.setTimestamp()
+			.addFields([
+				{ name: "Filtered Message Sent By", value: message.member.user.username },
+				{ name: "Filtered Message Sent At", value: `<t:${Math.round(message.createdTimestamp / 1000)}:F>` },
+				{ name: "Filtered Message Sent In", value: `<#${message.channelId}>` },
+				{ name: "Filtered Message Content", value: `${message.content}` },
+				{ name: "Sender Past Infractions", value: `${warnhistorystring} **Total Warns**: ${warnhistorylength}` },
+				{ name: "Sender Server Join Date", value: `<t:${Math.round(message.member.joinedTimestamp / 1000)}:F>` },
+			]);
+
+		const slchannel = await bot.channels.fetch(ids.channels.logging.filter);
+		// @ts-ignore
+		const slmessage = await slchannel.send({ content: "@everyone \r	", embeds: [cfembed], components: [cfbuttons] });
+		const slcollect = await slmessage.createMessageComponentCollector({ componentType: ComponentType.Button, max: 1, maxComponents: 1, maxUsers: 1, time: 4147200000 });
+		const slcaseid = await filterdb.find({}).sort({ caseId: 1 });
+		for (; slcaseid.length > 1;) {
+			slcaseid.shift();
+		}
+		let slcaseid2 = parseInt(slcaseid[0].caseId);
+		const slcaseid3 = slcaseid2 += 1;
+
+		const slwarnid = await warndb.find({}).sort({ warnid: 1 });
+		for (; slwarnid.length > 1;) {
+			slwarnid.shift();
+		}
+		let slwarnid2 = parseInt(slwarnid[0].warnId);
+		const slwarnid3 = slwarnid2 += 1;
+
+		slcollect.on("collect", async i => {
+			switch (i.customId) {
+			case "ban": {
+				const brecorddb = await filterdb.create({
+					username: `${message.member.user.tag}`,
+					userId: `${message.member.user.id}`,
+					time: `${message.createdTimestamp}`,
+					channelId: `${message.channelId}`,
+					content: `${message.content}`,
+					type: `${cftype}`,
+					action: "ban",
+					caseId: `${slcaseid3}`,
+				});
+				const bbandb = await bandb.create({
+					username: `${message.member.user.tag}`,
+					userId: `${message.member.user.id}`,
+					reason: `Attempted to send ${cfstring1l}.`,
+					adminusername: `${i.member.user.tag}`,
+					adminId: `${i.member.user.id}`,
+					permanent: true,
+					bantime: `${message.createdTimestamp}`,
+				});
+				await cfembed.setColor(0xff0000).setFooter({ text: "Member Banned.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) }).addFields({ name: "Moderation Action", value: `<@${message.member.user.id}> **(${message.member.user.id})** permanently banned.` });
+
+				try {
+					await brecorddb.save();
+					await bbandb.save();
+				}
+				catch {
+					console.log();
+					// @ts-ignore
+					slchannel.send({ content: "An error has occurred. This could be due to unable to save data to database. You should contact the bot owner to get this issue fixed as it is most likely a bot issue. The ban has been aborted." });
+					return;
+				}
+
+				try {
+					await message.member.ban({ reason: `${cfstring1}` });
+				}
+				catch {
+					console.log();
+					// @ts-ignore
+					slchannel.send({ content: "An error has occurred. This could be due to unable to ban member. You can try again, but if the problem persists, please contact the bot owner. The ban has been aborted." });
+					return;
+				}
+
+				await slmessage.edit({ embeds: [cfembed], components: [] });
+				await message.channel.send(`<@${cfmsgmember.id}> was banned for **attempted to send ${cfstring1l}**.`);
+				break;
+			}
+			case "mute": {
+				const slrecorddb = await filterdb.create({
+					username: `${message.member.user.tag}`,
+					userId: `${message.member.user.id}`,
+					time: `${message.createdTimestamp}`,
+					channelId: `${message.channelId}`,
+					content: `${message.content}`,
+					type: `${cftype}`,
+					action: "mute",
+					caseId: `${slcaseid3}`,
+				});
+				const slmutedb = await mutedb.create({
+					username: `${message.member.user.tag}`,
+					userId: `${message.member.user.id}`,
+					reason: `Attempted to send ${cfstring1l}.`,
+					adminusername: `${i.member.user.tag}`,
+					adminId: `${i.member.user.id}`,
+					permanent: true,
+					time: `${message.createdTimestamp}`,
+				});
+				await cfembed.setColor(0xff000).setFooter({ text: "Member Permanently Muted.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) }).addFields({ name: "Moderation Action", value: `<@${message.member.user.id}> **(${message.member.user.id})** permanently muted.` });
+
+				try {
+					await slrecorddb.save();
+					await slmutedb.save();
+				}
+				catch {
+					console.log();
+					// @ts-ignore
+					slchannel.send({ content: "An error has occurred. This could be due to unable to save data to database. You should contact the bot owner to get this issue fixed as it is most likely a bot issue. The mute has been aborted." });
+					return;
+				}
+
+				if (!message.member.roles.cache.has(ids.roles.muted)) {
+					try {
+						await message.member.roles.add((await message.guild.roles.fetch(ids.roles.muted)), `${cfstring1}`);
+					}
+					catch {
+						console.log();
+						// @ts-ignore
+						slchannel.send({ content: "An error has occurred. This could be due to unable to mute member. You can try again, but if the problem persists, please contact the bot owner. The mute has been aborted." });
+						return;
+					}
+				}
+
+				await slmessage.edit({ embeds: [cfembed], components: [] });
+				await message.channel.send(`<@${cfmsgmember.id}> has been permanently muted for **attempted to send ${cfstring1l}**.`);
+				break;
+			}
+			case "warnmute": {
+				const slrecorddb = await filterdb.create({
+					username: `${message.member.user.tag}`,
+					userId: `${message.member.user.id}`,
+					time: `${message.createdTimestamp}`,
+					channelId: `${message.channelId}`,
+					content: `${message.content}`,
+					type: `${cftype}`,
+					action: "warnmute",
+					caseId: `${slcaseid3}`,
+				});
+				const slwarndb = await warndb.create({
+					username: `${message.member.user.tag}`,
+					userId: `${message.member.user.id}`,
+					warnId: `${slwarnid3}`,
+					reason: `Attempted to send ${cfstring1l}.`,
+					adminusername: `${i.member.user.tag}`,
+					adminId: `${i.member.user.id}`,
+					channel: `${message.channelId}`,
+					time: `${message.createdTimestamp}`,
+				});
+				const slmutedb = await mutedb.create({
+					username: `${message.member.user.tag}`,
+					userId: `${message.member.user.id}`,
+					reason: `Attempted to send ${cfstring1l}.`,
+					adminusername: `${i.member.user.tag}`,
+					adminId: `${i.member.user.id}`,
+					permanent: true,
+					time: `${message.createdTimestamp}`,
+				});
+				await cfembed.setColor(0xff0000).setFooter({ text: "Member Warned & Permanently Muted.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) }).addFields({ name: "Moderation Action", value: `<@${message.member.user.id}> **(${message.member.user.id})** warned & permanently muted.` });
+
+				try {
+					await slwarndb.save();
+					await slrecorddb.save();
+					await slmutedb.save();
+				}
+				catch {
+					console.log();
+					// @ts-ignore
+					slchannel.send({ content: "An error has occurred. This could be due to unable to save data to database. You should contact the bot owner to get this issue fixed as it is most likely a bot issue. The warn & mute has been aborted." });
+					return;
+				}
+
+				if (!message.member.roles.cache.has(ids.roles.muted)) {
+					try {
+						await message.member.roles.add((await message.guild.roles.fetch(ids.roles.muted)), "Scam Link");
+					}
+					catch {
+						console.log();
+						// @ts-ignore
+						slchannel.send({ content: "An error has occurred. This could be due to unable to mute member. You can try again, but if the problem persists, please contact the bot owner. The mute has been aborted." });
+						return;
+					}
+				}
+
+				await slmessage.edit({ embeds: [cfembed], components: [] });
+				await message.channel.send(`<@${cfmsgmember.id}> was warned and permanently muted for **attempted to send ${cfstring1l} message**.`);
+				break;
+			}
+			case "falsealarm": {
+				try {
+					await message.member.roles.remove((await message.guild.roles.fetch(ids.roles.muted)));
+				}
+				catch {
+					console.log();
+				}
+				await cfembed.setColor(0x00ff00).setFooter({ text: "False Alarm.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) });
+				break;
+			}
+			case "warn": {
+				const slrecorddb = await filterdb.create({
+					username: `${message.member.user.tag}`,
+					userId: `${message.member.user.id}`,
+					time: `${message.createdTimestamp}`,
+					channelId: `${message.channelId}`,
+					content: `${message.content}`,
+					type: `${cftype}`,
+					action: "warnmute",
+					caseId: `${slcaseid3}`,
+				});
+				const slwarndb = await warndb.create({
+					username: `${message.member.user.tag}`,
+					userId: `${message.member.user.id}`,
+					warnId: `${slwarnid3}`,
+					reason: `Attempted to send ${cfstring1l}.`,
+					adminusername: `${i.member.user.tag}`,
+					adminId: `${i.member.user.id}`,
+					channel: `${message.channelId}`,
+					time: `${message.createdTimestamp}`,
+				});
+				await cfembed.setColor(0xfec13d).setFooter({ text: "Member Warned.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) }).addFields({ name: "Moderation Action", value: `<@${message.member.user.id}> **(${message.member.user.id})** warned.` });
+
+				try {
+					await slwarndb.save();
+					await slrecorddb.save();
+				}
+				catch {
+					console.log();
+					// @ts-ignore
+					slchannel.send({ content: "An error has occurred. This could be due to unable to save data to database. You should contact the bot owner to get this issue fixed as it is most likely a bot issue. The warn has been aborted." });
+					return;
+				}
+
+				await slmessage.edit({ embeds: [cfembed], components: [] });
+				await message.channel.send(`<@${cfmsgmember.id}> warned for **attempted to send ${cfstring1l}**.`);
+			}
+			}
+
+			try {
+				slcollect.dispose();
+			}
+			catch {
+				console.log();
+			}
+		});
+	}
+
 	if (message.guildId == ids.guild) {
-		if (backupbot == 1 && backupbotevents == 0) return;
-		const sl = fs.readFileSync("./lists/sl.txt").toString().split("\n");
-		const nu = fs.readFileSync("./lists/nu.txt").toString().split("\n");
-		const m = fs.readFileSync("./lists/m.txt").toString().split("\n");
-		const e = fs.readFileSync("./lists/e.txt").toString().split("\n");
-		// Scam Links
-		for (let slc = 0; slc < sl.length; slc++) {
-			if (message.content.includes(sl[slc])) {
-				message.delete();
-				const slmute = await message.guild.roles.fetch(ids.roles.muted);
-				message.member.roles.add(slmute);
-				const sluser = message.member;
-				message.channel.send(`<@${sluser.id}> (**${sluser.user.username}**) was automatically muted for **attempted scam message**.`);
-
-				const slbuttons = new ActionRowBuilder()
-					.addComponents(
-						new ButtonBuilder()
-							.setCustomId("ban")
-							.setLabel("Permanently Ban Member")
-							.setStyle(ButtonStyle.Primary),
-					)
-					.addComponents(
-						new ButtonBuilder()
-							.setCustomId("mute")
-							.setLabel("Permanently Mute Member")
-							.setStyle(ButtonStyle.Secondary),
-					)
-					.addComponents(
-						new ButtonBuilder()
-							.setCustomId("warnmute")
-							.setLabel("Warn & Temporarily Mute Member")
-							.setStyle(ButtonStyle.Secondary),
-					)
-					.addComponents(
-						new ButtonBuilder()
-							.setCustomId("warn")
-							.setLabel("Warn Member")
-							.setStyle(ButtonStyle.Secondary),
-					)
-					.addComponents(
-						new ButtonBuilder()
-							.setCustomId("falsealarm")
-							.setLabel("False Alarm")
-							.setStyle(ButtonStyle.Success),
-					);
-
-				const slembed = new EmbedBuilder()
-					.setDescription("⚠️**Attempted Scam**⚠️")
-					.setAuthor({ name: message.member.user.tag, iconURL: message.member.user.avatarURL({ size: 4096, extension: "png" }) })
-					.setFooter({ text: "Select an action within 48 hours.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) })
-					.setColor(0xfec13d)
-					.setTimestamp()
-					.addFields([
-						{ name: "Scam URL Sent By", value: message.member.user.username },
-						{ name: "Scam URL Sent At", value: `<t:${Math.round(message.createdTimestamp / 1000)}:F>` },
-						{ name: "Scam URL Sent In", value: `<#${message.channelId}>` },
-						{ name: "Scam Message Content", value: `${message.content}` },
-					]);
-
-				const slchannel = await bot.channels.fetch(ids.channels.logging.filter);
-				// @ts-ignore
-				const slmessage = await slchannel.send({ content: "@everyone \r	", embeds: [slembed], components: [slbuttons] });
-				const slcollect = await slmessage.createMessageComponentCollector({ componentType: ComponentType.Button, max: 1, maxComponents: 1, maxUsers: 1, time: 4147200000 });
-				const slcaseid = await filterdb.find({}).sort({ warnid: 1 });
-				for (; slcaseid.length > 1;) {
-					slcaseid.shift();
-				}
-				let slcaseid2 = parseInt(slcaseid[0].caseId);
-				const slcaseid3 = slcaseid2 += 1;
-
-				const slwarnid = await warndb.find({}).sort({ warnid: 1 });
-				for (; slwarnid.length > 1;) {
-					slwarnid.shift();
-				}
-				let slwarnid2 = parseInt(slwarnid[0].warnId);
-				const slwarnid3 = slwarnid2 += 1;
-
-				slcollect.on("collect", async i => {
-					if (i.customId == "ban") {
-						const slrecorddb = await filterdb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							time: `${message.createdTimestamp}`,
-							channelId: `${message.channelId}`,
-							content: `${message.content}`,
-							type: "scamlink",
-							action: "ban",
-							caseId: `${slcaseid3}`,
-						});
-						const slbandb = await bandb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							reason: "Attempted to send scam link.",
-							adminusername: `${i.member.user.tag}`,
-							adminId: `${i.member.user.id}`,
-							permanent: true,
-							bantime: `${message.createdTimestamp}`,
-						});
-						await slembed.setColor(0xff0000).setFooter({ text: "Member Banned.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) }).addFields({ name: "Moderation Action", value: `<@${message.member.user.id}> **(${message.member.user.id})** permanently banned.` });
-
-						try {
-							await slrecorddb.save();
-							await slbandb.save();
-						}
-						catch {
-							console.log();
-							// @ts-ignore
-							slchannel.send({ content: "An error has occurred. This could be due to unable to save data to database. You should contact the bot owner to get this issue fixed as it is most likely a bot issue. The ban has been aborted." });
-							return;
-						}
-
-						try {
-							await message.member.ban({ reason: "Scam Links" });
-						}
-						catch {
-							console.log();
-							// @ts-ignore
-							slchannel.send({ content: "An error has occurred. This could be due to unable to ban member. You can try again, but if the problem persists, please contact the bot owner. The ban has been aborted." });
-							return;
-						}
-
-						await slmessage.edit({ embeds: [slembed], components: [] });
-						await message.channel.send(`<@${sluser.id}> was banned for **attempted scam message**.`);
-					}
-					else if (i.customId == "mute") {
-						const slrecorddb = await filterdb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							time: `${message.createdTimestamp}`,
-							channelId: `${message.channelId}`,
-							content: `${message.content}`,
-							type: "scamlink",
-							action: "mute",
-							caseId: `${slcaseid3}`,
-						});
-						const slmutedb = await mutedb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							reason: "Attempted to send scam link.",
-							adminusername: `${i.member.user.tag}`,
-							adminId: `${i.member.user.id}`,
-							permanent: true,
-							time: `${message.createdTimestamp}`,
-						});
-						await slembed.setColor(0xff000).setFooter({ text: "Member Permanently Muted.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) }).addFields({ name: "Moderation Action", value: `<@${message.member.user.id}> **(${message.member.user.id})** permanently muted.` });
-
-						try {
-							await slrecorddb.save();
-							await slmutedb.save();
-						}
-						catch {
-							console.log();
-							// @ts-ignore
-							slchannel.send({ content: "An error has occurred. This could be due to unable to save data to database. You should contact the bot owner to get this issue fixed as it is most likely a bot issue. The mute has been aborted." });
-							return;
-						}
-
-						if (!message.member.roles.cache.has(ids.roles.muted)) {
-							try {
-								await message.member.roles.add((await message.guild.roles.fetch(ids.roles.muted)), "Scam Link");
-							}
-							catch {
-								console.log();
-								// @ts-ignore
-								slchannel.send({ content: "An error has occurred. This could be due to unable to mute member. You can try again, but if the problem persists, please contact the bot owner. The mute has been aborted." });
-								return;
-							}
-						}
-
-						await slmessage.edit({ embeds: [slembed], components: [] });
-						await message.channel.send(`<@${sluser.id}> has been permanently muted for **attempted scam message**.`);
-					}
-					else if (i.customId == "warnmute") {
-						const slrecorddb = await filterdb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							time: `${message.createdTimestamp}`,
-							channelId: `${message.channelId}`,
-							content: `${message.content}`,
-							type: "scamlink",
-							action: "warnmute",
-							caseId: `${slcaseid3}`,
-						});
-						const slwarndb = await warndb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							warnId: `${slwarnid3}`,
-							reason: "Attempted to send scam link.",
-							adminusername: `${i.member.user.tag}`,
-							adminId: `${i.member.user.id}`,
-							channel: `${message.channelId}`,
-							time: `${message.createdTimestamp}`,
-						});
-						const slmutedb = await mutedb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							reason: "Attempted to send scam Link.",
-							adminusername: `${i.member.user.tag}`,
-							adminId: `${i.member.user.id}`,
-							permanent: true,
-							time: `${message.createdTimestamp}`,
-						});
-						await slembed.setColor(0xff0000).setFooter({ text: "Member Warned & Permanently Muted.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) }).addFields({ name: "Moderation Action", value: `<@${message.member.user.id}> **(${message.member.user.id})** warned & permanently muted.` });
-
-						try {
-							await slwarndb.save();
-							await slrecorddb.save();
-							await slmutedb.save();
-						}
-						catch {
-							console.log();
-							// @ts-ignore
-							slchannel.send({ content: "An error has occurred. This could be due to unable to save data to database. You should contact the bot owner to get this issue fixed as it is most likely a bot issue. The warn & mute has been aborted." });
-							return;
-						}
-
-						if (!message.member.roles.cache.has(ids.roles.muted)) {
-							try {
-								await message.member.roles.add((await message.guild.roles.fetch(ids.roles.muted)), "Scam Link");
-							}
-							catch {
-								console.log();
-								// @ts-ignore
-								slchannel.send({ content: "An error has occurred. This could be due to unable to mute member. You can try again, but if the problem persists, please contact the bot owner. The mute has been aborted." });
-								return;
-							}
-						}
-
-						await slmessage.edit({ embeds: [slembed], components: [] });
-						await message.channel.send(`<@${sluser.id}> was warned and permanently muted for **attempted scam message**.`);
-					}
-					else if (i.customId == "warn") {
-						const slrecorddb = await filterdb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							time: `${message.createdTimestamp}`,
-							channelId: `${message.channelId}`,
-							content: `${message.content}`,
-							type: "scamlink",
-							action: "warnmute",
-							caseId: `${slcaseid3}`,
-						});
-						const slwarndb = await warndb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							warnId: `${slwarnid3}`,
-							reason: "Attempted to send scam link.",
-							adminusername: `${i.member.user.tag}`,
-							adminId: `${i.member.user.id}`,
-							channel: `${message.channelId}`,
-							time: `${message.createdTimestamp}`,
-						});
-						await slembed.setColor(0xfec13d).setFooter({ text: "Member Warned.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) }).addFields({ name: "Moderation Action", value: `<@${message.member.user.id}> **(${message.member.user.id})** warned.` });
-
-						try {
-							await slwarndb.save();
-							await slrecorddb.save();
-						}
-						catch {
-							console.log();
-							// @ts-ignore
-							slchannel.send({ content: "An error has occurred. This could be due to unable to save data to database. You should contact the bot owner to get this issue fixed as it is most likely a bot issue. The warn has been aborted." });
-							return;
-						}
-
-						await slmessage.edit({ embeds: [slembed], components: [] });
-						await message.channel.send(`<@${sluser.id}> warned for **attempted scam message**.`);
-					}
-					else if (i.customId == "falsealarm") {
-						try {
-							await message.member.roles.remove((await message.guild.roles.fetch(ids.roles.muted)));
-						}
-						catch {
-							console.log();
-						}
-						await slembed.setColor(0x00ff00).setFooter({ text: "False Alarm.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) });
-					}
-
-					try {
-						slcollect.dispose();
-					}
-					catch {
-						console.log();
-					}
-				});
-				return;
-			}
-		}
-		// Naught URLs
-		for (let nuc = 0; nuc < nu.length; nuc++) {
-			if (message.content.includes(nu[nuc])) {
-				message.delete();
-				const slmute = await message.guild.roles.fetch(ids.roles.muted);
-				message.member.roles.add(slmute);
-				const sluser = message.member;
-				message.channel.send(`<@${sluser.id}> (**${sluser.user.username}**) was automatically muted for **attempted malicious URL**.`);
-
-				const slbuttons = new ActionRowBuilder()
-					.addComponents(
-						new ButtonBuilder()
-							.setCustomId("ban")
-							.setLabel("Permanently Ban Member")
-							.setStyle(ButtonStyle.Primary),
-					)
-					.addComponents(
-						new ButtonBuilder()
-							.setCustomId("mute")
-							.setLabel("Permanently Mute Member")
-							.setStyle(ButtonStyle.Secondary),
-					)
-					.addComponents(
-						new ButtonBuilder()
-							.setCustomId("warnmute")
-							.setLabel("Warn & Temporarily Mute Member")
-							.setStyle(ButtonStyle.Secondary),
-					)
-					.addComponents(
-						new ButtonBuilder()
-							.setCustomId("warn")
-							.setLabel("Warn Member")
-							.setStyle(ButtonStyle.Secondary),
-					)
-					.addComponents(
-						new ButtonBuilder()
-							.setCustomId("falsealarm")
-							.setLabel("False Alarm")
-							.setStyle(ButtonStyle.Success),
-					);
-
-				const slembed = new EmbedBuilder()
-					.setDescription("⚠️**Malicious URL**⚠️")
-					.setAuthor({ name: message.member.user.tag, iconURL: message.member.user.avatarURL({ size: 4096, extension: "png" }) })
-					.setFooter({ text: "Select an action within 48 hours.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) })
-					.setColor(0xfec13d)
-					.setTimestamp()
-					.addFields([
-						{ name: "Scam URL Sent By", value: message.member.user.username },
-						{ name: "Scam URL Sent At", value: `<t:${Math.round(message.createdTimestamp / 1000)}:F>` },
-						{ name: "Scam URL Sent In", value: `<#${message.channelId}>` },
-						{ name: "Scam Message Content", value: `${message.content}` },
-					]);
-
-				const slchannel = await bot.channels.fetch(ids.channels.logging.filter);
-				// @ts-ignore
-				const slmessage = await slchannel.send({ content: "@everyone", embeds: [slembed], components: [slbuttons] });
-				const slcollect = await slmessage.createMessageComponentCollector({ componentType: ComponentType.Button, max: 1, maxComponents: 1, maxUsers: 1, time: 4147200000 });
-				const slcaseid = await filterdb.find({}).sort({ warnid: 1 });
-				for (; slcaseid.length > 1;) {
-					slcaseid.shift();
-				}
-				let slcaseid2 = parseInt(slcaseid[0].caseId);
-				const slcaseid3 = slcaseid2 += 1;
-
-				const slwarnid = await warndb.find({}).sort({ warnid: 1 });
-				for (; slwarnid.length > 1;) {
-					slwarnid.shift();
-				}
-				let slwarnid2 = parseInt(slwarnid[0].warnId);
-				const slwarnid3 = slwarnid2 += 1;
-
-				slcollect.on("collect", async i => {
-					if (i.customId == "ban") {
-						const slrecorddb = await filterdb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							time: `${message.createdTimestamp}`,
-							channelId: `${message.channelId}`,
-							content: `${message.content}`,
-							type: "malurl",
-							action: "ban",
-							caseId: `${slcaseid3}`,
-						});
-						const slbandb = await bandb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							reason: "Attempted to send malicious URL.",
-							adminusername: `${i.member.user.tag}`,
-							adminId: `${i.member.user.id}`,
-							permanent: true,
-							bantime: `${message.createdTimestamp}`,
-						});
-						await slembed.setColor(0xff0000).setFooter({ text: "Member Banned.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) }).addFields({ name: "Moderation Action", value: `<@${message.member.user.id}> **(${message.member.user.id})** permanently banned.` });
-
-						try {
-							await slrecorddb.save();
-							await slbandb.save();
-						}
-						catch {
-							console.log();
-							// @ts-ignore
-							slchannel.send({ content: "An error has occurred. This could be due to unable to save data to database. You should contact the bot owner to get this issue fixed as it is most likely a bot issue. The ban has been aborted." });
-							return;
-						}
-
-						try {
-							await message.member.ban({ reason: "Malicious URL" });
-						}
-						catch {
-							console.log();
-							// @ts-ignore
-							slchannel.send({ content: "An error has occurred. This could be due to unable to ban member. You can try again, but if the problem persists, please contact the bot owner. The ban has been aborted." });
-							return;
-						}
-
-						await slmessage.edit({ embeds: [slembed], components: [] });
-						await message.channel.send(`<@${sluser.id}> was banned for **attempted malicious URL**.`);
-					}
-					else if (i.customId == "mute") {
-						const slrecorddb = await filterdb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							time: `${message.createdTimestamp}`,
-							channelId: `${message.channelId}`,
-							content: `${message.content}`,
-							type: "malurl",
-							action: "mute",
-							caseId: `${slcaseid3}`,
-						});
-						const slmutedb = await mutedb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							reason: "Attempted to send malicious.",
-							adminusername: `${i.member.user.tag}`,
-							adminId: `${i.member.user.id}`,
-							permanent: true,
-							time: `${message.createdTimestamp}`,
-						});
-						await slembed.setColor(0xff000).setFooter({ text: "Member Permanently Muted.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) }).addFields({ name: "Moderation Action", value: `<@${message.member.user.id}> **(${message.member.user.id})** permanently muted.` });
-
-						try {
-							await slrecorddb.save();
-							await slmutedb.save();
-						}
-						catch {
-							console.log();
-							// @ts-ignore
-							slchannel.send({ content: "An error has occurred. This could be due to unable to save data to database. You should contact the bot owner to get this issue fixed as it is most likely a bot issue. The mute has been aborted." });
-							return;
-						}
-
-						if (!message.member.roles.cache.has(ids.roles.muted)) {
-							try {
-								await message.member.roles.add((await message.guild.roles.fetch(ids.roles.muted)), "Malicious URL");
-							}
-							catch {
-								console.log();
-								// @ts-ignore
-								slchannel.send({ content: "An error has occurred. This could be due to unable to mute member. You can try again, but if the problem persists, please contact the bot owner. The mute has been aborted." });
-								return;
-							}
-						}
-
-						await slmessage.edit({ embeds: [slembed], components: [] });
-						await message.channel.send(`<@${sluser.id}> has been permanently muted for **attempted malicious URL**.`);
-					}
-					else if (i.customId == "warnmute") {
-						const slrecorddb = await filterdb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							time: `${message.createdTimestamp}`,
-							channelId: `${message.channelId}`,
-							content: `${message.content}`,
-							type: "malurl",
-							action: "warnmute",
-							caseId: `${slcaseid3}`,
-						});
-						const slwarndb = await warndb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							warnId: `${slwarnid3}`,
-							reason: "Attempted to send malicious URL.",
-							adminusername: `${i.member.user.tag}`,
-							adminId: `${i.member.user.id}`,
-							channel: `${message.channelId}`,
-							time: `${message.createdTimestamp}`,
-						});
-						const slmutedb = await mutedb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							reason: "Attempted to send malicious URL.",
-							adminusername: `${i.member.user.tag}`,
-							adminId: `${i.member.user.id}`,
-							permanent: true,
-							time: `${message.createdTimestamp}`,
-						});
-						await slembed.setColor(0xff0000).setFooter({ text: "Member Warned & Permanently Muted.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) }).addFields({ name: "Moderation Action", value: `<@${message.member.user.id}> **(${message.member.user.id})** warned & permanently muted.` });
-
-						try {
-							await slwarndb.save();
-							await slrecorddb.save();
-							await slmutedb.save();
-						}
-						catch {
-							console.log();
-							// @ts-ignore
-							slchannel.send({ content: "An error has occurred. This could be due to unable to save data to database. You should contact the bot owner to get this issue fixed as it is most likely a bot issue. The warn & mute has been aborted." });
-							return;
-						}
-
-						if (!message.member.roles.cache.has(ids.roles.muted)) {
-							try {
-								await message.member.roles.add((await message.guild.roles.fetch(ids.roles.muted)), "Malicious URL");
-							}
-							catch {
-								console.log();
-								// @ts-ignore
-								slchannel.send({ content: "An error has occurred. This could be due to unable to mute member. You can try again, but if the problem persists, please contact the bot owner. The mute has been aborted." });
-								return;
-							}
-						}
-
-						await slmessage.edit({ embeds: [slembed], components: [] });
-						await message.channel.send(`<@${sluser.id}> was warned and permanently muted for **attempted scam message**.`);
-					}
-					else if (i.customId == "warn") {
-						const slrecorddb = await filterdb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							time: `${message.createdTimestamp}`,
-							channelId: `${message.channelId}`,
-							content: `${message.content}`,
-							type: "malurl",
-							action: "warnmute",
-							caseId: `${slcaseid3}`,
-						});
-						const slwarndb = await warndb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							warnId: `${slwarnid3}`,
-							reason: "Attempted to send malicious URL.",
-							adminusername: `${i.member.user.tag}`,
-							adminId: `${i.member.user.id}`,
-							channel: `${message.channelId}`,
-							time: `${message.createdTimestamp}`,
-						});
-						await slembed.setColor(0xfec13d).setFooter({ text: "Member Warned.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) }).addFields({ name: "Moderation Action", value: `<@${message.member.user.id}> **(${message.member.user.id})** warned.` });
-
-						try {
-							await slwarndb.save();
-							await slrecorddb.save();
-						}
-						catch {
-							console.log();
-							// @ts-ignore
-							slchannel.send({ content: "An error has occurred. This could be due to unable to save data to database. You should contact the bot owner to get this issue fixed as it is most likely a bot issue. The warn has been aborted." });
-							return;
-						}
-
-						await slmessage.edit({ embeds: [slembed], components: [] });
-						await message.channel.send(`<@${sluser.id}> warned for **attempted malicious URL**.`);
-					}
-					else if (i.customId == "falsealarm") {
-						try {
-							await message.member.roles.remove((await message.guild.roles.fetch(ids.roles.muted)));
-						}
-						catch {
-							console.log();
-						}
-						await slembed.setColor(0x00ff00).setFooter({ text: "False Alarm.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) });
-					}
-
-					try {
-						slcollect.dispose();
-					}
-					catch {
-						console.log();
-					}
-				});
-				return;
-			}
-		}
-		// Malicious
-		for (let mc = 0; mc < m.length; mc++) {
-			if (message.content.includes(m[mc])) {
-				message.delete();
-				const slmute = await message.guild.roles.fetch(ids.roles.muted);
-				message.member.roles.add(slmute);
-				const sluser = message.member;
-				message.channel.send(`<@${sluser.id}> (**${sluser.user.username}**) was automatically muted for **attempted malicious content**.`);
-
-				const slbuttons = new ActionRowBuilder()
-					.addComponents(
-						new ButtonBuilder()
-							.setCustomId("ban")
-							.setLabel("Permanently Ban Member")
-							.setStyle(ButtonStyle.Primary),
-					)
-					.addComponents(
-						new ButtonBuilder()
-							.setCustomId("mute")
-							.setLabel("Permanently Mute Member")
-							.setStyle(ButtonStyle.Secondary),
-					)
-					.addComponents(
-						new ButtonBuilder()
-							.setCustomId("warnmute")
-							.setLabel("Warn & Temporarily Mute Member")
-							.setStyle(ButtonStyle.Secondary),
-					)
-					.addComponents(
-						new ButtonBuilder()
-							.setCustomId("warn")
-							.setLabel("Warn Member")
-							.setStyle(ButtonStyle.Secondary),
-					)
-					.addComponents(
-						new ButtonBuilder()
-							.setCustomId("falsealarm")
-							.setLabel("False Alarm")
-							.setStyle(ButtonStyle.Success),
-					);
-
-				const slembed = new EmbedBuilder()
-					.setDescription("⚠️**Attempted Malicious Content**⚠️")
-					.setAuthor({ name: message.member.user.tag, iconURL: message.member.user.avatarURL({ size: 4096, extension: "png" }) })
-					.setFooter({ text: "Select an action within 48 hours.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) })
-					.setColor(0xfec13d)
-					.setTimestamp()
-					.addFields([
-						{ name: "Malicious Content Sent By", value: message.member.user.username },
-						{ name: "Malicious Content Sent At", value: `<t:${Math.round(message.createdTimestamp / 1000)}:F>` },
-						{ name: "Malicious Content Sent In", value: `<#${message.channelId}>` },
-						{ name: "Malicious Message Content", value: `${message.content}` },
-					]);
-
-				const slchannel = await bot.channels.fetch(ids.channels.logging.filter);
-				// @ts-ignore
-				const slmessage = await slchannel.send({ content: "@everyone", embeds: [slembed], components: [slbuttons] });
-				const slcollect = await slmessage.createMessageComponentCollector({ componentType: ComponentType.Button, max: 1, maxComponents: 1, maxUsers: 1, time: 4147200000 });
-				const slcaseid = await filterdb.find({}).sort({ warnid: 1 });
-				for (; slcaseid.length > 1;) {
-					slcaseid.shift();
-				}
-				let slcaseid2 = parseInt(slcaseid[0].caseId);
-				const slcaseid3 = slcaseid2 += 1;
-
-				const slwarnid = await warndb.find({}).sort({ warnid: 1 });
-				for (; slwarnid.length > 1;) {
-					slwarnid.shift();
-				}
-				let slwarnid2 = parseInt(slwarnid[0].warnId);
-				const slwarnid3 = slwarnid2 += 1;
-
-				slcollect.on("collect", async i => {
-					if (i.customId == "ban") {
-						const slrecorddb = await filterdb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							time: `${message.createdTimestamp}`,
-							channelId: `${message.channelId}`,
-							content: `${message.content}`,
-							type: "malicious",
-							action: "ban",
-							caseId: `${slcaseid3}`,
-						});
-						const slbandb = await bandb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							reason: "Attempted to send malicious content.",
-							adminusername: `${i.member.user.tag}`,
-							adminId: `${i.member.user.id}`,
-							permanent: true,
-							bantime: `${message.createdTimestamp}`,
-						});
-						await slembed.setColor(0xff0000).setFooter({ text: "Member Banned.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) }).addFields({ name: "Moderation Action", value: `<@${message.member.user.id}> **(${message.member.user.id})** permanently banned.` });
-
-						try {
-							await slrecorddb.save();
-							await slbandb.save();
-						}
-						catch {
-							console.log();
-							// @ts-ignore
-							slchannel.send({ content: "An error has occurred. This could be due to unable to save data to database. You should contact the bot owner to get this issue fixed as it is most likely a bot issue. The ban has been aborted." });
-							return;
-						}
-
-						try {
-							await message.member.ban({ reason: "Malicious" });
-						}
-						catch {
-							console.log();
-							// @ts-ignore
-							slchannel.send({ content: "An error has occurred. This could be due to unable to ban member. You can try again, but if the problem persists, please contact the bot owner. The ban has been aborted." });
-							return;
-						}
-
-						await slmessage.edit({ embeds: [slembed], components: [] });
-						await message.channel.send(`<@${sluser.id}> was banned for **attempted malicious content**.`);
-					}
-					else if (i.customId == "mute") {
-						const slrecorddb = await filterdb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							time: `${message.createdTimestamp}`,
-							channelId: `${message.channelId}`,
-							content: `${message.content}`,
-							type: "malicious",
-							action: "mute",
-							caseId: `${slcaseid3}`,
-						});
-						const slmutedb = await mutedb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							reason: "Attempted to send malicious content.",
-							adminusername: `${i.member.user.tag}`,
-							adminId: `${i.member.user.id}`,
-							permanent: true,
-							time: `${message.createdTimestamp}`,
-						});
-						await slembed.setColor(0xff000).setFooter({ text: "Member Permanently Muted.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) }).addFields({ name: "Moderation Action", value: `<@${message.member.user.id}> **(${message.member.user.id})** permanently muted.` });
-
-						try {
-							await slrecorddb.save();
-							await slmutedb.save();
-						}
-						catch {
-							console.log();
-							// @ts-ignore
-							slchannel.send({ content: "An error has occurred. This could be due to unable to save data to database. You should contact the bot owner to get this issue fixed as it is most likely a bot issue. The mute has been aborted." });
-							return;
-						}
-
-						if (!message.member.roles.cache.has(ids.roles.muted)) {
-							try {
-								await message.member.roles.add((await message.guild.roles.fetch(ids.roles.muted)), "Malicious");
-							}
-							catch {
-								console.log();
-								// @ts-ignore
-								slchannel.send({ content: "An error has occurred. This could be due to unable to mute member. You can try again, but if the problem persists, please contact the bot owner. The mute has been aborted." });
-								return;
-							}
-						}
-
-						await slmessage.edit({ embeds: [slembed], components: [] });
-						await message.channel.send(`<@${sluser.id}> has been permanently muted for **attempted malicious content**.`);
-					}
-					else if (i.customId == "warnmute") {
-						const slrecorddb = await filterdb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							time: `${message.createdTimestamp}`,
-							channelId: `${message.channelId}`,
-							content: `${message.content}`,
-							type: "malicious",
-							action: "warnmute",
-							caseId: `${slcaseid3}`,
-						});
-						const slwarndb = await warndb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							warnId: `${slwarnid3}`,
-							reason: "Attempted to send malicious content.",
-							adminusername: `${i.member.user.tag}`,
-							adminId: `${i.member.user.id}`,
-							channel: `${message.channelId}`,
-							time: `${message.createdTimestamp}`,
-						});
-						const slmutedb = await mutedb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							reason: "Attempted to send malicious content.",
-							adminusername: `${i.member.user.tag}`,
-							adminId: `${i.member.user.id}`,
-							permanent: true,
-							time: `${message.createdTimestamp}`,
-						});
-						await slembed.setColor(0xff0000).setFooter({ text: "Member Warned & Permanently Muted.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) }).addFields({ name: "Moderation Action", value: `<@${message.member.user.id}> **(${message.member.user.id})** warned & permanently muted.` });
-
-						try {
-							await slwarndb.save();
-							await slrecorddb.save();
-							await slmutedb.save();
-						}
-						catch {
-							console.log();
-							// @ts-ignore
-							slchannel.send({ content: "An error has occurred. This could be due to unable to save data to database. You should contact the bot owner to get this issue fixed as it is most likely a bot issue. The warn & mute has been aborted." });
-							return;
-						}
-
-						if (!message.member.roles.cache.has(ids.roles.muted)) {
-							try {
-								await message.member.roles.add((await message.guild.roles.fetch(ids.roles.muted)), "Malicious");
-							}
-							catch {
-								console.log();
-								// @ts-ignore
-								slchannel.send({ content: "An error has occurred. This could be due to unable to mute member. You can try again, but if the problem persists, please contact the bot owner. The mute has been aborted." });
-								return;
-							}
-						}
-
-						await slmessage.edit({ embeds: [slembed], components: [] });
-						await message.channel.send(`<@${sluser.id}> was warned and permanently muted for **attempted malicious content**.`);
-					}
-					else if (i.customId == "warn") {
-						const slrecorddb = await filterdb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							time: `${message.createdTimestamp}`,
-							channelId: `${message.channelId}`,
-							content: `${message.content}`,
-							type: "malicious",
-							action: "warnmute",
-							caseId: `${slcaseid3}`,
-						});
-						const slwarndb = await warndb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							warnId: `${slwarnid3}`,
-							reason: "Attempted to send malicious content.",
-							adminusername: `${i.member.user.tag}`,
-							adminId: `${i.member.user.id}`,
-							channel: `${message.channelId}`,
-							time: `${message.createdTimestamp}`,
-						});
-						await slembed.setColor(0xfec13d).setFooter({ text: "Member Warned.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) }).addFields({ name: "Moderation Action", value: `<@${message.member.user.id}> **(${message.member.user.id})** warned.` });
-
-						try {
-							await slwarndb.save();
-							await slrecorddb.save();
-						}
-						catch {
-							console.log();
-							// @ts-ignore
-							slchannel.send({ content: "An error has occurred. This could be due to unable to save data to database. You should contact the bot owner to get this issue fixed as it is most likely a bot issue. The warn has been aborted." });
-							return;
-						}
-
-						await slmessage.edit({ embeds: [slembed], components: [] });
-						await message.channel.send(`<@${sluser.id}> warned for **attempted malicious content**.`);
-					}
-					else if (i.customId == "falsealarm") {
-						try {
-							await message.member.roles.remove((await message.guild.roles.fetch(ids.roles.muted)));
-						}
-						catch {
-							console.log();
-						}
-						await slembed.setColor(0x00ff00).setFooter({ text: "False Alarm.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) });
-					}
-
-					try {
-						slcollect.dispose();
-					}
-					catch {
-						console.log();
-					}
-				});
-				return;
-			}
-		}
-		// Everyone Ping
-		for (let ec = 0; ec < m.length; ec++) {
-			if (spamchannels.includes(message.channelId)) return;
-			if (message.author.bot) return;
-			if (message.content.includes(e[ec])) {
-				if (message.member.roles.cache.has("645832781469057024") || message.member.roles.cache.has("608937618259836930") || message.member.roles.cache.has("609236733464150037")) return;
-				message.delete();
-				const slmute = await message.guild.roles.fetch(ids.roles.muted);
-				message.member.roles.add(slmute);
-				const sluser = message.member;
-				message.channel.send(`<@${sluser.id}> (**${sluser.user.username}**) was automatically muted for **attempted mass mention**.`);
-
-				const slbuttons = new ActionRowBuilder()
-					.addComponents(
-						new ButtonBuilder()
-							.setCustomId("ban")
-							.setLabel("Permanently Ban Member")
-							.setStyle(ButtonStyle.Primary),
-					)
-					.addComponents(
-						new ButtonBuilder()
-							.setCustomId("mute")
-							.setLabel("Permanently Mute Member")
-							.setStyle(ButtonStyle.Secondary),
-					)
-					.addComponents(
-						new ButtonBuilder()
-							.setCustomId("warnmute")
-							.setLabel("Warn & Temporarily Mute Member")
-							.setStyle(ButtonStyle.Secondary),
-					)
-					.addComponents(
-						new ButtonBuilder()
-							.setCustomId("warn")
-							.setLabel("Warn Member")
-							.setStyle(ButtonStyle.Secondary),
-					)
-					.addComponents(
-						new ButtonBuilder()
-							.setCustomId("falsealarm")
-							.setLabel("False Alarm")
-							.setStyle(ButtonStyle.Success),
-					);
-
-				const slembed = new EmbedBuilder()
-					.setDescription("⚠️**Attempted Ping**⚠️")
-					.setAuthor({ name: message.member.user.tag, iconURL: message.member.user.avatarURL({ size: 4096, extension: "png" }) })
-					.setFooter({ text: "Select an action within 48 hours.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) })
-					.setColor(0xfec13d)
-					.setTimestamp()
-					.addFields([
-						{ name: "Mass Mention Sent By", value: message.member.user.username },
-						{ name: "Mass Mention Sent At", value: `<t:${Math.round(message.createdTimestamp / 1000)}:F>` },
-						{ name: "Mass Mention Sent In", value: `<#${message.channelId}>` },
-						{ name: "Mass Mention Message Content", value: `${message.content}` },
-					]);
-
-				const slchannel = await bot.channels.fetch(ids.channels.logging.filter);
-				// @ts-ignore
-				const slmessage = await slchannel.send({ content: "@everyone", embeds: [slembed], components: [slbuttons] });
-				const slcollect = await slmessage.createMessageComponentCollector({ componentType: ComponentType.Button, max: 1, maxComponents: 1, maxUsers: 1, time: 4147200000 });
-				const slcaseid = await filterdb.find({}).sort({ warnid: 1 });
-				for (; slcaseid.length > 1;) {
-					slcaseid.shift();
-				}
-				let slcaseid2 = parseInt(slcaseid[0].caseId);
-				const slcaseid3 = slcaseid2 += 1;
-
-				const slwarnid = await warndb.find({}).sort({ warnid: 1 });
-				for (; slwarnid.length > 1;) {
-					slwarnid.shift();
-				}
-				let slwarnid2 = parseInt(slwarnid[0].warnId);
-				const slwarnid3 = slwarnid2 += 1;
-
-				slcollect.on("collect", async i => {
-					if (i.customId == "ban") {
-						const slrecorddb = await filterdb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							time: `${message.createdTimestamp}`,
-							channelId: `${message.channelId}`,
-							content: `${message.content}`,
-							type: "massmention",
-							action: "ban",
-							caseId: `${slcaseid3}`,
-						});
-						const slbandb = await bandb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							reason: "Attempted to mass mention.",
-							adminusername: `${i.member.user.tag}`,
-							adminId: `${i.member.user.id}`,
-							permanent: true,
-							bantime: `${message.createdTimestamp}`,
-						});
-						await slembed.setColor(0xff0000).setFooter({ text: "Member Banned.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) }).addFields({ name: "Moderation Action", value: `<@${message.member.user.id}> **(${message.member.user.id})** permanently banned.` });
-
-						try {
-							await slrecorddb.save();
-							await slbandb.save();
-						}
-						catch {
-							console.log();
-							// @ts-ignore
-							slchannel.send({ content: "An error has occurred. This could be due to unable to save data to database. You should contact the bot owner to get this issue fixed as it is most likely a bot issue. The ban has been aborted." });
-							return;
-						}
-
-						try {
-							await message.member.ban({ reason: "Mass Mention" });
-						}
-						catch {
-							console.log();
-							// @ts-ignore
-							slchannel.send({ content: "An error has occurred. This could be due to unable to ban member. You can try again, but if the problem persists, please contact the bot owner. The ban has been aborted." });
-							return;
-						}
-
-						await slmessage.edit({ embeds: [slembed], components: [] });
-						await message.channel.send(`<@${sluser.id}> was banned for **attempted mass mention**.`);
-					}
-					else if (i.customId == "mute") {
-						const slrecorddb = await filterdb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							time: `${message.createdTimestamp}`,
-							channelId: `${message.channelId}`,
-							content: `${message.content}`,
-							type: "massmention",
-							action: "mute",
-							caseId: `${slcaseid3}`,
-						});
-						const slmutedb = await mutedb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							reason: "Attempted to mass mention.",
-							adminusername: `${i.member.user.tag}`,
-							adminId: `${i.member.user.id}`,
-							permanent: true,
-							time: `${message.createdTimestamp}`,
-						});
-						await slembed.setColor(0xff000).setFooter({ text: "Member Permanently Muted.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) }).addFields({ name: "Moderation Action", value: `<@${message.member.user.id}> **(${message.member.user.id})** permanently muted.` });
-
-						try {
-							await slrecorddb.save();
-							await slmutedb.save();
-						}
-						catch {
-							console.log();
-							// @ts-ignore
-							slchannel.send({ content: "An error has occurred. This could be due to unable to save data to database. You should contact the bot owner to get this issue fixed as it is most likely a bot issue. The mute has been aborted." });
-							return;
-						}
-
-						if (!message.member.roles.cache.has(ids.roles.muted)) {
-							try {
-								await message.member.roles.add(ids.roles.muted, "Malicious");
-							}
-							catch {
-								console.log();
-								// @ts-ignore
-								slchannel.send({ content: "An error has occurred. This could be due to unable to mute member. You can try again, but if the problem persists, please contact the bot owner. The mute has been aborted." });
-								return;
-							}
-						}
-
-						await slmessage.edit({ embeds: [slembed], components: [] });
-						await message.channel.send(`<@${sluser.id}> has been permanently muted for **attempted mass mention**.`);
-					}
-					else if (i.customId == "warnmute") {
-						const slrecorddb = await filterdb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							time: `${message.createdTimestamp}`,
-							channelId: `${message.channelId}`,
-							content: `${message.content}`,
-							type: "massmention",
-							action: "warnmute",
-							caseId: `${slcaseid3}`,
-						});
-						const slwarndb = await warndb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							warnId: `${slwarnid3}`,
-							reason: "Attempted to mass mention.",
-							adminusername: `${i.member.user.tag}`,
-							adminId: `${i.member.user.id}`,
-							channel: `${message.channelId}`,
-							time: `${message.createdTimestamp}`,
-						});
-						const slmutedb = await mutedb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							reason: "Attempted to mass mention.",
-							adminusername: `${i.member.user.tag}`,
-							adminId: `${i.member.user.id}`,
-							permanent: true,
-							time: `${message.createdTimestamp}`,
-						});
-						await slembed.setColor(0xff0000).setFooter({ text: "Member Warned & Permanently Muted.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) }).addFields({ name: "Moderation Action", value: `<@${message.member.user.id}> **(${message.member.user.id})** warned & permanently muted.` });
-
-						try {
-							await slwarndb.save();
-							await slrecorddb.save();
-							await slmutedb.save();
-						}
-						catch {
-							console.log();
-							// @ts-ignore
-							slchannel.send({ content: "An error has occurred. This could be due to unable to save data to database. You should contact the bot owner to get this issue fixed as it is most likely a bot issue. The warn & mute has been aborted." });
-							return;
-						}
-
-						if (!message.member.roles.cache.has(ids.roles.muted)) {
-							try {
-								await message.member.roles.add(ids.roles.muted, "Mass Mention");
-							}
-							catch {
-								console.log();
-								// @ts-ignore
-								slchannel.send({ content: "An error has occurred. This could be due to unable to mute member. You can try again, but if the problem persists, please contact the bot owner. The mute has been aborted." });
-								return;
-							}
-						}
-
-						await slmessage.edit({ embeds: [slembed], components: [] });
-						await message.channel.send(`<@${sluser.id}> was warned and permanently muted for **attempted mass mention**.`);
-					}
-					else if (i.customId == "warn") {
-						const slrecorddb = await filterdb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							time: `${message.createdTimestamp}`,
-							channelId: `${message.channelId}`,
-							content: `${message.content}`,
-							type: "massmention",
-							action: "warnmute",
-							caseId: `${slcaseid3}`,
-						});
-						const slwarndb = await warndb.create({
-							username: `${message.member.user.tag}`,
-							userId: `${message.member.user.id}`,
-							warnId: `${slwarnid3}`,
-							reason: "Attempted to mass mention.",
-							adminusername: `${i.member.user.tag}`,
-							adminId: `${i.member.user.id}`,
-							channel: `${message.channelId}`,
-							time: `${message.createdTimestamp}`,
-						});
-						await slembed.setColor(0xfec13d).setFooter({ text: "Member Warned.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) }).addFields({ name: "Moderation Action", value: `<@${message.member.user.id}> **(${message.member.user.id})** warned.` });
-
-						try {
-							await slwarndb.save();
-							await slrecorddb.save();
-						}
-						catch {
-							console.log();
-							// @ts-ignore
-							slchannel.send({ content: "An error has occurred. This could be due to unable to save data to database. You should contact the bot owner to get this issue fixed as it is most likely a bot issue. The warn has been aborted." });
-							return;
-						}
-
-						await slmessage.edit({ embeds: [slembed], components: [] });
-						await message.channel.send(`<@${sluser.id}> warned for **attempted mass mention**.`);
-					}
-					else if (i.customId == "falsealarm") {
-						try {
-							await message.member.roles.remove(ids.roles.muted);
-						}
-						catch {
-							console.log();
-						}
-						await slembed.setColor(0x00ff00).setFooter({ text: "False Alarm.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) });
-					}
-
-					try {
-						slcollect.dispose();
-					}
-					catch {
-						console.log();
-					}
-				});
-				return;
-			}
-		}
-		// Counting
 		if (message.channel.id == ids.channels.muteables[2]) {
 			const args = message.content.split(" ");
 			const counting = await countdb.find({}).sort({ created_at: -1 });
-			// @ts-ignore
 			if (counting[counting.length].userId == message.member.id) {
 				message.delete();
 				return;
@@ -1577,7 +770,6 @@ bot.on("messageCreate", async function(message) {
 
 			let parsednumber = parseInt(counting[counting.length].numbercounted);
 
-			// @ts-ignore
 			if (message.content.startsWith(`${parsednumber += 1}`)) {
 				const countingdb = await countdb.create({
 					userId: message.member.id,
@@ -1588,6 +780,37 @@ bot.on("messageCreate", async function(message) {
 			}
 			else {
 				message.delete();
+				return;
+			}
+		}
+		if (backupbot == 1 && backupbotevents == 0) return;
+		const sl = fs.readFileSync("./lists/sl.txt").toString().split("\n");
+		const nu = fs.readFileSync("./lists/nu.txt").toString().split("\n");
+		const m = fs.readFileSync("./lists/m.txt").toString().split("\n");
+		const e = fs.readFileSync("./lists/e.txt").toString().split("\n");
+		const args = message.content.substring(PREFIX.length).split(" ");
+
+		for (let argscount = 0; argscount < args.length; argscount++) {
+			if (sl.includes(args[argscount])) {
+				cftypei = "sl";
+				chatfilter();
+				return;
+			}
+			else if (nu.includes(args[argscount])) {
+				cftypei = "nu";
+				chatfilter();
+				return;
+			}
+			else if (m.includes(args[argscount])) {
+				cftypei = "m";
+				chatfilter();
+				return;
+			}
+			else if (e.includes(args[argscount])) {
+				if (spamchannels.includes(message.channelId)) return;
+				if (message.author.bot) return;
+				cftypei = "e";
+				chatfilter();
 				return;
 			}
 		}
@@ -1812,21 +1035,6 @@ bot.on("messageCreate", async function(message) {
 			await rpswait(10000);
 			rpshmsg.edit(rpswp[Math.floor(Math.random() * rpswp.length)]);
 		}
-		break;
-	}
-	// Admin commands
-	case "tellraw": {
-		message.delete();
-		if (!(message.member.roles.cache.has("645832781469057024") || message.member.roles.cache.has("609236733464150037"))) return message.channel.send("You don't have permission to do that!");
-		const twchannel = args[1];
-		if (!twchannel) return message.channel.send("Please tell me which channel to send to.");
-		const twcontent = args.slice(2).join(" ");
-		if (!twcontent) return message.channel.send("Please tell me what to say!");
-		const twchanneln = twchannel.slice(2, twchannel.length - 1);
-		const twchannelr = await message.guild.channels.fetch(twchanneln);
-		if (!twchannelr) return message.channel.send("An error occurred.");
-		// @ts-ignore
-		twchannelr.send(twcontent);
 		break;
 	}
 	// Info

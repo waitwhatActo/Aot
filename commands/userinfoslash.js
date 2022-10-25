@@ -4,7 +4,7 @@ module.exports = {
 	name: "userinfoslash",
 	data: new SlashCommandBuilder()
 		.setName("userinfo")
-		.setDescription("A member's information")
+		.setDescription("Shows a member's information")
 		.setDMPermission(false)
 		.addUserOption(option =>
 			option.setName("member")
@@ -16,7 +16,6 @@ module.exports = {
 		const target = interaction.options.getMember("member");
 
 		if (target) {
-
 			const embed = new EmbedBuilder()
 				.setAuthor({ name: target.user.tag, iconURL: target.user.avatarURL({ size: 4096, extension: "png" }) })
 				.setDescription("**User Info**")

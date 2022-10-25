@@ -20,11 +20,10 @@
     "@discordjs/rest": "^1.3.0",
     "@discordjs/voice": "^0.13.0",
     "@pm2/io": "^5.0.0",
-    "discord-api-types": "^0.37.14",
     "discord.js": "^14.6.0",
-    "file-system": "^2.2.2",
+    "file-system": "^1.2.2",
     "got": "^12.5.2",
-    "mongoose": "^6.6.5",
+    "mongoose": "^6.7.0",
     "ms": "^2.1.3",
     "opusscript": "^0.0.8",
     "random-puppy": "^1.1.0",
@@ -36,6 +35,6 @@
   },
   "homepage": "https://github.com/cleverActon0126/aot",
   "devDependencies": {
-    "eslint": "^8.25.0"
+    "eslint": "^8.26.0"
   }
 }
