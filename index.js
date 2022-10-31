@@ -52,64 +52,64 @@ const feeder = async () => {
 	if (backupbot == 1 && backupbotevents == 0) return;
 	if (feedcon == 0) return;
 	const acto = await bot.users.fetch("428445352354643968");
-	await acto.send("Pinging").then(ready => {
-		const embed = new EmbedBuilder()
+	const actomsg = await acto.send("Pinging");
+	const actoembed = new EmbedBuilder()
+		.setDescription("**Acto Utils is online!**")
+		.addFields([
+			{ name: "Acto Utils has been online for", value: `${hours} hour` },
+			{ name: "The current time is", value: `<t:${Math.round(actomsg.createdTimestamp / 1000)}:F>` },
+			{ name: "API Latency", value: `${bot.ws.ping}ms` },
+			{ name: "Roundtrip Latency", value: `${(new Date().getTime() * 1000) - actomsg.createdTimestamp}` },
+			{ name: "​", value: "Check the logs for errors if necessary." },
+		])
+		.setFooter({ text: "Made for Acto (428445352354643968).", iconURL: acto.avatarURL({ size: 4096, extension: "png" }) })
+		.setTimestamp()
+		.setAuthor({ name: "Scheduled Acto Utils Feed", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) });
+	actomsg.edit({ embeds: [actoembed] });
+	const del = await bot.users.fetch("710272856772050994");
+	const delmsg = await del.send("Pinging");
+	const delembed = new EmbedBuilder()
+		.setDescription("**Acto Utils is online!**")
+		.addFields([
+			{ name: "Acto Utils has been online for", value: `${hours} hour` },
+			{ name: "The current time is", value: `<t:${Math.round(delmsg.createdTimestamp / 1000)}:F>` },
+			{ name: "API Latency", value: `${bot.ws.ping}ms` },
+			{ name: "Roundtrip Latency", value: `${(new Date().getTime() * 1000) - actomsg.createdTimestamp}` },
+			{ name: "​", value: "Check the logs for errors if necessary." },
+		])
+		.setFooter({ text: "Made for Delilah (933317965024210995). Acto says \"ily\" to you", iconURL: del.avatarURL({ size: 4096, extension: "png" }) })
+		.setTimestamp()
+		.setAuthor({ name: "Scheduled Acto Utils Feed", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) });
+	delmsg.edit({ embeds: [delembed] });
+	setInterval(async () => {
+		const actomsgint = await acto.send("Pinging");
+		const actoembedint = new EmbedBuilder()
 			.setDescription("**Acto Utils is online!**")
 			.addFields([
 				{ name: "Acto Utils has been online for", value: `${hours} hour` },
-				{ name: "The current time is", value: `<t:${Math.round(ready.createdTimestamp / 1000)}:F>` },
-				{ name: "Bot ping", value: `${bot.ws.ping}ms` },
+				{ name: "The current time is", value: `<t:${Math.round(actomsgint.createdTimestamp / 1000)}:F>` },
+				{ name: "API Latency", value: `${bot.ws.ping}ms` },
+				{ name: "Roundtrip Latency", value: `${(new Date().getTime() * 1000) - actomsgint.createdTimestamp}` },
 				{ name: "​", value: "Check the logs for errors if necessary." },
 			])
 			.setFooter({ text: "Made for Acto (428445352354643968).", iconURL: acto.avatarURL({ size: 4096, extension: "png" }) })
 			.setTimestamp()
 			.setAuthor({ name: "Scheduled Acto Utils Feed", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) });
-		ready.edit({ embeds: [embed] });
-	});
-	const del = await bot.users.fetch("710272856772050994");
-	await del.send("Pinging").then(ready => {
-		const embed = new EmbedBuilder()
+		actomsg.edit({ embeds: [actoembedint] });
+		const delmsgint = await del.send("Pinging");
+		const delembedint = new EmbedBuilder()
 			.setDescription("**Acto Utils is online!**")
 			.addFields([
 				{ name: "Acto Utils has been online for", value: `${hours} hour` },
-				{ name: "The current time is", value: `<t:${Math.round(ready.createdTimestamp / 1000)}:F>` },
-				{ name: "Bot ping", value: `${bot.ws.ping}ms` },
+				{ name: "The current time is", value: `<t:${Math.round(delmsgint.createdTimestamp / 1000)}:F>` },
+				{ name: "API Latency", value: `${bot.ws.ping}ms` },
+				{ name: "Roundtrip Latency", value: `${(new Date().getTime() * 1000) - actomsgint.createdTimestamp}` },
 				{ name: "​", value: "Check the logs for errors if necessary." },
 			])
 			.setFooter({ text: "Made for Delilah (933317965024210995). Acto says \"ily\" to you", iconURL: del.avatarURL({ size: 4096, extension: "png" }) })
 			.setTimestamp()
 			.setAuthor({ name: "Scheduled Acto Utils Feed", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) });
-		ready.edit({ embeds: [embed] });
-	});
-	setInterval(async () => {
-		await acto.send("Pinging").then(ready => {
-			const embed = new EmbedBuilder()
-				.setDescription("**Acto Utils is online!**")
-				.addFields([
-					{ name: "Acto Utils has been online for", value: `${hours} hours` },
-					{ name: "The current time is", value: `<t:${Math.round(ready.createdTimestamp / 1000)}:F>` },
-					{ name: "Bot ping", value: `${bot.ws.ping}ms` },
-					{ name: "​", value: "Check the logs for errors if necessary." },
-				])
-				.setFooter({ text: "Made for Acto (428445352354643968).", iconURL: acto.avatarURL({ size: 4096, extension: "png" }) })
-				.setTimestamp()
-				.setAuthor({ name: "Scheduled Acto Utils Feed", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) });
-			ready.edit({ embeds: [embed] });
-		});
-		await del.send("Pinging").then(ready => {
-			const embed = new EmbedBuilder()
-				.setDescription("**Acto Utils is online!**")
-				.addFields([
-					{ name: "Acto Utils has been online for", value: `${hours} hours` },
-					{ name: "The current time is", value: `<t:${Math.round(ready.createdTimestamp / 1000)}:F>` },
-					{ name: "Bot ping", value: `${bot.ws.ping}ms` },
-					{ name: "​", value: "Check the logs for errors if necessary." },
-				])
-				.setFooter({ text: "Made for Delilah (933317965024210995). Acto says \"ily\" to you", iconURL: del.avatarURL({ size: 4096, extension: "png" }) })
-				.setTimestamp()
-				.setAuthor({ name: "Scheduled Acto Utils Feed", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) });
-			ready.edit({ embeds: [embed] });
-		});
+		delmsg.edit({ embeds: [delembedint] });
 	}, 1800000);
 
 };
@@ -129,7 +129,7 @@ bot.once("ready", async () => {
 		});
 	console.log("Connected as Acto Utils#0350 and using version 0.62.0");
 	if (backupbot == 0) {
-		bot.user.setPresence({ activities: [{ name: `on 0.62.0 for ${hours} hour(s)` }], status: "online" });
+		bot.user.setPresence({ activities: [{ name: `?ahelp on 0.62.0 for ${hours} hour(s)` }], status: "online" });
 	}
 	else if (backupbot == 1) {
 		bot.user.setStatus("invisible");
@@ -142,7 +142,7 @@ bot.once("ready", async () => {
 			}
 			if (botcheckid.presence.status == "offline" && backupbotevents == 0) {
 				backupbotevents = 1;
-				bot.user.setPresence({ activities: [{ name: `on 0.62.0 for ${hours}` }], status: "online" });
+				bot.user.setPresence({ activities: [{ name: `?ahelp on 0.62.0 for ${hours}` }], status: "online" });
 			}
 			else if (botcheckid.presence.status == "online" && backupbotevents == 1) {
 				bot.user.setActivity("invisible");
