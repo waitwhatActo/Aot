@@ -59,7 +59,7 @@ const feeder = async () => {
 			{ name: "Acto Utils has been online for", value: `${hours} hour` },
 			{ name: "The current time is", value: `<t:${Math.round(actomsg.createdTimestamp / 1000)}:F>` },
 			{ name: "API Latency", value: `${bot.ws.ping}ms` },
-			{ name: "Roundtrip Latency", value: `${(new Date().getTime() * 1000) - actomsg.createdTimestamp}` },
+			{ name: "Roundtrip Latency", value: `${new Date().getTime() - actomsg.createdTimestamp}` },
 			{ name: "​", value: "Check the logs for errors if necessary." },
 		])
 		.setFooter({ text: "Made for Acto (428445352354643968).", iconURL: acto.avatarURL({ size: 4096, extension: "png" }) })
@@ -74,7 +74,7 @@ const feeder = async () => {
 			{ name: "Acto Utils has been online for", value: `${hours} hour` },
 			{ name: "The current time is", value: `<t:${Math.round(delmsg.createdTimestamp / 1000)}:F>` },
 			{ name: "API Latency", value: `${bot.ws.ping}ms` },
-			{ name: "Roundtrip Latency", value: `${(new Date().getTime() * 1000) - actomsg.createdTimestamp}` },
+			{ name: "Roundtrip Latency", value: `${new Date().getTime() - actomsg.createdTimestamp}` },
 			{ name: "​", value: "Check the logs for errors if necessary." },
 		])
 		.setFooter({ text: "Made for Delilah (933317965024210995). Acto says \"ily\" to you", iconURL: del.avatarURL({ size: 4096, extension: "png" }) })
@@ -89,13 +89,13 @@ const feeder = async () => {
 				{ name: "Acto Utils has been online for", value: `${hours} hour` },
 				{ name: "The current time is", value: `<t:${Math.round(actomsgint.createdTimestamp / 1000)}:F>` },
 				{ name: "API Latency", value: `${bot.ws.ping}ms` },
-				{ name: "Roundtrip Latency", value: `${(new Date().getTime() * 1000) - actomsgint.createdTimestamp}` },
+				{ name: "Roundtrip Latency", value: `${new Date().getTime() - actomsgint.createdTimestamp}` },
 				{ name: "​", value: "Check the logs for errors if necessary." },
 			])
 			.setFooter({ text: "Made for Acto (428445352354643968).", iconURL: acto.avatarURL({ size: 4096, extension: "png" }) })
 			.setTimestamp()
 			.setAuthor({ name: "Scheduled Acto Utils Feed", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) });
-		actomsg.edit({ embeds: [actoembedint] });
+		actomsgint.edit({ embeds: [actoembedint] });
 		const delmsgint = await del.send("Pinging");
 		const delembedint = new EmbedBuilder()
 			.setDescription("**Acto Utils is online!**")
@@ -103,13 +103,13 @@ const feeder = async () => {
 				{ name: "Acto Utils has been online for", value: `${hours} hour` },
 				{ name: "The current time is", value: `<t:${Math.round(delmsgint.createdTimestamp / 1000)}:F>` },
 				{ name: "API Latency", value: `${bot.ws.ping}ms` },
-				{ name: "Roundtrip Latency", value: `${(new Date().getTime() * 1000) - actomsgint.createdTimestamp}` },
+				{ name: "Roundtrip Latency", value: `${new Date().getTime() - actomsgint.createdTimestamp}` },
 				{ name: "​", value: "Check the logs for errors if necessary." },
 			])
 			.setFooter({ text: "Made for Delilah (933317965024210995). Acto says \"ily\" to you", iconURL: del.avatarURL({ size: 4096, extension: "png" }) })
 			.setTimestamp()
 			.setAuthor({ name: "Scheduled Acto Utils Feed", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) });
-		delmsg.edit({ embeds: [delembedint] });
+		delmsgint.edit({ embeds: [delembedint] });
 	}, 1800000);
 
 };
