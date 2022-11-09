@@ -163,43 +163,6 @@ module.exports = {
 			}
 			break;
 		}
-		case "query": {
-			let member = interaction.options.getUser("member");
-			if (!member) member = interaction.user;
-
-			const embed = new EmbedBuilder()
-				.setTitle("Infractions")
-				.setAuthor({ name: `${member.username}`, iconURL: member.avatarURL({ dynamic: true }) })
-				.setTimestamp()
-				.setColor(0xfec13d)
-				.setFooter({ text: hmf[Math.floor(Math.random() * hmf.length)], iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) });
-
-			const warnquery = await warn.find();
-			let warncount = 0;
-			let warnstring = "";
-
-			for (; warnquery.length > 0;) {
-				if (warnquery[0].userId == member.id) {
-					warnstring += `\`000${warnquery[0].warnId}\` **${warnquery[0].reason}** • <t:${Math.round(parseInt(warnquery[0].time) / 1000)}:F> \n`;
-					warncount++;
-					warnquery.shift();
-				}
-				else {
-					warnquery.shift();
-				}
-			}
-			if (warnstring == "") {
-				warnstring = "No past warning was found.";
-				warncount = 0;
-			}
-
-			embed.setDescription(warnstring);
-			embed.addFields({ name: "Total Warnings", value: `${warncount}` });
-
-			interaction.reply({ embeds: [embed] });
-
-			break;
-		}
 		case "delete": {
 			if (!(interaction.member.roles.cache.has("629687079567360030") || interaction.member.roles.cache.has("629687079567360030") || interaction.member.roles.cache.has("645832781469057024") || interaction.member.roles.cache.has("609236733464150037"))) return interaction.reply({ content: "You don't have permission to do that!" });
 			const warnid = interaction.options.getNumber("warnid");

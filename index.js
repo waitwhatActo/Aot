@@ -25,7 +25,7 @@ const hmf = [
 	"Enjoy your time using Acto Utils",
 	"Trying to report somebody? DM @ModMail",
 	"Made by cleverActon0126#0126",
-	"Version 0.62.0",
+	"Version 0.62.2",
 ];
 const spamchannels = [
 	"1007820662288691331",
@@ -127,9 +127,9 @@ bot.once("ready", async () => {
 			console.log("Failed to connect to database. Exiting...");
 			process.exit();
 		});
-	console.log("Connected as Acto Utils#0350 and using version 0.62.0");
+	console.log("Connected as Acto Utils#0350 and using version 0.62.2");
 	if (backupbot == 0) {
-		bot.user.setPresence({ activities: [{ name: `?ahelp on 0.62.0 for ${hours} hour(s)` }], status: "online" });
+		bot.user.setPresence({ activities: [{ name: `?ahelp on 0.62.2 for ${hours} hour(s)` }], status: "online" });
 	}
 	else if (backupbot == 1) {
 		bot.user.setStatus("invisible");
@@ -142,7 +142,7 @@ bot.once("ready", async () => {
 			}
 			if (botcheckid.presence.status == "offline" && backupbotevents == 0) {
 				backupbotevents = 1;
-				bot.user.setPresence({ activities: [{ name: `?ahelp on 0.62.0 for ${hours}` }], status: "online" });
+				bot.user.setPresence({ activities: [{ name: `?ahelp on 0.62.2 for ${hours}` }], status: "online" });
 			}
 			else if (botcheckid.presence.status == "online" && backupbotevents == 1) {
 				bot.user.setActivity("invisible");
@@ -157,7 +157,7 @@ bot.once("ready", async () => {
 	setInterval(async () => {
 		if (backupbot == 0) {
 			hours += 1;
-			bot.user.setPresence({ activities: [{ name: `on v0.62.0 for ${hours} hours` }], status: "online" });
+			bot.user.setPresence({ activities: [{ name: `on v0.62.2 for ${hours} hours` }], status: "online" });
 		}
 	}, 3600000);
 	setInterval(async () => {
@@ -260,20 +260,20 @@ bot.once("ready", async () => {
 
 	const uembed = new EmbedBuilder()
 		.setAuthor({ name: "Acto Utils Update", iconURL: bot.user.avatarURL({ extension: "png", size: 4096 }) })
-		.setTitle("Chat Filter Improvement, Slash Admin Commands Migration & General Bot Polishing")
-		.setDescription("Successfully updated to Version 0.62.0!")
+		.setTitle("Improve Feed & Split Command")
+		.setDescription("Successfully updated to Version 0.62.1 & 0.62.2!")
 		.addFields([
-			{ name: "**Dependencies Update**", value: "- Discord.js -> `14.5.0`\r - mongoose -> `6.6.5`\r - @discordjs/builders -> Removed\r - @discordjs/rest -> `1.2.0`\r - @discordjs/voice -> `0.11.0`\r - got -> `12.5.1`\r - NEW unidici -> `5.11.0`" },
-			{ name: "**Features Update**", value: "- Updated to Discord.js v14 \r- New & Improved Chat Filter: Gives mods more options to take care of suspected trolls, spams or etc; Also stores to database and will appear in `/warn query` \r- Slash Admin Commands (SAC): All admin commands are now migrated to slash commands instead of using the old `?a` prefix. There may be a few exceptions in the future. \r- New embeds layout: Embeds now include your username and profile picture. Pretty cool, isn't it? \r- Replying instead of sending: The bot now *replies* to your message instead of straight up sending it in the chat. \r- Updated Scam Links List, Malicious URLS List" },
-			{ name: "**Patched Features**", value: "- Discord.js v14 necessary features syntax update \r- Scheduled Feed Countdown \r- Offline backup mechanism \r- Embeds Coloring \r- Some typos causing the command to not work" },
-			{ name: "**Commands Updates**", value: "__Updates__\r- All embeds reworked \r- All admin commands moved to slash commands. This includes `/ban` (previously `?aban`, `?atempban`, `?aunban`), `/clear`, `/cooldown` (previously `?aslowmode`), `/grant`, `/kick`, `/lockdown` (previously `?alockdown` & `?aunlock`), `/mute` (previously `?amute`, `?aunmute`, `?atempmute`), `/restart`, `/role` (previously `?aaddrole`, `?atempaddrole`, `?aremoverole`, `?atempremoverole`). Exception is `?atellraw` \r- All typos are now fixed \r- `?ashutdown`: Shortened content & command and improved looks. \r- `?abotinfo`: Reworked embed & content \r- `?auserinfo`, `/userinfo`, User Information (User Application): Reworked embed & content \r- `?aserverinfo`: Reworked embed & content \r- `?awelcome`: Reworked embed & content \r- `?ahelp` (and all subcommands): Reworked embed & Updated content \r- `/ping`: Fixed an issue with the command and reworked embed \r `/warn query`: Fixed an issue with the command and reworked embed \r__Additions__ \r - None \r __Deletions__ \r - None" },
-			{ name: "Other Info", value: "Bot host is currently being moved (and shipped), steady bot uptime will be back in a few days to weeks." },
+			{ name: "**Dependencies Update**", value: "- Discord.js -> `14.6.0`\r - mongoose -> `6.7.2`\r - @discordjs/rest -> `1.3.0`\r - @discordjs/voice -> `0.13.0`\r - got -> `12.5.2`\r - unidici -> `5.12.0`\r - util -> `0.12.5" },
+			{ name: "**Features Update**", value: "- New Roundtrip Latency to Feed. \n- Chat filter system rework" },
+			{ name: "**Patched Features**", value: "- Fix feed broken timer \r- Fix feed broken timestamp" },
+			{ name: "**Commands Updates**", value: "__Updates__ \r- `?ahelp` menu updated \r- Removed `?atellraw` and migrated to `/tellraw` \r- Removed `/warn query` and replaced with `/infractions`" },
+			{ name: "Other Info", value: "Steady bot uptime soon (Expected at least 600 hours continuously soon)." },
 			{ name: "Source Code", value: "[https://github.com/cleverActon0126/Aot](https://github.com/cleverActon0126/Aot)" },
-			{ name: "Next Update", value: "0.62.1 - Chat filter improvements" },
+			{ name: "Next Update", value: "0.62.3 - ID Fetching Improvement" },
 		])
 		.setColor(0x00ff00)
 		.setTimestamp()
-		.setFooter({ text: "Acto Utils Version 0.62.0, Made by cleverActon0126#0126", iconURL: bot.user.avatarURL({ extension: "png", size: 4096 }) });
+		.setFooter({ text: "Acto Utils Version 0.62.2, Made by cleverActon0126#0126", iconURL: bot.user.avatarURL({ extension: "png", size: 4096 }) });
 
 	if (update == 1) {
 		if (backupbot == 1 && backupbotevents == 0) return;
@@ -287,7 +287,7 @@ bot.once("ready", async () => {
 	const lowestCalc = (Math.ceil(minutes / 30) * 30) - minutes;
 	const seconds = 60 - date.getSeconds();
 
-	(await bot.users.fetch("428445352354643968")).send(`Acto Utils is currently online, on version 0.62.0, at <t:${Math.round(date.getTime() / 1000)}:F>`);
+	(await bot.users.fetch("428445352354643968")).send(`Acto Utils is currently online, on version 0.62.2, at <t:${Math.round(date.getTime() / 1000)}:F>`);
 	setTimeout(() => {
 		feedcon += 1;
 		feeder();
