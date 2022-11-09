@@ -3,4 +3,5 @@
 .eslintrc.json
 config.json
 \!start.bat
+node_modules/*
 node_modules/
