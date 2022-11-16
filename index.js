@@ -261,7 +261,7 @@ bot.once("ready", async () => {
 
 	const uembed = new EmbedBuilder()
 		.setAuthor({ name: "Acto Utils Update (V0.62.3)", iconURL: bot.user.avatarURL({ extension: "png", size: 4096 }) })
-		.setTitle("Improve Feed & Split Command")
+		.setTitle("ID Fetching Fix")
 		.setDescription("Successfully updated to Version 0.62.3!")
 		.addFields([
 			{ name: "**Dependencies Update**", value: "None" },
