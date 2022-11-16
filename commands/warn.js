@@ -33,10 +33,10 @@ module.exports = {
 						.setDescription("The warnID of the warning to be deleted")
 						.setRequired(true))),
 	async execute(interaction) {
-		const { bot, hmf } = require("../index.js");
+		const { bot, hmf, ids } = require("../index.js");
 		switch (interaction.options._subcommand) {
 		case "warn": {
-			if (!(interaction.member.roles.cache.has("629687079567360030") || interaction.member.roles.cache.has("629687079567360030") || interaction.member.roles.cache.has("645832781469057024") || interaction.member.roles.cache.has("609236733464150037"))) return interaction.reply({ content: "You don't have permission to do that!" });
+			if (!(interaction.member.roles.cache.has(ids.roles.mod) || interaction.member.roles.cache.has(ids.roles.leadmod) || interaction.member.roles.cache.has(ids.roles.acto) || interaction.member.roles.cache.has(ids.roles.trialmod))) return interaction.reply({ content: "You don't have permission to do that!" });
 			const member = interaction.options.getUser("member");
 			const reason = interaction.options.get("reason")?.value ?? "not specified";
 			const warnidpre = await warn.find({}).sort({ warnid: 1 });
@@ -57,7 +57,7 @@ module.exports = {
 				await warndb.save();
 			}
 			catch (err) {
-				const acto = await bot.users.fetch("428445352354643968");
+				const acto = await bot.users.fetch(ids.members.acto);
 				acto.send(`Failed to store Warn 000${warnid} data to DB for <@${member.id}>. Error: \n` + err);
 				interaction.reply({ content:`An error has occurred. This could be due to failing to store Warn ${warnid} data to DB. You can try again, but if this keeps happening, please contact the bot owner.`, ephemeral: true });
 				return;
@@ -78,7 +78,7 @@ module.exports = {
 				)
 				.setAuthor({ name: member.username, iconURL: member.avatarURL({ size: 4096, extension: "png" }) });
 
-			const warnchannel = interaction.guild.channels.fetch("885808423483080744");
+			const warnchannel = interaction.guild.channels.fetch(ids.channel.logging.mod);
 			if (!warnchannel) return interaction.reply({ content: "Could not find server logs channel.", ephemeral: true });
 
 			await warnchannel.send({ embeds: [embed] });
@@ -164,7 +164,7 @@ module.exports = {
 			break;
 		}
 		case "delete": {
-			if (!(interaction.member.roles.cache.has("629687079567360030") || interaction.member.roles.cache.has("629687079567360030") || interaction.member.roles.cache.has("645832781469057024") || interaction.member.roles.cache.has("609236733464150037"))) return interaction.reply({ content: "You don't have permission to do that!" });
+			if (!(interaction.member.roles.cache.has(ids.roles.mod) || interaction.member.roles.cache.has(ids.roles.leadmod) || interaction.member.roles.cache.has(ids.roles.acto) || interaction.member.roles.cache.has(ids.roles.trialmod))) return interaction.reply({ content: "You don't have permission to do that!" });
 			const warnid = interaction.options.getNumber("warnid");
 
 			const warnidquery = await warn.find({ warnId: `${warnid}` });
@@ -206,7 +206,7 @@ module.exports = {
 				embed.setAuthor({ name: `${warnidquery[0].username}` });
 			}
 
-			const channel = interaction.guild.channels.fetch("885808423483080744");
+			const channel = interaction.guild.channels.fetch(ids.channels.logging.mod);
 			if (!channel) return interaction.reply("Could not find server logs channel.");
 
 			channel.send({ embeds: [embed] });

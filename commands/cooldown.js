@@ -14,7 +14,7 @@ module.exports = {
 				.setRequired(true)),
 	async execute(interaction) {
 		const { ids } = require("../index.js");
-		if (!(interaction.member.roles.cache.has("645832781469057024") || interaction.member.roles.cache.has("608937618259836930") || interaction.member.roles.cache.has("609236733464150037"))) return interaction.reply({ content: "You don't have permission to do that!", ephemeral: true });
+		if (!(interaction.member.roles.cache.has(ids.roles.mod) || interaction.member.roles.cache.has(ids.roles.leadmod) || interaction.member.roles.cache.has(ids.roles.acto) || interaction.member.roles.cache.has(ids.roles.trialmod))) return interaction.reply({ content: "You don't have permission to do that!", ephemeral: true });
 		const duration = interaction.options.get("duration").value;
 		if (!duration) return interaction.reply({ content: "Please enter a valid time, in the format of `1h/1hour`.", ephemeral: true });
 		// @ts-ignore

@@ -1,3 +1,4 @@
+/* eslint-disable no-irregular-whitespace */
 const { IntentsBitField, Client, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ComponentType, ButtonStyle, Collection } = require("discord.js");
 const randomPuppy = require("random-puppy");
 const fs = require("node:fs");
@@ -25,7 +26,7 @@ const hmf = [
 	"Enjoy your time using Acto Utils",
 	"Trying to report somebody? DM @ModMail",
 	"Made by cleverActon0126#0126",
-	"Version 0.62.2",
+	"Version 0.62.3",
 ];
 const spamchannels = [
 	"1007820662288691331",
@@ -51,7 +52,7 @@ io.init({
 const feeder = async () => {
 	if (backupbot == 1 && backupbotevents == 0) return;
 	if (feedcon == 0) return;
-	const acto = await bot.users.fetch("428445352354643968");
+	const acto = await bot.users.fetch(ids.members.acto);
 	const actomsg = await acto.send("Pinging");
 	const actoembed = new EmbedBuilder()
 		.setDescription("**Acto Utils is online!**")
@@ -66,7 +67,7 @@ const feeder = async () => {
 		.setTimestamp()
 		.setAuthor({ name: "Scheduled Acto Utils Feed", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) });
 	actomsg.edit({ embeds: [actoembed] });
-	const del = await bot.users.fetch("710272856772050994");
+	/*	const del = await bot.users.fetch(ids.members.del);
 	const delmsg = await del.send("Pinging");
 	const delembed = new EmbedBuilder()
 		.setDescription("**Acto Utils is online!**")
@@ -80,7 +81,7 @@ const feeder = async () => {
 		.setFooter({ text: "Made for Delilah (933317965024210995). Acto says \"ily\" to you", iconURL: del.avatarURL({ size: 4096, extension: "png" }) })
 		.setTimestamp()
 		.setAuthor({ name: "Scheduled Acto Utils Feed", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) });
-	delmsg.edit({ embeds: [delembed] });
+	delmsg.edit({ embeds: [delembed] }); */
 	setInterval(async () => {
 		const actomsgint = await acto.send("Pinging");
 		const actoembedint = new EmbedBuilder()
@@ -96,7 +97,7 @@ const feeder = async () => {
 			.setTimestamp()
 			.setAuthor({ name: "Scheduled Acto Utils Feed", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) });
 		actomsgint.edit({ embeds: [actoembedint] });
-		const delmsgint = await del.send("Pinging");
+		/* const delmsgint = await del.send("Pinging");
 		const delembedint = new EmbedBuilder()
 			.setDescription("**Acto Utils is online!**")
 			.addFields([
@@ -109,7 +110,7 @@ const feeder = async () => {
 			.setFooter({ text: "Made for Delilah (933317965024210995). Acto says \"ily\" to you", iconURL: del.avatarURL({ size: 4096, extension: "png" }) })
 			.setTimestamp()
 			.setAuthor({ name: "Scheduled Acto Utils Feed", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) });
-		delmsgint.edit({ embeds: [delembedint] });
+		delmsgint.edit({ embeds: [delembedint] }); */
 	}, 1800000);
 
 };
@@ -127,22 +128,22 @@ bot.once("ready", async () => {
 			console.log("Failed to connect to database. Exiting...");
 			process.exit();
 		});
-	console.log("Connected as Acto Utils#0350 and using version 0.62.2");
+	console.log("Connected as Acto Utils#0350 and using version 0.62.3");
 	if (backupbot == 0) {
-		bot.user.setPresence({ activities: [{ name: `?ahelp on 0.62.2 for ${hours} hour(s)` }], status: "online" });
+		bot.user.setPresence({ activities: [{ name: `?ahelp on 0.62.3 for ${hours} hour(s)` }], status: "online" });
 	}
 	else if (backupbot == 1) {
 		bot.user.setStatus("invisible");
 		setInterval(async () => {
 			const botcheckserver = await bot.guilds.fetch(ids.guild);
-			const botcheckid = await botcheckserver.members.fetch("655769695370215425");
+			const botcheckid = await botcheckserver.members.fetch(ids.members.actou);
 			if (!botcheckid) {
 				console.log("Failed to check Acto Utils's status. Reconfirm ID and/or code.");
 				process.exit;
 			}
 			if (botcheckid.presence.status == "offline" && backupbotevents == 0) {
 				backupbotevents = 1;
-				bot.user.setPresence({ activities: [{ name: `?ahelp on 0.62.2 for ${hours}` }], status: "online" });
+				bot.user.setPresence({ activities: [{ name: `?ahelp on 0.62.3 for ${hours}` }], status: "online" });
 			}
 			else if (botcheckid.presence.status == "online" && backupbotevents == 1) {
 				bot.user.setActivity("invisible");
@@ -157,7 +158,7 @@ bot.once("ready", async () => {
 	setInterval(async () => {
 		if (backupbot == 0) {
 			hours += 1;
-			bot.user.setPresence({ activities: [{ name: `on v0.62.2 for ${hours} hours` }], status: "online" });
+			bot.user.setPresence({ activities: [{ name: `on v0.62.3 for ${hours} hours` }], status: "online" });
 		}
 	}, 3600000);
 	setInterval(async () => {
@@ -213,7 +214,7 @@ bot.once("ready", async () => {
 		for (let i = 0; unmute.length > i;) {
 			const member = await (await bot.guilds.fetch(ids.guild)).members.fetch(unmute[0].userId);
 			if (!member) { return console.log("Failed to unmute."); }
-			await member.roles.remove("726205475397566505");
+			await member.roles.remove(ids.roles.muted);
 			member.timeout(null);
 			const unmuteembed = new EmbedBuilder()
 				.setDescription("**Member Unmuted**")
@@ -259,21 +260,21 @@ bot.once("ready", async () => {
 	}, 1000);
 
 	const uembed = new EmbedBuilder()
-		.setAuthor({ name: "Acto Utils Update", iconURL: bot.user.avatarURL({ extension: "png", size: 4096 }) })
+		.setAuthor({ name: "Acto Utils Update (V0.62.3)", iconURL: bot.user.avatarURL({ extension: "png", size: 4096 }) })
 		.setTitle("Improve Feed & Split Command")
-		.setDescription("Successfully updated to Version 0.62.1 & 0.62.2!")
+		.setDescription("Successfully updated to Version 0.62.3!")
 		.addFields([
-			{ name: "**Dependencies Update**", value: "- Discord.js -> `14.6.0`\r - mongoose -> `6.7.2`\r - @discordjs/rest -> `1.3.0`\r - @discordjs/voice -> `0.13.0`\r - got -> `12.5.2`\r - unidici -> `5.12.0`\r - util -> `0.12.5" },
-			{ name: "**Features Update**", value: "- New Roundtrip Latency to Feed. \n- Chat filter system rework" },
-			{ name: "**Patched Features**", value: "- Fix feed broken timer \r- Fix feed broken timestamp" },
-			{ name: "**Commands Updates**", value: "__Updates__ \r- `?ahelp` menu updated \r- Removed `?atellraw` and migrated to `/tellraw` \r- Removed `/warn query` and replaced with `/infractions`" },
-			{ name: "Other Info", value: "Steady bot uptime soon (Expected at least 600 hours continuously soon)." },
+			{ name: "**Dependencies Update**", value: "None" },
+			{ name: "**Features Update**", value: "None" },
+			{ name: "**Patched Features**", value: "- All commands that involves users, roles, and/or channels" },
+			{ name: "**Commands Updates**", value: "None" },
+			{ name: "Other Info", value: "Still waiting for server..." },
 			{ name: "Source Code", value: "[https://github.com/cleverActon0126/Aot](https://github.com/cleverActon0126/Aot)" },
-			{ name: "Next Update", value: "0.62.3 - ID Fetching Improvement" },
+			{ name: "Next Update", value: "0.62.4 - State Update" },
 		])
 		.setColor(0x00ff00)
 		.setTimestamp()
-		.setFooter({ text: "Acto Utils Version 0.62.2, Made by cleverActon0126#0126", iconURL: bot.user.avatarURL({ extension: "png", size: 4096 }) });
+		.setFooter({ text: "Acto Utils Version 0.62.3, Made by cleverActon0126#0126", iconURL: bot.user.avatarURL({ extension: "png", size: 4096 }) });
 
 	if (update == 1) {
 		if (backupbot == 1 && backupbotevents == 0) return;
@@ -287,17 +288,11 @@ bot.once("ready", async () => {
 	const lowestCalc = (Math.ceil(minutes / 30) * 30) - minutes;
 	const seconds = 60 - date.getSeconds();
 
-	(await bot.users.fetch("428445352354643968")).send(`Acto Utils is currently online, on version 0.62.2, at <t:${Math.round(date.getTime() / 1000)}:F>`);
+	(await bot.users.fetch(ids.members.acto)).send(`Acto Utils is currently online, on version 0.62.3, at <t:${Math.round(date.getTime() / 1000)}:F>`);
 	setTimeout(() => {
 		feedcon += 1;
 		feeder();
 	}, (lowestCalc - 1) * 60000 + seconds * 1000);
-
-	const counter = await countdb.create({
-		userId: "709851167781552160",
-		numbercounted: "2026",
-	});
-	await counter.save();
 });
 
 for (const file of commandFiles) {
@@ -308,7 +303,7 @@ for (const file of commandFiles) {
 bot.on("guildMemberAdd", async function(member) {
 	if (backupbot == 1 && backupbotevents == 0) return;
 	if (member.guild == ids.guild) return;
-	if (member.id == "844370394781712384") return member.roles.add("725361624294096927");
+	if (member.id == "844370394781712384") return member.roles.add(ids.roles.tiers._1);
 
 	const newmem = [
 		`<@${member.id}> just joined the server - glhf!`,
@@ -359,7 +354,7 @@ bot.on("guildMemberAdd", async function(member) {
 		.setColor("Random")
 		.addFields([
 			{ name: `Welcome, ${member.nickname}!`, value: `Have a great time in ${member.guild.name}!` },
-			{ name: "*Psst, here are some tips!*", value: "Read the rules (<#651410686705926145>) before you continue your exploration as they are crucial. You can check <#922778404988805190> for server related announcements and <#740870989134561331> for Youtube or content creating related announcements. There's more for you to discover!" },
+			{ name: "*Psst, here are some tips!*", value: `Read the rules (<#${ids.channels.rules}>) before you continue your exploration as they are crucial. You can check <#${ids.channels.serverann}> for server related announcements and <#${ids.channels.generalann}> for Youtube or content creating related announcements. There's more for you to discover!` },
 		])
 		.setTimestamp()
 		.setAuthor({ name: member.user.tag, iconURL: member.user.avatarURL({ size: 4096, extension: "png" }) })
@@ -411,7 +406,7 @@ bot.on("messageUpdate", async function(oldmessage, newmessage) {
 	// @ts-ignore
 	(await channels.channels.fetch(ids.channels.logging.general)).send({ embeds: [logembed] });
 	// @ts-ignore
-	(await bot.channels.fetch("860825678407663657")).send({ embeds: [logembed] });
+	(await bot.channels.fetch(ids.channels.logging.message)).send({ embeds: [logembed] });
 });
 // @ts-ignore
 bot.on("messageCreate", async function(message) {
@@ -1045,7 +1040,7 @@ bot.on("messageCreate", async function(message) {
 			.addFields([
 				{ name: "Bot Username", value: bot.user.tag },
 				{ name: "Bot Creation Date", value: `<t:${Math.round(bot.user.createdTimestamp / 1000)}:F>` },
-				{ name: "Bot Owner/Creator", value: "<@428445352354643968>" },
+				{ name: "Bot Owner/Creator", value: `<@${ids.members.acto}>` },
 				{ name: "Bot Online Since", value: `<t:${Math.round(bot.readyTimestamp / 1000)}:F> (${Math.round(bot.uptime / 10000)} minute(s))` },
 				{ name: "Bot joined guilds", value: bot.guilds.cache.map(guild => guild.name).toString() },
 			])
@@ -1101,7 +1096,7 @@ bot.on("messageCreate", async function(message) {
 			.setColor("Random")
 			.addFields([
 				{ name: `Welcome, ${message.member.nickname}!`, value: `Have a great time in ${message.member.guild.name}!` },
-				{ name: "*Psst, here are some tips!*", value: "Read the rules (<#651410686705926145>) before you continue your exploration as they are crucial. You can check <#922778404988805190> for server related announcements and <#740870989134561331> for Youtube or content creating related announcements. There's more for you to discover!" },
+				{ name: "*Psst, here are some tips!*", value: `Read the rules (<#${ids.channels.rules}>) before you continue your exploration as they are crucial. You can check <#${ids.channels.serverann}> for server related announcements and <#${ids.channels.generalann}> for Youtube or content creating related announcements. There's more for you to discover!` },
 			])
 			.setTimestamp()
 			.setAuthor({ name: message.author.tag, iconURL: message.author.avatarURL({ size: 4096, extension: "png" }) })
@@ -1215,7 +1210,7 @@ bot.on("messageCreate", async function(message) {
 	}
 	case "testcommand": {
 		// @ts-ignore
-		if (!message.member.id == "428445352354643968") return;
+		if (!(message.member.id == ids.members.acto || message.member.id == ids.members.del)) return;
 		message.reply("Working");
 		break;
 	}

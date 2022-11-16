@@ -63,14 +63,14 @@ module.exports = {
 						.setRequired(true),
 				)),
 	async execute(interaction) {
-		const { bot } = require("../index.js");
+		const { bot, ids } = require("../index.js");
 		switch (interaction.options._subcommand) {
 		case "permanent": {
 			const user = interaction.options.getUser("member");
 			const member = interaction.options.getMember("member");
 			const reason = interaction.options.get("reason")?.value ?? "not specified";
 			const keep = interaction.options.getBoolean("keep");
-			if (!(interaction.member.roles.cache.has("645832781469057024") || interaction.member.roles.cache.has("609236733464150037"))) return interaction.reply({ content: "You don't have permission to do that!", ephemeral: true });
+			if (!(interaction.member.roles.cache.has(ids.roles.mod) || interaction.member.roles.cache.has(ids.roles.leadmod) || interaction.member.roles.cache.has(ids.roles.acto))) return interaction.reply({ content: "You don't have permission to do that!", ephemeral: true });
 			if (!user) return interaction.reply({ content: "There was no member specified. Ban has been aborted.", ephemeral: true });
 
 			const bembed = new EmbedBuilder()
@@ -115,7 +115,7 @@ module.exports = {
 			}
 			interaction.reply(`**${user.username}** was banned for **${reason}**.`);
 
-			const banchannel = interaction.guild.channels.fetch("885808423483080744");
+			const banchannel = interaction.guild.channels.fetch(ids.channels.logging.mod);
 			if (!banchannel) return interaction.reply("Could not find server logs channel.");
 			banchannel.send({ embeds: [bembed] });
 
@@ -138,10 +138,10 @@ module.exports = {
 			const keep = interaction.options.getBoolean("keep");
 			if (!time) return interaction.reply({ content: "Please include the ban duration. Ban has been aborted.", ephemeral: true });
 			else if (time == undefined) return interaction.reply({ content: "Please enter a valid time, in the format of `1h/1hour`. Ban has been aborted." });
-			if (!(interaction.member.roles.cache.has("645832781469057024") || interaction.member.roles.cache.has("609236733464150037"))) return interaction.reply({ content: "You don't have permission to do that!", ephemeral: true });
+			if (!(interaction.member.roles.cache.has(ids.roles.mod) || interaction.member.roles.cache.has(ids.roles.leadmod) || interaction.member.roles.cache.has(ids.roles.acto))) return interaction.reply({ content: "You don't have permission to do that!", ephemeral: true });
 			if (!user) return interaction.reply({ content: "There was no member specified.", ephemeral: true });
 
-			const banchannel = interaction.guild.channels.fetch("885808423483080744");
+			const banchannel = interaction.guild.channels.fetch(ids.channels.logging.mod);
 			if (!banchannel) return interaction.reply({ content: "Could not find server logs channel. Ban has been aborted.", ephemeral: true });
 
 			const bembed = new EmbedBuilder()
@@ -210,7 +210,7 @@ module.exports = {
 			break;
 		}
 		case "unban": {
-			if (!(interaction.member.roles.cache.has("608937618259836930") || interaction.member.roles.cache.has("645832781469057024") || interaction.member.roles.cache.has("609236733464150037"))) return interaction.reply({ content: "You don't have permission to do that!", ephemeral: true });
+			if (!(interaction.member.roles.cache.has(ids.roles.mod) || interaction.member.roles.cache.has(ids.roles.leadmod) || interaction.member.roles.cache.has(ids.roles.acto))) return interaction.reply({ content: "You don't have permission to do that!", ephemeral: true });
 			const user = interaction.options.get("userid").value;
 
 			try {
@@ -247,7 +247,7 @@ module.exports = {
 				ubembed.setAuthor({ name: `${userfetched.tag}`, iconURL: userfetched.avatarURL({ size: 4096, extension: "png" }) });
 			}
 
-			const unban2Channel = interaction.guild.channels.cache.find(channel => channel.name === "aot-logs");
+			const unban2Channel = interaction.guild.channels.fetch(ids.channels.logging.mod);
 			if (!unban2Channel) return interaction.reply({ content: "Could not find server logs channel.", ephemeral: true });
 
 			unban2Channel.send({ embeds: [ubembed] });

@@ -13,10 +13,11 @@ module.exports = {
 				.setRequired(true),
 		),
 	async execute(interaction) {
-		if (!(interaction.member.roles.cache.has("645832781469057024") || interaction.member.roles.cache.has("608937618259836930") || interaction.member.roles.cache.has("609236733464150037"))) return interaction.reply({ content: "You don't have permission to do that.", ephemeral: true });
+		const { ids } = require("../index.js");
+		if (!(interaction.member.roles.cache.has(ids.roles.mod) || interaction.member.roles.cache.has(ids.roles.leadmod) || interaction.member.roles.cache.has(ids.roles.acto))) return interaction.reply({ content: "You don't have permission to do that.", ephemeral: true });
 		const member = interaction.options.getMember("member");
-		if (member.roles.cache.has("725361624294096927")) return interaction.reply({ content: "The user currently have the role.", ephemeral: true });
-		const role = interaction.guild.roles.fetch("725361624294096927");
+		if (member.roles.cache.has(ids.roles.tiers._1)) return interaction.reply({ content: "The user currently have the role.", ephemeral: true });
+		const role = interaction.guild.roles.fetch(ids.roles.tiers._1);
 		if (!role) return interaction.reply({ content: "Couldn't find a role to grant.", ephemeral: true });
 		try {
 			member.roles.add(role);
@@ -43,7 +44,7 @@ module.exports = {
 			.setTimestamp()
 			.setFooter({ text: `${interaction.member.user.tag}`, iconURL: `${interaction.member.avatarURL({ size: 4096, extension: "png" })}` });
 
-		const channel = interaction.guild.channels.fetch("885808423483080744");
+		const channel = interaction.guild.channels.fetch(ids.channels.logging.user);
 		channel.send({ embeds: [embed] });
 	},
 };

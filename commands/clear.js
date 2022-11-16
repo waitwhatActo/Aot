@@ -16,7 +16,7 @@ module.exports = {
 				.setDescription("Bulk purged a specific member's message")
 				.setRequired(false)),
 	async execute(interaction) {
-		const { bot } = require("../index.js");
+		const { bot, ids } = require("../index.js");
 		const amount = interaction.options.getNumber("amount");
 		const member = interaction.options.getUser("member");
 
@@ -35,7 +35,7 @@ module.exports = {
 				.setTimestamp();
 			await interaction.channel.bulkDelete(amount, true).then(messages => {
 				interaction.reply({ content: `Bulk purged **${messages.size}** from the channel.`, ephemeral: true });
-				const clearlog = interaction.guild.channels.cache.find(channel => channel.name === "aot-logs");
+				const clearlog = interaction.guild.channels.fetch(ids.channels.logging.message);
 				if (!clearlog) return interaction.channel.send("Couldn't find server logs channel.");
 
 				embed.setDescription(`**<@${interaction.member.user.id}> has purged **${messages.size}** messages in <#${interaction.channel.id}>**`);
@@ -59,7 +59,7 @@ module.exports = {
 
 			await interaction.channel.bulkDelete(filtered, true).then(messages => {
 				interaction.reply({ content: `Bulk purged **${messages.size}** from ${member}.`, ephemeral: true });
-				const clearlog = interaction.guild.channels.cache.find(channel => channel.name === "aot-logs");
+				const clearlog = interaction.guild.channels.fetch(ids.channels.logging.message);
 				if (!clearlog) return interaction.channel.send("Couldn't find server logs channel.");
 
 				embed.setDescription(`**<@${interaction.member.id}> has purged **${messages.size}** messages by ${member} in <#${interaction.channel.id}>**`);

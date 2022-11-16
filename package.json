@@ -1,6 +1,6 @@
 {
   "name": "acto-utils",
-  "version": "0.62.2",
+  "version": "0.62.3",
   "description": "Acto's bot",
   "main": "index.js",
   "scripts": {

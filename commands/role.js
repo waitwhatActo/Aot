@@ -34,6 +34,7 @@ module.exports = {
 						.setRequired(true),
 				)),
 	async execute(interaction) {
+		const { ids } = require("../index.js");
 		switch (interaction.options._subcommand) {
 		case "give": {
 			const member = interaction.options.getMember("member");
@@ -63,7 +64,7 @@ module.exports = {
 				])
 				.setTimestamp()
 				.setFooter({ text: `${interaction.member.user.tag}`, iconURL: `${interaction.member.avatarURL({ size: 4096, extension: "png" })}` });
-			const channel = interaction.guild.channels.fetch("885808423483080744");
+			const channel = interaction.guild.channels.fetch(ids.channels.logging.mod);
 			channel.send({ embeds: [embed] });
 			break;
 		}
@@ -96,7 +97,7 @@ module.exports = {
 				])
 				.setTimestamp()
 				.setFooter({ text: `${member.user.tag}`, iconURL: `${member.user.avatarURL({ size: 4096, extension: "png" })}` });
-			const channel = interaction.guild.channels.fetch("885808423483080744");
+			const channel = interaction.guild.channels.fetch(ids.channels.logging.mod);
 			channel.send({ embeds: [embed] });
 			break;
 		}

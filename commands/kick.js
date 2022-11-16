@@ -18,9 +18,10 @@ module.exports = {
 				.setRequired(false),
 		),
 	async execute(interaction) {
+		const { ids } = require("../index.js");
 		const user = interaction.options.getUser("member");
 		let reason = interaction.options.get("reason")?.value ?? "not specified";
-		if (!(interaction.member.roles.cache.has("629687079567360030") || interaction.member.roles.cache.has("629687079567360030") || interaction.member.roles.cache.has("645832781469057024") || interaction.member.roles.cache.has("609236733464150037"))) return interaction.reply({ content: "You don't have permission to do that!", ephemeral: true });
+		if (!(interaction.member.roles.cache.has(ids.roles.mod) || interaction.member.roles.cache.has(ids.roles.leadmod) || interaction.member.roles.cache.has(ids.roles.acto))) return interaction.reply({ content: "You don't have permission to do that!", ephemeral: true });
 		if (!user) return interaction.reply({ content: "There was no member specified.", ephemeral: true });
 		if (!reason) reason = "not specified";
 
@@ -54,7 +55,7 @@ module.exports = {
 			return;
 		}
 
-		const kickchannel = interaction.guild.channels.fetch("885808423483080744");
+		const kickchannel = interaction.guild.channels.fetch(ids.channels.logging.mod);
 		if (!kickchannel) return interaction.reply("Could not find server logs channel.");
 		kickchannel.send({ embeds: [kembed] });
 

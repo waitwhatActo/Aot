@@ -51,14 +51,15 @@ module.exports = {
 
 		),
 	async execute(interaction) {
+		const { ids } = require("../index.js");
 		switch (interaction.options._subcommand) {
 		case "permanent": {
 			const user = interaction.options.getMember("member");
 			const reason = interaction.options.get("reason")?.value ?? "not specified";
 
-			if (!(interaction.member.roles.cache.has("629687079567360030") || interaction.member.roles.cache.has("609236733464150037") || interaction.member.roles.cache.has("645832781469057024"))) return interaction.reply({ content: "You don't have permission to do that!", ephemeral: true });
+			if (!(interaction.member.roles.cache.has(ids.roles.mod) || interaction.member.roles.cache.has(ids.roles.leadmod) || interaction.member.roles.cache.has(ids.roles.acto) || interaction.member.roles.cache.has(ids.roles.trialmod))) return interaction.reply({ content: "You don't have permission to do that!", ephemeral: true });
 
-			const muteChannel = interaction.guild.channels.fetch("885808423483080744");
+			const muteChannel = interaction.guild.channels.fetch(ids.channels.logging.mod);
 			if (!muteChannel) return;
 
 			const membed = new EmbedBuilder()
@@ -75,7 +76,7 @@ module.exports = {
 				.setAuthor({ name: `${user.user.tag}`, iconURL: user.user.avatarURL({ size: 4096, extension: "png" }) })
 				.setTimestamp()
 				.setFooter({ text: `${interaction.member.user.tag}`, iconURL: interaction.member.user.avatarURL({ size: 4096, extension: "png" }) });
-			const muterole = interaction.guild.roles.fetch("726205475397566505");
+			const muterole = interaction.guild.roles.fetch(ids.roles.muted);
 			if (!muterole) return;
 
 			const mutedb = await mute.create({
@@ -105,7 +106,7 @@ module.exports = {
 				console.log();
 				interaction.reply({ content: "An error has occurred. This could be due to unable to mute member. You can try again, but if the problem persists, please contact the bot owner. The mute has been aborted.", ephemeral: true });
 				try {
-					user.roles.remove("726205475397566505");
+					user.roles.remove(ids.roles.muted);
 					user.timeout(null, "Failure to mute");
 				}
 				catch {
@@ -131,7 +132,7 @@ module.exports = {
 			const reason = interaction.options.get("reason")?.value ?? "not specified";
 			let time = ms(interaction.options.get("duration").value);
 			const timea = ms(ms(interaction.options.get("duration").value));
-			if (!(interaction.member.roles.cache.has("629687079567360030") || interaction.member.roles.cache.has("609236733464150037") || interaction.member.roles.cache.has("645832781469057024"))) return interaction.reply({ content: "You don't have permission to do that!", ephemeral: true });
+			if (!(interaction.member.roles.cache.has(ids.roles.mod) || interaction.member.roles.cache.has(ids.roles.leadmod) || interaction.member.roles.cache.has(ids.roles.acto) || interaction.member.roles.cache.has(ids.roles.trialmod))) return interaction.reply({ content: "You don't have permission to do that!", ephemeral: true });
 
 			if (!time) {
 				interaction.reply({ content: "Please enter a time to mute the member. The mute has been aborted.", ephemeral: true });
@@ -153,9 +154,9 @@ module.exports = {
 				.setAuthor({ name: `${user.user.tag}`, iconURL: user.user.avatarURL({ size: 4096, extension: "png" }) })
 				.setTimestamp()
 				.setFooter({ text: `${interaction.member.user.tag}`, iconURL: interaction.member.user.avatarURL({ size: 4096, extension: "png" }) });
-			const muterole = interaction.guild.roles.fetch("726205475397566505");
+			const muterole = interaction.guild.roles.fetch(ids.roles.muted);
 			if (!muterole) return interaction.reply({ content: "Mute role was not found", ephemeral: true });
-			const muteChannel = interaction.guild.channels.fetch("885808423483080744");
+			const muteChannel = interaction.guild.channels.fetch(ids.channels.logging.mod);
 			if (!muteChannel) return interaction.reply({ content: "Mute channel was not found", ephemeral: true });
 
 			const mutedb = await mute.create({
@@ -184,14 +185,14 @@ module.exports = {
 			}
 
 			try {
-				user.roles.add("726205475397566505");
+				user.roles.add(ids.roles.muted);
 				user.timeout(time, reason);
 			}
 			catch {
 				console.log();
 				interaction.reply({ content: "An error has occurred. This could be due not being able to add role or mute member. You can try again, but if the problem persists, please contact the bot owner. The mute has been aborted.", ephemeral: true });
 				try {
-					user.roles.remove("726205475397566505");
+					user.roles.remove(ids.roles.muted);
 					user.timeout(null, "Failure to mute");
 				}
 				catch {
@@ -216,9 +217,9 @@ module.exports = {
 			const user = interaction.options.getMember("member");
 			const reason = interaction.options.get("reason")?.value ?? "not specified";
 
-			if (!(interaction.member.roles.cache.has("629687079567360030") || interaction.member.roles.cache.has("609236733464150037") || interaction.member.roles.cache.has("645832781469057024"))) return interaction.reply({ content: "You don't have permission to do that!", ephemeral: true });
+			if (!(interaction.member.roles.cache.has(ids.roles.mod) || interaction.member.roles.cache.has(ids.roles.leadmod) || interaction.member.roles.cache.has(ids.roles.acto) || interaction.member.roles.cache.has(ids.roles.trialmod))) return interaction.reply({ content: "You don't have permission to do that!", ephemeral: true });
 
-			if (user.isCommunicationDisabled() == true || user.roles.cache.has("726205475397566505")) {
+			if (user.isCommunicationDisabled() == true || user.roles.cache.has(ids.roles.muted)) {
 
 				if (user.isCommunicationDisabled() == true) {
 					try {
@@ -230,9 +231,9 @@ module.exports = {
 						return;
 					}
 				}
-				else if (user.roles.cache.has("726205475397566505")) {
+				else if (user.roles.cache.has(ids.roles.muted)) {
 					try {
-						user.roles.remove("726205475397566505");
+						user.roles.remove(ids.roles.muted);
 					}
 					catch {
 						console.log();
@@ -256,7 +257,7 @@ module.exports = {
 					.setTimestamp()
 					.setFooter({ text: `${interaction.member.user.tag}`, iconURL: interaction.member.user.avatarURL({ size: 4096, extension: "png" }) });
 				interaction.reply(`<@${user.id}> (**${user.user.username}**) has been unmuted.`);
-				const muteChannel = interaction.guild.channels.fetch("885808423483080744");
+				const muteChannel = interaction.guild.channels.fetch(ids.channels.logging.mod);
 				muteChannel.send({ embeds: [embed] });
 			}
 			else {
