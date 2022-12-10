@@ -294,7 +294,7 @@ bot.once("ready", async () => {
 		}, 1000);
 
 		setInterval(async () => {
-			curl.post("http://localhost:3001/api/push/lgDxm8mVD0?status=up&msg=OK");
+			curl.post("http://localhost:3001/api/push/xHMdFpHG9L?status=up&msg=OK");
 		});
 	}
 
