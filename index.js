@@ -272,9 +272,9 @@ bot.once("ready", async () => {
 			checker();
 		}, 1000);
 
-		setInterval(async () => {
+		/* setInterval(async () => {
 			curl.post("http://localhost:3001/api/push/xHMdFpHG9L?status=up&msg=OK");
-		}, 20000);
+		}, 20000); */
 	}
 	else if (backup == 1) {
 		setInterval(async () => {
