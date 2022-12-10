@@ -8,6 +8,7 @@ module.exports = {
 		.setName("warn")
 		.setDescription("Command to warn member, delete and check warns.")
 		.setDMPermission(false)
+		.setDefaultMemberPermissions(80)
 		.addSubcommand(subcommand =>
 			subcommand.setName("warn")
 				.setDescription("Warn a member.")

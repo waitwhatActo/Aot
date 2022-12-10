@@ -1,10 +1,11 @@
 /* eslint-disable no-irregular-whitespace */
-const { IntentsBitField, Client, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ComponentType, ButtonStyle, Collection } = require("discord.js");
+const { IntentsBitField, Client, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ComponentType, ButtonStyle, Collection, ActivityType } = require("discord.js");
 const randomPuppy = require("random-puppy");
 const fs = require("node:fs");
 const io = require("@pm2/io");
 const mongoose = require("mongoose");
-const { Database, token, backupbot, update } = require("./config.json");
+const curl = require("curl");
+const { Database, token, update, backup } = require("./config.json");
 const bandb = require("./Schemas/BanSchema.js");
 const warndb = require("./Schemas/WarnSchema.js");
 const mutedb = require("./Schemas/MuteSchema.js");
@@ -15,8 +16,9 @@ const bot = new Client({ intents: new IntentsBitField(3276799) });
 
 let hours = 0;
 let feedcon = 0;
-let backupbotevents = 0;
+let state = 1;
 
+// @ts-ignore
 bot.commands = new Collection();
 const commandFiles = fs.readdirSync("./commands").filter(file => file.endsWith(".js"));
 const ids = JSON.parse(fs.readFileSync("./ids.json", "utf-8"));
@@ -26,7 +28,7 @@ const hmf = [
 	"Enjoy your time using Acto Utils",
 	"Trying to report somebody? DM @ModMail",
 	"Made by cleverActon0126#0126",
-	"Version 0.62.3",
+	"Version 0.62.4",
 ];
 const spamchannels = [
 	"1007820662288691331",
@@ -49,8 +51,104 @@ io.init({
 	http: true,
 });
 
+const checker = async () => {
+	const cd = Date.now();
+	const unban = await bandb.find({ unbantime: `${Math.floor(cd / 1000)}` });
+	const unmute = await mutedb.find({ unmutetime: `${Math.floor(cd / 1000)}` });
+	for (let i = 0; unban.length > i;) {
+		const server = await bot.guilds.fetch(ids.guild);
+		if (!server) { return console.log("Failed to unban."); }
+		server.bans.remove(unban[0].userId);
+		let unbanuser = undefined;
+		let banadmin = undefined;
+		try {
+			unbanuser = await bot.users.fetch(`${unban[0].userId}`);
+		}
+		catch {
+			unbanuser = undefined;
+		}
+		try {
+			banadmin = await bot.users.fetch(`${unban[0].adminId}`);
+		}
+		catch {
+			banadmin = undefined;
+		}
+		const unbanembed = new EmbedBuilder()
+			.setDescription("**User Unbanned**")
+			.setColor(0x00ff00)
+			.addFields(
+				{ name: "Unbanned User", value: `<@${unban[0].userId} (**${unban[0].userId})` },
+				{ name: "Unbanned User Banned By", value: `<@${unban[0].adminId} (**${unban[0].adminId}**)` },
+				{ name: "Unbanned At", value: `<t:${Math.round(parseInt(unban[0].bantime) / 1000)}:F>` },
+				{ name: "Unbanned User Banned For", value: unban[0].reason },
+			)
+			.setTimestamp();
+		if (banadmin) {
+			unbanembed.setFooter({ text: `Member was banned by ${banadmin.tag}, automatically unbanned by Acto Utils`, iconURL: banadmin.avatarURL({ size: 4096, extension: "png" }) });
+		}
+		else {
+			unbanembed.setFooter({ text: `Member was banned by ${unban[0].adminusername}(Past username), automatically unbanned by Acto Utils`, iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) });
+		}
+		if (!unbanuser) {
+			unbanembed.setAuthor({ name: `${unban[0].username}` });
+		}
+		else {
+			unbanembed.setAuthor({ name: unbanuser.tag, iconURL: unbanuser.avatarURL({ size: 4096, extension: "png" }) });
+		}
+		const channel = await server.channels.fetch(ids.channels.logging.general);
+		// @ts-ignore
+		channel.send({ embeds: [unbanembed] });
+		unban.shift();
+	}
+	for (let i = 0; unmute.length > i;) {
+		const member = await (await bot.guilds.fetch(ids.guild)).members.fetch(unmute[0].userId);
+		if (!member) { return console.log("Failed to unmute."); }
+		await member.roles.remove(ids.roles.muted);
+		member.timeout(null);
+		const unmuteembed = new EmbedBuilder()
+			.setDescription("**Member Unmuted**")
+			.addFields(
+				{ name: "Unmuted Member", value: `<@${unmute[0].userId}> (${unmute[0].userId})` },
+				{ name: "Unmuted Member Muted By", value: `<@${unmute[0].adminId} (${unmute[0].adminId})` },
+				{ name: "Unmuted At", value: `<t:${Math.round(parseInt(unmute[0].time) / 1000)}:F>` },
+				{ name: "Unmuted Member Muted For", value: `${unmute[0].reason}` },
+			)
+			.setTimestamp()
+			.setColor(0x00ff00);
+		let unmuteuser = undefined;
+		let muteadmin = undefined;
+		try {
+			unmuteuser = await bot.users.fetch(`${unmute[0].userId}`);
+		}
+		catch {
+			unmuteuser = undefined;
+		}
+		try {
+			muteadmin = await bot.users.fetch(`${unmute[0].adminId}`);
+		}
+		catch {
+			muteadmin = undefined;
+		}
+		if (muteadmin) {
+			unmuteembed.setFooter({ text: `Member was muted by ${muteadmin.tag}, automatically unmuted by Acto Utils`, iconURL: muteadmin.avatarURL({ size: 4096, extension: "png" }) });
+		}
+		else {
+			unmuteembed.setFooter({ text: `Member was muted by ${unmute[0].adminusername}(Past username), automatically unmuted by Acto Utils`, iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) });
+		}
+		if (!unmuteuser) {
+			unmuteembed.setAuthor({ name: `${unmute[0].username}` });
+		}
+		else {
+			unmuteembed.setAuthor({ name: unmuteuser.tag, iconURL: unmuteuser.avatarURL({ size: 4096, extension: "png" }) });
+		}
+		const channel = await (await bot.guilds.fetch(ids.guild)).channels.fetch(ids.logging.general);
+		// @ts-ignore
+		channel.send({ embeds: [unmuteembed] });
+		unmute.shift();
+	}
+};
+
 const feeder = async () => {
-	if (backupbot == 1 && backupbotevents == 0) return;
 	if (feedcon == 0) return;
 	const acto = await bot.users.fetch(ids.members.acto);
 	const actomsg = await acto.send("Pinging");
@@ -116,11 +214,12 @@ const feeder = async () => {
 };
 
 bot.once("ready", async () => {
+	// Database Connection
 	if (!Database) {
 		console.log("Database does not present. Exiting...");
 		process.exit();
 	}
-	mongoose.connect(Database, {})
+	await mongoose.connect(Database, {})
 		.then(() => {
 			console.log("Database is now connected");
 		}).catch((err) => {
@@ -128,167 +227,84 @@ bot.once("ready", async () => {
 			console.log("Failed to connect to database. Exiting...");
 			process.exit();
 		});
-	console.log("Connected as Acto Utils#0350 and using version 0.62.3");
-	if (backupbot == 0) {
-		bot.user.setPresence({ activities: [{ name: `?ahelp on 0.62.3 for ${hours} hour(s)` }], status: "online" });
-	}
-	else if (backupbot == 1) {
-		bot.user.setStatus("invisible");
-		setInterval(async () => {
-			const botcheckserver = await bot.guilds.fetch(ids.guild);
-			const botcheckid = await botcheckserver.members.fetch(ids.members.actou);
-			if (!botcheckid) {
-				console.log("Failed to check Acto Utils's status. Reconfirm ID and/or code.");
-				process.exit;
-			}
-			if (botcheckid.presence.status == "offline" && backupbotevents == 0) {
-				backupbotevents = 1;
-				bot.user.setPresence({ activities: [{ name: `?ahelp on 0.62.3 for ${hours}` }], status: "online" });
-			}
-			else if (botcheckid.presence.status == "online" && backupbotevents == 1) {
-				bot.user.setActivity("invisible");
-				backupbotevents = 0;
-			}
-		}, 60000);
-	}
-	else {
-		console.log("Backupbot value is incorrect or not present, fix issue before rebooting bot.");
-		process.exit();
-	}
-	setInterval(async () => {
-		if (backupbot == 0) {
-			hours += 1;
-			bot.user.setPresence({ activities: [{ name: `on v0.62.3 for ${hours} hours` }], status: "online" });
-		}
-	}, 3600000);
-	setInterval(async () => {
-		if (backupbot == 1 && backupbotevents == 0) return;
-		const cd = Date.now();
-		const unban = await bandb.find({ unbantime: `${Math.floor(cd / 1000)}` });
-		const unmute = await mutedb.find({ unmutetime: `${Math.floor(cd / 1000)}` });
-		for (let i = 0; unban.length > i;) {
-			const server = await bot.guilds.fetch(ids.guild);
-			if (!server) { return console.log("Failed to unban."); }
-			server.bans.remove(unban[0].userId);
-			let unbanuser = undefined;
-			let banadmin = undefined;
-			try {
-				unbanuser = await bot.users.fetch(`${unban[0].userId}`);
-			}
-			catch {
-				unbanuser = undefined;
-			}
-			try {
-				banadmin = await bot.users.fetch(`${unban[0].adminId}`);
-			}
-			catch {
-				banadmin = undefined;
-			}
-			const unbanembed = new EmbedBuilder()
-				.setDescription("**User Unbanned**")
-				.setColor(0x00ff00)
-				.addFields(
-					{ name: "Unbanned User", value: `<@${unban[0].userId} (**${unban[0].userId})` },
-					{ name: "Unbanned User Banned By", value: `<@${unban[0].adminId} (**${unban[0].adminId}**)` },
-					{ name: "Unbanned At", value: `<t:${Math.round(parseInt(unban[0].bantime) / 1000)}:F>` },
-					{ name: "Unbanned User Banned For", value: unban[0].reason },
-				)
-				.setTimestamp();
-			if (banadmin) {
-				unbanembed.setFooter({ text: `Member was banned by ${banadmin.tag}, automatically unbanned by Acto Utils`, iconURL: banadmin.avatarURL({ size: 4096, extension: "png" }) });
-			}
-			else {
-				unbanembed.setFooter({ text: `Member was banned by ${unban[0].adminusername}(Past username), automatically unbanned by Acto Utils`, iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) });
-			}
-			if (!unbanuser) {
-				unbanembed.setAuthor({ name: `${unban[0].username}` });
-			}
-			else {
-				unbanembed.setAuthor({ name: unbanuser.tag, iconURL: unbanuser.avatarURL({ size: 4096, extension: "png" }) });
-			}
-			const channel = await server.channels.fetch(ids.channels.logging.general);
-			// @ts-ignore
-			channel.send({ embeds: [unbanembed] });
-			unban.shift();
-		}
-		for (let i = 0; unmute.length > i;) {
-			const member = await (await bot.guilds.fetch(ids.guild)).members.fetch(unmute[0].userId);
-			if (!member) { return console.log("Failed to unmute."); }
-			await member.roles.remove(ids.roles.muted);
-			member.timeout(null);
-			const unmuteembed = new EmbedBuilder()
-				.setDescription("**Member Unmuted**")
-				.addFields(
-					{ name: "Unmuted Member", value: `<@${unmute[0].userId}> (${unmute[0].userId})` },
-					{ name: "Unmuted Member Muted By", value: `<@${unmute[0].adminId} (${unmute[0].adminId})` },
-					{ name: "Unmuted At", value: `<t:${Math.round(parseInt(unmute[0].time) / 1000)}:F>` },
-					{ name: "Unmuted Member Muted For", value: `${unmute[0].reason}` },
-				)
-				.setTimestamp()
-				.setColor(0x00ff00);
-			let unmuteuser = undefined;
-			let muteadmin = undefined;
-			try {
-				unmuteuser = await bot.users.fetch(`${unmute[0].userId}`);
-			}
-			catch {
-				unmuteuser = undefined;
-			}
-			try {
-				muteadmin = await bot.users.fetch(`${unmute[0].adminId}`);
-			}
-			catch {
-				muteadmin = undefined;
-			}
-			if (muteadmin) {
-				unmuteembed.setFooter({ text: `Member was muted by ${muteadmin.tag}, automatically unmuted by Acto Utils`, iconURL: muteadmin.avatarURL({ size: 4096, extension: "png" }) });
-			}
-			else {
-				unmuteembed.setFooter({ text: `Member was muted by ${unmute[0].adminusername}(Past username), automatically unmuted by Acto Utils`, iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) });
-			}
-			if (!unmuteuser) {
-				unmuteembed.setAuthor({ name: `${unmute[0].username}` });
-			}
-			else {
-				unmuteembed.setAuthor({ name: unmuteuser.tag, iconURL: unmuteuser.avatarURL({ size: 4096, extension: "png" }) });
-			}
-			const channel = await (await bot.guilds.fetch(ids.guild)).channels.fetch(ids.logging.general);
-			// @ts-ignore
-			channel.send({ embeds: [unmuteembed] });
-			unmute.shift();
-		}
-	}, 1000);
+	console.log("Connected as Acto Utils#0350 and using version 0.62.4");
 
+	// Update
 	const uembed = new EmbedBuilder()
-		.setAuthor({ name: "Acto Utils Update (V0.62.3)", iconURL: bot.user.avatarURL({ extension: "png", size: 4096 }) })
-		.setTitle("ID Fetching Fix")
-		.setDescription("Successfully updated to Version 0.62.3!")
+		.setAuthor({ name: "Acto Utils Update (V0.62.4)", iconURL: bot.user.avatarURL({ extension: "png", size: 4096 }) })
+		.setTitle("Backup Mechanism Re-development")
+		.setDescription("Successfully updated to Version 0.62.4!")
 		.addFields([
-			{ name: "**Dependencies Update**", value: "None" },
-			{ name: "**Features Update**", value: "None" },
-			{ name: "**Patched Features**", value: "- All commands that involves users, roles, and/or channels" },
+			{ name: "**Dependencies Update**", value: "- @discordjs/rest `1.3.0` -> `1.4.0` \n- @discordjs/voice `0.13.0` -> `0.14.0` \n- curl `NEW!` -> `0.1.4` \n*- discord.js `14.6.0` -> `14.7.1` \n- got `12.5.2` -> `12.5.3` \n*- mongoose `6.7.2` -> `6.8.0` \n- unidici `5.12.0` -> `5.14.0`" },
+			{ name: "**Features Update**", value: "**__New Feature(s)__** \n- Allow bot status to be tracked by Uptime Kuma \n**__Updated Feature(s)__**Re-written the entire backup bot mechanism" },
+			{ name: "**Patched Features**", value: "None" },
 			{ name: "**Commands Updates**", value: "None" },
-			{ name: "Other Info", value: "Still waiting for server..." },
+			{ name: "Other Info", value: "When is stable uptime coming" },
 			{ name: "Source Code", value: "[https://github.com/cleverActon0126/Aot](https://github.com/cleverActon0126/Aot)" },
-			{ name: "Next Update", value: "0.62.4 - State Update" },
+			{ name: "Next Update", value: "0.63.0 - Event Logger" },
 		])
 		.setColor(0x00ff00)
 		.setTimestamp()
-		.setFooter({ text: "Acto Utils Version 0.62.3, Made by cleverActon0126#0126", iconURL: bot.user.avatarURL({ extension: "png", size: 4096 }) });
+		.setFooter({ text: "Acto Utils Version 0.62.4, Made by cleverActon0126#0126", iconURL: bot.user.avatarURL({ extension: "png", size: 4096 }) });
 
-	if (update == 1) {
-		if (backupbot == 1 && backupbotevents == 0) return;
+	if (update == 1 && backup == 0) {
 		const readyupdate = await bot.channels.fetch(ids.channels.botupdates);
 		// @ts-ignore
 		readyupdate.send({ embeds: [uembed] });
 	}
+
+	const guild = await bot.guilds.fetch(ids.guild);
+	const actou = await guild.members.fetch(ids.members.actou);
+
+	if (backup == 0) {
+		if (actou.presence.status == "dnd") {
+			bot.user.setPresence({ activities: [{ name: "Process Transfer", type: ActivityType.Playing }], status: "idle" });
+			await setTimeout("5000");
+		}
+		bot.user.setPresence({ activities: [{ name: `on v0.62.4 for ${hours} hours` }], status: "online" });
+		// Presnce Update
+		setInterval(async () => {
+			hours += 1;
+			bot.user.setPresence({ activities: [{ name: `on v0.62.4 for ${hours} hours` }], status: "online" });
+		}, 3600000);
+		// Ban & Mute Check
+		setInterval(async () => {
+			checker();
+		}, 1000);
+
+		setInterval(async () => {
+			curl.get("http://localhost:3001/api/push/xHMdFpHG9L?status=up&msg=OK");
+		}, 20000);
+	}
+	else if (backup == 1) {
+		setInterval(async () => {
+			hours += 1;
+		}, 3600000);
+
+		const offlinechecker = setInterval(async () => {
+			if (actou.presence.status == "offline") {
+				bot.user.setPresence({ activities: [{ name: `on v0.62.4 for ${hours} hours`, type: ActivityType.Listening }], status: "dnd" });
+				checker();
+			}
+			if (actou.presence.status == "idle") {
+				clearInterval(offlinechecker);
+				await setTimeout("5000");
+				process.exit();
+			}
+		}, 1000);
+
+		setInterval(async () => {
+			curl.get("http://localhost:3001/api/push/lgDxm8mVD0?status=up&msg=OK");
+		});
+	}
+
 
 	const date = new Date();
 	const minutes = date.getMinutes();
 	const lowestCalc = (Math.ceil(minutes / 30) * 30) - minutes;
 	const seconds = 60 - date.getSeconds();
 
-	(await bot.users.fetch(ids.members.acto)).send(`Acto Utils is currently online, on version 0.62.3, at <t:${Math.round(date.getTime() / 1000)}:F>`);
+	(await bot.users.fetch(ids.members.acto)).send(`Acto Utils is currently online, on version 0.62.4, at <t:${Math.round(date.getTime() / 1000)}:F>`);
 	setTimeout(() => {
 		feedcon += 1;
 		feeder();
@@ -297,11 +313,12 @@ bot.once("ready", async () => {
 
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
+	// @ts-ignore
 	bot.commands.set(command.data.name, command);
 }
 // @ts-ignore
 bot.on("guildMemberAdd", async function(member) {
-	if (backupbot == 1 && backupbotevents == 0) return;
+	if (state == 0 || state == 2) return;
 	if (member.guild == ids.guild) return;
 	if (member.id == "844370394781712384") return member.roles.add(ids.roles.tiers._1);
 
@@ -363,9 +380,11 @@ bot.on("guildMemberAdd", async function(member) {
 });
 
 bot.on("interactionCreate", async function(interaction) {
-	if (backupbot == 1 && backupbotevents == 0) {
-		// @ts-ignore
-		interaction.reply({ content: "Hey there! This bot is a backup bot and is currently not in service as the main bot is still available. Please use the main bot instead." });
+	if (state == 0) {
+		return;
+	}
+	else if (state == 2) {
+		if (!interaction.user.id == ids.members.acto) return;
 	}
 	if (!(interaction.isCommand() || interaction.isButton() || interaction.isContextMenuCommand() || interaction.isSelectMenu() || interaction.isMessageContextMenuCommand())) return;
 	if (!interaction.inGuild()) return;
@@ -384,7 +403,7 @@ bot.on("interactionCreate", async function(interaction) {
 });
 
 bot.on("messageUpdate", async function(oldmessage, newmessage) {
-	if (backupbot == 1 && backupbotevents == 0) return;
+	if (state == 0 || state == 2) return;
 	if (!oldmessage.guildId == ids.guild) return;
 	if (oldmessage.author.bot) return;
 
@@ -410,6 +429,12 @@ bot.on("messageUpdate", async function(oldmessage, newmessage) {
 });
 // @ts-ignore
 bot.on("messageCreate", async function(message) {
+	if (state == 0) {
+		return;
+	}
+	else if (state == 2) {
+		if (!message.member.id == ids.member.acto) return;
+	}
 	if (!message.inGuild()) return;
 	if (message.author.equals(bot.user)) return;
 
@@ -751,7 +776,7 @@ bot.on("messageCreate", async function(message) {
 	}
 
 	if (message.guildId == ids.guild) {
-		if (message.channel.id == ids.channels.muteables[2]) {
+		if (message.channel.id == ids.channels.chattables.counting) {
 			const args = message.content.split(" ");
 			const counting = await countdb.find({}).sort({ created_at: -1 });
 			if (counting[counting.length].userId == message.member.id) {
@@ -778,7 +803,6 @@ bot.on("messageCreate", async function(message) {
 				return;
 			}
 		}
-		if (backupbot == 1 && backupbotevents == 0) return;
 		const sl = fs.readFileSync("./lists/sl.txt").toString().split("\n");
 		const nu = fs.readFileSync("./lists/nu.txt").toString().split("\n");
 		const m = fs.readFileSync("./lists/m.txt").toString().split("\n");
@@ -1214,6 +1238,52 @@ bot.on("messageCreate", async function(message) {
 		message.reply("Working");
 		break;
 	}
+	case "state": {
+		message.delete();
+		if (!(message.member.id == ids.members.acto || message.member.id == ids.members.del)) return;
+		switch (args[1]) {
+		case "0":
+			state = 0;
+			break;
+		case "1":
+			state = 1;
+			break;
+		case "2":
+			state = 2;
+			break;
+		default: {
+			const response = await message.channel.send("Invalid arguement.");
+			await setTimeout("3000");
+			response.delete();
+			return;
+		}
+		}
+
+		const response = await message.channel.send(`Changed bot state to ${args[1]}`);
+		await setTimeout("5000");
+		response.delete();
+		break;
+	}
+	/* case "var": {
+		message.delete();
+		if (!(message.member.id == ids.members.acto || message.member.id == ids.members.del)) return;
+		`${args[1]}` = `${args[2]}`;
+
+		try {
+			args[1];
+		}
+		catch {
+			const response = await message.channel.send("Variable does not exist.");
+			await setTimeout("5000");
+			await response.delete();
+			return;
+		}
+
+		const response = await message.channel.send(`Changed variable ${args[1]} to ${args[2]}`);
+		await setTimeout("5000");
+		response.delete();
+		break;
+	} */
 	case "deeznuts": {
 		message.delete();
 		message.reply("deez nuts 🥜");

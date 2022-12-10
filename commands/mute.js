@@ -9,6 +9,7 @@ module.exports = {
 		.setName("mute")
 		.setDescription("mute a member")
 		.setDMPermission(false)
+		.setDefaultMemberPermissions(10000000000)
 		.addSubcommand(subcommand =>
 			subcommand.setName("permanent")
 				.setDescription("Mutes a member permanently.")

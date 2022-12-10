@@ -7,6 +7,7 @@ module.exports = {
 		.setName("clear")
 		.setDescription("Bulk purge messages")
 		.setDMPermission(false)
+		.setDefaultMemberPermissions(2000)
 		.addNumberOption(option =>
 			option.setName("amount")
 				.setDescription("Amount of messages that should be bulk purged.")

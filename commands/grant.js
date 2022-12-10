@@ -7,6 +7,7 @@ module.exports = {
 		.setName("grant")
 		.setDescription("Grants a member permissions (Tier 1).")
 		.setDMPermission(false)
+		.setDefaultMemberPermissions(10000000000)
 		.addUserOption(option =>
 			option.setName("member")
 				.setDescription("Member to grant the role to")

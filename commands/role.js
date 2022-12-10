@@ -7,6 +7,7 @@ module.exports = {
 		.setName("role")
 		.setDescription("make editions to a members roles")
 		.setDMPermission(false)
+		.setDefaultMemberPermissions(80)
 		.addSubcommand(subcommand =>
 			subcommand.setName("give")
 				.setDescription("Gives a member a role")

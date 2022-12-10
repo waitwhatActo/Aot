@@ -2,7 +2,7 @@ const { ContextMenuCommandBuilder, ApplicationCommandType } = require("discord.j
 
 module.exports = {
 	name: "reportmsg",
-	type: ApplicationCommandType.MESSAGE,
+	type: ApplicationCommandType.Message,
 	data: new ContextMenuCommandBuilder()
 		.setName("Report Message")
 		.setType(ApplicationCommandType.Message)

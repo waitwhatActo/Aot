@@ -9,6 +9,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName("ban")
 		.setDescription("Ban a member")
+		.setDefaultMemberPermissions(4)
 		.setDMPermission(false)
 		.addSubcommand(subcommand =>
 			subcommand

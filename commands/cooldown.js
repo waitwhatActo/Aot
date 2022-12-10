@@ -8,6 +8,7 @@ module.exports = {
 		.setName("cooldown")
 		.setDescription("Change a channel's cooldown duration.")
 		.setDMPermission(false)
+		.setDefaultMemberPermissions(2000)
 		.addStringOption(option =>
 			option.setName("duration")
 				.setDescription("Duration of cooldown. (Format: 10s, 1m, 1day, null)")

@@ -8,6 +8,7 @@ module.exports = {
 		.setName("lockdown")
 		.setDescription("Lock or unlock the server with a simple command.")
 		.setDMPermission(false)
+		.setDefaultMemberPermissions(80)
 		.addSubcommand(subcommand =>
 			subcommand.setName("lock")
 				.setDescription("Lock the server or specific channel(s).")

@@ -7,6 +7,7 @@ module.exports = {
 		.setName("kick")
 		.setDescription("kick a member")
 		.setDMPermission(false)
+		.setDefaultMemberPermissions(2)
 		.addUserOption(option =>
 			option.setName("member")
 				.setDescription("member to kick")

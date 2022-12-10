@@ -7,6 +7,7 @@ module.exports = {
 		.setName("tellraw")
 		.setDMPermission(false)
 		.setDescription("Send a message as the bot in another channel")
+		.setDefaultMemberPermissions(80)
 		.addChannelOption(option =>
 			option.setName("channel")
 				.setDescription("What channel should I say this in?")

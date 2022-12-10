@@ -7,6 +7,7 @@ module.exports = {
 		.setName("restart")
 		.setDescription("Restart Aot")
 		.setDMPermission(false)
+		.setDefaultMemberPermissions(8)
 		.addNumberOption(option =>
 			option.setName("delay")
 				.setDescription("Length of restart delay in ms.")
