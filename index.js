@@ -300,15 +300,15 @@ bot.once(Events.ClientReady, async () => {
 
 
 	const date = new Date();
-	const minutes = date.getMinutes();
+	/* const minutes = date.getMinutes();
 	const lowestCalc = (Math.ceil(minutes / 30) * 30) - minutes;
-	const seconds = 60 - date.getSeconds();
+	const seconds = 60 - date.getSeconds();*/
 
 	(await bot.users.fetch(ids.members.acto)).send(`Acto Utils is currently online, on version 0.62.4, at <t:${Math.round(date.getTime() / 1000)}:F>`);
-	setTimeout(() => {
+	/* setTimeout(() => {
 		feedcon += 1;
 		feeder();
-	}, (lowestCalc - 1) * 60000 + seconds * 1000);
+	}, (lowestCalc - 1) * 60000 + seconds * 1000); */
 });
 
 for (const file of commandFiles) {
