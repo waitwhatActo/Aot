@@ -1,5 +1,5 @@
 /* eslint-disable no-irregular-whitespace */
-const { IntentsBitField, Client, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ComponentType, ButtonStyle, Collection, ActivityType } = require("discord.js");
+const { IntentsBitField, Client, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ComponentType, ButtonStyle, Collection, ActivityType, Events } = require("discord.js");
 const randomPuppy = require("random-puppy");
 const fs = require("node:fs");
 const io = require("@pm2/io");
@@ -213,7 +213,7 @@ const feeder = async () => {
 
 };
 
-bot.once("ready", async () => {
+bot.once(Events.ClientReady, async () => {
 	// Database Connection
 	if (!Database) {
 		console.log("Database does not present. Exiting...");
@@ -258,8 +258,8 @@ bot.once("ready", async () => {
 
 	if (backup == 0) {
 		if (actou.presence.status == "dnd") {
-			bot.user.setPresence({ activities: [{ name: "Process Transfer", type: ActivityType.Playing }], status: "idle" });
-			await setTimeout("5000");
+			bot.user.setPresence({ activities: [{ name: "Backup Bot Migrating", type: ActivityType.Playing }], status: "idle" });
+			setTimeout("5000");
 		}
 		bot.user.setPresence({ activities: [{ name: `on v0.62.4 for ${hours} hours` }], status: "online" });
 		// Presnce Update
@@ -274,7 +274,7 @@ bot.once("ready", async () => {
 
 		setInterval(async () => {
 			await fetch("http://localhost:3001/api/push/AOGIouxgBB?status=up&msg=OK&", { method: "GET" });
-		}, 20000);
+		}, 900000);
 	}
 	else if (backup == 1) {
 		setInterval(async () => {
@@ -283,12 +283,12 @@ bot.once("ready", async () => {
 
 		const offlinechecker = setInterval(async () => {
 			if (actou.presence.status == "offline") {
-				bot.user.setPresence({ activities: [{ name: `on v0.62.4 for ${hours} hours`, type: ActivityType.Listening }], status: "dnd" });
+				bot.user.setPresence({ activities: [{ name: `BACKUP BOT on v0.62.4 for ${hours} hours`, type: ActivityType.Listening }], status: "dnd" });
 				checker();
 			}
 			if (actou.presence.status == "idle") {
 				clearInterval(offlinechecker);
-				await setTimeout("5000");
+				setTimeout("5000");
 				process.exit();
 			}
 		}, 1000);
@@ -317,7 +317,7 @@ for (const file of commandFiles) {
 	bot.commands.set(command.data.name, command);
 }
 // @ts-ignore
-bot.on("guildMemberAdd", async function(member) {
+bot.on(Events.GuildMemberAdd, async function(member) {
 	if (state == 0 || state == 2) return;
 	if (member.guild == ids.guild) return;
 	if (member.id == "844370394781712384") return member.roles.add(ids.roles.tiers._1);
@@ -379,7 +379,7 @@ bot.on("guildMemberAdd", async function(member) {
 	member.send({ embeds: [embed] }).catch(() => member.send({ embeds: [embed] }));
 });
 
-bot.on("interactionCreate", async function(interaction) {
+bot.on(Events.InteractionCreate, async function(interaction) {
 	if (state == 0) {
 		return;
 	}
@@ -402,7 +402,7 @@ bot.on("interactionCreate", async function(interaction) {
 	}
 });
 
-bot.on("messageUpdate", async function(oldmessage, newmessage) {
+bot.on(Events.MessageUpdate, async function(oldmessage, newmessage) {
 	if (state == 0 || state == 2) return;
 	if (!oldmessage.guildId == ids.guild) return;
 	if (oldmessage.author.bot) return;
@@ -428,7 +428,7 @@ bot.on("messageUpdate", async function(oldmessage, newmessage) {
 	(await bot.channels.fetch(ids.channels.logging.message)).send({ embeds: [logembed] });
 });
 // @ts-ignore
-bot.on("messageCreate", async function(message) {
+bot.on(Events.MessageCreate, async function(message) {
 	if (state == 0) {
 		return;
 	}
@@ -581,7 +581,7 @@ bot.on("messageCreate", async function(message) {
 					permanent: true,
 					bantime: `${message.createdTimestamp}`,
 				});
-				await cfembed.setColor(0xff0000).setFooter({ text: "Member Banned.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) }).addFields({ name: "Moderation Action", value: `<@${message.member.user.id}> **(${message.member.user.id})** permanently banned.` });
+				cfembed.setColor(0xff0000).setFooter({ text: "Member Banned.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) }).addFields({ name: "Moderation Action", value: `<@${message.member.user.id}> **(${message.member.user.id})** permanently banned.` });
 
 				try {
 					await brecorddb.save();
@@ -628,7 +628,7 @@ bot.on("messageCreate", async function(message) {
 					permanent: true,
 					time: `${message.createdTimestamp}`,
 				});
-				await cfembed.setColor(0xff000).setFooter({ text: "Member Permanently Muted.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) }).addFields({ name: "Moderation Action", value: `<@${message.member.user.id}> **(${message.member.user.id})** permanently muted.` });
+				cfembed.setColor(0xff000).setFooter({ text: "Member Permanently Muted.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) }).addFields({ name: "Moderation Action", value: `<@${message.member.user.id}> **(${message.member.user.id})** permanently muted.` });
 
 				try {
 					await slrecorddb.save();
@@ -687,7 +687,7 @@ bot.on("messageCreate", async function(message) {
 					permanent: true,
 					time: `${message.createdTimestamp}`,
 				});
-				await cfembed.setColor(0xff0000).setFooter({ text: "Member Warned & Permanently Muted.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) }).addFields({ name: "Moderation Action", value: `<@${message.member.user.id}> **(${message.member.user.id})** warned & permanently muted.` });
+				cfembed.setColor(0xff0000).setFooter({ text: "Member Warned & Permanently Muted.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) }).addFields({ name: "Moderation Action", value: `<@${message.member.user.id}> **(${message.member.user.id})** warned & permanently muted.` });
 
 				try {
 					await slwarndb.save();
@@ -724,7 +724,7 @@ bot.on("messageCreate", async function(message) {
 				catch {
 					console.log();
 				}
-				await cfembed.setColor(0x00ff00).setFooter({ text: "False Alarm.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) });
+				cfembed.setColor(0x00ff00).setFooter({ text: "False Alarm.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) });
 				break;
 			}
 			case "warn": {
@@ -748,7 +748,7 @@ bot.on("messageCreate", async function(message) {
 					channel: `${message.channelId}`,
 					time: `${message.createdTimestamp}`,
 				});
-				await cfembed.setColor(0xfec13d).setFooter({ text: "Member Warned.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) }).addFields({ name: "Moderation Action", value: `<@${message.member.user.id}> **(${message.member.user.id})** warned.` });
+				cfembed.setColor(0xfec13d).setFooter({ text: "Member Warned.", iconURL: bot.user.avatarURL({ size: 4096, extension: "png" }) }).addFields({ name: "Moderation Action", value: `<@${message.member.user.id}> **(${message.member.user.id})** warned.` });
 
 				try {
 					await slwarndb.save();
@@ -1253,14 +1253,14 @@ bot.on("messageCreate", async function(message) {
 			break;
 		default: {
 			const response = await message.channel.send("Invalid arguement.");
-			await setTimeout("3000");
+			setTimeout("3000");
 			response.delete();
 			return;
 		}
 		}
 
 		const response = await message.channel.send(`Changed bot state to ${args[1]}`);
-		await setTimeout("5000");
+		setTimeout("5000");
 		response.delete();
 		break;
 	}
