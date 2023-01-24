@@ -1,14 +1,14 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose')
 
 const countschema = new mongoose.Schema({
-	userId: {
-		type: mongoose.SchemaTypes.String,
-		required: true,
-	},
-	numbercounted: {
-		type: mongoose.SchemaTypes.String,
-		required: true,
-	},
-});
+  userId: {
+    type: mongoose.SchemaTypes.String,
+    required: true
+  },
+  numbercounted: {
+    type: mongoose.SchemaTypes.String,
+    required: true
+  }
+})
 
-module.exports = mongoose.model("count", countschema);
+module.exports = mongoose.model('count', countschema)
