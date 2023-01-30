@@ -36,6 +36,6 @@
   },
   "homepage": "https://github.com/cleverActon0126/aot",
   "devDependencies": {
-    "eslint": "^8.31.0"
+    "eslint": "^8.33.0"
   }
 }
