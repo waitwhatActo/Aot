@@ -1,5 +1,7 @@
 # Acto Utils (Formerly Aot)
 
+[![wakatime](https://wakatime.com/badge/github/cleverActon0126/Aot.svg)](https://wakatime.com/badge/github/cleverActon0126/Aot)
+
 ## About
 
 Acto Utils (we'll use Aot here for more clarity) is an all-in-one bot, mostly focused on moderation. Although it's open-source, it's mainly designed for a specific server instead of all servers. Aot is programmed in JavaScript using Discord.js.
