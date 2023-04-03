@@ -21,7 +21,7 @@
     "@discordjs/voice": "^0.14.0",
     "@pm2/io": "^5.0.0",
     "curl": "^0.1.4",
-    "discord.js": "^14.7.1",
+    "discord.js": "^14.9.0",
     "file-system": "^2.2.2",
     "got": "^12.5.3",
     "mongoose": "^6.9.2",
