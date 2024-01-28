@@ -4,23 +4,25 @@
 
 ## About
 
-Acto Utils (we'll use Aot here for more clarity) is an all-in-one bot, mostly focused on moderation. Although it's open-source, it's mainly designed for a specific server instead of all servers. Aot is programmed in JavaScript using Discord.js.
+Acto Utils (we'll use Aot here for more clarity) is an all-in-one bot, mostly focused on moderation. 
+Aot is coded in JavaScript using Discord.js.
+This bot is mainly designed for one specific server instead of being available for every server. 
 
 ## License
 
-This open-source project uses GNU Affero General Public License v3.0 for license. Read the full license [here](https://github.com/cleverActon0126/Aot/blob/master/LICENSE).
+This open-source project is licensed under the GNU Affero General Public License v3.0. Read the full license [here](https://github.com/cleverActon0126/Aot/blob/master/LICENSE).
 
 ## Self-Host
 
-If you want to use the bot, you'll have to modify it and self-host. A future public version may be made but at current times the main bot remains private.
+If you want to use the bot, you must modify it and self-host. 
 
-I do not recommend self hosting the bot as modifying for another server will be very difficult (since it's built for one server, not multiple). But if you want to, download the code and unzip, then create `config.json`.
+I do not recommend self-hosting the bot or modifying it for another server as it will be very difficult (stuff is hardcoded for one particular server). But if you want to, download the code and create a `config.json` file.
 
 ```json
 {
     "token": "BOT_TOKEN",
     "clientId": "BOT_ID",
- "guildId": "SERVER_ID",
+    "guildId": "SERVER_ID",
     "Database": "MONGODB_LINK",
     "backupbot": 0,
     "update": 0
@@ -31,10 +33,10 @@ I do not recommend self hosting the bot as modifying for another server will be 
 
 A huge thank you to everyone that made this project possible
 
-- [@Delilah](https://github.com/RidgewayPlus) for contributing and helping out from time to time (also Ily <3)
-- [@Anon Zhe Yinglet](https://discord.com/users/997733711439216661) for code feedback, improvement director
-- [@Jaska](https://github.com/jasius) for idea inspiring, code reference
-- [@Erisa](https://github.com/Erisa) for code ideas, code & list reference
+- [@Delilah](https://github.com/RidgewayPlus) for contributing and helping out from time to time
+- @Anon Zhe Yinglet for code feedback, improvements suggestion
+- [@Jaska](https://github.com/jasius) for idea inspirations, code reference
+- [@Erisa](https://github.com/Erisa) for ideas, code & list reference
 - [Discord.JS](https://github.com/discordjs) main dependency of the project
 - [Dependabot](https://github.com/apps/dependabot) keeping dependencies updated, and giving security advisories
 - You (yes, you, the person reading this)
